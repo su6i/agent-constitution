@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/project_logo.svg" width="350" alt="Agent Constitution Logo">
+  <img src="assets/project_logo.png" width="350" alt="Agent Constitution Logo">
   <h1>Agent Constitution 📜</h1>
   
   <!-- Custom LinkedIn Badge -->
@@ -31,15 +31,23 @@ It breaks down the software lifecycle into 5 atomic, linked workflows. The Agent
 
 ## 🚀 Quick Start
 
-### For New Projects
-1.  Clone this repo.
-2.  Copy `.cursorrules` and `workflows/` to your project root.
-3.  **Ask your Agent:**
-    > "Initialize the project following the Agent Constitution."
+### Option A: Automated Scaffolding (Recommended)
+1.  **Install the Scaffolder:**
+    ```bash
+    # Add this alias to your shell config (~/.zshrc)
+    alias init-gh='~/path/to/agent-constitution/bin/scaffold.sh'
+    ```
+2.  **Run in any new project:**
+    ```bash
+    mkdir my-new-project && cd my-new-project
+    init-gh
+    ```
+    *Result: The `.cursorrules`, `workflows/`, and `prompts/` are injected and committed automatically.*
 
-### For Existing Projects
-1.  Drop the `workflows/` folder into `.cursor/`.
-2.  **Ask your Agent:**
+### Option B: Manual Setup
+1.  Clone this repo.
+2.  Copy `.cursorrules`, `workflows/`, and `prompts/` to your project root.
+3.  **Ask your Agent:**
     > "Audit my codebase against the Quality Assurance protocol."
 
 ## 📚 Documentation

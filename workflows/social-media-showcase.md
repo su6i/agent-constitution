@@ -14,6 +14,11 @@ Before generating text, you MUST generate these assets:
 *   **Bot:** GIF of a full conversation flow (Telegram/Discord).
 *   **Code:** Carbon.sh images of the cleanest code snippets.
 
+## 4. Prompt Strategy:
+    *   **Master Template:** Use `prompts/template_linkedin_launch.txt` for high-impact announcements.
+    *   **Constraint:** Content MUST be "Product-Led" (focus on problem/solution, not marketing fluff).
+    *   **Tone:** "Engineer to Engineer" (Skeptical, Technical, Direct).
+
 ## 2. LinkedIn/X Viral Post Generator
 **Action:** Use the "Architect" model to write the post.
 
@@ -55,3 +60,10 @@ Prompt: A futuristic 3D isometric dashboard floating in a void, glowing neon blu
 *   **Check:** Do the screenshots match the text?
 *   **Check:** Is the GitHub link clearly visible?
 *   **Check:** Did you credit the "Agent Constitution"?
+
+## 5. Storage & Organization (Mandatory)
+*   **Rule:** Drafts and generated assets MUST NOT clutter the root.
+*   **Action:** Create a platform-specific folder in `.storage/`.
+    *   Example: `.storage/LinkedIn/`, `.storage/YouTube/`.
+*   **Move:** Place all `*_draft.md`, subtitles, and raw assets there.
+    *   Only the **FINAL** approved asset moves to `assets/`.

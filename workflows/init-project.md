@@ -4,6 +4,8 @@ description: Initialize a new professional project following the Agent Protocol 
 
 # Project Initialization Workflow
 
+> **💡 Automation Tip:** Use the `init-gh` alias (via `bin/scaffold.sh`) to skip steps 1-2.
+
 1.  **Scaffold Directory Structure**
     - Create `src/`, `tests/`, `docs/`, `assets/`, `lib/`, `prompts/`.
     - Create `.storage/`, `.storage/temp/`, and `.storage/data/` (For local datasets/logs).
