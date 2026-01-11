@@ -5,10 +5,18 @@
 <h1>Agent Constitution 📜</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/License-MIT-green.svg">
-  <img src="https://img.shields.io/badge/Status-Active-blue.svg">
-  <img src="https://img.shields.io/badge/Docs-Technical-orange.svg">
-  [<img src="assets/linkedin_su6i.svg" height="20">](https://linkedin.com/in/su6i)
+  <a href="https://img.shields.io/badge/License-MIT-green.svg">
+    <img src="https://img.shields.io/badge/License-MIT-green.svg">
+  </a>
+  <a href="https://img.shields.io/badge/Status-Active-blue.svg">
+    <img src="https://img.shields.io/badge/Status-Active-blue.svg">
+  </a>
+  <a href="workflows/documentation.md">
+    <img src="https://img.shields.io/badge/Docs-Technical-orange.svg">
+  </a>
+  <a href="https://linkedin.com/in/su6i">
+    <img src="assets/linkedin_su6i.svg" height="20" style="vertical-align:middle;">
+  </a>
 </p>
 
 <strong>The Validated Context Architecture for AI Agents.</strong>
