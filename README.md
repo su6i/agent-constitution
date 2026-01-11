@@ -4,13 +4,12 @@
   
   <!-- Custom LinkedIn Badge -->
   <!-- ACTION: Replace 'su6i' with your own ID and 'linkedin_su6i.svg' with your own asset -->
-  <a href="https://img.shields.io/badge/License-MIT-green.svg"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
-  <a href="https://img.shields.io/badge/Status-Active-blue.svg"><img src="https://img.shields.io/badge/Status-Active-blue.svg" alt="Status"></a>
-  <a href="workflows/documentation.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" alt="Docs"></a>
-  <a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20" alt="LinkedIn"></a>
-  
-  <br><br><strong>The Validated Context Architecture for AI Agents.</strong>
+  <p>
+    <a href="https://img.shields.io/badge/License-MIT-green.svg"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a> <a href="https://img.shields.io/badge/Status-Active-blue.svg"><img src="https://img.shields.io/badge/Status-Active-blue.svg" alt="Status"></a> <a href="workflows/documentation.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" alt="Docs"></a> <a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20" alt="LinkedIn"></a>
+  </p>
+  <br><strong>The Validated Context Architecture for AI Agents.</strong>
 </div>
+
 ---
 
 ## 🏗 The Problem
