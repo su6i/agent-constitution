@@ -16,7 +16,7 @@
 ---
 
 ## 🏗 The Problem
-Most AI Agents (Cursor, Windsurf, Copilot) fail because their "memory" is unstructured. You give them a 50-page prompt, they hallucinate. You give them nothing, they write spaghetti code.
+Most AI Agents (Cursor, AntiGravity, Windsurf, Copilot) fail because their "memory" is unstructured. You give them a 50-page prompt, they hallucinate. You give them nothing, they write spaghetti code.
 **We needed a middle ground: A strict, modular "Constitution" that forces Agents to behave like Senior Engineers.**
 
 ## ⚡ The Solution: Context Architecture
