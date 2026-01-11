@@ -1,0 +1,23 @@
+# --- OS & System ---
+.DS_Store
+.Thumbs.db
+*.log
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# --- Agent & Project Artifacts ---
+.storage/
+prompts/gen_*.txt
+prompts/task_*.txt
+assets/*_draft.md
+
+# --- IDEs & Editors ---
+.idea/
+.vscode/
+.cursor/
+.windsurf/
+.antigravity/
