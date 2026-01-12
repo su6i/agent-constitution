@@ -21,6 +21,7 @@ description: Standards for Testing, Security, and Version Control (Git).
     - `test`: Adding missing tests
     - `chore`: Maintenance (e.g., updating requirements)
 - **Example:** `feat(auth): add google oauth login support`
+- **Clean History:** If a documentation update was missed for a just-committed feature, use `git commit --amend` to include it. Do NOT create a new commit for such corrections.
 
 ## 3. Security Audit
 **Trigger:** Before every commit.
