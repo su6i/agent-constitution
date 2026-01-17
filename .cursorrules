@@ -27,5 +27,19 @@ You are strictly bound by the defined Workflows. You simply CANNOT execute a tas
 - **Root:** Keep the root directory clean (`src/`, `docs/`, `install.sh`).
 - **Data:** User data goes to `~/.project_name/` or XDG. Never pollute `$HOME`.
 
+## 4. Code Preservation Protocol
+**Rule:** You are FORBIDDEN from modifying or simplifying code that is already working, unless explicitly requested.
+- **Preservation:** Do not touch what isn't broken.
+- **No Simplification:** Never summarize or "clean up" working logic without a direct order.
+
+## 5. Data Visualization & Naming Standards
+- **Charts:** 
+    - Must include: **Title**, **X-Label**, **Y-Label**, **Legend**.
+    - **Accessibility:** Multi-line charts MUST use distinct line styles (dotted, dashed, solid) combined with colors.
+    - **Direct Labeling:** Line names must be written at the **end of each line** on the chart (not just in the legend).
+- **Naming:**
+    - Output files must use **Scientific/Functional** names (e.g., `experiment_results_v1.csv`).
+    - **Banned:** Promotional/Marketing names (e.g., `awesome_chart.png` or `super_fast_algo.py`).
+
 ---
 *If you find yourself guessing, STOP and read the Workflows.*
