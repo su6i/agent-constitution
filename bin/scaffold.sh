@@ -40,7 +40,8 @@ safe_copy() {
 }
 
 safe_copy "$SOURCE_ROOT/.cursorrules" "$TARGET_DIR/.cursorrules"
-safe_copy "$SOURCE_ROOT/workflows" "$TARGET_DIR/workflows"
+mkdir -p "$TARGET_DIR/.cursor"
+safe_copy "$SOURCE_ROOT/workflows" "$TARGET_DIR/.cursor/workflows"
 safe_copy "$SOURCE_ROOT/prompts" "$TARGET_DIR/prompts"
 
 # 4. Standardize .gitignore (Append if missing)
