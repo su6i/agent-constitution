@@ -51,7 +51,29 @@ mkdir -p "$TARGET_DIR/.cursor"
 safe_copy "$SOURCE_ROOT/workflows" "$TARGET_DIR/.cursor/workflows"
 safe_copy "$SOURCE_ROOT/prompts" "$TARGET_DIR/prompts"
 
-# 4. Standardize .gitignore (Append if missing)
+# 4. Scaffold Standard Directories
+echo "🏗️  Creating standard directory structure..."
+DIRS=(
+    "src"
+    "tests"
+    "docs"
+    "assets"
+    "lib"
+    ".storage/temp"
+    ".storage/data"
+)
+
+for dir in "${DIRS[@]}"; do
+    TARGET_PATH="$TARGET_DIR/$dir"
+    if [ ! -d "$TARGET_PATH" ]; then
+        mkdir -p "$TARGET_PATH"
+        echo "   ➕ Created $dir/"
+    else
+        echo "   🔸 Exists $dir/"
+    fi
+done
+
+# 5. Standardize .gitignore (Append if missing)
 GITIGNORE="$TARGET_DIR/.gitignore"
 if [ ! -f "$GITIGNORE" ]; then
     touch "$GITIGNORE"
@@ -72,7 +94,7 @@ for rule in "${IGNORES[@]}"; do
     fi
 done
 
-# 5. Git Add
+# 6. Git Add
 if [ -d "$TARGET_DIR/.git" ]; then
     echo "💾 Staging changes..."
     cd "$TARGET_DIR" || exit
