@@ -46,10 +46,10 @@ safe_copy() {
     echo "   ✅ Installed $(basename "$src")"
 }
 
-safe_copy "$SOURCE_ROOT/.cursorrules" "$TARGET_DIR/.cursorrules"
+safe_copy "$SOURCE_ROOT/.cursor/rules" "$TARGET_DIR/.cursor/rules"
 mkdir -p "$TARGET_DIR/.cursor"
-safe_copy "$SOURCE_ROOT/workflows" "$TARGET_DIR/.cursor/workflows"
-safe_copy "$SOURCE_ROOT/prompts" "$TARGET_DIR/prompts"
+safe_copy "$SOURCE_ROOT/.cursor/workflows" "$TARGET_DIR/.cursor/workflows"
+safe_copy "$SOURCE_ROOT/.cursor/prompts" "$TARGET_DIR/.cursor/prompts"
 
 # 4. Scaffold Standard Directories
 echo "🏗️  Creating standard directory structure..."
