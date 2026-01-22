@@ -38,7 +38,7 @@ You are strictly bound by the defined Workflows. You simply CANNOT execute a tas
     - **Accessibility:** Multi-line charts MUST use distinct line styles (dotted, dashed, solid) combined with colors.
     - **Direct Labeling:** Line names must be written at the **end of each line** on the chart (not just in the legend).
 - **Naming:**
-    - Output files must use **Scientific/Functional** names (e.g., `experiment_results_v1.csv`).
+    - Output files must use **Scientific/Functional** names (e.g., `LeakyReLU_PReLU_Comparative_Analysis.csv`).
     - **Banned:** Promotional/Marketing names (e.g., `awesome_chart.png` or `super_fast_algo.py`).
 
 ---

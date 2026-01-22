@@ -7,11 +7,18 @@
 # Defaults to current directory if no argument is provided.
 
 # 1. Determine Paths
-SOURCE_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+# Resolve the true path of the script (handling symlinks)
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+SOURCE_ROOT="$( cd -P "$( dirname "$SOURCE" )/.." >/dev/null 2>&1 && pwd )"
 TARGET_DIR="${1:-$(pwd)}"
 
 echo "⚡ Initiating Agent Constitution Injection..."
-echo "📍 Source: $SOURCE_ROOT"
+echo "📍 Source Constitution: $SOURCE_ROOT"
 echo "🎯 Target: $TARGET_DIR"
 
 # 2. Safety Checks
