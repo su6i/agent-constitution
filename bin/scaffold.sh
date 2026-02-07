@@ -98,7 +98,7 @@ done
 if [ -d "$TARGET_DIR/.git" ]; then
     echo "💾 Staging changes..."
     cd "$TARGET_DIR" || exit
-    git add .cursorrules workflows/ prompts/ .gitignore
+    git add .cursor/rules/ .cursor/workflows/ .cursor/prompts/ .gitignore
     echo "   ✅ Files flagged for commit."
 else
     echo "ℹ️  Skipped git add (not a repo)."

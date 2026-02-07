@@ -1,3 +1,8 @@
+# Task Linkedin Agent Constitution
+
+[Back to README](../../README.md)
+
+```text
 ### ROLE: Developer Advocate (Senior Level)
 ### TASK: Write a Viral LinkedIn Post for "Agent Constitution"
 
@@ -18,3 +23,7 @@
 
 ### BANNED WORDS:
 - "Unlock", "Revolutionize", "Game-changer", "Embark", "Dive in".
+```
+
+---
+[Back to README](../../README.md)

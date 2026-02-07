@@ -4,6 +4,8 @@ description: Protocol for AI Model Routing, Fallback logic, and Quota Management
 
 # AI Model Optimization Workflow
 
+[Back to README](../../README.md)
+
 ## 1. Smart Routing Strategy (Architect vs Executor)
 **Concept:** Use the "Best Model" to plan and the "Fast Model" to build.
 
@@ -101,3 +103,6 @@ Since available models vary by user/region, we use a **"Seed & Sort"** approach:
 ## 4. Safety
 - **Rule:** NEVER send Text tasks to Audio models.
 - **Check:** `if model.type == 'audio' and task.type == 'text': raise Error`.
+
+---
+[Back to README](../../README.md)

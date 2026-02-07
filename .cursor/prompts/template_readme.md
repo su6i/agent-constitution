@@ -1,3 +1,8 @@
+# Template Readme
+
+[Back to README](../../README.md)
+
+```text
 ### ROLE: Senior Technical Writer (Stripe/Google Level)
 ### TASK: Write the `README.md` for [INSERT PROJECT NAME]
 
@@ -22,9 +27,13 @@
     - The `install.sh` command.
     - One basic usage example.
 5.  **Documentation Link**:
-    - "For deep dives, read [TECHNICAL.md](docs/TECHNICAL.md)".
+    - "For deep dives, read `docs/TECHNICAL.md`".
 
 ### CONSTRAINTS:
 - Use emojis for headers.
 - Keep paragraphs under 3 lines.
 - **ABSOLUTE RULE**: Do NOT hallucinate commands. Use the actual `main.py` entry point.
+```
+
+---
+[Back to README](../../README.md)

@@ -1,3 +1,8 @@
+# Template Linkedin Launch
+
+[Back to README](../../README.md)
+
+```text
 ### ROLE: 
 Act as a world-class Technical Developer Advocate and Senior Software Architect. Your specialty is "Product-Led Content" that speaks directly to the pain points of experienced engineers who have zero patience for AI-generated clichés or marketing fluff.
 
@@ -29,3 +34,7 @@ Write a high-impact project introduction for the following project:
 - **The Reveal:** Introduce [PROJECT NAME] as the architectural fix.
 - **Feature Deep-Dive:** Use a bulleted list of the Named Features with 1-sentence technical explanations.
 - **The CTA:** A humble but confident request for feedback, GitHub stars, or DMs for collaboration.
+```
+
+---
+[Back to README](../../README.md)

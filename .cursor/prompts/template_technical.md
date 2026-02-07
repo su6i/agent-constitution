@@ -1,3 +1,8 @@
+# Template Technical
+
+[Back to README](../../README.md)
+
+```text
 ### ROLE: Lead Systems Architect
 ### TASK: Write the `docs/TECHNICAL.md` for [INSERT PROJECT NAME]
 
@@ -24,3 +29,7 @@
 ### CONSTRAINTS:
 - Code blocks must have language tags (python, bash).
 - Be extremely specific about file paths.
+```
+
+---
+[Back to README](../../README.md)

@@ -1,3 +1,8 @@
+# Template Project Logo
+
+[Back to README](../../README.md)
+
+```text
 ### ROLE: Professional Graphic Designer
 ### TASK: Create a high-quality, minimalist GitHub Repository Banner
 
@@ -10,3 +15,7 @@
 - **BACKGROUND**: Solid dark aesthetic with subtle, low-opacity geometric patterns (hexagons or grid lines).
 - **QUALITY**: 4k resolution, sharp edges, no blur, professional developer UI/UX aesthetic.
 - **CONSTRAINTS**: Centered and balanced, clean lines, high contrast for readability on GitHub.
+```
+
+---
+[Back to README](../../README.md)

@@ -4,6 +4,8 @@ description: Workflow for generating World-Class Marketing Assets (LinkedIn, You
 
 # Social Media & Showcase Workflow
 
+[Back to README](../../README.md)
+
 **Trigger:** Project Completion ("Gold Master" status).
 **Goal:** Create premium content that showcases the engineering quality.
 
@@ -67,3 +69,6 @@ Prompt: A futuristic 3D isometric dashboard floating in a void, glowing neon blu
     *   Example: `.storage/LinkedIn/`, `.storage/YouTube/`.
 *   **Move:** Place all `*_draft.md`, subtitles, and raw assets there.
     *   Only the **FINAL** approved asset moves to `assets/`.
+
+---
+[Back to README](../../README.md)
