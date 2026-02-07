@@ -4,6 +4,8 @@ description: Initialize a new professional project following the Agent Protocol 
 
 # Project Initialization Workflow
 
+[Back to README](../../README.md)
+
 > **💡 Automation Tip:** Setup the global alias `init-project` (instructions in `bin/scaffold.sh`) and simply run `init-project` in your new empty folder.
 
 1.  **Scaffold Directory Structure**
@@ -41,3 +43,6 @@ description: Initialize a new professional project following the Agent Protocol 
 5.  **Final Verification**
     - Run `./install.sh` to test the onboarding flow.
     - Check if `README.md` links correctly to `TECHNICAL.md`.
+
+---
+[Back to README](../../README.md)

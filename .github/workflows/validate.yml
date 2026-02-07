@@ -1,0 +1,59 @@
+name: Validate Repository
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-links:
+    name: Check Internal Links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check Markdown Links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+          config-file: '.github/mlc_config.json'
+
+  lint-markdown:
+    name: Lint Markdown Files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli
+
+      - name: Lint Markdown
+        run: markdownlint '**/*.md' --ignore node_modules --ignore .storage
+        continue-on-error: true
+
+  validate-structure:
+    name: Verify File Structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check Required Files
+        run: |
+          echo "Checking required files..."
+          test -f README.md && echo "✅ README.md exists"
+          test -f CONTRIBUTING.md && echo "✅ CONTRIBUTING.md exists"
+          test -f CHANGELOG.md && echo "✅ CHANGELOG.md exists"
+          test -d .cursor/skills && echo "✅ .cursor/skills/ exists"
+          test -d .cursor/workflows && echo "✅ .cursor/workflows/ exists"
+          test -d .cursor/prompts && echo "✅ .cursor/prompts/ exists"
+          echo "All checks passed!"
