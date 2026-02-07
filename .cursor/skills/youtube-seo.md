@@ -95,4 +95,121 @@ Moving beyond "Views" to the quantitative science of audience value.
 *   **Session Retention:** 100% success rate in having > 20% of viewers click a "Suggested Video" from the same channel.
 
 ---
+
+## 11. 2025 Algorithm Changes (AI-Powered Analysis)
+YouTube's algorithm now uses LLMs (Gemini) for content understanding:
+
+### 11.1 Semantic Video Analysis
+*   **Beyond Tags:** Algorithm analyzes actual video content, context, and emotional tone.
+*   **Spoken Word Matching:** ASR transcription must align with metadata for topic consistency.
+*   **Visual Recognition:** Thumbnail content is matched against video frames for authenticity.
+
+### 11.2 Engagement Signal Hierarchy (2025 Priority)
+1. **Audience Retention** (highest weight)
+2. **Click-Through Rate**
+3. **Session Duration**
+4. **Engagement (Likes, Comments, Shares)**
+5. **Subscription Conversion**
+
+---
+
+## 12. Title Optimization Protocol (2025)
+
+### 12.1 Technical Standards
+*   **Length:** 50-60 characters optimal (mobile readability).
+*   **Structure:** [Number/Power Word] + [Core Value] + [Qualifier].
+*   **Examples:**
+    - "7 Python Tricks That Will Save You Hours"
+    - "I Built a $50K/mo SaaS in 30 Days (Here's How)"
+
+### 12.2 Avoid
+*   Clickbait that harms retention.
+*   Vague titles ("You Won't Believe This").
+*   Keyword stuffing.
+
+---
+
+## 13. Thumbnail Psychology (2025 Standards)
+
+### 13.1 Design Principles
+*   **High Contrast:** 3:1 minimum contrast ratio.
+*   **Bold Text:** 3-5 words maximum, readable at 116x65px.
+*   **Faces:** Expressive emotions increase CTR 30%+.
+*   **Rule of Thirds:** Subject placement for visual balance.
+
+### 13.2 A/B Testing Protocol
+YouTube now supports native thumbnail testing:
+*   Upload 3 variants.
+*   Wait for statistical significance (usually 1000+ impressions per variant).
+*   Iterate based on CTR data.
+
+---
+
+## 14. Shorts Strategy (2025)
+
+### 14.1 Shorts as Funnel
+*   Use Shorts for discovery and channel awareness.
+*   Drive viewers to long-form content for deeper engagement.
+*   Shorts audience is 60% under 25 years old.
+
+### 14.2 Optimization
+*   **Hook in 1 second** (even faster than long-form).
+*   **Loop potential:** Content that encourages rewatching.
+*   **Trending sounds:** Leverage audio trends for discovery.
+
+---
+
+## 15. Content Pillars Strategy
+
+### 15.1 The 3-Pillar Model
+1. **Discoverable:** SEO-optimized "How-To" content for search.
+2. **Community:** Personality-driven content for subscribers.
+3. **Tent-Pole:** High-production, shareable viral attempts.
+
+### 15.2 Posting Cadence
+*   **Minimum:** 1 video/week for algorithm favor.
+*   **Optimal:** 2-3 videos/week with consistent schedule.
+
+---
+
+## 16. Analytics Deep-Dive
+
+### 16.1 Key Metrics to Monitor
+| Metric | Target | Action if Low |
+| :--- | :--- | :--- |
+| CTR | > 5% | Redesign thumbnail/title |
+| Retention | > 50% | Improve pacing, cut intro |
+| Watch Time | > 40% avg | Better content structure |
+| Sub Conversion | > 3% | Stronger CTA positioning |
+
+### 16.2 Traffic Source Analysis
+*   **Browse Features:** Optimize thumbnail + first 30s.
+*   **YouTube Search:** Optimize title + description + tags.
+*   **Suggested Videos:** Optimize end screens + cards.
+*   **External:** Track referral sources for promotion ROI.
+
+---
+
+## 17. Accessibility & International Reach
+
+### 17.1 Subtitles Protocol
+*   Upload .SRT for all videos.
+*   Translate captions into 3-5 top-traffic languages.
+*   Use auto-translate as fallback, not primary.
+
+### 17.2 Multi-Language Audio (2025 Feature)
+*   YouTube now supports multiple audio tracks.
+*   Offer dubbed versions for major language markets.
+
+---
+
+## 18. E-E-A-T for YouTube (2025)
+Google's E-E-A-T principles now apply to YouTube ranking:
+*   **Experience:** Demonstrate real-world expertise.
+*   **Expertise:** Cite sources, show credentials.
+*   **Authoritativeness:** Build consistent channel identity.
+*   **Trustworthiness:** Accurate title/thumbnail matching content.
+
+---
+
 [Back to README](../../README.md)

@@ -107,4 +107,185 @@ Standardizing on "Zero-Race" multi-threaded GUI development.
 *   **Build Time:** Target < 5s for incremental SwiftUI previews on modern MacBook Pro M3.
 
 ---
+
+## 11. iOS 18 SwiftUI Enhancements
+New features available in iOS 18 for enhanced UI development:
+
+### 11.1 Floating Tab Bar
+```swift
+TabView {
+    Tab("Home", systemImage: "house") {
+        HomeView()
+    }
+    Tab("Settings", systemImage: "gear") {
+        SettingsView()
+    }
+}
+.tabViewStyle(.sidebarAdaptable) // Floats & transitions to sidebar
+```
+
+### 11.2 Mesh Gradients
+```swift
+MeshGradient(
+    width: 3,
+    height: 3,
+    points: [
+        [0, 0], [0.5, 0], [1, 0],
+        [0, 0.5], [0.5, 0.5], [1, 0.5],
+        [0, 1], [0.5, 1], [1, 1]
+    ],
+    colors: [
+        .red, .orange, .yellow,
+        .green, .blue, .purple,
+        .pink, .mint, .cyan
+    ]
+)
+```
+
+### 11.3 Enhanced Scroll View Control
+```swift
+ScrollView {
+    LazyVStack {
+        ForEach(items) { item in
+            ItemView(item: item)
+        }
+    }
+}
+.onScrollGeometryChange(for: CGFloat.self) { geo in
+    geo.contentOffset.y
+} action: { oldOffset, newOffset in
+    // React to scroll position changes
+}
+```
+
+---
+
+## 12. Swift 6 Concurrency Best Practices
+Strict concurrency checking for data race safety:
+
+### 12.1 Incremental Adoption
+```swift
+// In Build Settings: Strict Concurrency Checking = Complete
+// Migrate module by module, not entire project at once
+```
+
+### 12.2 Actor Design Guidelines
+*   **Single Responsibility:** Keep actors focused on one concern.
+*   **Minimize Cross-Actor Calls:** Reduce `await` points between actors.
+*   **Use Value Types:** Pass value types between actors for safety.
+
+### 12.3 @MainActor for UI
+```swift
+@MainActor
+class ProfileViewModel: ObservableObject {
+    @Published var name: String = ""
+    
+    func updateProfile() async {
+        // Already on MainActor - safe to update @Published
+        name = await fetchName()
+    }
+}
+```
+
+### 12.4 Sendable Conformance
+```swift
+// Value types are implicitly Sendable
+struct UserData: Sendable {
+    let id: UUID
+    let name: String
+}
+
+// Reference types need explicit conformance
+final class Cache: @unchecked Sendable {
+    private let lock = NSLock()
+    private var storage: [String: Data] = [:]
+}
+```
+
+---
+
+## 13. Performance Optimization Protocols
+
+### 13.1 Lazy Stacks for Large Datasets
+```swift
+ScrollView {
+    LazyVStack(spacing: 8) {
+        ForEach(items, id: \.id) { item in
+            ItemRow(item: item)
+        }
+    }
+}
+```
+
+### 13.2 Minimize View Recomputations
+*   Keep `@State` variables small and focused.
+*   Extract static subviews to prevent unnecessary redraws.
+*   Use `equatable()` modifier for complex views.
+
+### 13.3 Profile with Instruments
+*   Use Time Profiler for CPU bottlenecks.
+*   Use SwiftUI Hangs instrument for UI freezes.
+*   Target < 8ms per frame (120fps on ProMotion).
+
+---
+
+## 14. Preview-Driven Development
+Integrate SwiftUI Previews into core workflow:
+
+```swift
+#Preview("Light Mode") {
+    ProfileView(viewModel: .preview)
+        .preferredColorScheme(.light)
+}
+
+#Preview("Dark Mode") {
+    ProfileView(viewModel: .preview)
+        .preferredColorScheme(.dark)
+}
+
+#Preview("Landscape") {
+    ProfileView(viewModel: .preview)
+        .previewInterfaceOrientation(.landscapeLeft)
+}
+```
+
+---
+
+## 15. Dynamic Island & Live Activities
+```swift
+struct DeliveryLiveActivity: Widget {
+    var body: some WidgetConfiguration {
+        ActivityConfiguration(for: DeliveryAttributes.self) { context in
+            // Lock Screen view
+            DeliveryLockScreenView(context: context)
+        } dynamicIsland: { context in
+            DynamicIsland {
+                DynamicIslandExpandedRegion(.leading) {
+                    Image(systemName: "truck")
+                }
+                DynamicIslandExpandedRegion(.trailing) {
+                    Text(context.state.eta)
+                }
+            } compactLeading: {
+                Image(systemName: "truck")
+            } compactTrailing: {
+                Text(context.state.eta)
+            } minimal: {
+                Image(systemName: "truck")
+            }
+        }
+    }
+}
+```
+
+---
+
+## 16. Human Interface Guidelines Compliance
+*   Follow Apple HIG for native feel.
+*   Use SF Symbols for consistent iconography.
+*   Support Dynamic Type for accessibility.
+*   Implement dark mode properly.
+
+---
+
 [Back to README](../../README.md)

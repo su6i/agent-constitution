@@ -112,4 +112,175 @@ Generating thousands of unique videos (e.g., personalized ads or tutorials) by i
 *   **State Parity:** 100% deterministic output (the same frame number must ALWAYS produce the same pixel state).
 
 ---
+
+## 11. Recommended Project Structure (2025)
+Based on community best practices for scalable Remotion projects:
+
+```text
+remotion-project/
+├── src/
+│   ├── Root.tsx                    # Composition registry
+│   ├── actions/                    # Reusable animation functions
+│   │   ├── fadeIn.ts
+│   │   └── slideUp.ts
+│   ├── arrangements/               # Main movie files
+│   │   └── MainVideo.tsx
+│   ├── helpers/                    # Hooks and settings
+│   │   ├── useResponsive.ts
+│   │   └── constants.ts
+│   ├── parts/                      # Reusable UI elements
+│   │   ├── Title.tsx
+│   │   └── Transition.tsx
+│   └── segments/                   # Complete video moments
+│       ├── Intro.tsx
+│       └── Outro.tsx
+├── public/                         # Assets (images, fonts, audio)
+├── remotion.config.ts
+└── package.json
+```
+
+---
+
+## 12. Font Loading & Text Measurement Protocol
+Critical for pixel-perfect typography:
+
+### 12.1 Safe Font Loading
+```typescript
+import { useEffect, useState } from 'react';
+import { continueRender, delayRender } from 'remotion';
+
+export const useFontLoaded = (fontFamily: string) => {
+  const [loaded, setLoaded] = useState(false);
+  const [handle] = useState(() => delayRender());
+
+  useEffect(() => {
+    document.fonts.load(`16px ${fontFamily}`).then(() => {
+      setLoaded(true);
+      continueRender(handle);
+    });
+  }, [fontFamily, handle]);
+
+  return loaded;
+};
+```
+
+### 12.2 Text Measurement Best Practices
+*   Match ALL font properties between measurement and render (fontFamily, fontSize, fontWeight, letterSpacing).
+*   Use `white-space: pre` and `display: inline-block` for accurate measurements.
+*   Avoid padding/borders on measurement elements (skews results).
+
+---
+
+## 13. React 19 Compatibility (2025)
+For optimal performance with React 19:
+```bash
+npm install react@19.0.0 react-dom@19.0.0
+npm install -D @types/react@19.0.0 @types/react-dom@19.0.0
+```
+*   Remotion 4.0.0+ required for React 19 support.
+*   Leverage React Server Components for complex data fetching.
+
+---
+
+## 14. Responsive Video Design
+Building videos that adapt to different aspect ratios:
+
+```typescript
+export const ResponsiveLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { width, height } = useVideoConfig();
+  const isPortrait = height > width;
+  const isMobile = width < 720;
+
+  return (
+    <AbsoluteFill style={{
+      flexDirection: isPortrait ? 'column' : 'row',
+      padding: isMobile ? 20 : 40,
+    }}>
+      {children}
+    </AbsoluteFill>
+  );
+};
+```
+
+---
+
+## 15. AI Agent Integration (Official 2025 Feature)
+Remotion now provides official "Agent Skills" for AI coding assistants:
+*   Instruction sets that teach AI tools how to generate valid Remotion code.
+*   Reduces hallucination in AI-generated video compositions.
+*   Available at: `remotion.dev/docs/agent-skills`
+
+---
+
+## 16. Three.js & WebGL Integration
+For 3D scenes using `@remotion/three`:
+
+```typescript
+import { ThreeCanvas } from '@remotion/three';
+import { useCurrentFrame } from 'remotion';
+
+export const Scene3D: React.FC = () => {
+  const frame = useCurrentFrame();
+
+  return (
+    <ThreeCanvas>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
+      <mesh rotation={[0, frame * 0.02, 0]}>
+        <boxGeometry args={[2, 2, 2]} />
+        <meshStandardMaterial color="#ff6b6b" />
+      </mesh>
+    </ThreeCanvas>
+  );
+};
+```
+
+---
+
+## 17. Lottie Animation Integration
+Embedding After Effects animations:
+
+```typescript
+import { Lottie } from '@remotion/lottie';
+import animationData from './loading.json';
+
+export const LottieAnimation: React.FC = () => (
+  <Lottie
+    animationData={animationData}
+    playbackRate={1}
+    loop
+    style={{ width: 200, height: 200 }}
+  />
+);
+```
+
+---
+
+## 18. CI/CD Pipeline for Video Production
+GitHub Actions example for automated video rendering:
+
+```yaml
+name: Render Video
+on:
+  push:
+    branches: [main]
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npx remotion render src/index.ts MainVideo out/video.mp4 --codec=h264
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rendered-video
+          path: out/video.mp4
+```
+
+---
+
 [Back to README](../../README.md)

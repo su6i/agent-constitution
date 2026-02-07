@@ -126,4 +126,30 @@ It breaks down the software lifecycle into 5 atomic, linked workflows. The Agent
 - **[Master Editing](.cursor/skills/resolve-editor.md):** DaVinci Resolve API & timeline automation.
 
 ---
+
+## 🤖 MCP Server Integration
+
+Connect this knowledge base to your AI assistant using the built-in MCP Server.
+
+### Setup for Claude Desktop
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "agent-constitution": {
+      "command": "python3",
+      "args": ["/path/to/agent-constitution/bin/mcp-server/server.py"]
+    }
+  }
+}
+```
+
+### Available Resources
+- **58 Skills** as `skill://<skill-name>` resources
+- **Workflows** as executable tools
+- **Global Rules** via `get_rules` tool
+
+See [MCP Server README](bin/mcp-server/README.md) for full documentation.
+
+---
 *Built with strict adherence to the Prompt-Driven Development methodology.*
