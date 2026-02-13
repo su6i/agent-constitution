@@ -21,8 +21,8 @@ Technical protocols for producing commercial-quality emotional voice acting from
 ### 1.2 Character Voice Matrix
 | Character | Base Voice | Pitch Shift | Speed | Style |
 | :--- | :--- | :--- | :--- | :--- |
-| Sushiant | Natural | 0% | 1.0x | Curious |
-| ضمیر ناخودآگاه | Natural | -5% | 0.9x | Calm/Wise |
+| Protagonist | Natural | 0% | 1.0x | Curious |
+| Mentor | Natural | -5% | 0.9x | Calm/Wise |
 | Narrator | Natural | +3% | 1.1x | Professional |
 | Temp Characters | Modified | Variable | Variable | Per story |
 
@@ -73,14 +73,14 @@ a normal Tuesday afternoon."
 ### 3.1 Reference Organization
 ```
 ~/.moltbot/voices/
-├── sushiant/
+├── protagonist/
 │   ├── neutral.wav
 │   ├── happy.wav
 │   ├── sad.wav
 │   ├── angry.wav
 │   ├── excited.wav
 │   └── whisper.wav
-├── subconscious/
+├── mentor/
 │   ├── calm.wav
 │   └── mysterious.wav
 └── narrator/
@@ -94,7 +94,7 @@ def select_emotion_reference(character: str, emotion: str) -> str:
     """Select appropriate reference audio for synthesis."""
     
     EMOTION_MAP = {
-        "sushiant": {
+        "protagonist": {
             "default": "neutral",
             "joy": "happy",
             "sadness": "sad",
@@ -110,11 +110,11 @@ def select_emotion_reference(character: str, emotion: str) -> str:
 
 ### 3.3 Script Emotion Tagging
 ```xml
-<dialogue character="sushiant" emotion="excited">
+<dialogue character="protagonist" emotion="excited">
     I finally figured it out! The automation works!
 </dialogue>
 
-<dialogue character="subconscious" emotion="calm">
+<dialogue character="mentor" emotion="calm">
     I knew you could do it. Trust the process.
 </dialogue>
 ```
@@ -140,9 +140,9 @@ SOUND EFFECTS TO RECORD:
 ```python
 # Script with non-verbal markers
 script = """
-SUSHIANT: [sigh] I've been working on this all day.
-SUBCONSCIOUS: [hmm] Maybe try a different approach?
-SUSHIANT: [laugh] Why didn't I think of that!
+PROTAGONIST: [sigh] I've been working on this all day.
+MENTOR: [hmm] Maybe try a different approach?
+PROTAGONIST: [laugh] Why didn't I think of that!
 """
 ```
 
@@ -153,13 +153,13 @@ SUSHIANT: [laugh] Why didn't I think of that!
 ### 5.1 Voice Modification Stack
 ```python
 CHARACTER_PROFILES = {
-    "sushiant": {
+    "protagonist": {
         "pitch": 0,
         "formant": 0,
         "reverb": 0.05,
         "compression": "light"
     },
-    "subconscious": {
+    "mentor": {
         "pitch": -3,           # Lower pitch
         "formant": -1,         # Deeper resonance  
         "reverb": 0.15,        # More ethereal

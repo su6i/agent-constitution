@@ -72,11 +72,11 @@ audio.save("dialogue.wav")
 # Clone specific voices for S1 and S2
 model.set_speaker_reference(
     speaker="S1",
-    reference="sushiant_30s.wav"
+    reference="protagonist_30s.wav"
 )
 model.set_speaker_reference(
     speaker="S2", 
-    reference="subconscious_30s.wav"
+    reference="mentor_30s.wav"
 )
 ```
 
@@ -112,8 +112,8 @@ VOICE_ROUTER = {
     "dialogue_scene": {
         "model": "dia",
         "speakers": {
-            "S1": "sushiant",
-            "S2": "subconscious"
+            "S1": "protagonist",
+            "S2": "mentor"
         }
     },
     "narration_scene": {

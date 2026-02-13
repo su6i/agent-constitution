@@ -54,10 +54,10 @@ STORY ARC (Hero's Journey Compressed):
 ### 2.3 Character Dialogue
 ```xml
 <scene id="1" duration="180">
-  <dialogue character="sushiant" emotion="curious">
+  <dialogue character="protagonist" emotion="curious">
     What does "automation" really mean?
   </dialogue>
-  <dialogue character="subconscious" emotion="calm">
+  <dialogue character="mentor" emotion="calm">
     It means making the machine do the work for you.
   </dialogue>
   <action>Visual: Robot handling papers</action>

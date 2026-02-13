@@ -105,12 +105,12 @@ def get_related_episodes(topic: str, exclude_recent: int = 3) -> list:
 ### 4.1 The Master Prompt Template
 ```python
 SCRIPT_PROMPT = """
-You are a master storyteller for EfficientSlacker, creating immersive 
+You are a master storyteller for a Technical Educational Channel, creating immersive 
 language learning content. Write a 15-minute episode script.
 
 ## CHARACTERS
-- **Sushiant**: Main character, curious learner (emotion: varies)
-- **ضمیر ناخودآگاه**: Inner wisdom voice (emotion: calm, wise)
+- **Protagonist**: Main character, curious learner (emotion: varies)
+- **Mentor**: Inner wisdom voice (emotion: calm, wise)
 - **Narrator**: Professional AI narrator (emotion: neutral)
 
 ## VOCABULARY TO INCLUDE (MUST USE ALL)
@@ -133,7 +133,7 @@ Target words: {new_vocabulary}
 <episode topic="{topic}" duration="15min" lang="en">
   <part id="1" name="story">
     <scene id="1">
-      <dialogue character="sushiant" emotion="curious">
+      <dialogue character="protagonist" emotion="curious">
         [Text here]
       </dialogue>
       <action>Visual description for animators</action>
@@ -259,15 +259,15 @@ async def generate_validated_script(topic: str, max_attempts: int = 3):
   <metadata>
     <new_vocabulary>workflow, pipeline, trigger, webhook, cron</new_vocabulary>
     <review_vocabulary>script, function, variable, loop, condition</review_vocabulary>
-    <characters>sushiant, subconscious, narrator</characters>
+    <characters>protagonist, mentor, narrator</characters>
   </metadata>
   
   <part id="1" name="story" duration="8min">
     <scene id="1" location="office">
-      <dialogue character="sushiant" emotion="frustrated" voice_model="gpt-sovits">
+      <dialogue character="protagonist" emotion="frustrated" voice_model="gpt-sovits">
         I've been doing this same task every single day...
       </dialogue>
-      <dialogue character="subconscious" emotion="calm" voice_model="fish-speech">
+      <dialogue character="mentor" emotion="calm" voice_model="fish-speech">
         What if I told you there's a better way?
       </dialogue>
       <action>Camera zooms out to reveal mountain of papers</action>
