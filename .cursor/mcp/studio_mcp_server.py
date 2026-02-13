@@ -36,7 +36,7 @@ def generate_educational_video(request: VideoRequest) -> str:
     # Step 2: Asset Generation (Blender)
     # Generate a dynamic 3D logo based on the topic mood
     logo_path = blender.render_dynamic_logo(
-        text="EfficientSlacker", 
+        text="YourBrandName", 
         color_theme=script_data['sentiment']
     )
     

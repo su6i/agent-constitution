@@ -122,6 +122,11 @@ It breaks down the software lifecycle into 5 atomic, linked workflows. The Agent
 - **[Thumbnail Psychology](.cursor/skills/thumbnail-psychology.md):** Visual engagement & CTR optimization.
 - **[Moltbot Orchestration](.cursor/skills/moltbot-orchestration.md):** Multi-agent video factory architecture.
 - **[CLIL Screenwriting](.cursor/skills/storyteller-clil.md):** Educational storytelling & Leitner SRS.
+- **[Automated Scriptwriting](.cursor/skills/automated-scriptwriting.md):** 100% automated script production pipeline.
+- **[Method of Loci](.cursor/skills/method-of-loci.md):** Spatial memory & Blender-based loci construction.
+- **[Dialogue TTS](.cursor/skills/dia-tts.md):** Multi-speaker turn-taking & emotional prosody.
+- **[Emotional Voice Acting](.cursor/skills/emotional-voice-acting.md):** One-person multi-character production & GPT-SoVITS.
+- **[Episode Structure](.cursor/skills/episode-structure-45min.md):** 45-minute 3-part format & cognitive load management.
 - **[Procedural Direction](.cursor/skills/director-visual.md):** Blender & Manim semantic visuals.
 - **[Master Editing](.cursor/skills/resolve-editor.md):** DaVinci Resolve API & timeline automation.
 
@@ -145,7 +150,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```
 
 ### Available Resources
-- **58 Skills** as `skill://<skill-name>` resources
+- **63 Skills** as `skill://<skill-name>` resources
 - **Workflows** as executable tools
 - **Global Rules** via `get_rules` tool
 

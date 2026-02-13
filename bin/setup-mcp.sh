@@ -6,7 +6,7 @@
 
 set -e
 
-echo "🚀 Setting up MCP Servers for Efficient Slacker..."
+echo "🚀 Setting up MCP Servers for Your AI Workspace..."
 
 # Ensure uv is installed
 if ! command -v uv &> /dev/null; then
