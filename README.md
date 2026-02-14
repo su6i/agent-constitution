@@ -129,6 +129,7 @@ It breaks down the software lifecycle into 5 atomic, linked workflows. The Agent
 - **[Episode Structure](.cursor/skills/episode-structure-45min.md):** 45-minute 3-part format & cognitive load management.
 - **[Procedural Direction](.cursor/skills/director-visual.md):** Blender & Manim semantic visuals.
 - **[Master Editing](.cursor/skills/resolve-editor.md):** DaVinci Resolve API & timeline automation.
+- **[Subtitle Generator](.cursor/skills/subtitle-generator.md):** Professional Persian subtitles with cinematic typography.
 
 ---
 
@@ -150,7 +151,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```
 
 ### Available Resources
-- **63 Skills** as `skill://<skill-name>` resources
+- **64 Skills** as `skill://<skill-name>` resources
 - **Workflows** as executable tools
 - **Global Rules** via `get_rules` tool
 

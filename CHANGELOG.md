@@ -47,6 +47,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] - 2026-02-14
+
+### Added
+- **Subtitle Generator Skill** (`.cursor/skills/subtitle-generator.md`): Professional Persian subtitle pipeline (Whisper, FFmpeg, Manim).
+- **Supporting Scripts** for Subtitle Generator:
+    - `split_sentences.py`: Optimized Persian sentence splitting.
+    - `apply_subtitle.py`: Whisper JSON to stylized ASS converter.
+
+### Changed
+- **Manim Animation Skill**: Integrated Section 19 with Persian/Emoji typography protocols and renderer warmup techniques.
+
+---
+
 ## [Unreleased]
 
 ### Planned

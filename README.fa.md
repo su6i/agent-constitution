@@ -65,7 +65,7 @@ agent-constitution/
 │   ├── rules/          # قوانین جهانی
 │   ├── workflows/      # گردش‌کارها
 │   ├── prompts/        # قالب‌های پرامپت
-│   └── skills/         # ۶۳ مهارت فنی
+│   └── skills/         # ۶۴ مهارت فنی
 ├── assets/             # دارایی‌های بصری
 ├── bin/                # اسکریپت‌های اجرایی
 ├── CONTRIBUTING.md     # راهنمای مشارکت
@@ -77,7 +77,7 @@ agent-constitution/
 
 ## 🧠 مهارت‌ها
 
-این مخزن شامل **۶۳ مهارت فنی** در زمینه‌های زیر است:
+این مخزن شامل **۶۴ مهارت فنی** در زمینه‌های زیر است:
 
 ### توسعه نرم‌افزار
 - Python، JavaScript/TypeScript، SwiftUI، Jetpack Compose
