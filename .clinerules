@@ -1,0 +1,30 @@
+---
+title: .clinerules
+description: Bootloader instructions for Cline (VS Code) to follow the Universal Agentic Structure.
+location: .clinerules
+last_updated: 2026-02-21
+---
+
+# Cline Rules — VS Code Bootloader
+
+## مدلبندی
+- TRIVIAL tasks: DeepSeek V3.2 (API مستقیم)
+- MODERATE tasks: MiniMax M2.5
+- CRITICAL tasks: Claude Sonnet 4.6
+
+## کنترل هزینه
+- حداکثر ۲۰ request per task — بعد از آن stop و گزارش
+- اگر task بیش از $۲ هزینه داشت → STOP و اعلام کن
+- system prompt را ثابت نگه دار (cache-hit بیشتر)
+
+## رفتار
+- فایلهای memory-bank/ را قبل از هر task بخوان
+- فایلهای قوانین را از مسیر .agent/rules/ بخوان
+- قبل از ویرایش هر فایل، محتوای آن را بخوان
+- هرگز بدون تایید فایل حذف نکن
+- هیچ secret در کد ننویس
+
+## بعد از هر task
+- memory-bank/activeContext.md آپدیت کن
+- ruff + pytest اجرا کن
+- نتیجه را در یک خط خلاصه کن

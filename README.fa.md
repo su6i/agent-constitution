@@ -4,11 +4,8 @@
 
 <h1>قانون اساسی ایجنت 📜</h1>
 
-<p align="center">
-  <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green3.svg" height="20"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Status-Active-blue.svg" height="20"></a>
-  <a href=".cursor/workflows/documentation.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20"></a>
-  <a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20"></a>
+<p align="center" dir="ltr">
+  <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a><a href="#"><img src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a><a href=".cursor/workflows/documentation.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20" style="vertical-align: middle;"></a><a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20" style="vertical-align: middle; margin-bottom: -1px; margin-left: 3px;"></a>
 </p>
 
 <strong>معماری زمینه‌ای تأییدشده برای ایجنت‌های هوش مصنوعی</strong>
