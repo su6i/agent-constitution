@@ -1,0 +1,43 @@
+---
+title: "Template_Technical"
+description: Agent Constitution file
+location: .agent/prompts/template_technical.md
+agent_priority: Standard
+last_updated: 2026-02-22
+---
+
+# Template Technical
+
+[Back to README](../../README.md)
+
+```text
+### ROLE: Lead Systems Architect
+### TASK: Write the `docs/TECHNICAL.md` for [INSERT PROJECT NAME]
+
+- **AUDIENCE**: Junior Developers or Contributors who want to *extend* the project.
+- **TONE**: Educational, strict, structured, but "Peer-to-Peer".
+- **ANTI-AI RULES**:
+    - BANNED WORDS: "Furthermore", "Thus", "Consequently", "Utilize" (use "Use"), "Leverage".
+    - Do not summarize the obvious ("This function adds two numbers"). Explain *why* it exists.
+    - No "Introduction" paragraphs that say nothing. Get to the architecture immediately.
+
+### STRUCTURE (MANDATORY):
+1.  **Architecture Overview**:
+    - ASCII Tree of the project.
+    - Explanation of the "Core Loop" or main logic flow.
+2.  **Key Components**:
+    - Table listing major classes/functions and their responsibility.
+3.  **Extension Guide (The "Zero-to-Hero" Tutorial)**:
+    - A step-by-step tutorial on how to add a *new feature*.
+    - Example: "How to add a new Command" or "How to add a new AI Model".
+    - MUST include code snippets for each step.
+4.  **configuration**:
+    - Explanation of `config.yaml` and `.env` keys.
+
+### CONSTRAINTS:
+- Code blocks must have language tags (python, bash).
+- Be extremely specific about file paths.
+```
+
+---
+[Back to README](../../README.md)

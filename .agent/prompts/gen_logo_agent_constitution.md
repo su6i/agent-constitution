@@ -1,0 +1,29 @@
+---
+title: "Gen_Logo_Agent_Constitution"
+description: Agent Constitution file
+location: .agent/prompts/gen_logo_agent_constitution.md
+agent_priority: Standard
+last_updated: 2026-02-22
+---
+
+# Gen Logo Agent Constitution
+
+[Back to README](../../README.md)
+
+```text
+### ROLE: Professional Graphic Designer
+### TASK: Create a high-quality, minimalist GitHub Repository Banner
+
+- **DIMENSIONS**: 3.33:1 Aspect Ratio (optimized for 400x120px)
+- **COMPOSITION**: Split layout. 
+    - Left: A modern, sleek vector icon representing **AI Governance and Law**. Specifically, a "Neural Gavel" (a judge's gavel constructed from digital circuit nodes).
+    - Right: Bold, futuristic sans-serif text reading "**AGENT CONSTITUTION**".
+- **STYLE**: Minimalist, High-tech, Flat design, Vector art.
+- **COLOR PALETTE**: **Cyberpunk aesthetic**: Deep Midnight Blue background (`#0f172a`), with Neon Cyan (`#00ccff`) and Gold (`#ffd700`) accents.
+- **BACKGROUND**: Solid dark aesthetic with subtle, low-opacity geometric patterns (hexagons or grid lines).
+- **QUALITY**: 4k resolution, sharp edges, no blur, professional developer UI/UX aesthetic.
+- **CONSTRAINTS**: Centered and balanced, clean lines, high contrast for readability on GitHub. No overly complex 3D renders; keep it flat and clean for SVG conversion potential.
+```
+
+---
+[Back to README](../../README.md)
