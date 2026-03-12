@@ -1,14 +1,23 @@
 ---
-title: "Thumbnail Psychology"
+title: "Thumbnail & Visual Psychology"
 description: Thumbnail & Visual Psychology Technical Encyclopedia: Eye-Tracking, Neural Color Grading, CTR A/B Testing, and Visual Syntax.
-location: .agent/skills/thumbnail-psychology.md
+location: .agent/skills/visual-thumbnail-psychology.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Visual/AI Production Skills:**
+- [AI Cinematography](visual-ai-cinematography.md) - Virtual Camera Paths, Frame Consistency, Lighting
+- [Visual Character Consistency](visual-character-consistency.md) - IP-Adapter FaceID, InstantID, LoRA Training
+- [Visual Director (Procedural)](visual-director-procedural.md) - Scene Mapping, Automated Camera Pathing
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: Thumbnail & Visual Psychology (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for the design of high-conversion thumbnails and visual assets utilizing cognitive psychology and neural data analysis in the 2025 ecosystem. This document defines the standards for eye-tracking optimization, CIELAB color grading, and Bayesian A/B testing models.
 
@@ -98,6 +107,11 @@ Analyzing the relationship between thumbnail "Vibrancy" (numerical score) and "A
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Target CTR:** > 8% for educational content; > 12% for entertainment.
 *   **Salience Target:** 70% of attention should be captured by the "Primary Focus" within the first 100ms of viewing.
+
+## 🔗 Related Visual/AI Production Skills
+- **[AI Cinematography](visual-ai-cinematography.md)** - Virtual Camera Paths, Frame Consistency, Lighting
+- **[Visual Character Consistency](visual-character-consistency.md)** - IP-Adapter FaceID, InstantID, LoRA Training
+- **[Visual Director (Procedural)](visual-director-procedural.md)** - Scene Mapping, Automated Camera Pathing
 
 ---
 [Back to README](../../README.md)

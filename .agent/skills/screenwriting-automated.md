@@ -1,14 +1,26 @@
 ---
 title: "Automated Scriptwriting"
 description: Automated Scriptwriting Technical Encyclopedia: Moltbot Integration, Leitner-Driven Vocabulary, CLIL Story Generation, and Emotion Tagging.
-location: .agent/skills/automated-scriptwriting.md
+location: .agent/skills/screenwriting-automated.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Screenwriting Skills:**
+- [Screenwriting Frameworks](screenwriting-frameworks.md) - 3-Act Design, Tension Arcs, Character Modeling
+- [YouTube Scriptwriting](screenwriting-youtube.md) - Information Gaps, AVD Optimization, Zeigarnik Effect
+
+**🔗 Related Content Creation:**
+- [Storytelling TTS System](storytelling-tts-m4-system.md) - Multi-model voice orchestration
+- [Narrative Frameworks](storytelling-narrative-frameworks.md) - Character arcs & emotional DNA
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: Automated Scriptwriting Pipeline
 
-[Back to README](../../README.md)
+
 
 Technical protocols for **100% automated** script generation using Claude/LLM orchestration, Leitner vocabulary integration, and CLIL methodology. This document defines the complete pipeline from topic selection to tagged screenplay.
 
@@ -331,6 +343,14 @@ async def daily_content_pipeline():
 | Vocabulary coverage | >90% |
 | Validation pass rate | >80% first try |
 | Human review | Optional (QA only) |
+
+## 🔗 Related Screenwriting Skills
+- **[Screenwriting Frameworks](screenwriting-frameworks.md)** - 3-Act Design, Tension Arcs, Character Modeling
+- **[YouTube Scriptwriting](screenwriting-youtube.md)** - Information Gaps, AVD Optimization, Zeigarnik Effect
+
+## 🔗 Related Content Creation
+- **[Storytelling TTS System](storytelling-tts-m4-system.md)** - Multi-model voice orchestration
+- **[Narrative Frameworks](storytelling-narrative-frameworks.md)** - Character arcs & emotional DNA
 
 ---
 

@@ -10,6 +10,10 @@ last_updated: 2026-02-22
 
 [Back to README](../../README.md)
 
+**🔗 Related Data Skills:**
+- [Data Science Workflow](data-science-workflow.md)
+- [Data Visualization](data-visualization.md)
+
 Comprehensive technical protocols for industrial-grade data science pipelines in the 2025 ecosystem. This document defines the standards for high-performance data processing, memory-efficient analytical querying, and robust DataOps integration.
 
 ---
@@ -141,6 +145,12 @@ The foundational memory layer for 2025 data engineering.
 *   **OOM (Out of Memory) Check:** Verifying that `pl.collect()` is only called on the final, filtered result set.
 *   **Type Coercion Failures:** Handling mismatched types across multiple Parquet files via `schema_overwrites`.
 *   **Disk Spill Monitoring:** Checking DuckDB's `temp_directory` for signs of excessive disk spilling during large joins.
+
+---
+## 🔗 Related Data Skills
+
+- [Data Science Workflow](data-science-workflow.md)
+- [Data Visualization](data-visualization.md)
 
 ---
 [Back to README](../../README.md)

@@ -1,14 +1,23 @@
 ---
-title: "Ai Cinematography"
+title: "AI Cinematography"
 description: AI Cinematography Technical Encyclopedia: Virtual Camera Paths, Motion Brushes, Frame Consistency, and Lighting Orchestration.
-location: .agent/skills/ai-cinematography.md
+location: .agent/skills/visual-ai-cinematography.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Visual/AI Production Skills:**
+- [Visual Character Consistency](visual-character-consistency.md) - IP-Adapter FaceID, InstantID, LoRA Training
+- [Visual Director (Procedural)](visual-director-procedural.md) - Scene Mapping, Automated Camera Pathing
+- [Thumbnail Psychology](visual-thumbnail-psychology.md) - Eye-Tracking, CTR A/B Testing
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: AI Cinematography (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for the orchestration of virtual camera work, motion control, and visual storytelling using Generative AI video models (e.g., RunWay Gen-3, Luma Dream Machine, Sora) in the 2025 ecosystem. This document defines the standards for motion-brush parameters, seed-based consistency, and AI lighting orchestration.
 
@@ -99,6 +108,11 @@ Generating and manipulating light sources within the generative latent space.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Coherence Score:** Target > 0.8 on human-blind tests for temporal stability.
 *   **Generation Time:** Target < 2m per 5 seconds of 1080p24 video on modern H100 clusters.
+
+## 🔗 Related Visual/AI Production Skills
+- **[Visual Character Consistency](visual-character-consistency.md)** - IP-Adapter FaceID, InstantID, LoRA Training
+- **[Visual Director (Procedural)](visual-director-procedural.md)** - Scene Mapping, Automated Camera Pathing
+- **[Thumbnail Psychology](visual-thumbnail-psychology.md)** - Eye-Tracking, CTR A/B Testing
 
 ---
 [Back to README](../../README.md)

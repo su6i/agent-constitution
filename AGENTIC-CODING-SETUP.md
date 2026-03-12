@@ -252,18 +252,15 @@ The tools below cover gaps at zero recurring cost. Use alongside the core VS Cod
 
 > **Practical recommendation:** Install **Roo Code** alongside Cline — it's free, uses the same API keys, and its specialized modes (Architect, Debug) complement Cline's general-purpose agent. For terminal, **Ghostty** is the recommended free Warp replacement.
 
-> ⚠️ **Firebase Studio (IDX) — توصیه نمی‌شود برای کار جدی (مارس ۲۰۲۶):**
-> Google's browser-based cloud IDE. Still in public beta — unstable, laggy, and Gemini's inline coding quality falls below Claude/GPT-4.1. No offline support.
->
-> | | Firebase Studio (IDX) | VS Code | Cursor | GitHub Codespaces |
-> |---|---|---|---|---|
-> | Environment | ☁️ Cloud-only | 💻 Local | 💻 Local | ☁️ Cloud |
-> | Price | Free\* (beta) | Free | $20/mo | ~$0.18/hr |
-> | AI Quality | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ (w/Cline) | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-> | Stability | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-> | Offline | ❌ | ✅ | ✅ | ❌ |
->
-> **Verdict:** VS Code + Cline + BYOK APIs gives better AI, offline capability, and full control at the same $0 cost. Skip IDX until it exits beta and proves stability.
+**IDE quick comparison (Firebase/IDX column removed):**
+
+| | VS Code | Cursor | GitHub Codespaces |
+|---|---|---|---|
+| Environment | 💻 Local | 💻 Local | ☁️ Cloud |
+| Price | Free | $20/mo | ~$0.18/hr |
+| AI Quality | ⭐⭐⭐⭐⭐ (with Cline/Copilot) | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Stability | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Offline | ✅ | ✅ | ❌ |
 
 ### 4.1 Jules Deep-Dive: Asynchronous Agent Workflow
 
@@ -660,10 +657,10 @@ cp config_example.py config.py
 
 | File | Description |
 |---|---|
-| [`ai_router.py`](./ai-router/ai_router.py) | Core engine: `AIRouter`, `ComplexityAnalyzer`, `CacheManager`, `CostTracker`, `CircuitBreaker`, `ClaudeClient`, `DeepSeekClient` |
-| [`config_example.py`](./ai-router/config_example.py) | All four routing strategies with complete `ModelConfig` pricing tables |
-| [`router_cli.py`](./ai-router/router_cli.py) | Full CLI with interactive, single-prompt, batch, stats, and cost-estimation modes |
-| [`requirements.txt`](./ai-router/requirements.txt) | Python dependency list |
+| [`ai_router.py`](.agent/skills/ai-router/ai_router.py) | Core engine: `AIRouter`, `ComplexityAnalyzer`, `CacheManager`, `CostTracker`, `CircuitBreaker`, `ClaudeClient`, `DeepSeekClient` |
+| [`config_example.py`](.agent/skills/ai-router/config_example.py) | All four routing strategies with complete `ModelConfig` pricing tables |
+| [`router_cli.py`](.agent/skills/ai-router/router_cli.py) | Full CLI with interactive, single-prompt, batch, stats, and cost-estimation modes |
+| [`requirements.txt`](.agent/skills/ai-router/requirements.txt) | Python dependency list |
 
 **Architecture overview:**
 
@@ -684,22 +681,22 @@ A leaner, production-ready version using the **OpenAI-compat interface** for all
 
 ```python
 """
-router.py — مسیریاب هوشمند LLM
-تصمیم‌گیری خودکار + fallback + کنترل هزینه + لاگ
+router.py — Intelligent LLM Router
+Auto model selection + fallback + cost control + logging
 """
 import asyncio, json, os, time, datetime, re
 from pathlib import Path
 from openai import AsyncOpenAI
 
-# ─── تنظیمات ──────────────────────────────────────────────────────────
+# ─── Configuration ─────────────────────────────────────────────────────
 
 LIMITS = {"daily": 1.0, "weekly": 5.0, "monthly": 25.0}
 LOG_FILE = Path("memory-bank/costLog.json")
 
-# ─── تشخیص پیچیدگی با امتیازدهی کلمه‌کلیدی ──────────────────────────
+# ─── Complexity Detection via Keyword Scoring ────────────────────────
 
 SIGNALS = {
-    # امتیاز بالا = مدل قوی‌تر
+    # high score = stronger model
     "critical": {
         "keywords": [
             "معماری", "architect", "design pattern", "امنیت", "security",
@@ -721,21 +718,21 @@ SIGNALS = {
             "تست بنویس", "write test", "bug fix", "رفع باگ",
             "crud", "boilerplate", "اضافه کن", "add function",
         ],
-        "score": -5,  # امتیاز منفی = مدل ارزان‌تر
+        "score": -5,  # negative score = cheaper model
     },
 }
 
 
 def analyze_prompt(prompt: str) -> tuple[int, str]:
     """
-    prompt را تحلیل کن و امتیاز پیچیدگی برگردان.
-    returns: (score 0-100, reasoning)
+    Analyze the prompt and return a complexity score.
+    returns: (score 0-100, reasoning string)
     """
-    score = 30  # امتیاز پایه
+    score = 30  # base score
     reasons = []
     prompt_lower = prompt.lower()
 
-    # کلمات کلیدی
+    # keyword scoring
     for level, data in SIGNALS.items():
         for kw in data["keywords"]:
             if kw.lower() in prompt_lower:
@@ -743,13 +740,13 @@ def analyze_prompt(prompt: str) -> tuple[int, str]:
                 reasons.append(f"{level}:{kw}")
                 break
 
-    # طول prompt
+    # prompt length
     word_count = len(prompt.split())
     if word_count > 200: score += 20
     elif word_count > 80: score += 10
     elif word_count < 20: score -= 10
 
-    # تعداد فایل ذکرشده
+    # file reference count
     file_mentions = len(re.findall(r'\b\w+\.py\b', prompt))
     if file_mentions > 3: score += 15
     elif file_mentions > 1: score += 8
@@ -760,13 +757,13 @@ def analyze_prompt(prompt: str) -> tuple[int, str]:
 
 
 def score_to_model(score: int) -> str:
-    """امتیاز عددی → مدل"""
+    """Numeric score → model selection."""
     if score >= 66: return "claude"
     if score >= 31: return "minimax"
     return "deepseek"
 
 
-# ─── محاسبه هزینه ─────────────────────────────────────────────────────
+# ─── Cost Calculation ──────────────────────────────────────────────────
 
 COST_PER_TOKEN = {
     "deepseek":  {"input": 0.028e-6, "output": 0.42e-6},   # cache-hit
@@ -781,7 +778,7 @@ def estimate_cost(provider: str, in_tokens: int, out_tokens: int) -> float:
 
 
 def log_and_check(provider: str, cost: float) -> list[str]:
-    """هزینه را لاگ کن و هشدارها را برگردان"""
+    """Log cost and return threshold warnings."""
     LOG_FILE.parent.mkdir(exist_ok=True)
     today = datetime.date.today().isoformat()
     data = json.loads(LOG_FILE.read_text()) if LOG_FILE.exists() else {}
@@ -789,7 +786,7 @@ def log_and_check(provider: str, cost: float) -> list[str]:
     data[today][provider] += cost
     LOG_FILE.write_text(json.dumps(data, indent=2))
 
-    # محاسبه مجموع‌ها
+    # compute period aggregates
     week_ago = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
     month_start = datetime.date.today().replace(day=1).isoformat()
     all_days = {k: sum(v.values()) for k, v in data.items()}
@@ -815,7 +812,7 @@ def log_and_check(provider: str, cost: float) -> list[str]:
 # ─── Circuit Breaker ───────────────────────────────────────────────────
 
 class CircuitBreaker:
-    """سه fail متوالی → ۵ دقیقه pause"""
+    """Three consecutive failures → 5-minute pause."""
     def __init__(self):
         self._state: dict[str, tuple[int, float]] = {}
 
@@ -824,7 +821,7 @@ class CircuitBreaker:
         if fails >= 3 and time.time() - ts < 300:
             return True
         if fails >= 3:
-            self._state[provider] = (0, 0)  # reset بعد از ۵ دقیقه
+            self._state[provider] = (0, 0)  # reset after 5 minutes
         return False
 
     def record_fail(self, provider: str):
@@ -835,7 +832,7 @@ class CircuitBreaker:
         self._state.pop(provider, None)
 
 
-# ─── Router اصلی ──────────────────────────────────────────────────────
+# ─── Main Router ───────────────────────────────────────────────────────
 
 class LLMRouter:
     def __init__(self):
@@ -859,7 +856,7 @@ class LLMRouter:
             "minimax":  "minimax-m2.5",
             "claude":   "claude-sonnet-4-5-20251001",
         }
-        # ترتیب fallback برای هر مدل اصلی
+        # fallback chain per primary model
         self._fallback = {
             "deepseek": ["minimax", "claude"],
             "minimax":  ["deepseek", "claude"],
@@ -885,23 +882,23 @@ class LLMRouter:
         verbose: bool = True,
     ) -> str:
         """
-        API اصلی — این را صدا کنید.
-        force_provider: اگر نیاز به override دارید (مثلاً همیشه claude)
+        Main API — call this method.
+        force_provider: override auto-selection (e.g. always use claude)
         """
-        # تحلیل prompt
+        # analyze prompt complexity
         score, reasoning = analyze_prompt(prompt)
         primary = force_provider or score_to_model(score)
 
         if verbose:
             print(f"🔍 {reasoning} → {primary}")
 
-        # ساخت messages
+        # build messages list
         messages = []
         if system:
             messages.append({"role": "system", "content": system})
         messages.append({"role": "user", "content": prompt})
 
-        # امتحان مدل اصلی + fallback ها
+        # try primary model then fallbacks
         chain = [primary] + self._fallback[primary]
         for provider in chain:
             if self.breaker.is_open(provider):
@@ -911,7 +908,7 @@ class LLMRouter:
                 content, usage = await self._call(provider, messages, max_tokens)
                 self.breaker.record_success(provider)
 
-                # لاگ هزینه و هشدار
+                # log cost and check thresholds
                 cost = estimate_cost(
                     provider,
                     getattr(usage, "prompt_tokens", 500),
@@ -930,27 +927,27 @@ class LLMRouter:
                 self.breaker.record_fail(provider)
                 continue
 
-        raise RuntimeError("همه provider ها fail شدند")
+        raise RuntimeError("All providers failed")
 
 
-# ─── singleton برای استفاده در کل پروژه ───────────────────────────────
+# ─── Project-wide Singleton ─────────────────────────────────────────────
 router = LLMRouter()
 
 
-# ─── استفاده ساده ─────────────────────────────────────────────────────
+# ─── Simple Usage Example ──────────────────────────────────────────────
 if __name__ == "__main__":
     async def demo():
-        # خودکار → DeepSeek (ساده)
-        r1 = await router.generate("یک تابع بنویس که لیست اعداد را sort کند")
+        # auto → DeepSeek (simple task)
+        r1 = await router.generate("Write a function that sorts a list of numbers")
 
-        # خودکار → MiniMax (متوسط)
-        r2 = await router.generate("این ماژول را refactor کن تا از dataclass استفاده کند")
+        # auto → MiniMax (moderate task)
+        r2 = await router.generate("Refactor this module to use dataclasses")
 
-        # خودکار → Claude (پیچیده)
-        r3 = await router.generate("معماری این سیستم authentication را review کن")
+        # auto → Claude (complex task)
+        r3 = await router.generate("Review the architecture of this authentication system")
 
         # force override
-        r4 = await router.generate("هر سوالی", force_provider="claude")
+        r4 = await router.generate("Any question here", force_provider="claude")
 
     asyncio.run(demo())
 ```
@@ -1722,28 +1719,28 @@ project/
 ```markdown
 ---
 name: core
-description: قوانین اصلی — همیشه اعمال کن
+description: Core rules — always apply
 alwaysApply: true
 ---
 
-## کنترل هزینه (CRITICAL)
-- قبل از هر task پیچیدگی اعلام کن: TRIVIAL / MODERATE / CRITICAL
-- TRIVIAL → DeepSeek (ارزان‌ترین) | MODERATE → MiniMax M2.5 | CRITICAL → Claude Sonnet 4.6
-- حداکثر ۲۰ request per task — بعد STOP و اطلاع‌رسانی
-- اگر مطمئن نیستی: یک سوال، نه ۱۰ تا
+## Cost Control (CRITICAL)
+- Declare complexity before every task: TRIVIAL / MODERATE / CRITICAL
+- TRIVIAL → DeepSeek (cheapest) | MODERATE → MiniMax M2.5 | CRITICAL → Claude Sonnet 4.6
+- Maximum 20 requests per task — then STOP and report
+- If unsure: ask one question, not ten
 
-## ابزارها
-- Package manager: همیشه uv (هرگز pip مستقیم)
+## Tools
+- Package manager: always uv (never pip directly)
 - Formatter: ruff format
 - Type checker: mypy
 - Test runner: pytest
 
-## قوانین اجباری
-- هرگز API key در کد ننویس — همیشه از .env استفاده کن
-- یک task = یک commit
-- قبل از هر task: memory-bank/activeContext.md بخوان
-- بعد از هر task: activeContext.md آپدیت کن
-- commit format: feat: / fix: / test: / refactor: / docs:
+## Mandatory Rules
+- Never write API keys in code — always use .env
+- One task = one commit
+- Before every task: read memory-bank/activeContext.md
+- After every task: update activeContext.md
+- Commit format: feat: / fix: / test: / refactor: / docs:
 ```
 
 ---
@@ -1752,29 +1749,29 @@ alwaysApply: true
 ```markdown
 ---
 name: router-guide
-description: راهنمای استفاده از router.py برای مدل‌های غیر Gemini
+description: Guide to using router.py for non-Gemini models
 ---
 
-## مشکل
-Antigravity فقط Gemini 3 Pro داخلی دارد. برای دسترسی به DeepSeek
-یا Claude Sonnet باید از router.py استفاده کنیم.
+## Problem
+Antigravity only has Gemini 3 Pro built-in. To access DeepSeek
+or Claude Sonnet you must use router.py.
 
-## راه‌حل A — استفاده مستقیم از کد
+## Solution A — Direct Code Usage
 ```python
 from src.utils.router import router
 import asyncio
 
-result = asyncio.run(router.generate("سوال یا task شما اینجا"))
+result = asyncio.run(router.generate("Your question or task here"))
 ```
 
-## راه‌حل B — ارجاع به VS Code+Cline
-وقتی task نیاز به DeepSeek/Claude دارد، به کاربر بگو:
-"این task نیاز به [DeepSeek/Claude] دارد. لطفاً به VS Code+Cline بروید."
+## Solution B — Delegate to VS Code+Cline
+When a task requires DeepSeek/Claude, tell the user:
+"This task requires [DeepSeek/Claude]. Please switch to VS Code+Cline."
 
-## کِی VS Code+Cline نیاز است
-- Tasks با DeepSeek (ارزان‌تر از Gemini در مقیاس) → TRIVIAL + پر تکرار
-- code review امنیتی نهایی با Claude Sonnet → CRITICAL
-- Sessions طولانی که Antigravity rate limit می‌خورد
+## When VS Code+Cline is Required
+- Tasks for DeepSeek (cheaper than Gemini at scale) → TRIVIAL + high-frequency
+- Final security code review with Claude Sonnet → CRITICAL
+- Long sessions where Antigravity hits rate limits
 ```
 
 ---
@@ -2068,76 +2065,76 @@ if __name__ == "__main__":
 
 ## � 11.3 Low-Cost Optimization Patterns
 
-پنج تکنیک مستقل برای کاهش هزینه‌ی agentic coding — هر کدام به تنهایی قابل پیاده‌سازی:
+Five independent techniques for reducing agentic coding costs — each can be implemented standalone:
 
 ---
 
-**1. DeepSeek V3.2 — Reasoning Toggle (بر اساس نیاز)**
+**1. DeepSeek V3.2 — Reasoning Toggle (On-Demand)**
 
-V3.2 از طریق OpenRouter اجازه می‌دهد reasoning را به صورت per-request روشن یا خاموش کنی. در mode استاندارد هزینه کمتر است:
+The DeepSeek direct API lets you toggle reasoning on or off per-request. Standard mode is cheaper:
 
 ```python
-# Standard mode — برای کارهای معمولی (~$0.25/M input)
+# Standard mode — routine tasks (~$0.25/M input)
 {"model": "deepseek/deepseek-v3.2", "reasoning": {"enabled": False}}
 
-# Reasoning mode — برای debugging و algorithm (~$0.40/M input، کیفیت بالاتر)
+# Reasoning mode — debugging and algorithmic tasks (~$0.40/M input, higher quality)
 {"model": "deepseek/deepseek-v3.2", "reasoning": {"enabled": True}}
 
-# قانون router: فقط وقتی task شامل کلیدواژه‌های debug/algorithm/complex است → True
+# Router rule: enable only when task contains debug/algorithm/complex keywords
 ```
 
-**صرفه‌جویی:** Reasoning mode ~30-50% token بیشتر مصرف می‌کند. خاموش نگه داشتن آن برای 70% کارها → ~15-20% کاهش هزینه‌ی میانگین.
+**Savings:** Reasoning mode consumes ~30-50% more tokens. Keeping it off for 70% of tasks → ~15-20% average cost reduction.
 
 ---
 
-**2. Local Model via Ollama — صفر هزینه برای کارهای کوچک**
+**2. Local Model via Ollama — Zero Cost for Small Tasks**
 
-برای کارهای trivial (یک خط bug، rename، docstring) از مدل لوکال استفاده کن و API call را حذف کن:
+For trivial tasks (single-line bug, rename, docstring) use a local model and eliminate the API call entirely:
 
 ```bash
-# نصب Ollama (macOS)
+# Install Ollama (macOS)
 brew install ollama
 
-# Qwen2.5-Coder 7B — بهترین مدل کدنویسی لوکال (4.7GB دانلود)
+# Qwen2.5-Coder 7B — best local coding model (4.7 GB download)
 ollama pull qwen2.5-coder:7b
 
-# DeepSeek R1 Distill Qwen 7B — برای math/reasoning لوکال (4.5GB دانلود)
+# DeepSeek R1 Distill Qwen 7B — for local math/reasoning (4.5 GB download)
 ollama pull deepseek-r1:7b
 
-# تنظیم در Cline:
+# Configure in Cline:
 # Provider: Ollama | Base URL: http://localhost:11434 | Model: qwen2.5-coder:7b
 ```
 
-**⚙️ نیازمندی‌های سخت‌افزاری:**
+**⚙️ Hardware Requirements:**
 
-| مدل | RAM مورد نیاز | VRAM (GPU) | Apple Silicon |
+| Model | RAM Required | VRAM (GPU) | Apple Silicon |
 |---|---|---|---|
-| **Qwen2.5-Coder 7B** | **8GB** ⭐ | 6GB VRAM | M1/M2 8GB: ~25 tok/sec |
-| **DeepSeek R1 Distill 7B** | **8GB** ⭐ | 6GB VRAM | M1/M2 8GB: ~20 tok/sec |
-| Qwen2.5-Coder 14B | 16GB | 10GB VRAM | M2 Pro 16GB: ~30 tok/sec |
-| DeepSeek R1 Distill 32B | 32GB | 24GB VRAM | M3 Max/Ultra فقط |
+| **Qwen2.5-Coder 7B** | **8 GB** ⭐ | 6 GB VRAM | M1/M2 8 GB: ~25 tok/sec |
+| **DeepSeek R1 Distill 7B** | **8 GB** ⭐ | 6 GB VRAM | M1/M2 8 GB: ~20 tok/sec |
+| Qwen2.5-Coder 14B | 16 GB | 10 GB VRAM | M2 Pro 16 GB: ~30 tok/sec |
+| DeepSeek R1 Distill 32B | 32 GB | 24 GB VRAM | M3 Max/Ultra only |
 
-> مدل‌های 7B روی MacBook Air M1/M2 با 8GB RAM از Metal GPU acceleration پشتیبانی می‌شوند — نیازی به GPU مجزا نیست. مدل 14B نیاز به حداقل 16GB RAM دارد.
+> 7B models on MacBook Air M1/M2 with 8 GB RAM use Metal GPU acceleration — no discrete GPU required. The 14B model requires at least 16 GB RAM.
 
-**بهترین موارد استفاده لوکال:** rename variable, format function, fix typo, write docstring for one function
+**Best local use cases:** rename variable, format function, fix typo, write docstring for one function
 
-**کِی استفاده نکن:** multi-file refactor, complex business logic, dependency analysis
+**Do not use locally for:** multi-file refactor, complex business logic, dependency analysis
 
 ---
 
-**3. Batch Prompting به جای Round-Trips**
+**3. Batch Prompting Instead of Round-Trips**
 
-هر API call = overhead. پنج سؤال جداگانه = 5 call. همه را یکجا بفرست = 1 call:
+Every API call has overhead. Five separate questions = 5 calls. Send them all at once = 1 call:
 
 ```python
-# ❌ گران: 5 API call جداگانه
+# ❌ Expensive: 5 separate API calls
 review = await llm("Review this function")
 docs   = await llm("Write docstring for this function")
 tests  = await llm("Write unit tests for this function")
 types  = await llm("Add type hints to this function")
 lint   = await llm("Fix linting issues in this function")
 
-# ✅ ارزان: 1 API call، یک‌پنجم هزینه
+# ✅ Cheap: 1 API call, one-fifth the cost
 result = await llm("""For the function below, return all 5 in sequence:
 1. Code review (max 3 sentences)
 2. Docstring (Google format)
@@ -2150,61 +2147,61 @@ Function:
 """)
 ```
 
-**صرفه‌جویی:** ~5× کاهش API call cost + context overhead به اشتراک گذاشته می‌شود به جای تکرار.
+**Savings:** ~5× reduction in API call cost + shared context overhead instead of repeating it.
 
 ---
 
-**4. Cache-Aware Prompt Structure (صرفه‌جویی ۱۰ برابری روی Claude)**
+**4. Cache-Aware Prompt Structure (10× Savings on Claude)**
 
-داده‌های رسمی Anthropic (مارس ۲۰۲۶): System prompt cached = **$0.30/M** به جای $3/M — کاهش ۱۰ برابری.
+Official Anthropic data (March 2026): cached system prompt = **$0.30/M** vs $3/M — a 10× reduction.
 
 ```python
-# ✅ درست: system prompt ثابت — cache hit → $0.30/M
+# ✅ Correct: constant system prompt — cache hit → $0.30/M
 SYSTEM_PROMPT = """You are a Python expert. Rules:
 - Stack: Python 3.12, uv, pytest, ruff
 - Never use pip directly, always uv
 {full_clinerules_content}
-"""  # این بخش cache می‌شه — character-for-character ثابت نگه دار
+"""  # This section is cached — keep it character-for-character identical
 
 def make_request(user_task: str) -> dict:
     return {
         "model": "claude-sonnet-4-5-20251001",
-        "system": SYSTEM_PROMPT,       # ← ثابت (cache hit)
-        "messages": [{"role": "user", "content": user_task}],  # ← متغیر
+        "system": SYSTEM_PROMPT,       # ← constant (cache hit)
+        "messages": [{"role": "user", "content": user_task}],  # ← variable per request
     }
 
-# ❌ اشتباه: اضافه کردن timestamp یا session ID به system prompt
-# → یک کاراکتر فرق = cache miss = 10× گران‌تر
+# ❌ Wrong: adding timestamp or session ID to the system prompt
+# → one character difference = cache miss = 10× more expensive
 ```
 
-**قانون طلایی:** System prompt + `.clinerules` + `AGENTS.md` کامل را به عنوان system message ثابت نگه دار. هرگز timestamp، session ID، یا داده‌ی متغیر به system prompt اضافه نکن. همین قانون روی DeepSeek هم صدق می‌کند ($0.028/M cached vs $0.28/M uncached — ۱۰× فرق).
+**Golden rule:** Keep the full system prompt + `.clinerules` + `AGENTS.md` as a fixed system message. Never append timestamps, session IDs, or variable data to the system prompt. The same applies to DeepSeek ($0.028/M cached vs $0.28/M uncached — 10× difference).
 
 ---
 
-**5. DeepSeek R1 Distill Qwen 7B — Reasoning ارزان برای Math/Algorithm**
+**5. DeepSeek R1 Distill Qwen 7B — Low-Cost Reasoning for Math/Algorithm**
 
-برای مسائل ریاضی، طراحی algorithm، یا debugging پیچیده — بدون نیاز به Claude:
+For mathematical problems, algorithm design, or complex debugging — without needing Claude:
 
-**از طریق OpenRouter** (API):
+**Via DeepSeek API** (or OpenRouter):
 ```
 Model ID: deepseek/deepseek-r1-distill-qwen-7b
 ```
 
-**از طریق Ollama** (لوکال — رایگان):
+**Via Ollama** (local — free):
 ```bash
-ollama pull deepseek-r1:7b   # نیاز: 8GB RAM (Apple Silicon M1+) یا 6GB VRAM
+ollama pull deepseek-r1:7b   # requires: 8 GB RAM (Apple Silicon M1+) or 6 GB VRAM
 ```
 
-**مقایسه گزینه‌های reasoning برای task‌های روزانه:**
+**Reasoning options comparison for daily tasks:**
 
-| گزینه | هزینه/task | کیفیت | بهترین برای |
+| Option | Cost/task | Quality | Best for |
 |---|---|---|---|
-| R1 Distill 7B (Ollama — لوکال) | **$0** | خوب | math ساده، algorithm |
-| DeepSeek V3.2 reasoning=true | ~$0.002 | عالی | debugging پیچیده |
-| DeepSeek Speciale (OpenRouter) | ~$0.01 | بسیار عالی | proof-level reasoning |
-| Claude Sonnet 4.6 | ~$0.15 | بسیار عالی | architecture + security |
+| R1 Distill 7B (Ollama — local) | **$0** | Good | simple math, algorithms |
+| DeepSeek V3.2 reasoning=true | ~$0.002 | Excellent | complex debugging |
+| DeepSeek Speciale (OpenRouter) | ~$0.01 | Outstanding | proof-level reasoning |
+| Claude Sonnet 4.6 | ~$0.15 | Outstanding | architecture + security |
 
-> **توصیه:** برای debugging و algorithm در کارهای روزانه → `deepseek-r1:7b` لوکال رایگان. برای مشکلات سخت‌تر → DeepSeek V3.2 با `reasoning: true`. Claude فقط برای architecture و security review.
+> **Recommendation:** For daily debugging and algorithm tasks → `deepseek-r1:7b` free locally. For harder problems → DeepSeek V3.2 with `reasoning: true`. Claude only for architecture and security review.
 
 ---
 

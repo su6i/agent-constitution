@@ -1,14 +1,24 @@
 ---
-title: "Pytorch Sklearn Integration"
+title: "PyTorch & Sklearn Integration"
 description: PyTorch & Sklearn Integration Technical Encyclopedia: TorchDynamo, ONNX Optimization, Quantization, and Skorch Protocols.
-location: .agent/skills/pytorch-sklearn-integration.md
+location: .agent/skills/python-pytorch-sklearn.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Python Skills:**
+- [Python Core Standards](python-core-standards.md) - CPython Internals, Memory Optimization, Security
+- [Python Containerization](python-containerization.md) - Docker, Distroless Images, Security Hardening
+- [Python GitHub Setup](python-github-setup.md) - CI/CD Workflows, Secret Management, Branch Protection
+- [Pandas & Scikit-learn](python-pandas-sklearn.md) - Memory Optimization, Pipeline Orchestration
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: PyTorch & Sklearn Integration (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for the integration of modern deep learning (PyTorch 2.x+) and classical machine learning (Scikit-learn) in the 2025 ecosystem. This document defines the standards for hybrid model architecture, automated performance compilation, and production-grade deployment via the ONNX ecosystem.
 
@@ -115,6 +125,12 @@ The cross-platform industry standard for high-performance inference.
 | **ResNet Infr** | Compiled | 8.8 | 2.5 | 3.5x |
 | **BERT-Base** | Eager | 52.1 | 12.8 | 4.1x |
 | **BERT-Base** | ONNX-Opt | 18.2 | 6.2 | 2.9x |
+
+## 🔗 Related Python Skills
+- **[Python Core Standards](python-core-standards.md)** - CPython Internals, Memory Optimization, Security
+- **[Python Containerization](python-containerization.md)** - Docker, Distroless Images, Security Hardening
+- **[Python GitHub Setup](python-github-setup.md)** - CI/CD Workflows, Secret Management, Branch Protection
+- **[Pandas & Scikit-learn](python-pandas-sklearn.md)** - Memory Optimization, Pipeline Orchestration
 
 ---
 [Back to README](../../README.md)

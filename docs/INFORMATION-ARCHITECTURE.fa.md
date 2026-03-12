@@ -41,7 +41,6 @@ last_updated: 2026-03-12
 | [bin](../bin) | لایه automation | اسکریپت‌ها و ابزارهای قابل اجرا |
 | [docs](../docs) | لایه توضیح تکمیلی | meta-doc و منابع مکمل |
 | [memory-bank](../memory-bank) | حافظه عملیاتی | context و cost log |
-| [roadmap](../roadmap) | جهت توسعه | مسیر تکامل methodology |
 | [CHANGELOG.md](../CHANGELOG.md) | تاریخچه | ثبت تغییرات مهم |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | سیاست مشارکت | نحوه تغییر امن مخزن |
 

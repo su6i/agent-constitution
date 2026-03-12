@@ -1,14 +1,18 @@
 ---
-title: "Storyteller Clil"
+title: "CLIL Educational Storytelling"
 description: CLIL Educational Screenwriting Technical Encyclopedia: 4Cs Framework, Leitner Integration, Vocabulary Tracking, and Implicit Pedagogy.
-location: .agent/skills/storyteller-clil.md
+location: .agent/skills/storytelling-clil-education.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: CLIL Educational Screenwriting (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**📚 Related Storytelling Skills:**
+- [TTS M4 System](storytelling-tts-m4-system.md) - Multi-model TTS for audio production
+- [Narrative Frameworks](storytelling-narrative-frameworks.md) - Story structure & character arcs
 
 Comprehensive technical protocols for the generation of educational scripts utilizing the CLIL (Content and Language Integrated Learning) framework and Leitner Spaced Repetition systems. This document defines the standards for content-first pedagogy, vocabulary frequency tracking, and implicit language instruction.
 
@@ -111,6 +115,13 @@ Protocols for "Code-Switching" scripts (e.g., Persian explanation of English cod
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Retention Rate:** Target > 70% recall of Box-1 terms after 3 scripts.
 *   **Script Completion:** 100% alignment with the target Vocabulary Manifest.
+
+---
+
+## 🔗 Related Storytelling Skills
+
+- **[TTS M4 System](storytelling-tts-m4-system.md)** - Professional TTS with multi-model orchestration (XTTS, GPT-SoVITS, Kokoro)
+- **[Narrative Frameworks](storytelling-narrative-frameworks.md)** - Learn story structure, character arcs, and narrative transport theory
 
 ---
 [Back to README](../../README.md)

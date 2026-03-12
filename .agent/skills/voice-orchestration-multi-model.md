@@ -1,14 +1,20 @@
 ---
 title: "Voice Model Orchestration"
 description: Voice Model Orchestration Technical Encyclopedia: GPT-SoVITS, XTTS, Fish Speech, and RVC Inference.
-location: .agent/skills/voice-model-orchestration.md
+location: .agent/skills/voice-orchestration-multi-model.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Voice Model Orchestration (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**🔗 Related Voice Skills:**
+- [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
+- [Voice AI Cloning](voice-ai-cloning-finetuning.md) - Dataset curation & fine-tuning
+- [Voice Dialogue TTS](voice-dialogue-tts.md) - Turn-taking dialogue synthesis
+- [Voice Emotional Acting](voice-emotional-acting.md) - Multi-character emotional production
 
 Comprehensive technical protocols for the design and orchestration of complex, multi-model voice synthesis pipelines in the 2025 ecosystem. This document defines the standards for model selection (GPT-SoVITS vs XTTS vs Fish), inference-load balancing, and cross-model spectral matching.
 
@@ -97,6 +103,15 @@ Ensuring that audio from different models (e.g., Narrator vs character) sounds l
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Uptime:** Target 99.9% for the Inference Hub.
 *   **Similarity Drift:** < 2% variance in voice identity across 1,000+ generated clips.
+
+---
+
+## 🔗 Related Voice Skills
+
+- **[Voice Synthesis Multilingual](voice-synthesis-multilingual.md)** - Zero-shot XTTS-v2 & Fish Speech tokenization
+- **[Voice AI Cloning](voice-ai-cloning-finetuning.md)** - Dataset curation, fine-tuning, and LoRA adapters
+- **[Voice Dialogue TTS](voice-dialogue-tts.md)** - Turn-taking dialogue synthesis with Dia TTS
+- **[Voice Emotional Acting](voice-emotional-acting.md)** - One-person multi-character production
 
 ---
 [Back to README](../../README.md)

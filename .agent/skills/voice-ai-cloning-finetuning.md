@@ -1,14 +1,20 @@
 ---
-title: "Ai Voice Cloning Finetuning"
+title: "Voice AI Cloning & Fine-tuning"
 description: AI Voice Cloning & Fine-tuning Technical Encyclopedia: Dataset Curation, GPT-SoVITS Math, LoRA Adapters, and Synthetic Identity Protocols.
-location: .agent/skills/ai-voice-cloning-finetuning.md
+location: .agent/skills/voice-ai-cloning-finetuning.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: AI Voice Cloning & Fine-tuning (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**🔗 Related Voice Skills:**
+- [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
+- [Voice Orchestration](voice-orchestration-multi-model.md) - Multi-model pipeline management
+- [Voice Dialogue TTS](voice-dialogue-tts.md) - Turn-taking dialogue synthesis
+- [Voice Emotional Acting](voice-emotional-acting.md) - Multi-character emotional production
 
 Comprehensive technical protocols for the design, curation, and training of synthetic voice identities using few-shot and zero-shot cloning architectures in the 2025 ecosystem. This document defines the standards for dataset Signal-to-Noise Ratio (SNR), GPT-SoVITS/RVC fine-tuning hyperparameters, and the ethical orchestration of synthetic identities.
 
@@ -100,6 +106,15 @@ Storing voice identity vectors (embeddings) and LoRA weights in encrypted, vault
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Inference Latency:** Target < 1.0s for 10s of audio.
 *   **Likeness Persistence:** 100% agreement on identity across diverse emotional contexts.
+
+---
+
+## 🔗 Related Voice Skills
+
+- **[Voice Synthesis Multilingual](voice-synthesis-multilingual.md)** - Zero-shot XTTS-v2 & Fish Speech tokenization
+- **[Voice Orchestration](voice-orchestration-multi-model.md)** - Multi-model pipeline management (GPT-SoVITS, XTTS, Fish)
+- **[Voice Dialogue TTS](voice-dialogue-tts.md)** - Turn-taking dialogue synthesis with Dia TTS
+- **[Voice Emotional Acting](voice-emotional-acting.md)** - One-person multi-character production
 
 ---
 [Back to README](../../README.md)

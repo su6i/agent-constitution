@@ -1,14 +1,22 @@
 ---
-title: "Web3 React Dapps"
+title: "Web3 React DApps"
 description: Web3 React DApps Technical Encyclopedia: Wagmi v2, Viem Low-Level RPC, WalletConnect v2, and React Query State Management.
 location: .agent/skills/web3-react-dapps.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Web3 Development Skills:**
+- [Solidity & Foundry](web3-solidity-foundry.md) - Gas Optimization, Yul/Assembly, Fuzz Testing
+- [Solidity & Hardhat](web3-solidity-hardhat.md) - Ethers.js v6, Waffle/Chai Testing, Hardhat Ignition
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: Web3 React DApps (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for the design and construction of decentralized applications (DApps) using React and the modern Web3 stack in the 2025 ecosystem. This document defines the standards for Wagmi v2 orchestration, Viem-based RPC communication, and high-performance blockchain state management.
 
@@ -110,6 +118,10 @@ Managing the high-latency, volatile state of the blockchain.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Connection Speed:** Target < 2s for initial wallet pairing.
 *   **UI Reactivity:** 100% agreement between the visible UI state and the latest blockchain block number.
+
+## 🔗 Related Web3 Development Skills
+- **[Solidity & Foundry](web3-solidity-foundry.md)** - Gas Optimization, Yul/Assembly, Fuzz Testing
+- **[Solidity & Hardhat](web3-solidity-hardhat.md)** - Ethers.js v6, Waffle/Chai Testing, Hardhat Ignition
 
 ---
 [Back to README](../../README.md)

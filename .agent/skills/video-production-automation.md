@@ -3,10 +3,19 @@ title: "Video Production Automation"
 description: Practical guide for automating video production and documentation using Python (Manim, MoviePy, OpenCV) and other tools.
 location: .agent/skills/video-production-automation.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Video Production & Automation Skills
+
+[Back to README](../../README.md)
+
+**🔗 Related Video Production Skills:**
+- [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
+- [Video Manim Math](video-manim-math.md) - Mathematical animations
+- [Video Remotion React](video-remotion-react.md) - Programmatic video with React
+- [Video Resolve Editing](video-resolve-editing.md) - DaVinci Resolve API & timeline automation
+- [Video Stick Figure](video-stick-figure.md) - 2D animation & physics
 
 This skill details how to use Python libraries and external tools to create high-quality, automated video documentation and showcases for your Agentic Coding projects.
 
@@ -77,3 +86,15 @@ For "Viral" quality usage, Python tools might be too stiff. Use these for polish
     *   *Option B (Fully Automated):* Use OpenCV to capture the screen while the script runs.
 3.  **Editing:** Use MoviePy to trim silence, speed up long processing times (e.g., `clip.fx(vfx.speedx, 2)`), and add intro/outro.
 4.  **Overlay:** Use Manim to generate an overlay video (with transparent background) explaining the logic, then composite it on top using MoviePy.
+
+## 🔗 Related Video Skills
+
+- [Video Blender Automation](video-blender-automation.md)
+- [Video Manim Math](video-manim-math.md)
+- [Video Production Automation](video-production-automation.md)
+- [Video Remotion React](video-remotion-react.md)
+- [Video Resolve Editing](video-resolve-editing.md)
+- [Video Stick Figure](video-stick-figure.md)
+
+---
+[Back to README](../../README.md)

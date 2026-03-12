@@ -1,14 +1,18 @@
 ---
 title: "Storytelling Frameworks"
 description: Storytelling Frameworks Technical Encyclopedia: Emotional DNA, Narrative Transport, Character Growth Math, and Structural Arcs.
-location: .agent/skills/storytelling-frameworks.md
+location: .agent/skills/storytelling-narrative-frameworks.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Storytelling Frameworks (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**📚 Related Storytelling Skills:**
+- [TTS M4 System](storytelling-tts-m4-system.md) - Multi-model TTS for audio production
+- [CLIL Education](storytelling-clil-education.md) - Educational storytelling with language learning
 
 Comprehensive technical protocols for the design and engineering of narratives to maximize "Narrative Transport"—the psychological state of being "lost" in a story—in the 2025 ecosystem. This document defines the standards for Emotional DNA mapping, character growth math, and the structural "Valley of the Story."
 
@@ -106,6 +110,13 @@ Ensuring that the narrative never enters "The Valley"—the middle section where
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Transport Score:** Target > 0.85 on standardized immersion surveys.
 *   **Emotional Delta:** 100% success rate in moving a user from a "Problem State" (Stress) to a "Solution State" (Catharsis).
+
+---
+
+## 🔗 Related Storytelling Skills
+
+- **[TTS M4 System](storytelling-tts-m4-system.md)** - Professional TTS with multi-model orchestration (XTTS, GPT-SoVITS, Kokoro)
+- **[CLIL Education](storytelling-clil-education.md)** - Educational storytelling with integrated language learning
 
 ---
 [Back to README](../../README.md)

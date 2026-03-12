@@ -1,14 +1,20 @@
 ---
-title: "Speech Synthesis Multilingual"
+title: "Voice Synthesis Multilingual"
 description: Multilingual Speech Synthesis Technical Encyclopedia: Zero-Shot XTTS-v2, Fish Speech Tokenization, Persian VITS, and Cross-Lingual Prosody.
-location: .agent/skills/speech-synthesis-multilingual.md
+location: .agent/skills/voice-synthesis-multilingual.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Multilingual Speech Synthesis (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**🔗 Related Voice Skills:**
+- [Voice Orchestration](voice-orchestration-multi-model.md) - Multi-model pipeline management
+- [Voice AI Cloning](voice-ai-cloning-finetuning.md) - Dataset curation & fine-tuning
+- [Voice Dialogue TTS](voice-dialogue-tts.md) - Turn-taking dialogue synthesis
+- [Voice Emotional Acting](voice-emotional-acting.md) - Multi-character emotional production
 
 Comprehensive technical protocols for the design and orchestration of high-fidelity text-to-speech (TTS) systems supporting 25+ languages, with a specific focus on the Persian (Farsi) linguistic context in the 2025 ecosystem. This document defines the standards for zero-shot cloning (XTTS-v2), Transformer-based tokenization (Fish Speech), and cross-lingual prosody transfer.
 
@@ -95,6 +101,15 @@ Ensuring that localized speech matches the original visual timing and performanc
 ## 10. Benchmarks & Performance Standards (2025)
 *   **MOS (Mean Opinion Score):** Target > 4.2 (Highly Natural).
 *   **Language Switching Latency:** Target < 200ms for mid-sentence code-switching (English/Persian mix).
+
+---
+
+## 🔗 Related Voice Skills
+
+- **[Voice Orchestration](voice-orchestration-multi-model.md)** - Multi-model pipeline management (GPT-SoVITS, XTTS, Fish)
+- **[Voice AI Cloning](voice-ai-cloning-finetuning.md)** - Dataset curation, fine-tuning, and LoRA adapters
+- **[Voice Dialogue TTS](voice-dialogue-tts.md)** - Turn-taking dialogue synthesis with Dia TTS
+- **[Voice Emotional Acting](voice-emotional-acting.md)** - One-person multi-character production
 
 ---
 [Back to README](../../README.md)
