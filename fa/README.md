@@ -2,19 +2,25 @@
 title: "Persian Documentation (fa/)"
 description: Main entry point for Persian-specific agentic resources and workflows.
 location: fa/README.md
-last_updated: 2026-02-21
+last_updated: 2026-03-12
 ---
 
-# مستندات فارسی (Persian Documentation)
+# مستندات فارسی
 
-به بخش فارسی پروژه خوش آمدید. این پوشه شامل تمامی منابع، مهارت‌ها و ورک‌فلوهای ترجمه شده برای استفاده بهینه از محیط برنامه‌نویسی ایجنتیک است.
+این پوشه لایه بومی‌سازی‌شده‌ی فارسی برای مخزن است، نه جایگزین سند شاخص فنی.
 
-## ساختار پوشه‌ها
-- **[skills/](./skills/)**: شامل راهنماهای فنی و بنچمارک‌های ۲۰۲۶.
-- **[memory-bank/](./memory-bank/)**: قالب‌های مدیریت حافظه و هزینه.
-- **[workflows/](./workflows/)**: دستورالعمل‌های شروع به کار و اتوماسیون.
-- **[rules/](./rules/)**: ترجمه قوانین `.agent/rules` برای ارجاع سریع.
+## نقطه شروع صحیح
+برای مطالعه کامل نسخه فارسی، از این ترتیب استفاده کنید:
+1. [../AGENTIC-CODING-SETUP.fa.md](../AGENTIC-CODING-SETUP.fa.md)
+2. [../README.fa.md](../README.fa.md)
+3. [./AGENTS.md](./AGENTS.md)
 
-## راهنمای استفاده
-اگر می‌خواهید پروژه‌ای را به زبان فارسی مدیریت کنید، از قالب‌های موجود در `fa/memory-bank` استفاده کنید و دستورالعمل‌های `fa/workflows` را دنبال نمایید.
+## نقش این پوشه
+- [skills/](./skills/): مهارت‌ها و redirectهای فارسی به اسناد اصلی.
+- [memory-bank/](./memory-bank/): قالب‌های حافظه و ثبت هزینه.
+- [workflows/](./workflows/): گردش‌کارهای فارسی.
+- [rules/](./rules/): ترجمه قواعد کلیدی.
+
+## نسبت با معماری کلی مخزن
+سند شاخص فنی در ریشه مخزن قرار دارد، اما این پوشه لایه بومی‌سازی و پشتیبانی فارسی را نگه می‌دارد. بنابراین هرجا بین نسخه خلاصه و نسخه فنی تعارضی دیدید، سند canonical فارسی یعنی [../AGENTIC-CODING-SETUP.fa.md](../AGENTIC-CODING-SETUP.fa.md) مرجع اصلی است.
 
