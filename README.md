@@ -23,6 +23,19 @@ last_updated: 2026-02-21
 
 ---
 
+## 📍 Primary Document
+The main technical document of this repository is [AGENTIC-CODING-SETUP.md](AGENTIC-CODING-SETUP.md).
+
+If you want the core benchmark analysis, cost model, routing strategy, setup patterns, and low-cost agentic coding methodology, start there first. The rest of the repository either:
+- introduces that document,
+- operationalizes it,
+- localizes it,
+- or extends it with reusable rules, workflows, and templates.
+
+For the repository map, see [docs/INFORMATION-ARCHITECTURE.md](docs/INFORMATION-ARCHITECTURE.md).
+
+---
+
 ## 🏗 The Problem
 Most AI Agents (Cursor, AntiGravity, Windsurf, Copilot) fail because their "memory" is unstructured. You give them a 50-page prompt, they hallucinate. You give them nothing, they write spaghetti code.
 **We needed a middle ground: A strict, modular "Constitution" that forces Agents to behave like Senior Engineers.**
@@ -31,6 +44,12 @@ Most AI Agents (Cursor, AntiGravity, Windsurf, Copilot) fail because their "memo
 This repository is not just "rules". It is a **Modular Context Architecture**.
 It breaks down the software lifecycle into 5 atomic, linked workflows. The Agent loads *only* what it needs, when it needs it.
 
+In practice, the repository now has a clear center of gravity:
+- [AGENTIC-CODING-SETUP.md](AGENTIC-CODING-SETUP.md) is the flagship guide and canonical technical reference.
+- [README.md](README.md) is the onboarding and navigation layer.
+- [AGENTS.md](AGENTS.md) is the execution contract for agents.
+- `.agent/`, `templates/`, `bin/`, and `docs/` are the implementation and support layers around that core guidance.
+
 ### Core Features 
 - **⚖️ The Neural Gavel:** A strict `.cursorrules` router that prevents the Agent from guessing.
 - **🧠 Modular Memory:** Workflows for Init, Docs, AI, and QA are split to prevent "Lost-in-the-Middle" errors.
@@ -38,6 +57,11 @@ It breaks down the software lifecycle into 5 atomic, linked workflows. The Agent
 - **🤖 Anti-Hallucination:** Strict file collision and deletion safety protocols.
 
 ## 🚀 Quick Start
+
+### Read Order
+1. Read [AGENTIC-CODING-SETUP.md](AGENTIC-CODING-SETUP.md) for the core methodology.
+2. Read [AGENTS.md](AGENTS.md) for execution constraints and agent behavior.
+3. Use the workflow, template, and skill files as modular extensions of the core guide.
 
 ### Option A: Automated Scaffolding (Recommended)
 1.  **Install the Scaffolder:**
@@ -59,6 +83,10 @@ It breaks down the software lifecycle into 5 atomic, linked workflows. The Agent
     > "Audit my codebase against the Quality Assurance protocol."
 
 ## 📚 Documentation
+
+### ⭐ Flagship Guide
+- **[Agentic Coding 2026](AGENTIC-CODING-SETUP.md):** Canonical benchmark, ROI, routing, tooling, and low-cost setup guide for the repository.
+- **[Information Architecture](docs/INFORMATION-ARCHITECTURE.md):** Explains how the rest of the repository relates to the flagship guide.
 
 ### 🛠 Workflows
 - **[Init Workflow](.agent/workflows/init-project.md):** How to start clean.
