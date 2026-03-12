@@ -1,14 +1,24 @@
 ---
-title: "Pandas Sklearn Guide"
+title: "Pandas & Scikit-learn"
 description: Pandas & Scikit-learn Technical Encyclopedia: Memory Optimization, Vectorized Operations, Pipeline Orchestration, and Hyperparameter Tuning.
-location: .agent/skills/pandas-sklearn-guide.md
+location: .agent/skills/python-pandas-sklearn.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Python Skills:**
+- [Python Core Standards](python-core-standards.md) - CPython Internals, Memory Optimization, Security
+- [Python Containerization](python-containerization.md) - Docker, Distroless Images, Security Hardening
+- [Python GitHub Setup](python-github-setup.md) - CI/CD Workflows, Secret Management, Branch Protection
+- [PyTorch & Sklearn Integration](python-pytorch-sklearn.md) - TorchDynamo, ONNX, Skorch
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: Pandas & Scikit-learn Pipeline (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for industrial-grade data manipulation and machine learning using the Python data stack in the 2025 ecosystem. This document defines the standards for memory-efficient Pandas operations, vectorized data transformation, and deterministic Scikit-learn pipelines.
 
@@ -97,6 +107,12 @@ Ensuring models are stable and portable across environments.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Pre-processing Speed:** Target < 1s for 1M rows.
 *   **Model Accuracy:** > 95% parity between local test metrics and production performance.
+
+## 🔗 Related Python Skills
+- **[Python Core Standards](python-core-standards.md)** - CPython Internals, Memory Optimization, Security
+- **[Python Containerization](python-containerization.md)** - Docker, Distroless Images, Security Hardening
+- **[Python GitHub Setup](python-github-setup.md)** - CI/CD Workflows, Secret Management, Branch Protection
+- **[PyTorch & Sklearn Integration](python-pytorch-sklearn.md)** - TorchDynamo, ONNX, Skorch
 
 ---
 [Back to README](../../README.md)

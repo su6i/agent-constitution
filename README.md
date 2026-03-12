@@ -108,7 +108,7 @@ In practice, the repository now has a clear center of gravity:
 - **[Data Science Workflow](.agent/skills/data-science-workflow.md):** Reproducible science structure.
 - **[MacOS Automation](.agent/skills/macos-automation.md):** Python/Zsh scripts for desktop tasks.
 - **[Prompt Engineering](.agent/skills/prompt-engineering.md):** Advanced system prompts & personas.
-- **[Storytelling](.agent/skills/storytelling-frameworks.md):** Hero's Journey applied to tech.
+- **[Storytelling](.agent/skills/storytelling.md):** Hero's Journey applied to tech.
 - **[FastAPI Best Practices](.agent/skills/fastapi-best-practices.md):** Scalable, type-safe API patterns.
 - **[Flask JSON Guide](.agent/skills/flask-json-guide.md):** Robust structure for Flask APIs.
 - **[LLM & ML Workflow](.agent/skills/llm-ml-workflow.md):** Productionizing AI models.
@@ -120,50 +120,50 @@ In practice, the repository now has a clear center of gravity:
 - **[DevOps & MLOps](.agent/skills/ops-automation.md):** CI/CD, Docker, & Experiment Tracking.
 - **[System Architecting](.agent/skills/ai-logic-patterns.md):** Master prompting & agent orchestration rules.
 - **[Multi-Step RAG](.agent/skills/multi-rag-orchestration.md):** Stateful memory & lexical tracking (SRS).
-- **[Blender Automation](.agent/skills/blender-automation.md):** Python (bpy) & Geometry Nodes.
-- **[DaVinci Resolve](.agent/skills/resolve-editor.md):** Python API & Post-Production.
-- **[Remotion Video](.agent/skills/remotion-video.md):** Programmatic video with React.
+- **[Blender Automation](.agent/skills/video-blender-automation.md):** Python (bpy) & Geometry Nodes.
+- **[DaVinci Resolve](.agent/skills/video-resolve-editing.md):** Python API & Post-Production.
+- **[Remotion Video](.agent/skills/video-remotion-react.md):** Programmatic video with React.
 - **[Code Quality](.agent/skills/github-code-quality.md):** Strict rules for clean, verified code changes.
 - **[Kubernetes & Docs](.agent/skills/kubernetes-docs.md):** K8s best practices & MkDocs integration.
 - **[Linux CUDA Python](.agent/skills/linux-cuda-python.md):** HPC setup, PyTorch optimization, & profiling.
 - **[Python Containerization](.agent/skills/python-containerization.md):** Docker best practices (Slim vs Alpine, Multi-stage).
 - **[Python GitHub Setup](.agent/skills/python-github-setup.md):** Actions, Templates, & Semantic Release.
 - **[JS/TS Quality](.agent/skills/js-ts-code-quality.md):** Strict TypeScript, Biome/ESLint, & Vitest.
-- **[Pandas & Scikit-learn](.agent/skills/pandas-sklearn-guide.md):** Method chaining, Pipelines, & ColumnTransformer.
+- **[Pandas & Scikit-learn](.agent/skills/python-pandas-sklearn.md):** Method chaining, Pipelines, & ColumnTransformer.
 - **[Python Core Standards](.agent/skills/python-core-standards.md):** Project structure, `uv` implementation, & Typing.
-- **[PyTorch Integration](.agent/skills/pytorch-sklearn-integration.md):** Sklearn data pipelines with PyTorch models.
+- **[PyTorch Integration](.agent/skills/python-pytorch-sklearn.md):** Sklearn data pipelines with PyTorch models.
 - **[R Language](.agent/skills/r-lang-guide.md):** `targets` pipelines & `renv` practices.
-- **[Solidity (Foundry)](.agent/skills/solidity-foundry.md):** Modern Rust-based testing & fuzzing stack.
-- **[Solidity (Hardhat)](.agent/skills/solidity-hardhat.md):** JS/TS ecosystem guide & tooling.
+- **[Solidity (Foundry)](.agent/skills/web3-solidity-foundry.md):** Modern Rust-based testing & fuzzing stack.
+- **[Solidity (Hardhat)](.agent/skills/web3-solidity-hardhat.md):** JS/TS ecosystem guide & tooling.
 - **[Web3 React](.agent/skills/web3-react-dapps.md):** Wagmi, Viem, & dApp architecture.
 - **[ASCII Games](.agent/skills/ascii-game-dev.md):** ECS architecture & terminal rendering optimization.
 - **[Desktop GUIs](.agent/skills/desktop-gui-dev.md):** Modern Python apps with CustomTkinter & PyQt6.
 - **[How-To Docs](.agent/skills/howto-documentation.md):** Diátaxis framework & technical writing guides.
 - **[Data Visualization](.agent/skills/data-visualization.md):** Publication-quality plots with Scipy/Seaborn.
 - **[Reinforcement Learning](.agent/skills/reinforcement-learning.md):** Gymnasium envs & Stable-Baselines3 training.
-- **[Manim Animation](.agent/skills/manim-animation.md):** Math animations with Python & LaTeX.
-- **[YouTube Scriptwriting](.agent/skills/youtube-scriptwriting.md):** High-retention hooks & psychology.
-- **[Advanced Screenwriting](.agent/skills/storytelling-frameworks.md):** Save the Cat, Hero's Journey, & Story Circle.
+- **[Manim Animation](.agent/skills/video-manim-math.md):** Math animations with Python & LaTeX.
+- **[YouTube Scriptwriting](.agent/skills/screenwriting-youtube.md):** High-retention hooks & psychology.
+- **[Advanced Screenwriting](.agent/skills/storytelling-narrative-frameworks.md):** Save the Cat, Hero's Journey, & Story Circle.
 - **[Copywriting](.agent/skills/copywriting.md):** Information processing & conversion logic.
 - **[Audio Processing](.agent/skills/audio-processing.md):** Neural denoising & EBU R128 normalization.
-- **[Speech Synthesis](.agent/skills/speech-synthesis-multilingual.md):** SOTA multilingual protocols & cross-lingual cloning.
-- **[Voice Orchestration](.agent/skills/voice-model-orchestration.md):** Multi-model pipelines (Fish, Dia, Bark, Parler).
-- **[AI Voice Synthesis](.agent/skills/ai-voice-cloning-finetuning.md):** Multilingual fine-tuning & emotional synthesis.
+- **[Speech Synthesis](.agent/skills/voice-synthesis-multilingual.md):** SOTA multilingual protocols & cross-lingual cloning.
+- **[Voice Orchestration](.agent/skills/voice-orchestration-multi-model.md):** Multi-model pipelines (Fish, Dia, Bark, Parler).
+- **[AI Voice Synthesis](.agent/skills/voice-ai-cloning-finetuning.md):** Multilingual fine-tuning & emotional synthesis.
 - **[AI SFX Generation](.agent/skills/ai-sfx-generation.md):** Latent diffusion for sound design.
-- **[AI Cinematography](.agent/skills/ai-cinematography.md):** Gen-video protocols (Runway, Kling, Luma).
+- **[AI Cinematography](.agent/skills/visual-ai-cinematography.md):** Gen-video protocols (Runway, Kling, Luma).
 - **[Character Consistency](.agent/skills/visual-character-consistency.md):** Identity preservation (ComfyUI, LoRA).
 - **[AI Dubbing](.agent/skills/ai-dubbing-localization.md):** Automated localization & tone preservation.
-- **[Stick Figure Animation](.agent/skills/stick-figure-animation.md):** Fluid 2D motion & physics.
-- **[Thumbnail Psychology](.agent/skills/thumbnail-psychology.md):** Visual engagement & CTR optimization.
+- **[Stick Figure Animation](.agent/skills/video-stick-figure.md):** Fluid 2D motion & physics.
+- **[Thumbnail Psychology](.agent/skills/visual-thumbnail-psychology.md):** Visual engagement & CTR optimization.
 - **[Moltbot Orchestration](.agent/skills/moltbot-orchestration.md):** Multi-agent video factory architecture.
-- **[CLIL Screenwriting](.agent/skills/storyteller-clil.md):** Educational storytelling & Leitner SRS.
-- **[Automated Scriptwriting](.agent/skills/automated-scriptwriting.md):** 100% automated script production pipeline.
+- **[CLIL Screenwriting](.agent/skills/storytelling-clil-education.md):** Educational storytelling & Leitner SRS.
+- **[Automated Scriptwriting](.agent/skills/screenwriting-automated.md):** 100% automated script production pipeline.
 - **[Method of Loci](.agent/skills/method-of-loci.md):** Spatial memory & Blender-based loci construction.
-- **[Dialogue TTS](.agent/skills/dia-tts.md):** Multi-speaker turn-taking & emotional prosody.
-- **[Emotional Voice Acting](.agent/skills/emotional-voice-acting.md):** One-person multi-character production & GPT-SoVITS.
+- **[Dialogue TTS](.agent/skills/voice-dialogue-tts.md):** Multi-speaker turn-taking & emotional prosody.
+- **[Emotional Voice Acting](.agent/skills/voice-emotional-acting.md):** One-person multi-character production & GPT-SoVITS.
 - **[Episode Structure](.agent/skills/episode-structure-45min.md):** 45-minute 3-part format & cognitive load management.
-- **[Procedural Direction](.agent/skills/director-visual.md):** Blender & Manim semantic visuals.
-- **[Master Editing](.agent/skills/resolve-editor.md):** DaVinci Resolve API & timeline automation.
+- **[Procedural Direction](.agent/skills/visual-director-procedural.md):** Blender & Manim semantic visuals.
+- **[Master Editing](.agent/skills/video-resolve-editing.md):** DaVinci Resolve API & timeline automation.
 - **[Subtitle Generator](.agent/skills/subtitle-generator.md):** Professional Persian subtitles with cinematic typography.
 
 ---

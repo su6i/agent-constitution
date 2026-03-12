@@ -1,14 +1,22 @@
 ---
-title: "Solidity Foundry"
+title: "Solidity & Foundry"
 description: Solidity & Foundry Technical Encyclopedia: Gas Optimization, Yul/Assembly, Fuzz Testing, and Forge Orchestration.
-location: .agent/skills/solidity-foundry.md
+location: .agent/skills/web3-solidity-foundry.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Web3 Development Skills:**
+- [Solidity & Hardhat](web3-solidity-hardhat.md) - Ethers.js v6, Waffle/Chai Testing, Hardhat Ignition
+- [Web3 React DApps](web3-react-dapps.md) - Wagmi v2, Viem, WalletConnect v2
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: Solidity & Foundry (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for the design, development, and testing of Ethereum Smart Contracts using the Solidity language and the Foundry toolchain in the 2025 ecosystem. This document defines the standards for gas-optimized Yul/Assembly, high-coverage fuzz testing, and secure contract architecture.
 
@@ -100,6 +108,10 @@ Standardizing on Solidity-authored deployment scripts for maximum tool-chain com
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Test Speed:** Target > 1,000 tests/sec using Forge.
 *   **Gas Efficiency:** Target < 100k gas for complex swaps; < 50k gas for simple transfers.
+
+## 🔗 Related Web3 Development Skills
+- **[Solidity & Hardhat](web3-solidity-hardhat.md)** - Ethers.js v6, Waffle/Chai Testing, Hardhat Ignition
+- **[Web3 React DApps](web3-react-dapps.md)** - Wagmi v2, Viem, WalletConnect v2
 
 ---
 [Back to README](../../README.md)

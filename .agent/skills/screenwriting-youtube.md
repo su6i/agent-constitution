@@ -1,14 +1,26 @@
 ---
-title: "Youtube Scriptwriting"
+title: "YouTube Scriptwriting"
 description: YouTube Scriptwriting Technical Encyclopedia: Information Gaps, AVD Optimization, Zeigarnik Effect, and Script-to-Visual Mapping.
-location: .agent/skills/youtube-scriptwriting.md
+location: .agent/skills/screenwriting-youtube.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Screenwriting Skills:**
+- [Automated Scriptwriting](screenwriting-automated.md) - Moltbot Integration, CLIL Story Generation
+- [Screenwriting Frameworks](screenwriting-frameworks.md) - 3-Act Design, Tension Arcs, Character Modeling
+
+**🔗 Related Content Creation:**
+- [YouTube SEO](youtube-seo.md) - Content optimization & discovery
+- [Storytelling TTS System](storytelling-tts-m4-system.md) - Multi-model voice orchestration
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: YouTube Scriptwriting (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for the design and construction of video scripts optimized for audience retention, cognitive engagement, and algorithmic distribution in the 2025 ecosystem. This document defines the standards for "Information Gap" theory, AVD (Average View Duration) engineering, and the Zeigarnik Effect in educational media.
 
@@ -97,6 +109,14 @@ Standardizing the structure of technical and educational videos.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Script Completion:** 100% adherence to the lexical density target.
 *   **Retention Reliability:** > 90% correlation between script "Engagement Cues" and actual viewer behavior data.
+
+## 🔗 Related Screenwriting Skills
+- **[Automated Scriptwriting](screenwriting-automated.md)** - Moltbot Integration, CLIL Story Generation
+- **[Screenwriting Frameworks](screenwriting-frameworks.md)** - 3-Act Design, Tension Arcs, Character Modeling
+
+## 🔗 Related Content Creation
+- **[YouTube SEO](youtube-seo.md)** - Content optimization & discovery
+- **[Storytelling TTS System](storytelling-tts-m4-system.md)** - Multi-model voice orchestration
 
 ---
 [Back to README](../../README.md)

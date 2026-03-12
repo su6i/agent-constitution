@@ -1,14 +1,23 @@
 ---
-title: "Resolve Editor"
+title: "Video Resolve Editing"
 description: Master Editing & Audio Engineering Technical Encyclopedia: DaVinci Resolve API, Timeline Orchestration, LUFS Mastering, and Subtitle Sync.
-location: .agent/skills/resolve-editor.md
+location: .agent/skills/video-resolve-editing.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Master Editing & Audio Engineering (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**🔗 Related Video Production Skills:**
+- [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
+- [Video Manim Math](video-manim-math.md) - Mathematical animations with Python
+- [Video Remotion React](video-remotion-react.md) - Programmatic video with React
+- [Video Stick Figure](video-stick-figure.md) - 2D animation & physics
+- [Video Production Automation](video-production-automation.md) - Complete automation pipeline
+
+
 
 Comprehensive technical protocols for the automated assembly, editing, and mastering of multi-modal content using the DaVinci Resolve API and professional audio signal paths in the 2025 ecosystem. This document defines the standards for timeline architecture, metadata-driven editing, and loudness-compliant mastering.
 
@@ -109,6 +118,13 @@ Ensuring studio-grade audio quality across all automated deliverables.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Assembly Speed:** < 5s per minute of video for metadata-driven assembly.
 *   **Export Verification:** 100% automated check of the "Video Hash" against the "Manifest Hash" to ensure data integrity.
+
+## 🔗 Related Video Production Skills
+- **[Blender Automation](video-blender-automation.md)** - BPY API & Geometry Nodes scripting
+- **[Manim Math Animations](video-manim-math.md)** - Mathematical visualization & LaTeX rendering
+- **[Video Production Automation](video-production-automation.md)** - Complete pipeline & rendering workflow
+- **[Remotion React Videos](video-remotion-react.md)** - React-based programmatic video
+- **[Stick Figure Animation](video-stick-figure.md)** - 2D physics-based character animation
 
 ---
 [Back to README](../../README.md)

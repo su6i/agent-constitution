@@ -1,14 +1,23 @@
 ---
-title: "Stick Figure Animation"
+title: "Video Stick Figure Animation"
 description: Stick Figure Animation Technical Encyclopedia: Frame-by-Frame Physics, Easing Curves, Blender 2D Rigging, and Combat Choreography.
-location: .agent/skills/stick-figure-animation.md
+location: .agent/skills/video-stick-figure.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Stick Figure Animation (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**🔗 Related Video Production Skills:**
+- [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
+- [Video Manim Math](video-manim-math.md) - Mathematical animations with Python
+- [Video Remotion React](video-remotion-react.md) - Programmatic video with React
+- [Video Resolve Editing](video-resolve-editing.md) - DaVinci Resolve API & timeline automation
+- [Video Production Automation](video-production-automation.md) - Complete automation pipeline
+
+
 
 Comprehensive technical protocols for the animation of stick-figure characters, focusing on kinetic physics, dynamic easing, and procedural choreography in the 2025 ecosystem. This document defines the standards for Verlet integration, Bezier-based easing, and efficient keyframe interpolation.
 
@@ -103,6 +112,13 @@ Utilizing 3D tools for high-precision 2D stick animation.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Animation Fluidity:** Target 60fps for high-density combat; 24fps for cinematic segments.
 *   **Constraint Integrity:** 0% limb-stretching artifacts during extreme poses.
+
+## 🔗 Related Video Production Skills
+- **[Blender Automation](video-blender-automation.md)** - BPY API & Geometry Nodes scripting
+- **[Manim Math Animations](video-manim-math.md)** - Mathematical visualization & LaTeX rendering
+- **[Video Production Automation](video-production-automation.md)** - Complete pipeline & rendering workflow
+- **[Remotion React Videos](video-remotion-react.md)** - React-based programmatic video
+- **[DaVinci Resolve Editing](video-resolve-editing.md)** - Professional editing automation
 
 ---
 [Back to README](../../README.md)

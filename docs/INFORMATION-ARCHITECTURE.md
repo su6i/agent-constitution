@@ -42,7 +42,6 @@ Not every file is a subordinate appendix of the flagship guide, but every major 
 | [bin](../bin) | Automation layer | Scripts that scaffold, validate, or expose the repository as tooling |
 | [docs](../docs) | Supplemental explanation | Supporting material, background references, and repository meta-documentation |
 | [memory-bank](../memory-bank) | Operational memory | Tracks evolving context and cost history for ongoing work |
-| [roadmap](../roadmap) | Directional planning | Shows where the flagship methodology is expected to evolve |
 | [CHANGELOG.md](../CHANGELOG.md) | Historical record | Records how the flagship guide and its supporting system change over time |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | Contribution policy | Tells contributors how to modify the repository without breaking the flagship architecture |
 

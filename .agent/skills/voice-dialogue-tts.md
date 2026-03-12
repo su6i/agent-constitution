@@ -1,14 +1,20 @@
 ---
-title: "Dia Tts"
+title: "Voice Dialogue TTS"
 description: Dia TTS Technical Encyclopedia: Turn-Taking Dialogue, Multi-Speaker Conversations, and Real-Time Voice Switching.
-location: .agent/skills/dia-tts.md
+location: .agent/skills/voice-dialogue-tts.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Dia TTS (Dialogue Synthesis)
 
 [Back to README](../../README.md)
+
+**🔗 Related Voice Skills:**
+- [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
+- [Voice Orchestration](voice-orchestration-multi-model.md) - Multi-model pipeline management
+- [Voice AI Cloning](voice-ai-cloning-finetuning.md) - Dataset curation & fine-tuning
+- [Voice Emotional Acting](voice-emotional-acting.md) - Multi-character emotional production
 
 Technical protocols for implementing Nari Labs' Dia TTS model for natural turn-taking dialogue synthesis. This document defines standards for multi-speaker conversations, emotion injection, and integration with the Moltbot voice orchestration layer.
 
@@ -170,4 +176,12 @@ async def synthesize_scene(scene: dict):
 
 ---
 
+## 🔗 Related Voice Skills
+
+- **[Voice Synthesis Multilingual](voice-synthesis-multilingual.md)** - Zero-shot XTTS-v2 & Fish Speech tokenization
+- **[Voice Orchestration](voice-orchestration-multi-model.md)** - Multi-model pipeline management (GPT-SoVITS, XTTS, Fish)
+- **[Voice AI Cloning](voice-ai-cloning-finetuning.md)** - Dataset curation, fine-tuning, and LoRA adapters
+- **[Voice Emotional Acting](voice-emotional-acting.md)** - One-person multi-character production
+
+---
 [Back to README](../../README.md)

@@ -1,14 +1,22 @@
 ---
-title: "Solidity Hardhat"
+title: "Solidity & Hardhat"
 description: Solidity & Hardhat Technical Encyclopedia: Ethers.js v6, Waffle/Chai Testing, Hardhat Ignition, and Fork Orchestration.
-location: .agent/skills/solidity-hardhat.md
+location: .agent/skills/web3-solidity-hardhat.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Web3 Development Skills:**
+- [Solidity & Foundry](web3-solidity-foundry.md) - Gas Optimization, Yul/Assembly, Fuzz Testing
+- [Web3 React DApps](web3-react-dapps.md) - Wagmi v2, Viem, WalletConnect v2
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: Solidity & Hardhat (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for the development and testing of Ethereum Smart Contracts using the Solidity language and the Hardhat/Typescript toolchain in the 2025 ecosystem. This document defines the standards for Ethers.js v6 integration, Waffle/Chai-based testing, and automated multi-chain deployment via Hardhat Ignition.
 
@@ -104,6 +112,10 @@ The 2025 standard for declarative, resumable deployments.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Test Execution Time:** Target < 2s for unit tests; < 10s for integration tests with local forking.
 *   **Deployment Reliability:** 100% success rate for multi-chain rollouts using Hardhat Ignition.
+
+## 🔗 Related Web3 Development Skills
+- **[Solidity & Foundry](web3-solidity-foundry.md)** - Gas Optimization, Yul/Assembly, Fuzz Testing
+- **[Web3 React DApps](web3-react-dapps.md)** - Wagmi v2, Viem, WalletConnect v2
 
 ---
 [Back to README](../../README.md)

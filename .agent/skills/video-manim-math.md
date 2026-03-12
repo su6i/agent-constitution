@@ -1,14 +1,23 @@
 ---
-title: "Manim Animation"
+title: "Video Manim Math Animation"
 description: Manim Animation Technical Encyclopedia: OpenGL Rendering, SVG Parsing, Custom Mobjects, and Mathematical Animation Standards.
-location: .agent/skills/manim-animation.md
+location: .agent/skills/video-manim-math.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Manim Animation (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**🔗 Related Video Production Skills:**
+- [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
+- [Video Remotion React](video-remotion-react.md) - Programmatic video with React
+- [Video Resolve Editing](video-resolve-editing.md) - DaVinci Resolve API & timeline automation
+- [Video Stick Figure](video-stick-figure.md) - 2D animation & physics
+- [Video Production Automation](video-production-automation.md) - Complete automation pipeline
+
+
 
 Comprehensive technical protocols for the programmatic generation of mathematical animations and technical visuals using Manim (Mathematics Animation Engine) in the 2025 ecosystem. This document defines the standards for scene construction, OpenGL rendering, and complex coordinate-space orchestration.
 
@@ -421,6 +430,13 @@ For professional video subtitles in Manim:
 - **Positioning:** `to_edge(DOWN)`
 - **Animation:** `FadeIn(subtitle, shift=UP)` or `Write(subtitle)`
 - **Duration:** 1.5s - 2.0s per line for readability.
+
+## 🔗 Related Video Production Skills
+- **[Blender Automation](video-blender-automation.md)** - BPY API & Geometry Nodes scripting
+- **[Video Production Automation](video-production-automation.md)** - Complete pipeline & rendering workflow
+- **[Remotion React Videos](video-remotion-react.md)** - React-based programmatic video
+- **[DaVinci Resolve Editing](video-resolve-editing.md)** - Professional editing automation
+- **[Stick Figure Animation](video-stick-figure.md)** - 2D physics-based character animation
 
 ---
 [Back to README](../../README.md)

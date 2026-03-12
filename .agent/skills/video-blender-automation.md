@@ -1,14 +1,23 @@
 ---
-title: "Blender Automation"
+title: "Video Blender Automation"
 description: Blender Automation Technical Encyclopedia: BPY 5.0 API, Geometry Nodes, Cycles X, and Headless Rendering Standards.
-location: .agent/skills/blender-automation.md
+location: .agent/skills/video-blender-automation.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Blender Automation (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**🔗 Related Video Production Skills:**
+- [Video Manim Math](video-manim-math.md) - Mathematical animations with Python
+- [Video Remotion React](video-remotion-react.md) - Programmatic video with React
+- [Video Resolve Editing](video-resolve-editing.md) - DaVinci Resolve API & timeline automation
+- [Video Stick Figure](video-stick-figure.md) - 2D animation & physics
+- [Video Production Automation](video-production-automation.md) - Complete automation pipeline
+
+
 
 Comprehensive technical protocols for the programmatic generation of 3D assets, animations, and visual effects using the Blender Python API (BPY) in the 2025 ecosystem. This document defines the standards for BPY 5.0 scripting, Geometry Nodes architecture, and high-performance headless rendering.
 
@@ -131,6 +140,13 @@ blender -b project.blend -P script.py -o //renders/output_### -F PNG -x 1 -a
 *   **Script Load Time:** Target < 1.0s for scene setup.
 *   **Geometry Generation:** Up to 1M vertices in < 5.0s using optimized Bmesh logic.
 *   **Render Efficiency:** > 95% GPU utilization during the compute phase.
+
+## 🔗 Related Video Production Skills
+- **[Manim Math Animations](video-manim-math.md)** - Mathematical visualization & LaTeX rendering
+- **[Video Production Automation](video-production-automation.md)** - Complete pipeline & rendering workflow
+- **[Remotion React Videos](video-remotion-react.md)** - React-based programmatic video
+- **[DaVinci Resolve Editing](video-resolve-editing.md)** - Professional editing automation
+- **[Stick Figure Animation](video-stick-figure.md)** - 2D physics-based character animation
 
 ---
 [Back to README](../../README.md)

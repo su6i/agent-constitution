@@ -3,12 +3,21 @@ title: "Visual Character Consistency"
 description: Visual Character Consistency Technical Encyclopedia: IP-Adapter FaceID, InstantID, LoRA Training, and Digital Actor Protocols.
 location: .agent/skills/visual-character-consistency.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Visual/AI Production Skills:**
+- [AI Cinematography](visual-ai-cinematography.md) - Virtual Camera Paths, Frame Consistency, Lighting
+- [Visual Director (Procedural)](visual-director-procedural.md) - Scene Mapping, Automated Camera Pathing
+- [Thumbnail Psychology](visual-thumbnail-psychology.md) - Eye-Tracking, CTR A/B Testing
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: Visual Character Consistency (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for the maintenance of visual stability for digital characters across diverse scenes, poses, and lighting conditions in the 2025 ecosystem. This document defines the standards for IP-Adapter FaceID, InstantID node logic, and specialized LoRA training for character persistence.
 
@@ -101,6 +110,11 @@ Maintaining identity across 24fps video sequences.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Identity Score:** Target > 0.92 on the FaceNet scale.
 *   **Context Versatility:** Character should be able to appear in > 10 distinct environments with 100% recognition.
+
+## 🔗 Related Visual/AI Production Skills
+- **[AI Cinematography](visual-ai-cinematography.md)** - Virtual Camera Paths, Frame Consistency, Lighting
+- **[Visual Director (Procedural)](visual-director-procedural.md)** - Scene Mapping, Automated Camera Pathing
+- **[Thumbnail Psychology](visual-thumbnail-psychology.md)** - Eye-Tracking, CTR A/B Testing
 
 ---
 [Back to README](../../README.md)

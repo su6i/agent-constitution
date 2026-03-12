@@ -1,14 +1,20 @@
 ---
-title: "Emotional Voice Acting"
+title: "Voice Emotional Acting"
 description: Emotional Voice Acting Technical Encyclopedia: Multi-Emotion Reference Recording, GPT-SoVITS Fine-Tuning, and One-Person Multi-Character Production.
-location: .agent/skills/emotional-voice-acting.md
+location: .agent/skills/voice-emotional-acting.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Emotional Voice Acting (One Person → Many Characters)
 
 [Back to README](../../README.md)
+
+**🔗 Related Voice Skills:**
+- [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
+- [Voice Orchestration](voice-orchestration-multi-model.md) - Multi-model pipeline management
+- [Voice AI Cloning](voice-ai-cloning-finetuning.md) - Dataset curation & fine-tuning
+- [Voice Dialogue TTS](voice-dialogue-tts.md) - Turn-taking dialogue synthesis
 
 Technical protocols for producing commercial-quality emotional voice acting from a single performer. This document defines standards for reference recording, emotion cloning with GPT-SoVITS, and character voice differentiation.
 
@@ -224,4 +230,12 @@ def process_character_audio(audio, character: str):
 
 ---
 
+## 🔗 Related Voice Skills
+
+- **[Voice Synthesis Multilingual](voice-synthesis-multilingual.md)** - Zero-shot XTTS-v2 & Fish Speech tokenization
+- **[Voice Orchestration](voice-orchestration-multi-model.md)** - Multi-model pipeline management (GPT-SoVITS, XTTS, Fish)
+- **[Voice AI Cloning](voice-ai-cloning-finetuning.md)** - Dataset curation, fine-tuning, and LoRA adapters
+- **[Voice Dialogue TTS](voice-dialogue-tts.md)** - Turn-taking dialogue synthesis with Dia TTS
+
+---
 [Back to README](../../README.md)

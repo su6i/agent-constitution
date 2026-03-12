@@ -1,14 +1,23 @@
 ---
-title: "Remotion Video"
+title: "Video Remotion React"
 description: Remotion Video Technical Encyclopedia: React-based Video Generation, Time-Scaling Math, Parallel Rendering, and Canvas Integration.
-location: .agent/skills/remotion-video.md
+location: .agent/skills/video-remotion-react.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
 ---
 
 # Skill: Remotion Video (Technical Encyclopedia)
 
 [Back to README](../../README.md)
+
+**🔗 Related Video Production Skills:**
+- [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
+- [Video Manim Math](video-manim-math.md) - Mathematical animations with Python
+- [Video Resolve Editing](video-resolve-editing.md) - DaVinci Resolve API & timeline automation
+- [Video Stick Figure](video-stick-figure.md) - 2D animation & physics
+- [Video Production Automation](video-production-automation.md) - Complete automation pipeline
+
+
 
 Comprehensive technical protocols for the design and construction of programmatic video using the Remotion framework (React/TypeScript) in the 2025 ecosystem. This document defines the standards for composition architecture, sub-frame animation math, and high-performance parallel rendering using AWS Lambda.
 
@@ -283,6 +292,13 @@ jobs:
           name: rendered-video
           path: out/video.mp4
 ```
+
+## 🔗 Related Video Production Skills
+- **[Blender Automation](video-blender-automation.md)** - BPY API & Geometry Nodes scripting
+- **[Manim Math Animations](video-manim-math.md)** - Mathematical visualization & LaTeX rendering
+- **[Video Production Automation](video-production-automation.md)** - Complete pipeline & rendering workflow
+- **[DaVinci Resolve Editing](video-resolve-editing.md)** - Professional editing automation
+- **[Stick Figure Animation](video-stick-figure.md)** - 2D physics-based character animation
 
 ---
 

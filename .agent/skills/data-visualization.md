@@ -10,6 +10,10 @@ last_updated: 2026-02-22
 
 [Back to README](../../README.md)
 
+**🔗 Related Data Skills:**
+- [Data Science Workflow](data-science-workflow.md)
+- [Data Visualization](data-visualization.md)
+
 Comprehensive technical protocols for the design and construction of publication-quality, interactive, and high-fidelity data visualizations in the 2025 ecosystem. This document defines the standards for Matplotlib/Seaborn scientific plots, Plotly-based interactive dashboards, and Unicode-saturated vector graphics.
 
 ---
@@ -106,6 +110,12 @@ Ensuring that color represents data with maximum accuracy.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Render Speed:** Target < 500ms for static publication plots.
 *   **Memory Efficiency:** Target < 100MB for interactive browser-based visualizations of datasets with 10k+ points.
+
+---
+## 🔗 Related Data Skills
+
+- [Data Science Workflow](data-science-workflow.md)
+- [Data Visualization](data-visualization.md)
 
 ---
 [Back to README](../../README.md)

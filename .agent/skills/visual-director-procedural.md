@@ -1,14 +1,23 @@
 ---
-title: "Director Visual"
+title: "Visual Director (Procedural)"
 description: Procedural Visual Direction Technical Encyclopedia: Semantic Visuals, Scene Mapping, Automated Camera Pathing, and Cross-Modal Rendering.
-location: .agent/skills/director-visual.md
+location: .agent/skills/visual-director-procedural.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-03-08
+---
+
+**🔗 Related Visual/AI Production Skills:**
+- [AI Cinematography](visual-ai-cinematography.md) - Virtual Camera Paths, Frame Consistency, Lighting
+- [Visual Character Consistency](visual-character-consistency.md) - IP-Adapter FaceID, InstantID, LoRA Training
+- [Thumbnail Psychology](visual-thumbnail-psychology.md) - Eye-Tracking, CTR A/B Testing
+
+[Back to README](../../README.md)
+
 ---
 
 # Skill: Procedural Visual Direction (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+
 
 Comprehensive technical protocols for the automatic generation of "Semantic Visuals"—imagery that directly correlates with linguistic cues—using Blender and Manim in the 2025 ecosystem. This document defines the standards for scene mapping, camera orchestration, and cross-modal render management.
 
@@ -96,6 +105,11 @@ Ensuring a consistent "Brand Look" across thousands of automated videos.
 ## 10. Benchmarks & Performance Standards (2025)
 *   **Sync Accuracy:** Target < 2 frames of drift per 5 minutes of video.
 *   **Visual Fidelity:** Minimum 100% PBR material compliance for 3D scenes.
+
+## 🔗 Related Visual/AI Production Skills
+- **[AI Cinematography](visual-ai-cinematography.md)** - Virtual Camera Paths, Frame Consistency, Lighting
+- **[Visual Character Consistency](visual-character-consistency.md)** - IP-Adapter FaceID, InstantID, LoRA Training
+- **[Thumbnail Psychology](visual-thumbnail-psychology.md)** - Eye-Tracking, CTR A/B Testing
 
 ---
 [Back to README](../../README.md)
