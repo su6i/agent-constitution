@@ -21,6 +21,7 @@ This repository contains the constitution and standards for Agentic Coding 2026,
 - Always write tests before implementing any changes (TDD).
 - Use `uv` for package management, never use `pip` directly.
 - Commit message format: `[type]: [short description]` (e.g., `feat: add new skill`).
+- **Never mention your own name, model name, or agent identity in any commit message.** Commit messages describe the change, not who made it.
 
 ## Running Tests
 ```bash
