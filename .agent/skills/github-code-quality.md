@@ -52,7 +52,7 @@ Utilizing `.cursorrules` (and `.mdc` files in 2025) to provide project-specific 
 *   **Naming Conventions:** Enforcing strict PascalCase for classes and snake_case for functions through AI-guided correction.
 
 ### 3.2 Automated Rule Enforcement
-Utilizing a custom script to verify that every file in the project adheres to the `agent-constitution` and project-specific `.cursor/rules`.
+Utilizing a custom script to verify that every file in the project adheres to the `agent-constitution` and project-specific `.agent/rules`.
 
 ---
 

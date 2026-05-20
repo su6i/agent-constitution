@@ -25,12 +25,12 @@ last_updated: 2026-02-22
 
 ### B. The Executor Protocol (Cost-Effective)
 **Role:** Implementation, Writing Code, Generating Docs.
-**Model:** `Gemini Flash Lite` or `Flash`.
+**Model:** `DeepSeek V4-Flash` or `Claude Haiku` (cheapest capable model).
 **Rule:** Executors MUST strictly follow the **Task Prompts** created by the Architect. They do NOT make high-level decisions.
 
 ### C. Task Prompt Storage
 **Action:** The Architect saves instructions in:
-- `.cursor/instructions/` (e.g., `01_scaffold.md`, `02_auth_module.md`).
+- `.agent/instructions/` (e.g., `01_scaffold.md`, `02_auth_module.md`).
 - **File Format:** Clear, step-by-step prompts optimized for lighter models.
 
 ### D. Model Selection Logic (How to find the Architect)
@@ -83,20 +83,38 @@ Since available models vary by user/region, we use a **"Seed & Sort"** approach:
 ## 3. Fallback Hierarchy (Config.yaml)
 **Action:** Implement this exact priority queue in `config.yaml`.
 
+**Last updated: 2026-05-20 — verify model IDs before using in production.**
+
 | Priority | Model (Text) | Type | Role |
 | :--- | :--- | :--- | :--- |
-| 1 | `gemini-3-flash` | Text | Balance |
-| 2 | `gemini-2.5-flash` | Text | Standard |
-| 3 | `gemini-2.5-flash-lite` | Text | Economy |
-| 4 | `deepseek-v3` | Text | Complex |
-| 5 | `gemma-3-27b` | Local | Offline |
-| ... | `gemma-3-1b` | Local | Last Resort |
+| 1 | `claude-opus-4-7` | Text | Architect (planning, critical) |
+| 2 | `claude-sonnet-4-6` | Text | Standard (default) |
+| 3 | `deepseek-v4-pro` | Text | Economy Pro (research, complex) |
+| 4 | `deepseek-v4-flash` | Text | Economy (bulk, translation, boilerplate) |
+| 5 | `claude-haiku-4-5-20251001` | Text | Fast/cheap (simple lookups) |
+| 6 | `gemma-3-27b` | Local | Offline fallback |
 
 | Priority | Model (Audio) | Type | Role |
 | :--- | :--- | :--- | :--- |
 | 1 | `gemini-2.5-flash-tts` | Audio | Quality |
 | 2 | `gemini-2.5-flash-native` | Audio | Live |
 | 3 | `microsoft-edge-tts` | Audio | Free Fallback |
+
+**DeepSeek API** (OpenAI-compatible, `base_url="https://api.deepseek.com"`):
+- `deepseek-v4-flash` — $0.14/$0.28 per 1M tokens (input/output), 1M ctx, thinking mode supported
+- `deepseek-v4-pro` — $0.435/$0.87 per 1M tokens, 1M ctx
+- ~~`deepseek-chat`~~ / ~~`deepseek-reasoner`~~ — deprecated 2026-07-24, use `deepseek-v4-flash`
+
+**Thinking mode** (DeepSeek V4-Flash/Pro, replaces old deepseek-reasoner):
+```python
+response = client.chat.completions.create(
+    model="deepseek-v4-flash",
+    messages=[{"role": "user", "content": prompt}],
+    extra_body={"thinking": {"type": "enabled", "budget_tokens": 4000}},
+)
+# response.choices[0].message.reasoning_content  ← chain-of-thought
+# response.choices[0].message.content            ← final answer
+```
 
 ## 3. Quota Management (Circuit Breaker)
 **Logic:**
