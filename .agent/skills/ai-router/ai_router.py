@@ -24,12 +24,12 @@ import httpx
 # ============================================================================
 
 class ModelType(Enum):
-    """Available AI models"""
-    CLAUDE_OPUS = "claude-opus-4-6"
-    CLAUDE_SONNET = "claude-sonnet-4-5-20250929"
+    """Available AI models (updated 2026-05-20)"""
+    CLAUDE_OPUS = "claude-opus-4-7"
+    CLAUDE_SONNET = "claude-sonnet-4-6"
     CLAUDE_HAIKU = "claude-haiku-4-5-20251001"
-    DEEPSEEK_CHAT = "deepseek-chat"
-    DEEPSEEK_CODER = "deepseek-coder"
+    DEEPSEEK_FLASH = "deepseek-v4-flash"   # replaces deepseek-chat + deepseek-reasoner
+    DEEPSEEK_PRO = "deepseek-v4-pro"       # replaces deepseek-coder for complex tasks
 
 
 class TaskComplexity(Enum):
@@ -462,6 +462,7 @@ class AIRouter:
         # Initialize clients
         self.clients: Dict[ModelType, ModelClient] = {}
         self._initialize_clients()
+        # Note: DEEPSEEK_FLASH supports thinking mode via extra_body={"thinking": {"type": "enabled", "budget_tokens": N}}
         
         # Initialize components
         self.cache = CacheManager(self.routing_config.cache_ttl_seconds) if self.routing_config.enable_caching else None
@@ -482,7 +483,7 @@ class AIRouter:
         for model_type, config in self.model_configs.items():
             if model_type in [ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET, ModelType.CLAUDE_HAIKU]:
                 self.clients[model_type] = ClaudeClient(config)
-            elif model_type in [ModelType.DEEPSEEK_CHAT, ModelType.DEEPSEEK_CODER]:
+            elif model_type in [ModelType.DEEPSEEK_FLASH, ModelType.DEEPSEEK_PRO]:
                 self.clients[model_type] = DeepSeekClient(config)
     
     def _setup_logging(self):
@@ -521,11 +522,11 @@ class AIRouter:
         
         # Route based on complexity
         if complexity.value <= self.routing_config.deepseek_max_complexity:
-            # Try DeepSeek first (cheaper)
-            if ModelType.DEEPSEEK_CODER in self.clients:
-                return ModelType.DEEPSEEK_CODER
-            elif ModelType.DEEPSEEK_CHAT in self.clients:
-                return ModelType.DEEPSEEK_CHAT
+            # Try DeepSeek first (cheaper): Flash for simple, Pro for moderate
+            if complexity.value <= 1 and ModelType.DEEPSEEK_FLASH in self.clients:
+                return ModelType.DEEPSEEK_FLASH
+            elif ModelType.DEEPSEEK_PRO in self.clients:
+                return ModelType.DEEPSEEK_PRO
         
         if complexity.value <= self.routing_config.haiku_max_complexity:
             if ModelType.CLAUDE_HAIKU in self.clients:
@@ -603,8 +604,8 @@ class AIRouter:
             fallback_order = [
                 ModelType.CLAUDE_SONNET,
                 ModelType.CLAUDE_HAIKU,
-                ModelType.DEEPSEEK_CODER,
-                ModelType.DEEPSEEK_CHAT
+                ModelType.DEEPSEEK_PRO,
+                ModelType.DEEPSEEK_FLASH,
             ]
             models_to_try.extend([m for m in fallback_order if m != primary_model and m in self.clients])
         
@@ -722,13 +723,13 @@ async def main():
             output_cost_per_1m=5.0,
             max_tokens=8192
         ),
-        ModelType.DEEPSEEK_CODER: ModelConfig(
-            name="deepseek-coder",
+        ModelType.DEEPSEEK_FLASH: ModelConfig(
+            name="deepseek-v4-flash",
             api_key="your-deepseek-api-key",
             base_url="https://api.deepseek.com/v1",
             input_cost_per_1m=0.14,
             output_cost_per_1m=0.28,
-            max_tokens=4096
+            max_tokens=16384
         )
     }
     
