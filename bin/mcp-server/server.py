@@ -87,15 +87,19 @@ def get_rules_content() -> str:
     return "Global rules not found."
 
 
-def handle_request(request: dict[str, Any]) -> dict[str, Any]:
-    """Handle incoming MCP requests."""
+def handle_request(request: dict[str, Any]) -> dict[str, Any] | None:
+    """Handle incoming MCP requests. Returns None for notifications (no id)."""
     method = request.get("method", "")
     params = request.get("params", {})
     request_id = request.get("id")
-    
+
+    # Notifications have no id — must not respond
+    if request_id is None:
+        return None
+
     result = None
     error = None
-    
+
     # Initialize
     if method == "initialize":
         result = {
@@ -202,10 +206,10 @@ def main():
             
             request = json.loads(line)
             response = handle_request(request)
-            
-            response_str = json.dumps(response) + "\n"
-            sys.stdout.write(response_str)
-            sys.stdout.flush()
+
+            if response is not None:
+                sys.stdout.write(json.dumps(response) + "\n")
+                sys.stdout.flush()
             
         except json.JSONDecodeError as e:
             sys.stderr.write(f"JSON decode error: {e}\n")
