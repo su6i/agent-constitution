@@ -4,7 +4,7 @@ A local MCP (Model Context Protocol) server that exposes the Agent Constitution'
 
 ## Features
 
-- **Skills as Resources:** All 76 technical skills are exposed as readable resources.
+- **Skills as Resources:** All 77 technical skills are exposed as readable resources.
 - **Workflows as Tools:** Execute workflows directly from your AI assistant.
 - **Rules as Context:** Access global rules for system prompt injection.
 
@@ -52,7 +52,7 @@ Add to your Cursor MCP configuration:
 
 ## Available Resources
 
-### Skills (76 total)
+### Skills (77 total)
 Access any skill with URI: `skill://<skill-name>`
 
 Example: `skill://python-core-standards`
