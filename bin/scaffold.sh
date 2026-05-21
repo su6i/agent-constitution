@@ -73,7 +73,40 @@ for dir in "${DIRS[@]}"; do
     fi
 done
 
-# 5. Standardize .gitignore (Append if missing)
+# 5. Generate project-level CLAUDE.md
+CLAUDE_MD="$TARGET_DIR/CLAUDE.md"
+PROJECT_NAME=$(basename "$TARGET_DIR")
+if [ ! -f "$CLAUDE_MD" ]; then
+    cat > "$CLAUDE_MD" << CLAUDEOF
+# CLAUDE.md — ${PROJECT_NAME}
+
+## Project
+<!-- TODO: describe what this project does in 1-2 sentences -->
+
+## Tech Stack
+<!-- TODO: e.g. Python 3.12, FastAPI, PostgreSQL -->
+
+## Relevant Skills
+<!-- List the .agent/skills/ files most relevant to this project -->
+<!-- Example: python-core-standards, fastapi-best-practices, ops-automation -->
+
+## Key Constraints
+<!-- Any project-specific rules, e.g. "never modify legacy_api.py" -->
+
+## Rules & Workflows
+- Rules: \`.agent/rules/\` (000-core, global, 040-git are mandatory)
+- Workflows: \`.agent/workflows/\` (pick the relevant one per task)
+- Skills: \`.agent/skills/\` (read before implementing domain-specific logic)
+
+## Notes
+Global rules (git protocol, cost control, code quality) are in ~/.claude/CLAUDE.md
+CLAUDEOF
+    echo "   ✅ Created CLAUDE.md (fill in the TODOs)"
+else
+    echo "   🔸 CLAUDE.md already exists, skipping."
+fi
+
+# 6. Standardize .gitignore (Append if missing)
 GITIGNORE="$TARGET_DIR/.gitignore"
 if [ ! -f "$GITIGNORE" ]; then
     touch "$GITIGNORE"
@@ -98,7 +131,7 @@ done
 if [ -d "$TARGET_DIR/.git" ]; then
     echo "💾 Staging changes..."
     cd "$TARGET_DIR" || exit
-    git add .agent/rules/ .agent/workflows/ .agent/prompts/ .gitignore
+    git add .agent/rules/ .agent/workflows/ .agent/prompts/ .gitignore CLAUDE.md 2>/dev/null || true
     echo "   ✅ Files flagged for commit."
 else
     echo "ℹ️  Skipped git add (not a repo)."
