@@ -75,8 +75,11 @@ assets/*_draft.md
 # --- IDEs & Editors ---
 .idea/
 .vscode/
-
 .windsurf/
 .antigravity/
 .cursor/prompts/technical_project_brief.md
+
+# --- Local Runtime ---
+.claude/
+temp/
 roadmap/
