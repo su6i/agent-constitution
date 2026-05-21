@@ -104,6 +104,7 @@ In practice, the repository now has a clear center of gravity:
 - **[CLI Table Alignment](.agent/skills/cli-table-alignment.md):** Pixel-perfect ASCII tables with Emoji support.
 - **[Zsh Completion](.agent/skills/zsh-completion.md):** Robust autocomplete scripts avoiding common pitfalls.
 - **[Zsh Scripting Advanced](.agent/skills/zsh-scripting-advanced.md):** SIGINT traps, option parsing, and advanced shell patterns.
+- **[MLX Whisper](.agent/skills/mlx-whisper.md):** Apple Silicon-optimized Whisper transcription via mlx-whisper.
 - **[YouTube SEO](.agent/skills/youtube-seo.md):** Strategy for titles, retention, and content growth.
 - **[yt-dlp Web Download](.agent/skills/youtube-dlp-web-download.md):** Cloudflare bypass, stream selection, and bitrate-aware extraction.
 - **[FFmpeg Recipes](.agent/skills/ffmpeg-recipes.md):** Copy-pasteable commands for video automation.
@@ -197,7 +198,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```
 
 ### Available Resources
-- **75 Skills** as `skill://<skill-name>` resources
+- **76 Skills** as `skill://<skill-name>` resources
 - **Workflows** as executable tools
 - **Global Rules** via `get_rules` tool
 
