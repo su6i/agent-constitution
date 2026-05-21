@@ -9,7 +9,6 @@ last_updated: 2026-03-08
 
 **🔗 Related YouTube Skills:**
 - [YouTube SEO](youtube-seo.md) - Semantic Keyword Mapping, Content Strategy
-- [yt-dlp Downloader](youtube-dlp-downloader.md) - Instagram media extraction best practices
 
 **🔗 Related Tools:**
 - [FFmpeg Recipes](ffmpeg-recipes.md) - Stream conversion & subtitle merging

@@ -8,6 +8,12 @@ last_updated: 2026-02-22
 
 # Skill: Kubernetes & MkDocs (Technical Encyclopedia)
 
+**🔗 Related Skills:**
+- [Python Containerization](python-containerization.md) — Docker best practices, multi-stage builds
+- [Ops Automation](ops-automation.md) — CI/CD pipelines, Docker, experiment tracking
+- [Python GitHub Setup](python-github-setup.md) — GitHub Actions, semantic release
+- [Linux CUDA Python](linux-cuda-python.md) — HPC environment setup and system-level tooling
+
 [Back to README](../../README.md)
 
 Comprehensive technical protocols for the orchestration of containerized applications and the generation of technical documentation libraries in the 2025 ecosystem. This document defines the standards for Kubernetes resource management, Helm-based deployments, and MkDocs-Material integration.

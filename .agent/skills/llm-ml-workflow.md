@@ -8,6 +8,12 @@ last_updated: 2026-02-22
 
 # Skill: LLM & ML Engineering (Technical Encyclopedia)
 
+**🔗 Related Skills:**
+- [Prompt Engineering](prompt-engineering.md) — System prompts, persona design, and chain-of-thought patterns
+- [Multi-Agentic RAG](multi-rag-orchestration.md) — Stateful memory and semantic retrieval orchestration
+- [PyTorch & Scikit-learn](python-pytorch-sklearn.md) — Low-level training loops and ONNX export
+- [Reinforcement Learning](reinforcement-learning.md) — SB3/SBX agents and reward engineering
+
 [Back to README](../../README.md)
 
 Comprehensive technical protocols for the architecting, fine-tuning, and deployment of Large Language Models (LLMs) and Machine Learning (ML) systems in the 2025 ecosystem. This document defines the standards for declarative prompt optimization, memory-efficient fine-tuning, and high-throughput inference.

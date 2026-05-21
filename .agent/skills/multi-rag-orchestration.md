@@ -8,6 +8,12 @@ last_updated: 2026-02-22
 
 # Skill: Multi-Agentic RAG Orchestration (Technical Encyclopedia)
 
+**🔗 Related Skills:**
+- [LLM & ML Workflow](llm-ml-workflow.md) — Fine-tuning and inference stack that powers RAG retrieval models
+- [Moltbot Orchestration](moltbot-orchestration.md) — Multi-agent coordinator that consumes RAG outputs
+- [Prompt Engineering](prompt-engineering.md) — System prompt design for RAG context injection
+- [CLIL Screenwriting](storytelling-clil-education.md) — Leitner SRS integration that mirrors RAG vocabulary tracking
+
 [Back to README](../../README.md)
 
 Comprehensive technical protocols for the design and orchestration of stateful Retrieval-Augmented Generation (RAG) systems in a multi-agent environment in the 2025 ecosystem. This document defines the standards for cross-session memory, automated vocabulary tracking, and the integration of Leitner-based spaced repetition into RAG retrievals.

@@ -8,6 +8,12 @@ last_updated: 2026-02-22
 
 # Skill: Moltbot Orchestration (Technical Encyclopedia)
 
+**🔗 Related Skills:**
+- [Automated Scriptwriting](screenwriting-automated.md) — LLM-driven script production pipeline feeding into Moltbot
+- [Multi-Agentic RAG](multi-rag-orchestration.md) — Stateful memory and vocabulary tracking used by agents
+- [AI Logic Patterns](ai-logic-patterns.md) — Architect vs. Executor model routing principles
+- [Voice Orchestration](voice-orchestration-multi-model.md) — Multi-model TTS pipeline integrated with Moltbot
+
 [Back to README](../../README.md)
 
 Comprehensive technical protocols for the "Moltbot" orchestration layer—the executive producer in the AutoStream Pro architecture. This document defines the standards for multi-agent coordination, stateful task decomposition, and cross-modal synchronization between LLMs, Python engines, and media APIs.
