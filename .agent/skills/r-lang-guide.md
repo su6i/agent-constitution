@@ -8,6 +8,12 @@ last_updated: 2026-02-22
 
 # Skill: R Language Best Practices (Technical Encyclopedia)
 
+**🔗 Related Skills:**
+- [Data Science Workflow](data-science-workflow.md) — Reproducible research structure and experiment management
+- [Python Pandas & Scikit-learn](python-pandas-sklearn.md) — Python equivalent of Tidyverse/data.table patterns
+- [Data Visualization](data-visualization.md) — Publication-quality charts (Seaborn/Scipy counterparts to ggplot2)
+- [Financial Data Science](financial-data-science.md) — Quantitative analysis pipeline
+
 [Back to README](../../README.md)
 
 Comprehensive technical protocols for industrial-grade data analysis and statistical computing using the R language in the 2025 ecosystem. This document defines the standards for Tidyverse-based functional programming, high-speed `data.table` operations, and C++ integration via `Rcpp`.

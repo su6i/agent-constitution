@@ -11,10 +11,12 @@ last_updated: 2026-02-21
 This repository contains the constitution and standards for Agentic Coding 2026, focusing on the strategic balance between computational power and operational cost efficiency.
 
 ## Structure
-- `src/` — Core logic and implementation.
-- `tests/` — Unit and integration tests.
-- `memory-bank/` — Session-to-session context and progress tracking.
 - `.agent/rules/` — Core project standards and formatting rules (Universal Structure).
+- `.agent/skills/` — Reusable domain-specific knowledge modules (76 skills).
+- `.agent/workflows/` — Repeatable operating procedures and process templates.
+- `.agent/prompts/` — Reusable prompt templates for common tasks.
+- `memory-bank/` — Session-to-session context and progress tracking.
+- `bin/` — Automation scripts (scaffolding, MCP server, validation).
 
 ## Important Rules for Jules & Other Agents
 - Perform one task at a time — small PRs are preferred over large ones.

@@ -46,10 +46,10 @@ safe_copy() {
     echo "   ✅ Installed $(basename "$src")"
 }
 
-safe_copy "$SOURCE_ROOT/.cursor/rules" "$TARGET_DIR/.cursor/rules"
-mkdir -p "$TARGET_DIR/.cursor"
-safe_copy "$SOURCE_ROOT/.cursor/workflows" "$TARGET_DIR/.cursor/workflows"
-safe_copy "$SOURCE_ROOT/.cursor/prompts" "$TARGET_DIR/.cursor/prompts"
+mkdir -p "$TARGET_DIR/.agent"
+safe_copy "$SOURCE_ROOT/.agent/rules" "$TARGET_DIR/.agent/rules"
+safe_copy "$SOURCE_ROOT/.agent/workflows" "$TARGET_DIR/.agent/workflows"
+safe_copy "$SOURCE_ROOT/.agent/prompts" "$TARGET_DIR/.agent/prompts"
 
 # 4. Scaffold Standard Directories
 echo "🏗️  Creating standard directory structure..."
@@ -98,7 +98,7 @@ done
 if [ -d "$TARGET_DIR/.git" ]; then
     echo "💾 Staging changes..."
     cd "$TARGET_DIR" || exit
-    git add .cursor/rules/ .cursor/workflows/ .cursor/prompts/ .gitignore
+    git add .agent/rules/ .agent/workflows/ .agent/prompts/ .gitignore
     echo "   ✅ Files flagged for commit."
 else
     echo "ℹ️  Skipped git add (not a repo)."

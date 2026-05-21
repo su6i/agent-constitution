@@ -12,7 +12,7 @@ last_updated: 2026-02-21
 <h1>Agent Constitution 📜</h1>
 
 <p align="center">
-  <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a><a href="#"><img src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a><a href=".cursor/workflows/documentation.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20" style="vertical-align: middle;"></a><a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20" style="vertical-align: middle; margin-bottom: -1px; margin-left: 3px;"></a>
+  <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a><a href="#"><img src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a><a href=".agent/workflows/documentation.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20" style="vertical-align: middle;"></a><a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20" style="vertical-align: middle; margin-bottom: -1px; margin-left: 3px;"></a>
 </p>
 
 <strong>The Validated Context Architecture for AI Agents.</strong>
@@ -74,11 +74,11 @@ In practice, the repository now has a clear center of gravity:
     mkdir my-new-project && cd my-new-project
     init-gh
     ```
-    *Result: The `.cursorrules`, `.cursor/workflows/`, and `.cursor/prompts/` are injected and committed automatically.*
+    *Result: The `.agent/rules/`, `.agent/workflows/`, and `.agent/prompts/` are injected and committed automatically.*
 
 ### Option B: Manual Setup
 1.  Clone this repo.
-2.  Copy `.cursorrules`, `.cursor/workflows/`, and `.cursor/prompts/` to your project root.
+2.  Copy `.agent/rules/`, `.agent/workflows/`, and `.agent/prompts/` to your project root.
 3.  **Ask your Agent:**
     > "Audit my codebase against the Quality Assurance protocol."
 
@@ -103,12 +103,17 @@ In practice, the repository now has a clear center of gravity:
 ### 🧠 Skills
 - **[CLI Table Alignment](.agent/skills/cli-table-alignment.md):** Pixel-perfect ASCII tables with Emoji support.
 - **[Zsh Completion](.agent/skills/zsh-completion.md):** Robust autocomplete scripts avoiding common pitfalls.
+- **[Zsh Scripting Advanced](.agent/skills/zsh-scripting-advanced.md):** SIGINT traps, option parsing, and advanced shell patterns.
 - **[YouTube SEO](.agent/skills/youtube-seo.md):** Strategy for titles, retention, and content growth.
+- **[yt-dlp Web Download](.agent/skills/youtube-dlp-web-download.md):** Cloudflare bypass, stream selection, and bitrate-aware extraction.
 - **[FFmpeg Recipes](.agent/skills/ffmpeg-recipes.md):** Copy-pasteable commands for video automation.
+- **[FFmpeg Reference](.agent/skills/ffmpeg-reference.md):** Technical reference for codec ops, metadata, and flags.
 - **[Data Science Workflow](.agent/skills/data-science-workflow.md):** Reproducible science structure.
 - **[MacOS Automation](.agent/skills/macos-automation.md):** Python/Zsh scripts for desktop tasks.
 - **[Prompt Engineering](.agent/skills/prompt-engineering.md):** Advanced system prompts & personas.
+- **[Claude Code Integration](.agent/skills/claude-code-integration.md):** Claude Code CLI, hooks, MCP servers, and agentic workflow patterns.
 - **[Storytelling](.agent/skills/storytelling.md):** Hero's Journey applied to tech.
+- **[Storytelling TTS M4](.agent/skills/storytelling-tts-m4-system.md):** End-to-end TTS storytelling pipeline on Apple Silicon.
 - **[FastAPI Best Practices](.agent/skills/fastapi-best-practices.md):** Scalable, type-safe API patterns.
 - **[Flask JSON Guide](.agent/skills/flask-json-guide.md):** Robust structure for Flask APIs.
 - **[LLM & ML Workflow](.agent/skills/llm-ml-workflow.md):** Productionizing AI models.
@@ -120,6 +125,7 @@ In practice, the repository now has a clear center of gravity:
 - **[DevOps & MLOps](.agent/skills/ops-automation.md):** CI/CD, Docker, & Experiment Tracking.
 - **[System Architecting](.agent/skills/ai-logic-patterns.md):** Master prompting & agent orchestration rules.
 - **[Multi-Step RAG](.agent/skills/multi-rag-orchestration.md):** Stateful memory & lexical tracking (SRS).
+- **[Video Production Automation](.agent/skills/video-production-automation.md):** Python stack overview: Manim, MoviePy, and OpenCV.
 - **[Blender Automation](.agent/skills/video-blender-automation.md):** Python (bpy) & Geometry Nodes.
 - **[DaVinci Resolve](.agent/skills/video-resolve-editing.md):** Python API & Post-Production.
 - **[Remotion Video](.agent/skills/video-remotion-react.md):** Programmatic video with React.
@@ -131,6 +137,9 @@ In practice, the repository now has a clear center of gravity:
 - **[JS/TS Quality](.agent/skills/js-ts-code-quality.md):** Strict TypeScript, Biome/ESLint, & Vitest.
 - **[Pandas & Scikit-learn](.agent/skills/python-pandas-sklearn.md):** Method chaining, Pipelines, & ColumnTransformer.
 - **[Python Core Standards](.agent/skills/python-core-standards.md):** Project structure, `uv` implementation, & Typing.
+- **[Centralized Config Pattern](.agent/skills/centralized-config-pattern.md):** Single source of truth for multi-language projects (Bash + Python).
+- **[PDF Form Filling](.agent/skills/pdf-form-filling.md):** Automated PDF form filling and document generation.
+- **[PDF Rendering Engines](.agent/skills/pdf-rendering-engines.md):** PDF rendering stack comparison and engine selection.
 - **[PyTorch Integration](.agent/skills/python-pytorch-sklearn.md):** Sklearn data pipelines with PyTorch models.
 - **[R Language](.agent/skills/r-lang-guide.md):** `targets` pipelines & `renv` practices.
 - **[Solidity (Foundry)](.agent/skills/web3-solidity-foundry.md):** Modern Rust-based testing & fuzzing stack.
@@ -140,9 +149,13 @@ In practice, the repository now has a clear center of gravity:
 - **[Desktop GUIs](.agent/skills/desktop-gui-dev.md):** Modern Python apps with CustomTkinter & PyQt6.
 - **[How-To Docs](.agent/skills/howto-documentation.md):** Diátaxis framework & technical writing guides.
 - **[Data Visualization](.agent/skills/data-visualization.md):** Publication-quality plots with Scipy/Seaborn.
+- **[Image Enhancement](.agent/skills/image-enhancement.md):** Neural upscaling, denoising, and post-processing pipelines.
+- **[ImageMagick Reference](.agent/skills/imagemagick-reference.md):** Input normalization, corner rounding, and standard operations.
+- **[ImageMagick Technical](.agent/skills/imagemagick-technical.md):** PDF conversion math, color space, FX operator, and batch orchestration.
 - **[Reinforcement Learning](.agent/skills/reinforcement-learning.md):** Gymnasium envs & Stable-Baselines3 training.
 - **[Manim Animation](.agent/skills/video-manim-math.md):** Math animations with Python & LaTeX.
 - **[YouTube Scriptwriting](.agent/skills/screenwriting-youtube.md):** High-retention hooks & psychology.
+- **[Screenwriting Frameworks](.agent/skills/screenwriting-frameworks.md):** 3-Act structure, Hero's Journey, and beat sheet methodology.
 - **[Advanced Screenwriting](.agent/skills/storytelling-narrative-frameworks.md):** Save the Cat, Hero's Journey, & Story Circle.
 - **[Copywriting](.agent/skills/copywriting.md):** Information processing & conversion logic.
 - **[Audio Processing](.agent/skills/audio-processing.md):** Neural denoising & EBU R128 normalization.
@@ -163,7 +176,6 @@ In practice, the repository now has a clear center of gravity:
 - **[Emotional Voice Acting](.agent/skills/voice-emotional-acting.md):** One-person multi-character production & GPT-SoVITS.
 - **[Episode Structure](.agent/skills/episode-structure-45min.md):** 45-minute 3-part format & cognitive load management.
 - **[Procedural Direction](.agent/skills/visual-director-procedural.md):** Blender & Manim semantic visuals.
-- **[Master Editing](.agent/skills/video-resolve-editing.md):** DaVinci Resolve API & timeline automation.
 - **[Subtitle Generator](.agent/skills/subtitle-generator.md):** Professional Persian subtitles with cinematic typography.
 
 ---
@@ -186,7 +198,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```
 
 ### Available Resources
-- **64 Skills** as `skill://<skill-name>` resources
+- **76 Skills** as `skill://<skill-name>` resources
 - **Workflows** as executable tools
 - **Global Rules** via `get_rules` tool
 
