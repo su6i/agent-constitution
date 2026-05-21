@@ -25,9 +25,9 @@ JSONRPC_VERSION = "2.0"
 # Resolve paths
 SCRIPT_DIR = Path(__file__).parent.resolve()
 REPO_ROOT = SCRIPT_DIR.parent.parent
-SKILLS_DIR = REPO_ROOT / ".cursor" / "skills"
-WORKFLOWS_DIR = REPO_ROOT / ".cursor" / "workflows"
-RULES_DIR = REPO_ROOT / ".cursor" / "rules"
+SKILLS_DIR = REPO_ROOT / ".agent" / "skills"
+WORKFLOWS_DIR = REPO_ROOT / ".agent" / "workflows"
+RULES_DIR = REPO_ROOT / ".agent" / "rules"
 
 
 def read_file(path: Path) -> str:
