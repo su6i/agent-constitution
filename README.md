@@ -112,8 +112,7 @@ In practice, the repository now has a clear center of gravity:
 - **[MacOS Automation](.agent/skills/macos-automation.md):** Python/Zsh scripts for desktop tasks.
 - **[Prompt Engineering](.agent/skills/prompt-engineering.md):** Advanced system prompts & personas.
 - **[Claude Code Integration](.agent/skills/claude-code-integration.md):** Claude Code CLI, hooks, MCP servers, and agentic workflow patterns.
-- **[Storytelling](.agent/skills/storytelling.md):** Hero's Journey applied to tech.
-- **[Storytelling TTS M4](.agent/skills/storytelling-tts-m4-system.md):** End-to-end TTS storytelling pipeline on Apple Silicon.
+- **[Storytelling TTS M4](.agent/skills/storytelling-tts-m4-system.md):** End-to-end TTS storytelling pipeline on Apple Silicon (XTTS, GPT-SoVITS, Kokoro).
 - **[FastAPI Best Practices](.agent/skills/fastapi-best-practices.md):** Scalable, type-safe API patterns.
 - **[Flask JSON Guide](.agent/skills/flask-json-guide.md):** Robust structure for Flask APIs.
 - **[LLM & ML Workflow](.agent/skills/llm-ml-workflow.md):** Productionizing AI models.
@@ -198,7 +197,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```
 
 ### Available Resources
-- **76 Skills** as `skill://<skill-name>` resources
+- **75 Skills** as `skill://<skill-name>` resources
 - **Workflows** as executable tools
 - **Global Rules** via `get_rules` tool
 
