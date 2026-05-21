@@ -14,7 +14,7 @@ Read the others on demand:
 - `.agent/rules/020-tdd.md` — TDD rules
 - `.agent/rules/030-security.md` — Security checks
 
-## Skills (75 available)
+## Skills (77 available)
 Before implementing anything domain-specific, check `.agent/skills/` for an existing knowledge module. Read the relevant skill file first.
 
 **By domain:**

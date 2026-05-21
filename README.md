@@ -140,6 +140,7 @@ In practice, the repository now has a clear center of gravity:
 - **[Centralized Config Pattern](.agent/skills/centralized-config-pattern.md):** Single source of truth for multi-language projects (Bash + Python).
 - **[PDF Form Filling](.agent/skills/pdf-form-filling.md):** Automated PDF form filling and document generation.
 - **[PDF Rendering Engines](.agent/skills/pdf-rendering-engines.md):** PDF rendering stack comparison and engine selection.
+- **[CV LaTeX Workspace](.agent/skills/cv-latex-workspace.md):** Multi-template CV system with shared macros, pdflatex/xelatex pipeline, and job-applier integration.
 - **[PyTorch Integration](.agent/skills/python-pytorch-sklearn.md):** Sklearn data pipelines with PyTorch models.
 - **[R Language](.agent/skills/r-lang-guide.md):** `targets` pipelines & `renv` practices.
 - **[Solidity (Foundry)](.agent/skills/web3-solidity-foundry.md):** Modern Rust-based testing & fuzzing stack.
@@ -198,7 +199,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 ```
 
 ### Available Resources
-- **76 Skills** as `skill://<skill-name>` resources
+- **77 Skills** as `skill://<skill-name>` resources
 - **Workflows** as executable tools
 - **Global Rules** via `get_rules` tool
 
