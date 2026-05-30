@@ -118,20 +118,9 @@ def handle_request(request: dict[str, Any]) -> dict[str, Any] | None:
             }
         }
     
-    # List resources (skills)
+    # List resources — empty, skills are exposed as tools (list_skills / get_skill)
     elif method == "resources/list":
-        skills = list_skills()
-        result = {
-            "resources": [
-                {
-                    "uri": s["uri"],
-                    "name": s["name"],
-                    "description": s["description"],
-                    "mimeType": "text/markdown"
-                }
-                for s in skills
-            ]
-        }
+        result = {"resources": []}
     
     # Read resource
     elif method == "resources/read":

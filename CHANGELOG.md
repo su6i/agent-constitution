@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - MCP server now negotiates protocol version (`2025-11-25` and `2024-11-05` supported)
 - `prompts/list` returns empty list instead of error
+- `resources/list` no longer sends 48KB payload on connect (skills moved to tools)
 
 ### Added
 - `list_skills` tool — lists all 343 skills so Claude can discover them proactively
