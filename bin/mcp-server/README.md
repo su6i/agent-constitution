@@ -1,110 +1,190 @@
 # Agent Constitution MCP Server
 
-A local MCP (Model Context Protocol) server that exposes the Agent Constitution's knowledge base to AI assistants.
+Exposes all 343 skills, workflows, and rules as callable tools to any MCP-compatible AI assistant.
 
-## Features
+Two server modes — same knowledge base, different transports:
 
-- **Skills as Tools:** All 343 technical skills accessible via `list_skills` and `get_skill` tools — Claude calls them proactively.
-- **Workflows as Tools:** Execute workflows directly from your AI assistant.
-- **Rules as Context:** Access global rules for system prompt injection.
+| File | Transport | Use with |
+|---|---|---|
+| `server.py` | stdio | Claude Code CLI |
+| `server_http.py` | HTTP + SSE | Cursor, VS Code, Antigravity IDE, Gemini CLI |
 
-## Installation
+---
 
-### Prerequisites
-- Python 3.10+  — no external dependencies (stdlib only)
+## Quick Start
 
-### stdio (Claude Code CLI)
+### 1. Start the HTTP server (one-time setup)
+
 ```bash
-chmod +x server.py
-# Claude Code picks this up automatically via .claude/settings.json
-```
-
-### HTTP (Claude Desktop chat / Cursor / Gemini)
-```bash
-# Install as a background service (auto-starts on login)
-cp com.agent-constitution.mcp.plist ~/Library/LaunchAgents/
+# Install as a macOS background service (auto-starts on login)
+cp bin/mcp-server/com.agent-constitution.mcp.plist ~/Library/LaunchAgents/
 launchctl load ~/Library/LaunchAgents/com.agent-constitution.mcp.plist
 
 # Verify
 curl http://localhost:8765/health
+# → {"status": "ok", "skills": 343}
 ```
 
-Then add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+### 2. Connect your IDE (see below)
+
+---
+
+## IDE Setup
+
+### Claude Code CLI
+No setup needed — stdio is configured automatically via `.claude/settings.json`.
+
+```bash
+claude  # skills available immediately
+```
+
+---
+
+### Cursor
+
+Edit `~/.cursor/mcp.json`:
+
 ```json
 {
   "mcpServers": {
-    "agent-constitution-http": {
+    "agent-constitution": {
       "url": "http://localhost:8765/sse"
     }
   }
 }
 ```
 
-## Connection
+Restart Cursor → check **Settings → MCP** for a green status indicator.
 
-### Claude Desktop
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+---
+
+### VS Code (via Continue.dev)
+
+1. Install the [Continue](https://marketplace.visualstudio.com/items?itemName=Continue.continue) extension
+2. Open `~/.continue/config.json` and add:
+
+```json
+{
+  "mcpServers": [
+    {
+      "name": "agent-constitution",
+      "transport": {
+        "type": "sse",
+        "url": "http://localhost:8765/sse"
+      }
+    }
+  ]
+}
+```
+
+3. Reload VS Code — skills appear in the Continue chat panel.
+
+---
+
+### Antigravity IDE (via Continue.dev)
+
+Antigravity IDE is a VS Code fork — the setup is identical to VS Code.
+
+1. Open Antigravity IDE → Extensions (`Cmd+Shift+X`)
+2. Search for **Continue** → Install
+3. Edit `~/.continue/config.json` (same file as VS Code — shared config):
+
+```json
+{
+  "mcpServers": [
+    {
+      "name": "agent-constitution",
+      "transport": {
+        "type": "sse",
+        "url": "http://localhost:8765/sse"
+      }
+    }
+  ]
+}
+```
+
+4. Reload Antigravity IDE → use Continue chat panel (`Cmd+L`).
+
+---
+
+### JetBrains IDEs (IntelliJ, PyCharm, GoLand, …)
+
+1. Install the [Continue](https://plugins.jetbrains.com/plugin/22707-continue) plugin
+2. Same `~/.continue/config.json` config as above
+3. Restart IDE → Continue panel in the right sidebar.
+
+---
+
+### Gemini CLI
+
+```bash
+# One-time: add to ~/.gemini/settings.json
+```
 
 ```json
 {
   "mcpServers": {
     "agent-constitution": {
-      "command": "python3",
-      "args": ["/path/to/agent-constitution/bin/mcp-server/server.py"]
+      "httpUrl": "http://localhost:8765/mcp"
     }
   }
 }
 ```
 
-### Cursor IDE
-Add to your Cursor MCP configuration:
-
-```json
-{
-  "servers": {
-    "agent-constitution": {
-      "command": "python3",
-      "args": ["./bin/mcp-server/server.py"],
-      "cwd": "/path/to/agent-constitution"
-    }
-  }
-}
-```
-
-## Available Resources
-
-### Skills (77 total)
-Access any skill with URI: `skill://<skill-name>`
-
-Example: `skill://python-core-standards`
-
-### Tools
-
-| Tool Name | Description |
-| :--- | :--- |
-| `list_skills` | List all 343 available skills by name |
-| `get_skill` | Read full content of a skill (`name` parameter required) |
-| `get_rules` | Get global repository rules |
-| `run_init_project` | Execute project initialization workflow |
-| `run_documentation` | Execute documentation workflow |
-| `run_quality_assurance` | Execute QA workflow |
-| `run_social_media_showcase` | Execute marketing workflow |
-
-## Protocol Details
-
-This server supports MCP `2025-11-25` and `2024-11-05` (version negotiated at handshake) with:
-- `tools/list` - List all tools (skills + workflows + rules)
-- `tools/call` - Call a tool
-- `resources/list` - Returns empty list (skills are tools now)
-- `prompts/list` - Returns empty list
-
-## Troubleshooting
-
-### Server not responding
-Check stderr output for errors:
+Then in any Gemini CLI session:
 ```bash
-python3 server.py 2>&1 | head -20
+gemini  # agent-constitution tools are available automatically
 ```
 
-### Resource not found
-Ensure the skill name matches exactly (use kebab-case).
+---
+
+### Claude Desktop chat
+
+> **Note:** Claude Desktop v2.1.x chat interface does not support local HTTP MCP servers.
+> Use Claude Code CLI (stdio) instead — it has full MCP support.
+
+---
+
+## Available Tools
+
+| Tool | Description |
+|---|---|
+| `list_skills` | List all 343 skill names (call this first to discover) |
+| `get_skill` | Read a skill by name — e.g. `fastapi-best-practices` |
+| `get_rules` | Get the global repository rules |
+| `run_<workflow>` | Execute a workflow (init_project, documentation, quality_assurance, …) |
+
+## Endpoints
+
+| Endpoint | Transport | Purpose |
+|---|---|---|
+| `GET /sse` | SSE | Cursor, VS Code/Antigravity (Continue), JetBrains |
+| `POST /mcp` | Streamable HTTP | Gemini CLI, custom clients |
+| `POST /message?sessionId=<id>` | SSE | SSE response channel |
+| `GET /health` | HTTP | Status check |
+
+---
+
+## Manage the background service
+
+```bash
+# Stop
+launchctl unload ~/Library/LaunchAgents/com.agent-constitution.mcp.plist
+
+# Start
+launchctl load ~/Library/LaunchAgents/com.agent-constitution.mcp.plist
+
+# Live logs
+tail -f /tmp/agent-constitution-mcp.log
+
+# Restart
+launchctl unload ~/Library/LaunchAgents/com.agent-constitution.mcp.plist && \
+launchctl load ~/Library/LaunchAgents/com.agent-constitution.mcp.plist
+```
+
+---
+
+## Protocol
+
+Supports MCP `2025-11-25` and `2024-11-05` — version is negotiated at handshake.
+No external dependencies — stdlib only (Python 3.10+).

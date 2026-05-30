@@ -183,29 +183,36 @@ In practice, the repository now has a clear center of gravity:
 
 ## 🤖 MCP Server Integration
 
-Connect this knowledge base to your AI assistant using the built-in MCP Server.
+Connect this knowledge base to any MCP-compatible AI assistant.
+Two transports available — **stdio** (Claude Code CLI) and **HTTP** (everything else).
 
-### Setup for Claude Desktop
-Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
-```json
-{
-  "mcpServers": {
-    "agent-constitution": {
-      "command": "python3",
-      "args": ["/path/to/agent-constitution/bin/mcp-server/server.py"]
-    }
-  }
-}
+### One-time HTTP server setup
+```bash
+cp bin/mcp-server/com.agent-constitution.mcp.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.agent-constitution.mcp.plist
+curl http://localhost:8765/health  # → {"status":"ok","skills":343}
 ```
 
-### Available Tools
-- **`list_skills`** — list all 343 skills by name (Claude calls this proactively)
-- **`get_skill`** — read any skill by name (e.g. `fastapi-best-practices`)
-- **`get_rules`** — get global repository rules
-- **Workflows** — `run_*` tools for each workflow
-- **343 Skills** also accessible as `skill://<skill-name>` resources
+### Connect your tool
 
-See [MCP Server README](bin/mcp-server/README.md) for full documentation.
+| Tool | Config |
+|---|---|
+| **Claude Code CLI** | Zero config — stdio works out of the box |
+| **Cursor** | `~/.cursor/mcp.json` → `"url": "http://localhost:8765/sse"` |
+| **VS Code** | Continue.dev extension → `~/.continue/config.json` |
+| **Antigravity IDE** | Continue.dev extension → same `~/.continue/config.json` |
+| **JetBrains** | Continue plugin → same `~/.continue/config.json` |
+| **Gemini CLI** | `~/.gemini/settings.json` → `"httpUrl": "http://localhost:8765/mcp"` |
+
+### Available Tools
+| Tool | Description |
+|---|---|
+| `list_skills` | List all 343 skill names |
+| `get_skill` | Read any skill — e.g. `get_skill("fastapi-best-practices")` |
+| `get_rules` | Get global repository rules |
+| `run_<workflow>` | Execute a workflow |
+
+See **[MCP Server README](bin/mcp-server/README.md)** for full per-IDE setup instructions.
 
 ---
 *Built with strict adherence to the Prompt-Driven Development methodology.*
