@@ -11,12 +11,33 @@ A local MCP (Model Context Protocol) server that exposes the Agent Constitution'
 ## Installation
 
 ### Prerequisites
-- Python 3.10+
+- Python 3.10+  — no external dependencies (stdlib only)
 
-### Setup
+### stdio (Claude Code CLI)
 ```bash
-# No external dependencies required - uses only Python stdlib
 chmod +x server.py
+# Claude Code picks this up automatically via .claude/settings.json
+```
+
+### HTTP (Claude Desktop chat / Cursor / Gemini)
+```bash
+# Install as a background service (auto-starts on login)
+cp com.agent-constitution.mcp.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.agent-constitution.mcp.plist
+
+# Verify
+curl http://localhost:8765/health
+```
+
+Then add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "agent-constitution-http": {
+      "url": "http://localhost:8765/sse"
+    }
+  }
+}
 ```
 
 ## Connection

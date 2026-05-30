@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - 2026-05-30
 
+### Added
+- `bin/mcp-server/server_http.py` — HTTP server with SSE + Streamable HTTP transports (localhost:8765)
+- `bin/mcp-server/com.agent-constitution.mcp.plist` — launchd service for auto-start on login
+- `/health` endpoint for status checks
+
 ### Fixed
 - MCP server now negotiates protocol version (`2025-11-25` and `2024-11-05` supported)
 - `prompts/list` returns empty list instead of error
