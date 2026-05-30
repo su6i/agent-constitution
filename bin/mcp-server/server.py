@@ -100,10 +100,13 @@ def handle_request(request: dict[str, Any]) -> dict[str, Any] | None:
     result = None
     error = None
 
-    # Initialize
+    # Initialize — negotiate down to the version we support
     if method == "initialize":
+        client_version = params.get("protocolVersion", "2024-11-05")
+        supported = ["2025-11-25", "2024-11-05"]
+        protocol_version = client_version if client_version in supported else "2024-11-05"
         result = {
-            "protocolVersion": "2024-11-05",
+            "protocolVersion": protocol_version,
             "capabilities": {
                 "resources": {"subscribe": False, "listChanged": False},
                 "tools": {},
@@ -161,18 +164,44 @@ def handle_request(request: dict[str, Any]) -> dict[str, Any] | None:
                     }
                 }
                 for wf in workflows
-            ] + [{
-                "name": "get_rules",
-                "description": "Get the global rules for this repository",
-                "inputSchema": {"type": "object", "properties": {}, "required": []}
-            }]
+            ] + [
+                {
+                    "name": "get_rules",
+                    "description": "Get the global rules for this repository",
+                    "inputSchema": {"type": "object", "properties": {}, "required": []}
+                },
+                {
+                    "name": "list_skills",
+                    "description": "List all 327 available technical skills in agent-constitution (Python, AI/ML, DevOps, Web, Mobile, etc.)",
+                    "inputSchema": {"type": "object", "properties": {}, "required": []}
+                },
+                {
+                    "name": "get_skill",
+                    "description": "Read the full content of a specific skill by name (e.g. 'fastapi-best-practices', 'python-core-standards')",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {"type": "string", "description": "Skill name without .md extension"}
+                        },
+                        "required": ["name"]
+                    }
+                }
+            ]
         }
-    
+
     # Call tool
     elif method == "tools/call":
         tool_name = params.get("name", "")
         if tool_name == "get_rules":
             result = {"content": [{"type": "text", "text": get_rules_content()}]}
+        elif tool_name == "list_skills":
+            skills = list_skills()
+            lines = [f"- {s['name']}" for s in skills]
+            result = {"content": [{"type": "text", "text": f"{len(skills)} skills available:\n" + "\n".join(lines)}]}
+        elif tool_name == "get_skill":
+            skill_name = params.get("arguments", {}).get("name", "")
+            content = get_skill_content(skill_name)
+            result = {"content": [{"type": "text", "text": content}]}
         elif tool_name.startswith("run_"):
             wf_name = tool_name[4:].replace("_", "-")
             content = get_workflow_content(wf_name)
@@ -180,6 +209,10 @@ def handle_request(request: dict[str, Any]) -> dict[str, Any] | None:
         else:
             error = {"code": -32601, "message": f"Unknown tool: {tool_name}"}
     
+    # Prompts list — return empty (no prompts defined)
+    elif method == "prompts/list":
+        result = {"prompts": []}
+
     # Unknown method
     else:
         error = {"code": -32601, "message": f"Unknown method: {method}"}
