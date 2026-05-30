@@ -5,7 +5,6 @@ A local MCP (Model Context Protocol) server that exposes the Agent Constitution'
 ## Features
 
 - **Skills as Tools:** All 343 technical skills accessible via `list_skills` and `get_skill` tools — Claude calls them proactively.
-- **Skills as Resources:** Skills also exposed as `skill://<name>` resources for direct URI access.
 - **Workflows as Tools:** Execute workflows directly from your AI assistant.
 - **Rules as Context:** Access global rules for system prompt injection.
 
@@ -73,10 +72,9 @@ Example: `skill://python-core-standards`
 ## Protocol Details
 
 This server supports MCP `2025-11-25` and `2024-11-05` (version negotiated at handshake) with:
-- `resources/list` - List all available skills as resources
-- `resources/read` - Read skill content by URI
 - `tools/list` - List all tools (skills + workflows + rules)
 - `tools/call` - Call a tool
+- `resources/list` - Returns empty list (skills are tools now)
 - `prompts/list` - Returns empty list
 
 ## Troubleshooting
