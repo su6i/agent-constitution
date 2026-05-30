@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Full IDE setup docs: Cursor, VS Code, Antigravity IDE, JetBrains, Gemini CLI
 
 ### Fixed
+- `AGENTS.md` stale skill count updated from 77 to 343
+
+### Fixed
 - MCP server now negotiates protocol version (`2025-11-25` and `2024-11-05` supported)
 - `prompts/list` returns empty list instead of error
 - `resources/list` no longer sends 48KB payload on connect (skills moved to tools)
