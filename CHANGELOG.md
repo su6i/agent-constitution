@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased] - 2026-05-30
+
+### Fixed
+- MCP server now negotiates protocol version (`2025-11-25` and `2024-11-05` supported)
+- `prompts/list` returns empty list instead of error
+
+### Added
+- `list_skills` tool — lists all 343 skills so Claude can discover them proactively
+- `get_skill` tool — reads any skill by name without requiring the caller to know the resource URI
+
+---
+
 ## [1.0.0] - 2026-02-07
 
 ### 🎉 Initial Release
