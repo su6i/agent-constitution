@@ -198,10 +198,12 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-### Available Resources
-- **77 Skills** as `skill://<skill-name>` resources
-- **Workflows** as executable tools
-- **Global Rules** via `get_rules` tool
+### Available Tools
+- **`list_skills`** — list all 343 skills by name (Claude calls this proactively)
+- **`get_skill`** — read any skill by name (e.g. `fastapi-best-practices`)
+- **`get_rules`** — get global repository rules
+- **Workflows** — `run_*` tools for each workflow
+- **343 Skills** also accessible as `skill://<skill-name>` resources
 
 See [MCP Server README](bin/mcp-server/README.md) for full documentation.
 
