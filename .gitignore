@@ -83,3 +83,4 @@ assets/*_draft.md
 .claude/
 temp/
 roadmap/
+bin/sync-projects.sh
