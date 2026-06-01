@@ -12,7 +12,7 @@ last_updated: 2026-02-21
 <h1>Agent Constitution 📜</h1>
 
 <p align="center">
-  <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a><a href="#"><img src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a><a href=".agent/workflows/documentation.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20" style="vertical-align: middle;"></a><a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20" style="vertical-align: middle; margin-bottom: -1px; margin-left: 3px;"></a>
+  <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a><a href="#"><img src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a><a href="workflows/documentation.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20" style="vertical-align: middle;"></a><a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20" style="vertical-align: middle; margin-bottom: -1px; margin-left: 3px;"></a>
 </p>
 
 <strong>The Validated Context Architecture for AI Agents.</strong>
@@ -74,11 +74,11 @@ In practice, the repository now has a clear center of gravity:
     mkdir my-new-project && cd my-new-project
     init-gh
     ```
-    *Result: The `.agent/rules/`, `.agent/workflows/`, and `.agent/prompts/` are injected and committed automatically.*
+    *Result: The `rules/`, `workflows/`, and `.agent/prompts/` are injected and committed automatically.*
 
 ### Option B: Manual Setup
 1.  Clone this repo.
-2.  Copy `.agent/rules/`, `.agent/workflows/`, and `.agent/prompts/` to your project root.
+2.  Copy `rules/`, `workflows/`, and `.agent/prompts/` to your project root.
 3.  **Ask your Agent:**
     > "Audit my codebase against the Quality Assurance protocol."
 
@@ -89,11 +89,11 @@ In practice, the repository now has a clear center of gravity:
 - **[Information Architecture](docs/INFORMATION-ARCHITECTURE.md):** Explains how the rest of the repository relates to the flagship guide.
 
 ### 🛠 Workflows
-- **[Init Workflow](.agent/workflows/init-project.md):** How to start clean.
-- **[AI Logic](.agent/workflows/ai-optimization.md):** Architect vs Executor models.
-- **[QA Protocol](.agent/workflows/quality-assurance.md):** Zero-bug policy.
-- **[Communication](.agent/workflows/communication.md):** Standardized project reporting.
-- **[Social Showcase](.agent/workflows/social-media-showcase.md):** World-class marketing assets.
+- **[Init Workflow](workflows/init-project.md):** How to start clean.
+- **[AI Logic](workflows/ai-optimization.md):** Architect vs Executor models.
+- **[QA Protocol](workflows/quality-assurance.md):** Zero-bug policy.
+- **[Communication](workflows/communication.md):** Standardized project reporting.
+- **[Social Showcase](workflows/social-media-showcase.md):** World-class marketing assets.
 
 ### 📝 Prompts
 - **[Technical Template](.agent/prompts/template_technical.md):** Base structure for technical docs.
@@ -101,83 +101,83 @@ In practice, the repository now has a clear center of gravity:
 - **[Logo Specs](.agent/prompts/template_project_logo.md):** DALL-E/Midjourney prompts for tech branding.
 
 ### 🧠 Skills
-- **[CLI Table Alignment](.agent/skills/cli-table-alignment.md):** Pixel-perfect ASCII tables with Emoji support.
-- **[Zsh Completion](.agent/skills/zsh-completion.md):** Robust autocomplete scripts avoiding common pitfalls.
-- **[Zsh Scripting Advanced](.agent/skills/zsh-scripting-advanced.md):** SIGINT traps, option parsing, and advanced shell patterns.
-- **[MLX Whisper](.agent/skills/mlx-whisper.md):** Apple Silicon-optimized Whisper transcription via mlx-whisper.
-- **[YouTube SEO](.agent/skills/youtube-seo.md):** Strategy for titles, retention, and content growth.
-- **[yt-dlp Web Download](.agent/skills/youtube-dlp-web-download.md):** Cloudflare bypass, stream selection, and bitrate-aware extraction.
-- **[FFmpeg Recipes](.agent/skills/ffmpeg-recipes.md):** Copy-pasteable commands for video automation.
-- **[FFmpeg Reference](.agent/skills/ffmpeg-reference.md):** Technical reference for codec ops, metadata, and flags.
-- **[Data Science Workflow](.agent/skills/data-science-workflow.md):** Reproducible science structure.
-- **[MacOS Automation](.agent/skills/macos-automation.md):** Python/Zsh scripts for desktop tasks.
-- **[Prompt Engineering](.agent/skills/prompt-engineering.md):** Advanced system prompts & personas.
-- **[Claude Code Integration](.agent/skills/claude-code-integration.md):** Claude Code CLI, hooks, MCP servers, and agentic workflow patterns.
-- **[Storytelling TTS M4](.agent/skills/storytelling-tts-m4-system.md):** End-to-end TTS storytelling pipeline on Apple Silicon (XTTS, GPT-SoVITS, Kokoro).
-- **[FastAPI Best Practices](.agent/skills/fastapi-best-practices.md):** Scalable, type-safe API patterns.
-- **[Flask JSON Guide](.agent/skills/flask-json-guide.md):** Robust structure for Flask APIs.
-- **[LLM & ML Workflow](.agent/skills/llm-ml-workflow.md):** Productionizing AI models.
-- **[SwiftUI Guidelines](.agent/skills/swiftui-guidelines.md):** iOS modern architecture & audio.
-- **[Jetpack Compose](.agent/skills/jetpack-compose-guidelines.md):** Android declarative UI & permissions.
-- **[Chrome Extensions](.agent/skills/chrome-extension-best-practices.md):** MV3 UI/UX & Shadow DOM.
-- **[Modern Web UI](.agent/skills/modern-web-ui.md):** Vanilla HTML/CSS/JS best practices.
-- **[Financial Data Pipeline](.agent/skills/financial-data-science.md):** OpenBB, Pandas-TA, & QuantStats stack.
-- **[DevOps & MLOps](.agent/skills/ops-automation.md):** CI/CD, Docker, & Experiment Tracking.
-- **[System Architecting](.agent/skills/ai-logic-patterns.md):** Master prompting & agent orchestration rules.
-- **[Multi-Step RAG](.agent/skills/multi-rag-orchestration.md):** Stateful memory & lexical tracking (SRS).
-- **[Video Production Automation](.agent/skills/video-production-automation.md):** Python stack overview: Manim, MoviePy, and OpenCV.
-- **[Blender Automation](.agent/skills/video-blender-automation.md):** Python (bpy) & Geometry Nodes.
-- **[DaVinci Resolve](.agent/skills/video-resolve-editing.md):** Python API & Post-Production.
-- **[Remotion Video](.agent/skills/video-remotion-react.md):** Programmatic video with React.
-- **[Code Quality](.agent/skills/github-code-quality.md):** Strict rules for clean, verified code changes.
-- **[Kubernetes & Docs](.agent/skills/kubernetes-docs.md):** K8s best practices & MkDocs integration.
-- **[Linux CUDA Python](.agent/skills/linux-cuda-python.md):** HPC setup, PyTorch optimization, & profiling.
-- **[Python Containerization](.agent/skills/python-containerization.md):** Docker best practices (Slim vs Alpine, Multi-stage).
-- **[Python GitHub Setup](.agent/skills/python-github-setup.md):** Actions, Templates, & Semantic Release.
-- **[JS/TS Quality](.agent/skills/js-ts-code-quality.md):** Strict TypeScript, Biome/ESLint, & Vitest.
-- **[Pandas & Scikit-learn](.agent/skills/python-pandas-sklearn.md):** Method chaining, Pipelines, & ColumnTransformer.
-- **[Python Core Standards](.agent/skills/python-core-standards.md):** Project structure, `uv` implementation, & Typing.
-- **[Centralized Config Pattern](.agent/skills/centralized-config-pattern.md):** Single source of truth for multi-language projects (Bash + Python).
-- **[PDF Form Filling](.agent/skills/pdf-form-filling.md):** Automated PDF form filling and document generation.
-- **[PDF Rendering Engines](.agent/skills/pdf-rendering-engines.md):** PDF rendering stack comparison and engine selection.
-- **[CV LaTeX Workspace](.agent/skills/cv-latex-workspace.md):** Multi-template CV system with shared macros, pdflatex/xelatex pipeline, and job-applier integration.
-- **[PyTorch Integration](.agent/skills/python-pytorch-sklearn.md):** Sklearn data pipelines with PyTorch models.
-- **[R Language](.agent/skills/r-lang-guide.md):** `targets` pipelines & `renv` practices.
-- **[Solidity (Foundry)](.agent/skills/web3-solidity-foundry.md):** Modern Rust-based testing & fuzzing stack.
-- **[Solidity (Hardhat)](.agent/skills/web3-solidity-hardhat.md):** JS/TS ecosystem guide & tooling.
-- **[Web3 React](.agent/skills/web3-react-dapps.md):** Wagmi, Viem, & dApp architecture.
-- **[ASCII Games](.agent/skills/ascii-game-dev.md):** ECS architecture & terminal rendering optimization.
-- **[Desktop GUIs](.agent/skills/desktop-gui-dev.md):** Modern Python apps with CustomTkinter & PyQt6.
-- **[How-To Docs](.agent/skills/howto-documentation.md):** Diátaxis framework & technical writing guides.
-- **[Data Visualization](.agent/skills/data-visualization.md):** Publication-quality plots with Scipy/Seaborn.
-- **[Image Enhancement](.agent/skills/image-enhancement.md):** Neural upscaling, denoising, and post-processing pipelines.
-- **[ImageMagick Reference](.agent/skills/imagemagick-reference.md):** Input normalization, corner rounding, and standard operations.
-- **[ImageMagick Technical](.agent/skills/imagemagick-technical.md):** PDF conversion math, color space, FX operator, and batch orchestration.
-- **[Reinforcement Learning](.agent/skills/reinforcement-learning.md):** Gymnasium envs & Stable-Baselines3 training.
-- **[Manim Animation](.agent/skills/video-manim-math.md):** Math animations with Python & LaTeX.
-- **[YouTube Scriptwriting](.agent/skills/screenwriting-youtube.md):** High-retention hooks & psychology.
-- **[Screenwriting Frameworks](.agent/skills/screenwriting-frameworks.md):** 3-Act structure, Hero's Journey, and beat sheet methodology.
-- **[Advanced Screenwriting](.agent/skills/storytelling-narrative-frameworks.md):** Save the Cat, Hero's Journey, & Story Circle.
-- **[Copywriting](.agent/skills/copywriting.md):** Information processing & conversion logic.
-- **[Audio Processing](.agent/skills/audio-processing.md):** Neural denoising & EBU R128 normalization.
-- **[Speech Synthesis](.agent/skills/voice-synthesis-multilingual.md):** SOTA multilingual protocols & cross-lingual cloning.
-- **[Voice Orchestration](.agent/skills/voice-orchestration-multi-model.md):** Multi-model pipelines (Fish, Dia, Bark, Parler).
-- **[AI Voice Synthesis](.agent/skills/voice-ai-cloning-finetuning.md):** Multilingual fine-tuning & emotional synthesis.
-- **[AI SFX Generation](.agent/skills/ai-sfx-generation.md):** Latent diffusion for sound design.
-- **[AI Cinematography](.agent/skills/visual-ai-cinematography.md):** Gen-video protocols (Runway, Kling, Luma).
-- **[Character Consistency](.agent/skills/visual-character-consistency.md):** Identity preservation (ComfyUI, LoRA).
-- **[AI Dubbing](.agent/skills/ai-dubbing-localization.md):** Automated localization & tone preservation.
-- **[Stick Figure Animation](.agent/skills/video-stick-figure.md):** Fluid 2D motion & physics.
-- **[Thumbnail Psychology](.agent/skills/visual-thumbnail-psychology.md):** Visual engagement & CTR optimization.
-- **[Moltbot Orchestration](.agent/skills/moltbot-orchestration.md):** Multi-agent video factory architecture.
-- **[CLIL Screenwriting](.agent/skills/storytelling-clil-education.md):** Educational storytelling & Leitner SRS.
-- **[Automated Scriptwriting](.agent/skills/screenwriting-automated.md):** 100% automated script production pipeline.
-- **[Method of Loci](.agent/skills/method-of-loci.md):** Spatial memory & Blender-based loci construction.
-- **[Dialogue TTS](.agent/skills/voice-dialogue-tts.md):** Multi-speaker turn-taking & emotional prosody.
-- **[Emotional Voice Acting](.agent/skills/voice-emotional-acting.md):** One-person multi-character production & GPT-SoVITS.
-- **[Episode Structure](.agent/skills/episode-structure-45min.md):** 45-minute 3-part format & cognitive load management.
-- **[Procedural Direction](.agent/skills/visual-director-procedural.md):** Blender & Manim semantic visuals.
-- **[Subtitle Generator](.agent/skills/subtitle-generator.md):** Professional Persian subtitles with cinematic typography.
+- **[CLI Table Alignment](skills/cli-table-alignment.md):** Pixel-perfect ASCII tables with Emoji support.
+- **[Zsh Completion](skills/zsh-completion.md):** Robust autocomplete scripts avoiding common pitfalls.
+- **[Zsh Scripting Advanced](skills/zsh-scripting-advanced.md):** SIGINT traps, option parsing, and advanced shell patterns.
+- **[MLX Whisper](skills/mlx-whisper.md):** Apple Silicon-optimized Whisper transcription via mlx-whisper.
+- **[YouTube SEO](skills/youtube-seo.md):** Strategy for titles, retention, and content growth.
+- **[yt-dlp Web Download](skills/youtube-dlp-web-download.md):** Cloudflare bypass, stream selection, and bitrate-aware extraction.
+- **[FFmpeg Recipes](skills/ffmpeg-recipes.md):** Copy-pasteable commands for video automation.
+- **[FFmpeg Reference](skills/ffmpeg-reference.md):** Technical reference for codec ops, metadata, and flags.
+- **[Data Science Workflow](skills/data-science-workflow.md):** Reproducible science structure.
+- **[MacOS Automation](skills/macos-automation.md):** Python/Zsh scripts for desktop tasks.
+- **[Prompt Engineering](skills/prompt-engineering.md):** Advanced system prompts & personas.
+- **[Claude Code Integration](skills/claude-code-integration.md):** Claude Code CLI, hooks, MCP servers, and agentic workflow patterns.
+- **[Storytelling TTS M4](skills/storytelling-tts-m4-system.md):** End-to-end TTS storytelling pipeline on Apple Silicon (XTTS, GPT-SoVITS, Kokoro).
+- **[FastAPI Best Practices](skills/fastapi-best-practices.md):** Scalable, type-safe API patterns.
+- **[Flask JSON Guide](skills/flask-json-guide.md):** Robust structure for Flask APIs.
+- **[LLM & ML Workflow](skills/llm-ml-workflow.md):** Productionizing AI models.
+- **[SwiftUI Guidelines](skills/swiftui-guidelines.md):** iOS modern architecture & audio.
+- **[Jetpack Compose](skills/jetpack-compose-guidelines.md):** Android declarative UI & permissions.
+- **[Chrome Extensions](skills/chrome-extension-best-practices.md):** MV3 UI/UX & Shadow DOM.
+- **[Modern Web UI](skills/modern-web-ui.md):** Vanilla HTML/CSS/JS best practices.
+- **[Financial Data Pipeline](skills/financial-data-science.md):** OpenBB, Pandas-TA, & QuantStats stack.
+- **[DevOps & MLOps](skills/ops-automation.md):** CI/CD, Docker, & Experiment Tracking.
+- **[System Architecting](skills/ai-logic-patterns.md):** Master prompting & agent orchestration rules.
+- **[Multi-Step RAG](skills/multi-rag-orchestration.md):** Stateful memory & lexical tracking (SRS).
+- **[Video Production Automation](skills/video-production-automation.md):** Python stack overview: Manim, MoviePy, and OpenCV.
+- **[Blender Automation](skills/video-blender-automation.md):** Python (bpy) & Geometry Nodes.
+- **[DaVinci Resolve](skills/video-resolve-editing.md):** Python API & Post-Production.
+- **[Remotion Video](skills/video-remotion-react.md):** Programmatic video with React.
+- **[Code Quality](skills/github-code-quality.md):** Strict rules for clean, verified code changes.
+- **[Kubernetes & Docs](skills/kubernetes-docs.md):** K8s best practices & MkDocs integration.
+- **[Linux CUDA Python](skills/linux-cuda-python.md):** HPC setup, PyTorch optimization, & profiling.
+- **[Python Containerization](skills/python-containerization.md):** Docker best practices (Slim vs Alpine, Multi-stage).
+- **[Python GitHub Setup](skills/python-github-setup.md):** Actions, Templates, & Semantic Release.
+- **[JS/TS Quality](skills/js-ts-code-quality.md):** Strict TypeScript, Biome/ESLint, & Vitest.
+- **[Pandas & Scikit-learn](skills/python-pandas-sklearn.md):** Method chaining, Pipelines, & ColumnTransformer.
+- **[Python Core Standards](skills/python-core-standards.md):** Project structure, `uv` implementation, & Typing.
+- **[Centralized Config Pattern](skills/centralized-config-pattern.md):** Single source of truth for multi-language projects (Bash + Python).
+- **[PDF Form Filling](skills/pdf-form-filling.md):** Automated PDF form filling and document generation.
+- **[PDF Rendering Engines](skills/pdf-rendering-engines.md):** PDF rendering stack comparison and engine selection.
+- **[CV LaTeX Workspace](skills/cv-latex-workspace.md):** Multi-template CV system with shared macros, pdflatex/xelatex pipeline, and job-applier integration.
+- **[PyTorch Integration](skills/python-pytorch-sklearn.md):** Sklearn data pipelines with PyTorch models.
+- **[R Language](skills/r-lang-guide.md):** `targets` pipelines & `renv` practices.
+- **[Solidity (Foundry)](skills/web3-solidity-foundry.md):** Modern Rust-based testing & fuzzing stack.
+- **[Solidity (Hardhat)](skills/web3-solidity-hardhat.md):** JS/TS ecosystem guide & tooling.
+- **[Web3 React](skills/web3-react-dapps.md):** Wagmi, Viem, & dApp architecture.
+- **[ASCII Games](skills/ascii-game-dev.md):** ECS architecture & terminal rendering optimization.
+- **[Desktop GUIs](skills/desktop-gui-dev.md):** Modern Python apps with CustomTkinter & PyQt6.
+- **[How-To Docs](skills/howto-documentation.md):** Diátaxis framework & technical writing guides.
+- **[Data Visualization](skills/data-visualization.md):** Publication-quality plots with Scipy/Seaborn.
+- **[Image Enhancement](skills/image-enhancement.md):** Neural upscaling, denoising, and post-processing pipelines.
+- **[ImageMagick Reference](skills/imagemagick-reference.md):** Input normalization, corner rounding, and standard operations.
+- **[ImageMagick Technical](skills/imagemagick-technical.md):** PDF conversion math, color space, FX operator, and batch orchestration.
+- **[Reinforcement Learning](skills/reinforcement-learning.md):** Gymnasium envs & Stable-Baselines3 training.
+- **[Manim Animation](skills/video-manim-math.md):** Math animations with Python & LaTeX.
+- **[YouTube Scriptwriting](skills/screenwriting-youtube.md):** High-retention hooks & psychology.
+- **[Screenwriting Frameworks](skills/screenwriting-frameworks.md):** 3-Act structure, Hero's Journey, and beat sheet methodology.
+- **[Advanced Screenwriting](skills/storytelling-narrative-frameworks.md):** Save the Cat, Hero's Journey, & Story Circle.
+- **[Copywriting](skills/copywriting.md):** Information processing & conversion logic.
+- **[Audio Processing](skills/audio-processing.md):** Neural denoising & EBU R128 normalization.
+- **[Speech Synthesis](skills/voice-synthesis-multilingual.md):** SOTA multilingual protocols & cross-lingual cloning.
+- **[Voice Orchestration](skills/voice-orchestration-multi-model.md):** Multi-model pipelines (Fish, Dia, Bark, Parler).
+- **[AI Voice Synthesis](skills/voice-ai-cloning-finetuning.md):** Multilingual fine-tuning & emotional synthesis.
+- **[AI SFX Generation](skills/ai-sfx-generation.md):** Latent diffusion for sound design.
+- **[AI Cinematography](skills/visual-ai-cinematography.md):** Gen-video protocols (Runway, Kling, Luma).
+- **[Character Consistency](skills/visual-character-consistency.md):** Identity preservation (ComfyUI, LoRA).
+- **[AI Dubbing](skills/ai-dubbing-localization.md):** Automated localization & tone preservation.
+- **[Stick Figure Animation](skills/video-stick-figure.md):** Fluid 2D motion & physics.
+- **[Thumbnail Psychology](skills/visual-thumbnail-psychology.md):** Visual engagement & CTR optimization.
+- **[Moltbot Orchestration](skills/moltbot-orchestration.md):** Multi-agent video factory architecture.
+- **[CLIL Screenwriting](skills/storytelling-clil-education.md):** Educational storytelling & Leitner SRS.
+- **[Automated Scriptwriting](skills/screenwriting-automated.md):** 100% automated script production pipeline.
+- **[Method of Loci](skills/method-of-loci.md):** Spatial memory & Blender-based loci construction.
+- **[Dialogue TTS](skills/voice-dialogue-tts.md):** Multi-speaker turn-taking & emotional prosody.
+- **[Emotional Voice Acting](skills/voice-emotional-acting.md):** One-person multi-character production & GPT-SoVITS.
+- **[Episode Structure](skills/episode-structure-45min.md):** 45-minute 3-part format & cognitive load management.
+- **[Procedural Direction](skills/visual-director-procedural.md):** Blender & Manim semantic visuals.
+- **[Subtitle Generator](skills/subtitle-generator.md):** Professional Persian subtitles with cinematic typography.
 
 ---
 
