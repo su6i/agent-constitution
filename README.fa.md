@@ -62,14 +62,14 @@ last_updated: 2026-03-12
 - [docs/INFORMATION-ARCHITECTURE.fa.md](docs/INFORMATION-ARCHITECTURE.fa.md): توضیح می‌دهد هر بخش مخزن چه نسبتی با سند شاخص دارد.
 
 ### 🛠 گردش‌کارها
-- [.agent/workflows/init-project.md](.agent/workflows/init-project.md): شروع صحیح پروژه.
-- [.agent/workflows/quality-assurance.md](.agent/workflows/quality-assurance.md): پروتکل تضمین کیفیت.
+- [workflows/init-project.md](workflows/init-project.md): شروع صحیح پروژه.
+- [workflows/quality-assurance.md](workflows/quality-assurance.md): پروتکل تضمین کیفیت.
 - [workflows/daily-start.md](workflows/daily-start.md): شروع روزانه.
 - [fa/workflows/daily-start.md](fa/workflows/daily-start.md): نسخه فارسی workflow روزانه.
 
 ### 🧠 لایه دانشی
-- [.agent/rules](.agent/rules): قواعد اجرایی و استانداردها.
-- [.agent/skills](.agent/skills): مهارت‌های قابل‌استفاده مجدد.
+- [rules](rules): قواعد اجرایی و استانداردها.
+- [skills](skills): مهارت‌های قابل‌استفاده مجدد.
 - [fa/rules](fa/rules): نسخه فارسی ruleها.
 - [fa/skills](fa/skills): لایه فارسی مهارت‌ها و راهنماها.
 

@@ -337,7 +337,7 @@ gemini -p "find the hardest open issue: $(gh issue list --assignee @me)" | jules
 | پشتیبانی MCP | ✅ کامل | ✅ کامل |
 | مرورگر داخلی | ✅ یکپارچه سازی کروم | ❌ نه |
 | پسوند Cline | ❌ شکسته | ✅ بومی |
-| ساختار قوانین | `.agent/skills/*.md` | `.clinerules` |
+| ساختار قوانین | `skills/*.md` | `.clinerules` |
 | کنترل تایید | ⚠️ نماینده مستقل تر است | ✅ تایید هر مرحله |
 
 **زمان تعویض از Antigravity به VS Code+Cline:**
@@ -647,10 +647,10 @@ cp config_example.py config.py
 
 | فایل | توضیحات |
 |---|---|
-| [__CODE_0__](.agent/skills/ai-router/ai_router.py) | موتور اصلی: `AIRouter`، `ComplexityAnalyzer`، `CacheManager`، `CostTracker`، `CircuitBreaker`، `ClaudeClient`، `DeepSeekClient` |
-| [__CODE_0__](.agent/skills/ai-router/config_example.py) | هر چهار استراتژی مسیریابی با جداول قیمت گذاری کامل `ModelConfig` |
-| [__CODE_0__](.agent/skills/ai-router/router_cli.py) | CLI کامل با حالت های تعاملی، تک اعلان، دسته ای، آمار و برآورد هزینه |
-| [__CODE_0__](.agent/skills/ai-router/requirements.txt) | لیست وابستگی پایتون |
+| [__CODE_0__](skills/ai-router/ai_router.py) | موتور اصلی: `AIRouter`، `ComplexityAnalyzer`، `CacheManager`، `CostTracker`، `CircuitBreaker`، `ClaudeClient`، `DeepSeekClient` |
+| [__CODE_0__](skills/ai-router/config_example.py) | هر چهار استراتژی مسیریابی با جداول قیمت گذاری کامل `ModelConfig` |
+| [__CODE_0__](skills/ai-router/router_cli.py) | CLI کامل با حالت های تعاملی، تک اعلان، دسته ای، آمار و برآورد هزینه |
+| [__CODE_0__](skills/ai-router/requirements.txt) | لیست وابستگی پایتون |
 
 ** مروری بر معماری:**
 
@@ -1646,7 +1646,7 @@ Python 3.12 · package manager: uv · test runner: pytest · linter: ruff
 | `tests/` | Unit and integration tests |
 | `memory-bank/` | Agent context: activeContext.md, costLog.json |
 | `.cursor/rules/` | Project constitution (.mdc files) |
-| `.agent/skills/` | Knowledge capsules for AI agents |
+| `skills/` | Knowledge capsules for AI agents |
 
 ## Model Routing (for reference)
 - Trivial (tests, config): DeepSeek V3.2
@@ -1705,7 +1705,7 @@ project/
 
 ---
 
-**`.agent/skills/core.md`** — فایل قوانین اصلی برای Antigravity (محل در `.agent/skills/`):
+**`skills/core.md`** — فایل قوانین اصلی برای Antigravity (محل در `skills/`):
 ```markdown
 ---
 name: core
@@ -1735,7 +1735,7 @@ alwaysApply: true
 
 ---
 
-**`.agent/skills/router-guide.md`** — نحوه استفاده از `router.py` از داخل Antigravity:
+**`skills/router-guide.md`** — نحوه استفاده از `router.py` از داخل Antigravity:
 ```markdown
 ---
 name: router-guide
@@ -1990,7 +1990,7 @@ class APIRouter:
 router = APIRouter()
 ```
 
-`AIRouter` در بخش 6 (`.agent/skills/ai-router/ai_router.py`) ذخیره پاسخ SHA-256 را در بالای این الگو برای کاهش بیشتر هزینه اضافه می کند.
+`AIRouter` در بخش 6 (`skills/ai-router/ai_router.py`) ذخیره پاسخ SHA-256 را در بالای این الگو برای کاهش بیشتر هزینه اضافه می کند.
 
 ---
 

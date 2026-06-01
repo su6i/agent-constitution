@@ -141,5 +141,5 @@ Integration test‌ها لایه API را جداگانه با `httpx.AsyncClient
 
 ## مرتبط
 
-- `.agent/rules/lang/python/fastapi.md` — قوانین کدنویسی FastAPI (روترها، async، schema‌ها)
-- `.agent/rules/010-python.md` — استانداردهای Python (uv, ruff, mypy)
+- `rules/lang/python/fastapi.md` — قوانین کدنویسی FastAPI (روترها، async، schema‌ها)
+- `rules/010-python.md` — استانداردهای Python (uv, ruff, mypy)

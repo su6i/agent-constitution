@@ -11,9 +11,9 @@ last_updated: 2026-02-21
 This repository contains the constitution and standards for Agentic Coding 2026, focusing on the strategic balance between computational power and operational cost efficiency.
 
 ## Structure
-- `.agent/rules/` — Core project standards and formatting rules (Universal Structure).
-- `.agent/skills/` — Reusable domain-specific knowledge modules (343 skills).
-- `.agent/workflows/` — Repeatable operating procedures and process templates.
+- `rules/` — Core project standards and formatting rules (Universal Structure).
+- `skills/` — Reusable domain-specific knowledge modules (343 skills).
+- `workflows/` — Repeatable operating procedures and process templates.
 - `.agent/prompts/` — Reusable prompt templates for common tasks.
 - `memory-bank/` — Session-to-session context and progress tracking.
 - `bin/` — Automation scripts (scaffolding, MCP server, validation).
