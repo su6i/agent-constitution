@@ -34,9 +34,9 @@ last_updated: 2026-03-12
 | [AGENTIC-CODING-SETUP.md](../AGENTIC-CODING-SETUP.md) | سند فنی canonical انگلیسی | مرجع اصلی انگلیسی همان framework |
 | [AGENTS.md](../AGENTS.md) | قرارداد اجرایی ایجنت‌ها | رفتار اجرایی ایجنت را تعریف می‌کند |
 | [fa](../fa) | لایه بومی‌سازی فارسی | rules, workflows, memory و redirectهای فارسی |
-| [.agent/rules](../.agent/rules) | لایه policy | استانداردهای غیرقابل‌مذاکره |
-| [.agent/workflows](../.agent/workflows) | لایه فرآیند | تبدیل اصول به SOP |
-| [.agent/skills](../.agent/skills) | لایه دانش reusable | گسترش knowledge بدون جایگزین کردن سند شاخص |
+| [rules](../rules) | لایه policy | استانداردهای غیرقابل‌مذاکره |
+| [workflows](../workflows) | لایه فرآیند | تبدیل اصول به SOP |
+| [skills](../skills) | لایه دانش reusable | گسترش knowledge بدون جایگزین کردن سند شاخص |
 | [templates](../templates) | لایه توزیع | انتقال معماری به پروژه‌های دیگر |
 | [bin](../bin) | لایه automation | اسکریپت‌ها و ابزارهای قابل اجرا |
 | [docs](../docs) | لایه توضیح تکمیلی | meta-doc و منابع مکمل |

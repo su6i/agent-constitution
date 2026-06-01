@@ -34,9 +34,9 @@ Not every file is a subordinate appendix of the flagship guide, but every major 
 | [AGENTS.md](../AGENTS.md) | Agent execution contract | Converts repository philosophy into actionable runtime rules for coding agents |
 | [README.fa.md](../README.fa.md) | Localized entry point | Persian-facing introduction to the same project |
 | [fa](../fa) | Localized support layer | Persian mirrors, rules, workflows, and memory artifacts that complement the English core |
-| [.agent/rules](../.agent/rules) | Normative rules | Encodes non-negotiable behavior and standards assumed by the flagship guide |
-| [.agent/workflows](../.agent/workflows) | Process layer | Turns principles from the flagship guide into repeatable operating procedures |
-| [.agent/skills](../.agent/skills) | Reusable knowledge modules | Extends the flagship guide with domain-specific capsules rather than replacing it |
+| [rules](../rules) | Normative rules | Encodes non-negotiable behavior and standards assumed by the flagship guide |
+| [workflows](../workflows) | Process layer | Turns principles from the flagship guide into repeatable operating procedures |
+| [skills](../skills) | Reusable knowledge modules | Extends the flagship guide with domain-specific capsules rather than replacing it |
 | [.agent/prompts](../.agent/prompts) | Prompt assets | Provides reusable prompt templates that operationalize repository standards |
 | [templates](../templates) | Distribution layer | Makes the architecture portable into new repositories and projects |
 | [bin](../bin) | Automation layer | Scripts that scaffold, validate, or expose the repository as tooling |
@@ -50,7 +50,7 @@ Not every file is a subordinate appendix of the flagship guide, but every major 
 1. Start with [README.md](../README.md).
 2. Read [AGENTIC-CODING-SETUP.md](../AGENTIC-CODING-SETUP.md).
 3. Read [AGENTS.md](../AGENTS.md) before asking an agent to execute changes.
-4. Use `.agent/rules`, `.agent/workflows`, and `.agent/skills` as modular deep dives.
+4. Use `rules`, `workflows`, and `skills` as modular deep dives.
 5. Use `templates/` and `bin/` when applying the system elsewhere.
 
 ## Governance Rule

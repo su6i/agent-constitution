@@ -347,7 +347,7 @@ gemini -p "find the hardest open issue: $(gh issue list --assignee @me)" | jules
 | MCP support | ✅ Full | ✅ Full |
 | Built-in browser | ✅ Chrome integration | ❌ No |
 | Cline extension | ❌ Broken | ✅ Native |
-| Rules structure | `.agent/skills/*.md` | `.clinerules` |
+| Rules structure | `skills/*.md` | `.clinerules` |
 | Approval control | ⚠️ Agent is more autonomous | ✅ Confirm each step |
 
 **When to switch from Antigravity to VS Code+Cline:**
@@ -657,10 +657,10 @@ cp config_example.py config.py
 
 | File | Description |
 |---|---|
-| [`ai_router.py`](.agent/skills/ai-router/ai_router.py) | Core engine: `AIRouter`, `ComplexityAnalyzer`, `CacheManager`, `CostTracker`, `CircuitBreaker`, `ClaudeClient`, `DeepSeekClient` |
-| [`config_example.py`](.agent/skills/ai-router/config_example.py) | All four routing strategies with complete `ModelConfig` pricing tables |
-| [`router_cli.py`](.agent/skills/ai-router/router_cli.py) | Full CLI with interactive, single-prompt, batch, stats, and cost-estimation modes |
-| [`requirements.txt`](.agent/skills/ai-router/requirements.txt) | Python dependency list |
+| [`ai_router.py`](skills/ai-router/ai_router.py) | Core engine: `AIRouter`, `ComplexityAnalyzer`, `CacheManager`, `CostTracker`, `CircuitBreaker`, `ClaudeClient`, `DeepSeekClient` |
+| [`config_example.py`](skills/ai-router/config_example.py) | All four routing strategies with complete `ModelConfig` pricing tables |
+| [`router_cli.py`](skills/ai-router/router_cli.py) | Full CLI with interactive, single-prompt, batch, stats, and cost-estimation modes |
+| [`requirements.txt`](skills/ai-router/requirements.txt) | Python dependency list |
 
 **Architecture overview:**
 
@@ -1656,7 +1656,7 @@ Python 3.12 · package manager: uv · test runner: pytest · linter: ruff
 | `tests/` | Unit and integration tests |
 | `memory-bank/` | Agent context: activeContext.md, costLog.json |
 | `.cursor/rules/` | Project constitution (.mdc files) |
-| `.agent/skills/` | Knowledge capsules for AI agents |
+| `skills/` | Knowledge capsules for AI agents |
 
 ## Model Routing (for reference)
 - Trivial (tests, config): DeepSeek V3.2
@@ -1715,7 +1715,7 @@ project/
 
 ---
 
-**`.agent/skills/core.md`** — Core rules file for Antigravity (place in `.agent/skills/`):
+**`skills/core.md`** — Core rules file for Antigravity (place in `skills/`):
 ```markdown
 ---
 name: core
@@ -1745,7 +1745,7 @@ alwaysApply: true
 
 ---
 
-**`.agent/skills/router-guide.md`** — How to use `router.py` from inside Antigravity:
+**`skills/router-guide.md`** — How to use `router.py` from inside Antigravity:
 ```markdown
 ---
 name: router-guide
@@ -2000,7 +2000,7 @@ class APIRouter:
 router = APIRouter()
 ```
 
-The `AIRouter` in Section 6 (`.agent/skills/ai-router/ai_router.py`) adds SHA-256 response caching on top of this pattern for further cost reduction.
+The `AIRouter` in Section 6 (`skills/ai-router/ai_router.py`) adds SHA-256 response caching on top of this pattern for further cost reduction.
 
 ---
 

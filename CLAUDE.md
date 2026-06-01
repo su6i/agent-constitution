@@ -5,14 +5,14 @@ A validated context architecture for AI agents. The canonical technical referenc
 
 ## Mandatory: Read Before Any Task
 Always read these before starting work:
-- `.agent/rules/000-core.md` — Cost control, response format, error handling
-- `.agent/rules/global.md` — Senior Architect identity, professional standards
-- `.agent/rules/040-git.md` — Git protocol (feature branches required)
+- `rules/000-core.md` — Cost control, response format, error handling
+- `rules/global.md` — Senior Architect identity, professional standards
+- `rules/040-git.md` — Git protocol (feature branches required)
 
 Read the others on demand:
-- `.agent/rules/010-python.md` — Python standards
-- `.agent/rules/020-tdd.md` — TDD rules
-- `.agent/rules/030-security.md` — Security checks
+- `rules/010-python.md` — Python standards
+- `rules/020-tdd.md` — TDD rules
+- `rules/030-security.md` — Security checks
 
 ## Agents (63 available)
 Specialized subagents in `.agent/agents/`. Delegate domain tasks proactively:
@@ -35,7 +35,7 @@ Slash commands in `.agent/commands/`. Key commands:
 - Full list: `.agent/commands/`
 
 ## Skills (327 available)
-Before implementing anything domain-specific, check `.agent/skills/` for an existing knowledge module. Read the relevant skill file first.
+Before implementing anything domain-specific, check `skills/` for an existing knowledge module. Read the relevant skill file first.
 
 **By domain:**
 | Domain | Skills to check |
@@ -60,11 +60,11 @@ Before implementing anything domain-specific, check `.agent/skills/` for an exis
 
 ## Workflows
 For structured tasks, follow the matching workflow:
-- **New project setup** → `.agent/workflows/init-project.md`
-- **AI feature work** → `.agent/workflows/ai-optimization.md`
-- **Testing & commits** → `.agent/workflows/quality-assurance.md`
-- **Writing docs** → `.agent/workflows/documentation.md`
-- **Marketing assets** → `.agent/workflows/social-media-showcase.md`
+- **New project setup** → `workflows/init-project.md`
+- **AI feature work** → `workflows/ai-optimization.md`
+- **Testing & commits** → `workflows/quality-assurance.md`
+- **Writing docs** → `workflows/documentation.md`
+- **Marketing assets** → `workflows/social-media-showcase.md`
 
 ## Git Protocol (Non-Negotiable)
 ```
@@ -76,7 +76,7 @@ git checkout main && git merge feature/task-name && git branch -d feature/task-n
 Never commit directly to `main`. A pre-commit hook will block it.
 
 ## Language-Specific Rules
-Context-aware rules in `.agent/rules/lang/`. Claude Code applies these automatically based on `paths:` frontmatter:
+Context-aware rules in `rules/lang/`. Claude Code applies these automatically based on `paths:` frontmatter:
 - `rules/lang/common/` — agent orchestration, coding style, security, testing
 - `rules/lang/python/` — Python-specific standards
 - `rules/lang/typescript/` — TypeScript standards
