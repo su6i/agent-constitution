@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Quality Assurance & DevOps Workflow
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ## 1. Testing Protocol (Zero Bugs)
 **Rule:** No code is "Done" until it has tests.
@@ -71,4 +71,4 @@ last_updated: 2026-02-22
 3.  **Standard Libraries over Hacks:** Always prefer Python's standard library (e.g., `unicodedata`) or robust CLI tools over manual parsing/regex hacks.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

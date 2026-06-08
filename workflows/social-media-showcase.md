@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Social Media & Showcase Workflow
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **Trigger:** Project Completion ("Gold Master" status).
 **Goal:** Create premium content that showcases the engineering quality.
@@ -75,4 +75,4 @@ Prompt: A futuristic 3D isometric dashboard floating in a void, glowing neon blu
     *   Only the **FINAL** approved asset moves to `assets/`.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # AI Model Optimization Workflow
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ## 1. Smart Routing Strategy (Architect vs Executor)
 **Concept:** Use the "Best Model" to plan and the "Fast Model" to build.
@@ -127,4 +127,4 @@ response = client.chat.completions.create(
 - **Check:** `if model.type == 'audio' and task.type == 'text': raise Error`.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

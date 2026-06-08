@@ -7,7 +7,7 @@ last_updated: 2026-03-08
 ---
 
 **🔗 Related YouTube Skills:**
-- [yt-dlp Downloader](youtube-dlp-downloader.md) - Instagram media extraction best practices
+- [yt-dlp Downloader](youtube-dlp-web-download.md) - Instagram media extraction best practices
 - [yt-dlp Web Download](youtube-dlp-web-download.md) - Cloudflare bypass, stream selection
 
 **🔗 Related Content Creation:**
@@ -226,7 +226,7 @@ Google's E-E-A-T principles now apply to YouTube ranking:
 *   **Trustworthiness:** Accurate title/thumbnail matching content.
 
 ## 🔗 Related YouTube Skills
-- **[yt-dlp Downloader](youtube-dlp-downloader.md)** - Instagram media extraction best practices
+- **[yt-dlp Downloader](youtube-dlp-web-download.md)** - Instagram media extraction best practices
 - **[yt-dlp Web Download](youtube-dlp-web-download.md)** - Cloudflare bypass, stream selection
 
 ## 🔗 Related Content Creation

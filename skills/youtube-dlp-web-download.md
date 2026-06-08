@@ -350,7 +350,7 @@ yt-dlp ... --merge-output-format mp4 -o "%(title)s.%(ext)s"
 
 ## 🔗 Related YouTube Skills
 - **[YouTube SEO](youtube-seo.md)** - Semantic Keyword Mapping, Content Strategy
-- **[yt-dlp Downloader](youtube-dlp-downloader.md)** - Instagram media extraction best practices
+- **[yt-dlp Downloader](youtube-dlp-web-download.md)** - Instagram media extraction best practices
 
 ## 🔗 Related Tools
 - **[FFmpeg Recipes](ffmpeg-recipes.md)** - Stream conversion & subtitle merging
