@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Project Initialization Workflow
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 > **💡 Automation Tip:** Setup the global alias `init-project` (instructions in `bin/scaffold.sh`) and simply run `init-project` in your new empty folder.
 
@@ -49,4 +49,4 @@ last_updated: 2026-02-22
     - Check if `README.md` links correctly to `TECHNICAL.md`.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

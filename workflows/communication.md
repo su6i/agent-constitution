@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Communication & Cultural Protocol
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 <!-- you can change this protocol based on your preferences. -->
 ## 1. Primary Language (English First)
@@ -29,4 +29,4 @@ last_updated: 2026-02-22
 - **Goal:** Zero guesswork. Scientific approach only.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

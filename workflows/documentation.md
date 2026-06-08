@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Documentation Standard Workflow
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ## 1. Visual Identity (The "Wow" Factor)
 **Action:** Apply this HTML header to `README.md`. Center everything.
@@ -62,4 +62,4 @@ last_updated: 2026-02-22
 3.  **Finish:** Only then consider the task truly complete.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)
