@@ -82,6 +82,30 @@ In practice, the repository now has a clear center of gravity:
 3.  **Ask your Agent:**
     > "Audit my codebase against the Quality Assurance protocol."
 
+## ⚙️ Personalization
+
+Before using this constitution in your own project, replace the author email with your own:
+
+| File | Lines | What to change |
+|---|---|---|
+| `rules/040-git.md` | 51, 52, 53, 81 | Replace `sushiant60@gmail.com` with your own email |
+
+**Why:** The Commit Identity rule enforces a specific author email on every commit. The value shipped in this repo is the original author's address — it must be yours before you start using the rules.
+
+```bash
+# Quick replace (run from the repo root):
+sed -i '' 's/sushiant60@gmail\.com/your@email.com/g' rules/040-git.md
+```
+
+Then set your global git identity to match:
+
+```bash
+git config --global user.email "your@email.com"
+git config --global user.name  "Your Name"
+```
+
+---
+
 ## 📚 Documentation
 
 ### ⭐ Flagship Guide
