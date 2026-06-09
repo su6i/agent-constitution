@@ -36,6 +36,15 @@ Thank you for your interest in contributing to the Agent Constitution! This docu
 - Make your changes following the guidelines below.
 - Submit a Pull Request.
 
+### Git hooks (required)
+Install the pre-commit hook once after cloning — it blocks direct commits to
+`main` and enforces the Pre-Commit Docs Checklist:
+```bash
+cp templates/hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+```
+Projects created with `amir init-project` get this hook installed automatically.
+Bypass deliberately (discouraged) with `git commit --no-verify`.
+
 ---
 
 ## Skill File Structure
