@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Full IDE setup docs: Cursor, VS Code, Antigravity IDE, JetBrains, Gemini CLI
 
 ### Fixed
+- CI `Check Internal Links` — repaired the long-standing red build:
+  - 75 `skills/*.md` files used `](../../README.md)` (one level too deep) → `](../README.md)`.
+  - ~115 links to bundled reference files not shipped in this repo (e.g. Angular/
+    VideoDB/Remotion `references/*.md`, `reference/*.md`, `rules/*.md`) were
+    unlinked to inline code, preserving the text without a dead link.
+  - `.github/mlc_config.json` now ignores CI-flaky/external domains (w3.org,
+    developer.android.com, npmjs.com, doi.org, patentsview.org, github.com/apps).
 - `AGENTS.md` stale skill count updated from 77 to 343
 
 ### Fixed

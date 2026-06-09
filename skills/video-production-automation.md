@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Video Production & Automation Skills
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Video Production Skills:**
 - [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
@@ -97,4 +97,4 @@ For "Viral" quality usage, Python tools might be too stiff. Use these for polish
 - [Video Stick Figure](video-stick-figure.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

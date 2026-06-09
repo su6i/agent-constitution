@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Storytelling Frameworks (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **📚 Related Storytelling Skills:**
 - [TTS M4 System](storytelling-tts-m4-system.md) - Multi-model TTS for audio production
@@ -119,4 +119,4 @@ Ensuring that the narrative never enters "The Valley"—the middle section where
 - **[CLIL Education](storytelling-clil-education.md)** - Educational storytelling with integrated language learning
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

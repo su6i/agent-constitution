@@ -14,7 +14,7 @@ last_updated: 2026-02-22
 - [Python GitHub Setup](python-github-setup.md) — GitHub Actions, semantic release
 - [Linux CUDA Python](linux-cuda-python.md) — HPC environment setup and system-level tooling
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the orchestration of containerized applications and the generation of technical documentation libraries in the 2025 ecosystem. This document defines the standards for Kubernetes resource management, Helm-based deployments, and MkDocs-Material integration.
 
@@ -123,4 +123,4 @@ Automated documentation updates triggered by code merges.
 *   **Resource Overhead:** K8s management layer should consume < 5% of total cluster CPU.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -64,7 +64,7 @@ For social-graph and network-optimization explainers:
 
 ## Reusable Starter
 
-Use [assets/network_graph_scene.py](assets/network_graph_scene.py) as a starting point for network-graph explainers.
+Use `assets/network_graph_scene.py` as a starting point for network-graph explainers.
 
 Example smoke test:
 

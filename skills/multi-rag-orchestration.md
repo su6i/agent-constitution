@@ -14,7 +14,7 @@ last_updated: 2026-02-22
 - [Prompt Engineering](prompt-engineering.md) — System prompt design for RAG context injection
 - [CLIL Screenwriting](storytelling-clil-education.md) — Leitner SRS integration that mirrors RAG vocabulary tracking
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and orchestration of stateful Retrieval-Augmented Generation (RAG) systems in a multi-agent environment in the 2025 ecosystem. This document defines the standards for cross-session memory, automated vocabulary tracking, and the integration of Leitner-based spaced repetition into RAG retrievals.
 
@@ -104,4 +104,4 @@ Ensuring that multiple RAG sources (e.g., Python docs + StackOverflow + Internal
 *   **Information Relevancy:** > 90% Precision @ 10 for all technical queries.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -13,7 +13,7 @@ last_updated: 2026-02-22
 - [PyTorch & Scikit-learn](python-pytorch-sklearn.md) — PyTorch model architecture, TorchDynamo, ONNX export
 - [Data Science Workflow](data-science-workflow.md) — Experiment tracking and reproducible pipeline structure
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design, training, and deployment of Reinforcement Learning (RL) agents in the 2025 ecosystem. This document defines the standards for algorithmic selection, JAX-accelerated throughput (SBX), and complex reward signal calibration (RewArt).
 
@@ -102,4 +102,4 @@ Techniques for transferring policies from idealized simulations to noisy real-wo
 | **SAC (SBX)** | 4090 | Ant-v4 | ~3,800 | 900k steps |
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

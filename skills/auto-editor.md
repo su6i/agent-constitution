@@ -11,7 +11,7 @@ last_updated: 2026-05-30
 - [FFmpeg Reference](ffmpeg-reference.md) - Technical flags and codec reference
 - [yt-dlp Web Download](youtube-dlp-web-download.md) - Download source videos before editing
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 

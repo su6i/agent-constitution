@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: AI Logic Patterns (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Ai Skills:**
 - [Ai Dubbing Localization](ai-dubbing-localization.md)
@@ -55,4 +55,4 @@ Maintaining high-fidelity continuity across asynchronous conversational boundari
 - [Ai Sfx Generation](ai-sfx-generation.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

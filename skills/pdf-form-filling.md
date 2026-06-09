@@ -1,7 +1,7 @@
 ---
 description: Guide to programmatic PDF form filling using Python (ReportLab + PyPDF + PDFPlumber)
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Pdf Skills:**
 - [Pdf Form Filling](pdf-form-filling.md)
@@ -116,4 +116,4 @@ def merge_pdf(original_path, overlay_packet, output_path):
 - [Pdf Rendering Engines](pdf-rendering-engines.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

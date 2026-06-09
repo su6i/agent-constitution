@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: JS/TS Code Quality (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for industrial-grade JavaScript and TypeScript development in the 2025 ecosystem. This document defines the standards for type-safety, code consistency, automated testing, and high-performance runtime optimization.
 
@@ -187,4 +187,4 @@ Moving heavy computations (e.g., image processing, encryption) out of the main e
 *   **Lighthouse Performance:** Score > 95 for frontend applications.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

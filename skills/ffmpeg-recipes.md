@@ -13,7 +13,7 @@ last_updated: 2026-03-08
 - [Video Production Automation](video-production-automation.md) - Complete rendering pipeline
 - [yt-dlp Web Download](youtube-dlp-web-download.md) - Media download integration
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -147,4 +147,4 @@ Handling HDR10, HLG, and Dolby Vision metadata and tonemapping.
 - **[yt-dlp Web Download](youtube-dlp-web-download.md)** - Media download integration
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

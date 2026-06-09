@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Prompt Engineering (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and orchestration of high-fidelity prompts for Large Language Models (LLMs) in the 2025 ecosystem. This document defines the standards for Chain-of-Thought (CoT), Tree-of-Thoughts (ToT), and automated prompt optimization via the Automatic Prompt Engineer (APE).
 
@@ -385,4 +385,4 @@ A centralized mapping of the cognitive patterns defined in the modern era of AI 
 | **Least-to-Most** | Complex Task Decomposition | High |
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)
