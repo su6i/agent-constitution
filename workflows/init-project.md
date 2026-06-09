@@ -3,50 +3,68 @@ title: "Init Project"
 description: Initialize a new professional project following the Agent Protocol standards.
 location: workflows/init-project.md
 agent_priority: Standard
-last_updated: 2026-02-22
+last_updated: 2026-06-09
 ---
 
 # Project Initialization Workflow
 
 [Back to README](../README.md)
 
-> **💡 Automation Tip:** Setup the global alias `init-project` (instructions in `bin/scaffold.sh`) and simply run `init-project` in your new empty folder.
+> **💡 Automation:** Use the `amir init-project <name>` CLI — it performs every
+> step below automatically (submodule, scaffold, gitignore, uv, starter files).
+> This document is the *specification* that command implements; follow it
+> manually only when the CLI is unavailable.
 
-1.  **Scaffold Directory Structure**
-    - Create `src/`, `tests/`, `docs/`, `assets/`, `scripts/`.
-    - Create `workflows/` (Standard Rules Location).
-    - **Storage Policy:** DO NOT create storage folders in root. Code must use `~/.project_name/` for persistent data/logs.
-    - Ensure root is strictly clean (max 5-7 core files).
+## 1. Repository & Constitution
+- `git init` the target (or create the directory first for a brand-new project).
+- Add the constitution as a submodule at `.agent/constitution`:
+  ```bash
+  git submodule add <constitution-url> .agent/constitution
+  ```
+- Create `.agent/local-rules/` for project-specific overrides (these take
+  precedence over the constitution).
 
-2.  **Setup Logic & Config**
-    - Initialize `uv init`.
-    - Create `main.py` (Unified Entry Point).
-    - Create `config.yaml` (Insert the AI Model Fallback table).
-    - Create `.env.example` (Add keys for Gemini, Microsoft TTS, etc.).
+## 2. Standard Directory Structure
+- Create `src/`, `tests/`, `docs/`, `assets/`.
+- **Do NOT create `lib/`, `bin/`, `scripts/`, or `include/` as source folders** —
+  standard `.gitignore` patterns hide them. Put code under `src/`.
+- Drop a `.gitkeep` in every otherwise-empty directory so git tracks it
+  (git does not track empty directories — without this they vanish on clone).
+- **Storage Policy:** persistent data/logs live in `~/.<project>/`, never in the
+  repo. A scratch `.storage/` is acceptable only if git-ignored.
+- Keep the root clean (a handful of core files).
 
-3.  **Create Installation Script**
-    - Create `install.sh`.
-    - implementation: Add OS detection, `ffmpeg` check, `uv venv` creation, and interactive `.env` setup prompt.
-    - Make it executable: `chmod +x install.sh`.
+## 3. .gitignore (Non-Negotiable Safety Rules)
+- Copy `templates/gitignore.template` (curated — avoids the `lib/`/`bin/`
+  landmines, covers macOS/Linux/Windows).
+- **Always** ensure these critical rules are present even if a `.gitignore`
+  already existed: `.storage/`, `.env`, `.venv/`, `__pycache__/`, `.DS_Store`.
 
-4.  **Generate Documentation Artifacts**
-    - **Logo Generation (Mandatory Protocol):**
-        1.  Read `.agent/prompts/template_project_logo.txt` from the Constitution.
-        2.  Create `.agent/prompts/gen_[project]_logo.txt` in the new project.
-        3.  Fill in the `[INSERT THEME]`, `[COLORS]`, etc., with extreme detail.
-        4.  Use this prompt to generate the SVG/Image. save to `assets/project_logo.svg`.
-    - **README.md (Mandatory Protocol):**
-        1.  Read `.agent/prompts/template_readme.txt`.
-        2.  Create/Fill `.agent/prompts/gen_readme.txt` with project specifics.
-        3.  Generate `README.md` using the "Standard Header" + content from the prompt.
-    - **docs/TECHNICAL.md (Mandatory Protocol):**
-        1.  Read `.agent/prompts/template_technical.txt`.
-        2.  Create/Fill `.agent/prompts/gen_technical.txt`.
-        3.  Generate `docs/TECHNICAL.md` focusing on "Zero-to-Hero" extension guide.
+## 4. Language Setup
+- Detect the stack. For Python (or unspecified):
+  ```bash
+  uv init            # creates pyproject.toml + pins the interpreter
+  ```
+  Commit `pyproject.toml` and `.python-version`. Use `uv` only — never `pip`.
+- For other stacks, scaffold the idiomatic project file (`package.json`,
+  `go.mod`, `Cargo.toml`, …).
 
-5.  **Final Verification**
-    - Run `./install.sh` to test the onboarding flow.
-    - Check if `README.md` links correctly to `TECHNICAL.md`.
+## 5. Starter Files
+- `CLAUDE.md` — project guide (stack, skills, constraints) with `TODO` markers.
+- `README.md` — title + one-line description + Quickstart.
+- `.env.example` — every required env var with placeholder values.
+- `TODO.md` — must begin with the **First Session** checklist.
+- `SESSION.md` — running session log.
+
+## 6. First Session (Mandatory)
+The freshly scaffolded files contain `TODO` placeholders. The very first agent
+session must complete [`workflows/first-session.md`](first-session.md): fill
+`CLAUDE.md`, `README.md`, and `.env.example`, then verify the skeleton.
+
+## 7. Final Verification
+- `git status` — only intended files staged; empty dirs kept via `.gitkeep`.
+- `git check-ignore lib bin src tests` — confirm no source dir is ignored.
+- Python: `uv sync` succeeds.
 
 ---
 [Back to README](../README.md)
