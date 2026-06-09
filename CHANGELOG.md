@@ -7,13 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [Unreleased] - 2026-05-30
+## [Unreleased] - 2026-06-09
 
 ### Added
+- `templates/hooks/pre-commit` — canonical git pre-commit gate enforcing two
+  non-negotiable rules deterministically: no direct commits to `main`/`master`,
+  and the Pre-Commit Docs Checklist (code changes must touch a doc; minor
+  follow-ups must be `--amend`ed). Bash 3.2 compatible. Installed by
+  `amir init-project` into every new project. Bypass: `git commit --no-verify`.
+- `workflows/first-session.md` — mandatory onboarding workflow to fill
+  `CLAUDE.md`/`README.md`/`.env.example` and verify the skeleton before feature
+  work; listed in README.
 - `bin/mcp-server/server_http.py` — HTTP server with SSE + Streamable HTTP transports (localhost:8765)
 - `bin/mcp-server/com.agent-constitution.mcp.plist` — launchd service for auto-start on login
 - `/health` endpoint for status checks
 - Full IDE setup docs: Cursor, VS Code, Antigravity IDE, JetBrains, Gemini CLI
+
+### Changed
+- `templates/gitignore.template` — replaced the 410-line generic toptal dump
+  with a curated 2026 Python/uv ignore. Removes the `[Ll]ib`/`[Bb]in`/`scripts`/
+  `include` patterns that silently hid source directories, drops the leftover
+  `Roadmap/`, adds `.storage/`, and keeps full macOS/Linux/Windows sections.
+- `workflows/init-project.md` — rewritten to match the submodule-based flow
+  (was pointing at the retired `bin/scaffold.sh` and `.txt` prompt templates):
+  src-layout, `.gitkeep`, storage policy, `uv init`, mandatory first session.
 
 ### Fixed
 - `AGENTS.md` stale skill count updated from 77 to 343
