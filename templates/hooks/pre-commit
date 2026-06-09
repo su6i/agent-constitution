@@ -1,0 +1,68 @@
+#!/bin/bash
+# ─── Agent Constitution · pre-commit gate ───────────────────────────────────
+# Canonical source: agent-constitution/templates/hooks/pre-commit
+# Installed into .git/hooks/pre-commit (this repo + every `amir init-project`).
+#
+# Enforces two NON-NEGOTIABLE constitution rules deterministically, so they
+# cannot be "forgotten" by any agent or human:
+#
+#   1. No direct commits to main/master — use a feature branch.
+#   2. Pre-Commit Docs Checklist — a commit that changes code MUST also update
+#      documentation (README / CHANGELOG / docs/ / any *.md). A minor change
+#      that is really a continuation of the previous commit must be folded in
+#      with `git commit --amend`, not landed as a new doc-less commit.
+#
+# Deliberate bypass (discouraged, leaves a trace in your shell history):
+#     git commit --no-verify
+#
+# Written for bash 3.2 (macOS default) — no mapfile / associative arrays.
+
+# symbolic-ref reports the real branch name even on an unborn branch (no commits
+# yet), where rev-parse --abbrev-ref would return "HEAD" and miss the guard.
+branch="$(git symbolic-ref --short -q HEAD 2>/dev/null || git rev-parse --abbrev-ref HEAD 2>/dev/null)"
+
+# ── Rule 1: protect main/master ─────────────────────────────────────────────
+if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+    echo ""
+    echo "🚨 pre-commit: DIRECT COMMITS TO '$branch' ARE FORBIDDEN."
+    echo "   Agents and humans must use a feature branch:"
+    echo "     git checkout -b feature/your-task-name"
+    echo ""
+    exit 1
+fi
+
+# ── Rule 2: code changes require a documentation change ─────────────────────
+staged="$(git diff --cached --name-only --diff-filter=ACMR)"
+[ -z "$staged" ] && exit 0
+
+doc=0
+code=0
+while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    case "$f" in
+        *.md|*.MD|docs/*|*/docs/*|CHANGELOG*|README*)
+            doc=1 ;;
+        *)
+            code=1 ;;
+    esac
+done <<EOF
+$staged
+EOF
+
+if [ "$code" = "1" ] && [ "$doc" = "0" ]; then
+    echo ""
+    echo "🚨 pre-commit: code changed but NO documentation was updated."
+    echo "   The Pre-Commit Docs Checklist is non-negotiable. Update one of:"
+    echo "     • README        — if usage / features / structure changed"
+    echo "     • CHANGELOG.md   — if the project has one"
+    echo "     • docs/**        — if documented behaviour changed"
+    echo "   …then re-stage and commit again."
+    echo ""
+    echo "   If this is a MINOR continuation of the previous commit, amend it"
+    echo "   instead of creating a new commit:"
+    echo "     git commit --amend"
+    echo ""
+    exit 1
+fi
+
+exit 0
