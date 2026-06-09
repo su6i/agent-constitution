@@ -11,7 +11,7 @@ last_updated: 2026-03-08
 - [Visual Character Consistency](visual-character-consistency.md) - IP-Adapter FaceID, InstantID, LoRA Training
 - [Visual Director (Procedural)](visual-director-procedural.md) - Scene Mapping, Automated Camera Pathing
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -114,4 +114,4 @@ Analyzing the relationship between thumbnail "Vibrancy" (numerical score) and "A
 - **[Visual Director (Procedural)](visual-director-procedural.md)** - Scene Mapping, Automated Camera Pathing
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Copywriting (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and orchestration of high-conversion text assets utilizing behavioral psychology and linguistics in the 2025 ecosystem. This document defines the standards for conversion frameworks (AIDA, PAS), neuro-linguistic programming (NLP) techniques, and quantitative friction reduction math.
 
@@ -104,4 +104,4 @@ The engineering of "Smoothness" in the user journey.
 *   **Persuasion Match:** > 0.90 correlation between generated benefits and the target persona's pain points.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

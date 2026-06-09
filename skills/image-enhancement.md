@@ -2,7 +2,7 @@
 description: Complete pipeline for enhancing scanned official documents (ID cards, passports, etc.)
 ---
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 # Document Quality Enhancement Skill
 
@@ -140,4 +140,4 @@ If the user provides multiple poor photos of the same card:
 
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

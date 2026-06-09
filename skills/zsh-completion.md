@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Zsh Completion (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and implementation of advanced command-line completion systems for the Zsh shell in the 2025 ecosystem. This document defines the standards for `compdef` orchestration, `_arguments` parameter specifications, and high-performance `zstyle` caching.
 
@@ -111,4 +111,4 @@ Categorizing completions (e.g., "Flags", "Files", "Commands") using `zstyle ':co
 *   **Cache Efficiency:** > 90% cache hit-rate for non-volatile completion data.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

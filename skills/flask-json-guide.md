@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Flask JSON Development (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and construction of industrial-grade JSON APIs using the Flask framework in the 2025 ecosystem. This document defines the standards for Pydantic v2 data validation, centralized error handling blueprints, and automated OpenAPI (Swagger) documentation.
 
@@ -116,4 +116,4 @@ Standardizing on automated "Live Documentation" for internal and external develo
 *   **Uptime:** Target 99.95% for all microservice deployments.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

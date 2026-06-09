@@ -10,7 +10,7 @@ last_updated: 2026-03-08
 - [Solidity & Foundry](web3-solidity-foundry.md) - Gas Optimization, Yul/Assembly, Fuzz Testing
 - [Solidity & Hardhat](web3-solidity-hardhat.md) - Ethers.js v6, Waffle/Chai Testing, Hardhat Ignition
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -124,4 +124,4 @@ Managing the high-latency, volatile state of the blockchain.
 - **[Solidity & Hardhat](web3-solidity-hardhat.md)** - Ethers.js v6, Waffle/Chai Testing, Hardhat Ignition
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Linux, CUDA & Python Optimization (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the optimization of Python-driven workloads on Linux systems utilizing NVIDIA CUDA hardware in the 2025 ecosystem. This document defines the standards for system-level tuning, memory management (vMM), and high-resolution performance profiling.
 
@@ -111,4 +111,4 @@ Utilizing `py-spy` or custom eBPF probes for zero-overhead sampling of the Pytho
 *   **Python Overhead:** Framework overhead targeted to stay < 5% of total execution time.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

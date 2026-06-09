@@ -14,7 +14,7 @@ last_updated: 2026-02-22
 - [Data Visualization](data-visualization.md) — Publication-quality charts (Seaborn/Scipy counterparts to ggplot2)
 - [Financial Data Science](financial-data-science.md) — Quantitative analysis pipeline
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for industrial-grade data analysis and statistical computing using the R language in the 2025 ecosystem. This document defines the standards for Tidyverse-based functional programming, high-speed `data.table` operations, and C++ integration via `Rcpp`.
 
@@ -121,4 +121,4 @@ Bridging the gap between R's ease of use and C++'s speed.
 *   **Iteration Speed:** Target < 10ms for complex functional loops (Map/Reduce style).
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

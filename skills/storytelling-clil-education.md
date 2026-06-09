@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: CLIL Educational Screenwriting (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **📚 Related Storytelling Skills:**
 - [TTS M4 System](storytelling-tts-m4-system.md) - Multi-model TTS for audio production
@@ -124,4 +124,4 @@ Protocols for "Code-Switching" scripts (e.g., Persian explanation of English cod
 - **[Narrative Frameworks](storytelling-narrative-frameworks.md)** - Learn story structure, character arcs, and narrative transport theory
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

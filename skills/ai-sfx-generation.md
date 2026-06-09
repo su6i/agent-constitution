@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: AI Sound Effects Generation (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Ai Skills:**
 - [Ai Dubbing Localization](ai-dubbing-localization.md)
@@ -121,4 +121,4 @@ Ensuring the generated SFX meets industrial standards.
 - [Ai Sfx Generation](ai-sfx-generation.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

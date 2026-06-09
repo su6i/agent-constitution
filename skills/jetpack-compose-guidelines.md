@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Jetpack Compose Guidelines (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and construction of modern Android (and Multiplatform) user interfaces using Jetpack Compose in the 2025 ecosystem. This document defines the standards for Unidirectional Data Flow (UDF), Recomposition Stability math, and high-performance state management using `derivedStateOf`.
 
@@ -112,4 +112,4 @@ Mandatory use of Material Design 3 (M3) color-schemes and "Dynamic Color" (Mater
 *   **Frame Stability:** 100% 60fps adherence in standard UI scenarios.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -9,7 +9,7 @@ last_updated: 2026-03-08
 **🔗 Related Media Tools:**
 - [FFmpeg Recipes](ffmpeg-recipes.md) - SVT-AV1, Hardware Acceleration, Transcoding
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -131,4 +131,4 @@ ffmpeg -ss 00:01:00 -to 00:02:30 -i "$input" -c copy "$output"
 - [Ffmpeg Reference](ffmpeg-reference.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

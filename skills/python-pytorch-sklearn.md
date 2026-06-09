@@ -12,7 +12,7 @@ last_updated: 2026-03-08
 - [Python GitHub Setup](python-github-setup.md) - CI/CD Workflows, Secret Management, Branch Protection
 - [Pandas & Scikit-learn](python-pandas-sklearn.md) - Memory Optimization, Pipeline Orchestration
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -133,4 +133,4 @@ The cross-platform industry standard for high-performance inference.
 - **[Pandas & Scikit-learn](python-pandas-sklearn.md)** - Memory Optimization, Pipeline Orchestration
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

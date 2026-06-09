@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Chrome Extension Best Practices (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and construction of modern browser extensions utilizing the Manifest v3 (MV3) architecture in the 2025 ecosystem. This document defines the standards for Service Worker orchestration, secure message passing, and the utilization of Offscreen Documents for high-complexity AI or media processing.
 
@@ -102,4 +102,4 @@ Utilizing the `sidePanel` API for persistent tools that don't disappear when the
 *   **Memory Usage:** < 50MB for persistent storage and worker state.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

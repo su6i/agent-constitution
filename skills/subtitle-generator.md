@@ -111,4 +111,4 @@ def seconds_to_ass_time(seconds):
 - **Manim Hint:** Use the `safe_persian_text` utility defined in `manim-animation.md` for rendering.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

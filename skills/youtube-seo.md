@@ -14,7 +14,7 @@ last_updated: 2026-03-08
 - [YouTube Scriptwriting](screenwriting-youtube.md) - Information Gaps, AVD Optimization
 - [Thumbnail Psychology](visual-thumbnail-psychology.md) - Eye-tracking, CTR optimization
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -235,4 +235,4 @@ Google's E-E-A-T principles now apply to YouTube ranking:
 
 ---
 
-[Back to README](../../README.md)
+[Back to README](../README.md)

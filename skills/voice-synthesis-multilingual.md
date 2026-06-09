@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Multilingual Speech Synthesis (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Voice Skills:**
 - [Voice Orchestration](voice-orchestration-multi-model.md) - Multi-model pipeline management
@@ -112,4 +112,4 @@ Ensuring that localized speech matches the original visual timing and performanc
 - **[Voice Emotional Acting](voice-emotional-acting.md)** - One-person multi-character production
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

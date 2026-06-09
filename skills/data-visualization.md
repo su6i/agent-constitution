@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Data Visualization (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Data Skills:**
 - [Data Science Workflow](data-science-workflow.md)
@@ -118,4 +118,4 @@ Ensuring that color represents data with maximum accuracy.
 - [Data Visualization](data-visualization.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

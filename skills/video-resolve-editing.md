@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Master Editing & Audio Engineering (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Video Production Skills:**
 - [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
@@ -127,4 +127,4 @@ Ensuring studio-grade audio quality across all automated deliverables.
 - **[Stick Figure Animation](video-stick-figure.md)** - 2D physics-based character animation
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # 🤖 AI Agent Skill: Professional Storytelling TTS System for M4 Mac - COMPLETE SYSTEM
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **📚 Related Storytelling Skills:**
 - [Narrative Frameworks](storytelling-narrative-frameworks.md) - Story structure & character arcs
@@ -4493,4 +4493,4 @@ python src/core/story_generator.py --script scripts/sample_clil_lesson.json
 - **[CLIL Education](storytelling-clil-education.md)** - Educational storytelling with integrated language learning
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: 45-Minute Episode Structure
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Technical protocols for producing 45 minutes of daily language learning content using the 3-part episode format. This document defines standards for cognitive pacing, vocabulary distribution, and production workflow optimization.
 
@@ -192,4 +192,4 @@ episodes/
 
 ---
 
-[Back to README](../../README.md)
+[Back to README](../README.md)

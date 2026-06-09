@@ -11,7 +11,7 @@ last_updated: 2026-03-08
 - [Visual Director (Procedural)](visual-director-procedural.md) - Scene Mapping, Automated Camera Pathing
 - [Thumbnail Psychology](visual-thumbnail-psychology.md) - Eye-Tracking, CTR A/B Testing
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -115,4 +115,4 @@ Generating and manipulating light sources within the generative latent space.
 - **[Thumbnail Psychology](visual-thumbnail-psychology.md)** - Eye-Tracking, CTR A/B Testing
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

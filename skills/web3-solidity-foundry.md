@@ -10,7 +10,7 @@ last_updated: 2026-03-08
 - [Solidity & Hardhat](web3-solidity-hardhat.md) - Ethers.js v6, Waffle/Chai Testing, Hardhat Ignition
 - [Web3 React DApps](web3-react-dapps.md) - Wagmi v2, Viem, WalletConnect v2
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -114,4 +114,4 @@ Standardizing on Solidity-authored deployment scripts for maximum tool-chain com
 - **[Web3 React DApps](web3-react-dapps.md)** - Wagmi v2, Viem, WalletConnect v2
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

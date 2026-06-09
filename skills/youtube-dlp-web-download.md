@@ -13,7 +13,7 @@ last_updated: 2026-03-08
 **🔗 Related Tools:**
 - [FFmpeg Recipes](ffmpeg-recipes.md) - Stream conversion & subtitle merging
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -360,4 +360,4 @@ yt-dlp ... --merge-output-format mp4 -o "%(title)s.%(ext)s"
 
 ---
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
