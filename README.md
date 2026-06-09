@@ -114,6 +114,7 @@ git config --global user.name  "Your Name"
 
 ### 🛠 Workflows
 - **[Init Workflow](workflows/init-project.md):** How to start clean.
+- **[First Session](workflows/first-session.md):** Onboard a scaffolded project — fill CLAUDE.md, verify structure.
 - **[AI Logic](workflows/ai-optimization.md):** Architect vs Executor models.
 - **[QA Protocol](workflows/quality-assurance.md):** Zero-bug policy.
 - **[Communication](workflows/communication.md):** Standardized project reporting.
