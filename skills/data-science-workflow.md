@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Data Science Workflow (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Data Skills:**
 - [Data Science Workflow](data-science-workflow.md)
@@ -153,4 +153,4 @@ The foundational memory layer for 2025 data engineering.
 - [Data Visualization](data-visualization.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -14,7 +14,7 @@ last_updated: 2026-03-08
 - [YouTube SEO](youtube-seo.md) - Content optimization & discovery
 - [Storytelling TTS System](storytelling-tts-m4-system.md) - Multi-model voice orchestration
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -119,4 +119,4 @@ Standardizing the structure of technical and educational videos.
 - **[Storytelling TTS System](storytelling-tts-m4-system.md)** - Multi-model voice orchestration
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

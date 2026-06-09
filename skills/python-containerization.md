@@ -12,7 +12,7 @@ last_updated: 2026-03-08
 - [Pandas & Scikit-learn](python-pandas-sklearn.md) - Memory Optimization, Pipeline Orchestration
 - [PyTorch & Sklearn Integration](python-pytorch-sklearn.md) - TorchDynamo, ONNX, Skorch
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -131,4 +131,4 @@ Reducing the "Attack Surface" and improving pull/push performance via layer mana
 - **[PyTorch & Sklearn Integration](python-pytorch-sklearn.md)** - TorchDynamo, ONNX, Skorch
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

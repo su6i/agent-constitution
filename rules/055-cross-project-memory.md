@@ -54,7 +54,7 @@ For single-project work: ignore global memory entirely.
 
 - **MEMORY.md is an index only** — one line per entry, no content
 - **Hard cap: 30 entries** — when full, move the oldest to `archive/YYYY.md`
-- Each line format: `- [Title](path/to/file.md) — one-line hook (max 120 chars)`
+- Each line format: `- `Title` — one-line hook (max 120 chars)`
 - Individual session files: keep concise, use tables over prose
 
 ## CLAUDE.md Integration

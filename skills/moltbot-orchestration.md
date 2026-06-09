@@ -14,7 +14,7 @@ last_updated: 2026-02-22
 - [AI Logic Patterns](ai-logic-patterns.md) — Architect vs. Executor model routing principles
 - [Voice Orchestration](voice-orchestration-multi-model.md) — Multi-model TTS pipeline integrated with Moltbot
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the "Moltbot" orchestration layer—the executive producer in the AutoStream Pro architecture. This document defines the standards for multi-agent coordination, stateful task decomposition, and cross-modal synchronization between LLMs, Python engines, and media APIs.
 
@@ -104,4 +104,4 @@ A centralized JSON manifest tracking all generated assets (WAV, PNG, MP4, .blend
 *   **State Consistency:** 100% agreement on shared asset manifest across all agents.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

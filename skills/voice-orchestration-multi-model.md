@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Voice Model Orchestration (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Voice Skills:**
 - [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
@@ -114,4 +114,4 @@ Ensuring that audio from different models (e.g., Narrator vs character) sounds l
 - **[Voice Emotional Acting](voice-emotional-acting.md)** - One-person multi-character production
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

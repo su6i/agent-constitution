@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Manim Animation (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Video Production Skills:**
 - [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
@@ -439,4 +439,4 @@ For professional video subtitles in Manim:
 - **[Stick Figure Animation](video-stick-figure.md)** - 2D physics-based character animation
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

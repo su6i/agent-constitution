@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: SwiftUI Guidelines (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and construction of modern iOS and macOS user interfaces using the SwiftUI framework in the 2025 ecosystem. This document defines the standards for the Observation framework, structural identity math, and high-safety Swift 6 concurrency patterns.
 
@@ -291,4 +291,4 @@ struct DeliveryLiveActivity: Widget {
 
 ---
 
-[Back to README](../../README.md)
+[Back to README](../README.md)

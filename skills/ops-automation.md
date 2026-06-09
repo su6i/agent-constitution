@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Ops Automation (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and orchestration of autonomous system operations in the 2025 ecosystem. This document defines the standards for self-healing infrastructure, deterministic backup verification, and automated health-check orchestration.
 
@@ -105,4 +105,4 @@ Moving from "Reactive" to "Proactive" observability.
 *   **Restoration Time:** Target < 5m for full service recovery from a node failure.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

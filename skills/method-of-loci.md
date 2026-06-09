@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Method of Loci (Memory Palace)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Technical protocols for implementing the Method of Loci (Memory Palace) technique in animated educational content. This document defines standards for spatial memory encoding, visual anchor design, and integration with spaced repetition systems.
 
@@ -149,4 +149,4 @@ CREATE TABLE loci_stations (
 
 ---
 
-[Back to README](../../README.md)
+[Back to README](../README.md)

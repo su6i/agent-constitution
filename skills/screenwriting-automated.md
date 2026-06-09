@@ -14,7 +14,7 @@ last_updated: 2026-03-08
 - [Storytelling TTS System](storytelling-tts-m4-system.md) - Multi-model voice orchestration
 - [Narrative Frameworks](storytelling-narrative-frameworks.md) - Character arcs & emotional DNA
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -354,4 +354,4 @@ async def daily_content_pipeline():
 
 ---
 
-[Back to README](../../README.md)
+[Back to README](../README.md)

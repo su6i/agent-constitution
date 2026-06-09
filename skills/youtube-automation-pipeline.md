@@ -13,7 +13,7 @@ last_updated: 2026-05-30
 - [YouTube SEO](youtube-seo.md) - Title/description/tag optimization
 - [Social Publisher](social-publisher.md) - Cross-platform publishing
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 

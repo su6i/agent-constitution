@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Modern Web UI (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for industrial-grade web development in the 2025 ecosystem. This document defines the standards for high-performance, framework-agnostic UI development, leveraging native browser capabilities and zero-runtime styling.
 
@@ -122,4 +122,4 @@ Eliminating the CPU cost and bundle bloat of traditional CSS-in-JS (e.g., Styled
 *   **Bundle Analysis:** Utilizing `webpack-bundle-analyzer` or `rollup-plugin-visualizer` to identify and prune "dead-weight" JS.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

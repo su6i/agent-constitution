@@ -11,6 +11,24 @@
     },
     {
       "pattern": "^https://bloclibrary.dev"
+    },
+    {
+      "pattern": "^https://www.w3.org"
+    },
+    {
+      "pattern": "^https://developer.android.com"
+    },
+    {
+      "pattern": "^https://www.npmjs.com"
+    },
+    {
+      "pattern": "^https://doi.org"
+    },
+    {
+      "pattern": "^https://search.patentsview.org"
+    },
+    {
+      "pattern": "^https://github.com/apps"
     }
   ],
   "replacementPatterns": [

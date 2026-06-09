@@ -1,5 +1,5 @@
 # Centralized Configuration Pattern (Best Practice 2026)
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ## Problem Context
 When building CLI tools with mixed technology stacks (Bash + Python), maintaining encoding standards across different modules leads to code duplication and inconsistency. Previously, bitrate multipliers, CRF values, and encoding parameters were hardcoded in multiple locations:
@@ -131,4 +131,4 @@ When adding a new encoding parameter:
 **Complexity:** Medium
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

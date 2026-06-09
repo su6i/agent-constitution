@@ -179,12 +179,12 @@ String port = this.getConfiguration("server.port");
 
 Detailed guides are available in the `references/` directory:
 
-- [Architecture & Config](references/architecture.md) — Abstractions, Package Map, Properties
-- [Routing & @Action](references/routing.md) — Annotation details, Modes, Parameters
-- [Data Handling](references/data-handling.md) — Builder, Builders, JSON serialization & parsing
-- [Database Persistence](references/database.md) — AbstractData POJOs, CRUD, mapping XML, POJO generation
-- [System & Usage](references/system-usage.md) — Context, Sessions, SSE, File Uploads, Events, Networking
-- [Testing Patterns](references/testing.md) — JUnit 5 unit and HTTP integration testing
+- `Architecture & Config` — Abstractions, Package Map, Properties
+- `Routing & @Action` — Annotation details, Modes, Parameters
+- `Data Handling` — Builder, Builders, JSON serialization & parsing
+- `Database Persistence` — AbstractData POJOs, CRUD, mapping XML, POJO generation
+- `System & Usage` — Context, Sessions, SSE, File Uploads, Events, Networking
+- `Testing Patterns` — JUnit 5 unit and HTTP integration testing
 
 ## Reference Source Files (Internal)
 

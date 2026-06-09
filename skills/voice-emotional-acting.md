@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Emotional Voice Acting (One Person → Many Characters)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Voice Skills:**
 - [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
@@ -238,4 +238,4 @@ def process_character_audio(audio, character: str):
 - **[Voice Dialogue TTS](voice-dialogue-tts.md)** - Turn-taking dialogue synthesis with Dia TTS
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

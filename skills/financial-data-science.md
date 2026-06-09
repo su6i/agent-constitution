@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Financial Data Science (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the analysis of financial markets, strategy backtesting, and quantitative risk management in the 2025 ecosystem. This document defines the standards for multi-source data acquisition (OpenBB), high-performance vector-based backtesting (VectorBT), and institutional-grade risk modeling.
 
@@ -122,4 +122,4 @@ Ensuring portfolio survivability through rigorous stress testing and statistical
 *   **Trading Costs:** Modeled at < 5 bps (basis points) for high-liquidity assets.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

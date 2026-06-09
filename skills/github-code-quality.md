@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: GitHub Code Quality (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and orchestration of automated code quality systems within the GitHub ecosystem in the 2025 ecosystem. This document defines the standards for linting, pre-commit hooks, automated code reviews, and the integration of Cursor-specific `.cursorrules` for project-wide consistency.
 
@@ -106,4 +106,4 @@ Utilizing a custom script to verify that every file in the project adheres to th
 *   **Code Coverage:** Minimum 90% for core logic; 100% for financial/security modules.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

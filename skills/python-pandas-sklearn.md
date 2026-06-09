@@ -12,7 +12,7 @@ last_updated: 2026-03-08
 - [Python GitHub Setup](python-github-setup.md) - CI/CD Workflows, Secret Management, Branch Protection
 - [PyTorch & Sklearn Integration](python-pytorch-sklearn.md) - TorchDynamo, ONNX, Skorch
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -115,4 +115,4 @@ Ensuring models are stable and portable across environments.
 - **[PyTorch & Sklearn Integration](python-pytorch-sklearn.md)** - TorchDynamo, ONNX, Skorch
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)
