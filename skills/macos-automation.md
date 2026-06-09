@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: macOS Automation (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the automation of the macOS operating system and its native applications in the 2025 ecosystem. This document defines the standards for AppleScript/JXA (JavaScript for Automation), `launchd` service orchestration, and the manipulation of system `defaults`.
 
@@ -114,4 +114,4 @@ Programmatic manipulation of the macOS preferences database.
 *   **Service Reliability:** 100% uptime for `launchd` agents in production environments.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

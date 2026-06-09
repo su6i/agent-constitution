@@ -64,7 +64,7 @@ last_updated: 2026-03-12
 ### 🛠 گردش‌کارها
 - [workflows/init-project.md](workflows/init-project.md): شروع صحیح پروژه.
 - [workflows/quality-assurance.md](workflows/quality-assurance.md): پروتکل تضمین کیفیت.
-- [workflows/daily-start.md](workflows/daily-start.md): شروع روزانه.
+- `workflows/daily-start.md`: شروع روزانه.
 - [fa/workflows/daily-start.md](fa/workflows/daily-start.md): نسخه فارسی workflow روزانه.
 
 ### 🧠 لایه دانشی

@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: How-To Documentation (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design, architecture, and maintenance of high-fidelity technical documentation in the 2025 ecosystem. This document defines the standards for the Diátaxis framework, Semantic Markdown implementation, and automated documentation verification.
 
@@ -101,4 +101,4 @@ Treating documentation with the same rigor as production software.
 *   **Accuracy:** 100% agreement between documented API parameters and actual source code.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -9,7 +9,7 @@ last_updated: 2026-03-08
 **🔗 Related Media Tools:**
 - [ImageMagick Technical](imagemagick-technical.md) - PDF Conversion, Color Space, Batch Orchestration
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -227,5 +227,5 @@ magick input.png -background white -alpha remove -alpha off output.jpg
 - [Imagemagick Technical](imagemagick-technical.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)
 ```

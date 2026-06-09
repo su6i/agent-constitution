@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: CLI Table Alignment (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design and construction of aligned, readable, and professional tables within a Command Line Interface (CLI) in the 2025 ecosystem. This document defines the standards for padding calculations, Unicode-safe width normalization, and ANSI-compatible formatting.
 
@@ -108,4 +108,4 @@ Targeting specific "Status" patterns (e.g., "ERROR" = Red, "SUCCESS" = Green) us
 *   **Visual Integrity:** 100% alignment across iTerm2, Kitty, and VSCode Integrated Terminals.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

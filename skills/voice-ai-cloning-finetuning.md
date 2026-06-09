@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: AI Voice Cloning & Fine-tuning (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Voice Skills:**
 - [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
@@ -117,4 +117,4 @@ Storing voice identity vectors (embeddings) and LoRA weights in encrypted, vault
 - **[Voice Emotional Acting](voice-emotional-acting.md)** - One-person multi-character production
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

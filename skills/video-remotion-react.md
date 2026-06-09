@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Remotion Video (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Video Production Skills:**
 - [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
@@ -302,4 +302,4 @@ jobs:
 
 ---
 
-[Back to README](../../README.md)
+[Back to README](../README.md)

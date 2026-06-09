@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Graphical Desktop App Development (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design, development, and distribution of graphical desktop applications using Python in the 2025 ecosystem. This document defines the standards for PyQt6 signal/slot architectures, modern CustomTkinter aesthetics, and deterministic standalone bundling.
 
@@ -108,4 +108,4 @@ Ensuring the UI remains responsive during heavy computation (e.g., API calls, Me
 *   **UI Frame-rate:** Consistent 60fps for graphs and animations.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

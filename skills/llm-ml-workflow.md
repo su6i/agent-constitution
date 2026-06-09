@@ -14,7 +14,7 @@ last_updated: 2026-02-22
 - [PyTorch & Scikit-learn](python-pytorch-sklearn.md) — Low-level training loops and ONNX export
 - [Reinforcement Learning](reinforcement-learning.md) — SB3/SBX agents and reward engineering
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the architecting, fine-tuning, and deployment of Large Language Models (LLMs) and Machine Learning (ML) systems in the 2025 ecosystem. This document defines the standards for declarative prompt optimization, memory-efficient fine-tuning, and high-throughput inference.
 
@@ -131,4 +131,4 @@ Standardizing the metrics and observability for production AI.
 *   **Throughput (Tokens/sec):** Target > 100 t/s per user on V100/A100 hardware for real-time responsiveness.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

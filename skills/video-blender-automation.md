@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Blender Automation (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Video Production Skills:**
 - [Video Manim Math](video-manim-math.md) - Mathematical animations with Python
@@ -149,4 +149,4 @@ blender -b project.blend -P script.py -o //renders/output_### -F PNG -x 1 -a
 - **[Stick Figure Animation](video-stick-figure.md)** - 2D physics-based character animation
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

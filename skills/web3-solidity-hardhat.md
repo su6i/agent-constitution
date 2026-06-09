@@ -10,7 +10,7 @@ last_updated: 2026-03-08
 - [Solidity & Foundry](web3-solidity-foundry.md) - Gas Optimization, Yul/Assembly, Fuzz Testing
 - [Web3 React DApps](web3-react-dapps.md) - Wagmi v2, Viem, WalletConnect v2
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -118,4 +118,4 @@ The 2025 standard for declarative, resumable deployments.
 - **[Web3 React DApps](web3-react-dapps.md)** - Wagmi v2, Viem, WalletConnect v2
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

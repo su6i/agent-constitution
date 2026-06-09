@@ -3,7 +3,7 @@ name: pdf-rendering-engines
 description: Multi-Engine PDF Rendering Technical Encyclopedia: Headless Browsers (Puppeteer), RTL Optimization, Base64 Font Embedding, and Robust Fallback logic.
 ---
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Pdf Skills:**
 - [Pdf Form Filling](pdf-form-filling.md)
@@ -77,4 +77,4 @@ Ensuring content survival when advanced rendering engines fail.
 - [Pdf Rendering Engines](pdf-rendering-engines.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

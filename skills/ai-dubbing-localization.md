@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: AI Dubbing & Localization (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Ai Skills:**
 - [Ai Dubbing Localization](ai-dubbing-localization.md)
@@ -115,4 +115,4 @@ Utilizing "Gaussian Blur Masks" around the mouth region to hide seams between th
 - [Ai Sfx Generation](ai-sfx-generation.md)
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

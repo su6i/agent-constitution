@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Stick Figure Animation (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Video Production Skills:**
 - [Video Blender Automation](video-blender-automation.md) - 3D automation with Python
@@ -121,4 +121,4 @@ Utilizing 3D tools for high-precision 2D stick animation.
 - **[DaVinci Resolve Editing](video-resolve-editing.md)** - Professional editing automation
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

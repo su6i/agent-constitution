@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: FastAPI Best Practices (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the development of high-performance, type-safe APIs using FastAPI in the 2025 ecosystem. This document defines the standards for resource management, data validation, and asynchronous orchestration.
 
@@ -107,4 +107,4 @@ async def read_items(db: Annotated[Session, Depends(get_db_session)]):
 *   **Auto-Docs:** Protocols for disabling `/docs` and `/redoc` in production via environment variables.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

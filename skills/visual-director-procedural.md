@@ -11,7 +11,7 @@ last_updated: 2026-03-08
 - [Visual Character Consistency](visual-character-consistency.md) - IP-Adapter FaceID, InstantID, LoRA Training
 - [Thumbnail Psychology](visual-thumbnail-psychology.md) - Eye-Tracking, CTR A/B Testing
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -112,4 +112,4 @@ Ensuring a consistent "Brand Look" across thousands of automated videos.
 - **[Thumbnail Psychology](visual-thumbnail-psychology.md)** - Eye-Tracking, CTR A/B Testing
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

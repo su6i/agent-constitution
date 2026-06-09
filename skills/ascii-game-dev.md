@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: ASCII Game Development (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the design, architecture, and rendering of games within a text-based terminal environment in the 2025 ecosystem. This document defines the standards for double-buffered terminal rendering, Entity-Component System (ECS) architectures, and Ray-casting for 2.5D environments.
 
@@ -108,4 +108,4 @@ Utilizing trigonometric functions to project a 2D map into a pseudo-3D view usin
 *   **Buffer Fill:** Target 100% 4K terminal characters in < 5ms.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

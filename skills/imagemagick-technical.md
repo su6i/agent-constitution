@@ -12,7 +12,7 @@ last_updated: 2026-03-08
 **🔗 Related Visual Production:**
 - [Thumbnail Psychology](visual-thumbnail-psychology.md) - Eye-tracking & CTR optimization
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 ---
 
@@ -122,4 +122,4 @@ Automated generation of responsive image sets (WebP/AVIF) using optimized quanti
 - **[Thumbnail Psychology](visual-thumbnail-psychology.md)** - Eye-tracking & CTR optimization
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

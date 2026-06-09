@@ -8,7 +8,7 @@ last_updated: 2026-02-22
 
 # Skill: Audio Processing (Technical Encyclopedia)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 Comprehensive technical protocols for the acquisition, processing, and mastering of audio in the 2025 ecosystem. This document defines the standards for loudness normalization (LUFS), spectral signal repair, and high-fidelity signal orchestration.
 
@@ -109,4 +109,4 @@ Processing specific frequency ranges (Low, Mid, High) independently to fix tonal
 *   **THD+N:** Targeted to remain below 0.005% throughout the signal chain.
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)

@@ -8,7 +8,7 @@ last_updated: 2026-03-08
 
 # Skill: Dia TTS (Dialogue Synthesis)
 
-[Back to README](../../README.md)
+[Back to README](../README.md)
 
 **🔗 Related Voice Skills:**
 - [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
@@ -184,4 +184,4 @@ async def synthesize_scene(scene: dict):
 - **[Voice Emotional Acting](voice-emotional-acting.md)** - One-person multi-character production
 
 ---
-[Back to README](../../README.md)
+[Back to README](../README.md)
