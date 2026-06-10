@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `workflows/first-session.md` — mandatory onboarding workflow to fill
   `CLAUDE.md`/`README.md`/`.env.example` and verify the skeleton before feature
   work; listed in README.
+- `workflows/propagate-constitution.md` — workflow for rolling constitution
+  updates (rules/skills/hook) out to every consuming project via
+  `amir update-projects`; listed in README.
 - `bin/mcp-server/server_http.py` — HTTP server with SSE + Streamable HTTP transports (localhost:8765)
 - `bin/mcp-server/com.agent-constitution.mcp.plist` — launchd service for auto-start on login
 - `/health` endpoint for status checks
