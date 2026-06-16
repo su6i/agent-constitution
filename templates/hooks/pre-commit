@@ -3,7 +3,7 @@
 # Canonical source: agent-constitution/templates/hooks/pre-commit
 # Installed into .git/hooks/pre-commit (this repo + every `amir init-project`).
 #
-# Enforces two NON-NEGOTIABLE constitution rules deterministically, so they
+# Enforces three NON-NEGOTIABLE constitution rules deterministically, so they
 # cannot be "forgotten" by any agent or human:
 #
 #   1. No direct commits to main/master — use a feature branch.
@@ -11,6 +11,9 @@
 #      documentation (README / CHANGELOG / docs/ / any *.md). A minor change
 #      that is really a continuation of the previous commit must be folded in
 #      with `git commit --amend`, not landed as a new doc-less commit.
+#   3. Personal/memory workspace files (TODO.md, SESSION.md, TASKS.md,
+#      ROADMAP.md, *.session.md, *.local.md) must never reach a commit, even
+#      if force-added with `git add -f` past .gitignore.
 #
 # Deliberate bypass (discouraged, leaves a trace in your shell history):
 #     git commit --no-verify
@@ -61,6 +64,29 @@ if [ "$code" = "1" ] && [ "$doc" = "0" ]; then
     echo "   If this is a MINOR continuation of the previous commit, amend it"
     echo "   instead of creating a new commit:"
     echo "     git commit --amend"
+    echo ""
+    exit 1
+fi
+
+# ── Rule 3: block personal/memory workspace files ──────────────────────────
+blocked=0
+while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    base="$(basename "$f")"
+    case "$base" in
+        TODO.md|SESSION.md|TASKS.md|ROADMAP.md|*.session.md|*.local.md)
+            echo "🚨 pre-commit: '$f' is a personal/memory workspace file and must never be committed."
+            blocked=1
+            ;;
+    esac
+done <<EOF
+$staged
+EOF
+
+if [ "$blocked" = "1" ]; then
+    echo ""
+    echo "   Unstage it and confirm it is listed in .gitignore:"
+    echo "     git restore --staged <file>"
     echo ""
     exit 1
 fi

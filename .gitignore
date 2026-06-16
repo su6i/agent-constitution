@@ -84,3 +84,11 @@ assets/*_draft.md
 temp/
 roadmap/
 bin/sync-projects.sh
+
+# --- Personal / memory workspace files (NEVER commit — see rules/040-git.md) ---
+TODO.md
+SESSION.md
+TASKS.md
+ROADMAP.md
+*.session.md
+*.local.md
