@@ -28,3 +28,20 @@ API_KEY = "sk-1234..."                    # ❌ Forbidden
 ## Check before every commit
 - `git diff --staged | grep -i "api_key\|secret\|password\|token"`
 - If there are results: STOP and report
+
+## If a Secret or Legal/Privacy Violation Was Already Committed (Non-Negotiable)
+A new commit that removes or fixes the value is **not sufficient** — the
+exposed data still exists in every prior commit, in the reflog, and on any
+remote/fork that already fetched it.
+
+1. STOP. Do not push if the bad commit hasn't left the local repo yet.
+2. Rotate/revoke the exposed credential immediately (it must be treated as
+   compromised regardless of whether history gets cleaned).
+3. Purge it from history with `git filter-repo` (preferred) or BFG Repo-Cleaner
+   — a plain `git revert`/fixup commit is not acceptable.
+4. This rewrites history and requires a force-push: get **explicit user
+   approval** before running it, per the Merge Gate and the global rule
+   against destructive git operations.
+5. After the force-push, tell the user any other clone/fork must be
+   re-cloned — the old history is still reachable from anyone who already
+   has it.
