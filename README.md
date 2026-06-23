@@ -241,4 +241,12 @@ curl http://localhost:8765/health  # → {"status":"ok","skills":343}
 See **[MCP Server README](bin/mcp-server/README.md)** for full per-IDE setup instructions.
 
 ---
+
+## Acknowledgements
+
+This repository's skill catalog has been enriched with content from **[ECC (Everything Claude Code)](https://github.com/affaan-m/ECC)** by affaan-m (220K+ stars, MIT License). Imported skills include orchestration pipelines, intent-driven development, Kubernetes patterns, Vue.js, brand/competitive analysis, agent self-evaluation, TDD workflow improvements, and more.
+
+ECC is the reference open-source agent harness for Claude Code and cross-harness AI development. If you're looking for a skill not found here, check ECC first — it has 271 skills across 12+ ecosystems.
+
+---
 *Built with strict adherence to the Prompt-Driven Development methodology.*
