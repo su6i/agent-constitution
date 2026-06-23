@@ -36,13 +36,9 @@ bash <(curl -fsSL https://raw.githubusercontent.com/su6i/agent-constitution/main
 
 ## Demo
 
-<!-- TODO: run `vhs assets/demo.tape` to generate, then replace this block -->
-> **Generate the demo GIF:**
-> ```bash
-> brew install vhs ffmpeg ttyd
-> vhs assets/demo.tape        # produces assets/demo.gif
-> ```
-> Then replace this block with: `![Demo](assets/demo.gif)`
+![Demo](assets/demo.gif)
+
+> Regenerate: `vhs assets/demo.tape`
 
 <div align="center">
 
