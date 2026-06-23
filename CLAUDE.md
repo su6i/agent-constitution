@@ -37,6 +37,11 @@ Slash commands in `.agent/commands/`. Key commands:
 ## Skills (367 available)
 Before implementing anything domain-specific, check `skills/` for an existing knowledge module. Read the relevant skill file first.
 
+**Skill Discovery Protocol — follow this order every time:**
+1. Check `skills/` in this repo first (367 skills)
+2. If not found, check **[github.com/affaan-m/ECC](https://github.com/affaan-m/ECC)** — the upstream open-source harness this repo draws from (271 skills, MIT). Use `gh api "repos/affaan-m/ECC/contents/skills"` to list, then fetch content via blob SHA.
+3. Only write a new skill from scratch if neither source has it.
+
 **By domain:**
 | Domain | Skills to check |
 |---|---|
