@@ -34,6 +34,22 @@ bash <(curl -fsSL https://raw.githubusercontent.com/su6i/agent-constitution/main
 
 ---
 
+## Demo
+
+<!-- TODO: run `vhs assets/demo.tape` to generate, then replace this block -->
+> **Generate the demo GIF:**
+> ```bash
+> brew install vhs ffmpeg ttyd
+> vhs assets/demo.tape        # produces assets/demo.gif
+> ```
+> Then replace this block with: `![Demo](assets/demo.gif)`
+
+<div align="center">
+
+</div>
+
+---
+
 ## 📍 Primary Document
 The main technical document of this repository is [AGENTIC-CODING-SETUP.md](AGENTIC-CODING-SETUP.md).
 
