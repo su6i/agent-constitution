@@ -163,7 +163,7 @@ curl http://localhost:8765/health  # → {"status":"ok","skills":367}
 |---|---|
 | [ai-logic-patterns](skills/ai-logic-patterns.md) | قوانین master prompting و orchestration ایجنت |
 | [ai-regression-testing](skills/ai-regression-testing.md) | تست regression خودکار برای خروجی LLM |
-| [ai-router](skills/ai-router.md) | مسیریابی مدل با آگاهی از هزینه |
+| [ai-router](skills/ai-router/README.md) | مسیریابی مدل با آگاهی از هزینه |
 | [ai-video-generation](skills/ai-video-generation.md) | تولید ویدیو با Runway، Kling، Luma، Veo |
 | [agentic-engineering](skills/agentic-engineering.md) | ساخت سیستم‌های agentic از ابتدا تا انتها |
 | [autonomous-loops](skills/autonomous-loops.md) | حلقه‌های خودکار با quality gate |

@@ -186,7 +186,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 |---|---|
 | [ai-logic-patterns](skills/ai-logic-patterns.md) | Master prompting & agent orchestration rules |
 | [ai-regression-testing](skills/ai-regression-testing.md) | Automated regression suites for LLM outputs |
-| [ai-router](skills/ai-router.md) | Cost-aware model routing and fallback chains |
+| [ai-router](skills/ai-router/README.md) | Cost-aware model routing and fallback chains |
 | [ai-video-generation](skills/ai-video-generation.md) | Gen-video with Runway, Kling, Luma, Veo |
 | [agentic-engineering](skills/agentic-engineering.md) | Building robust agentic systems end-to-end |
 | [autonomous-loops](skills/autonomous-loops.md) | Self-driving agent loops with quality gates |

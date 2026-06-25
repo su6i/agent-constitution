@@ -29,6 +29,9 @@
     },
     {
       "pattern": "^https://github.com/apps"
+    },
+    {
+      "pattern": "^https://rentry.co"
     }
   ],
   "replacementPatterns": [
