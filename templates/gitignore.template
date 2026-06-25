@@ -23,6 +23,12 @@
 config.local.yaml
 config.local.yml
 
+# ── Personal / local decision-persistence (never commit) ────────────────────
+# Per-session agent scratchpads. They hold working notes & plans, not source —
+# committing them leaks local context to the remote (see rules/040-git.md).
+SESSION.md
+TODO.md
+
 # ── Python ──────────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
