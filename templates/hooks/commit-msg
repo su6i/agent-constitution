@@ -1,0 +1,26 @@
+#!/bin/bash
+# ─── Agent Constitution · commit-msg gate ───────────────────────────────────
+# Canonical source: agent-constitution/templates/hooks/commit-msg
+# Installed into .git/hooks/commit-msg (this repo + every `amir init-project`).
+#
+# Enforces rule 040-git deterministically: "No AI co-authorship — ever."
+# Rejects any commit whose MESSAGE carries AI attribution — a Co-Authored-By
+# trailer naming an AI, a "Generated with <AI>" line, or a 🤖 marker — so the
+# rule cannot be "forgotten" by any agent or human.
+#
+# Written for bash 3.2 (macOS default).
+
+msg_file="$1"
+[ -z "$msg_file" ] || [ ! -f "$msg_file" ] && exit 0
+
+ai='claude|anthropic|copilot|chatgpt|openai|gpt-[0-9]|gemini|bard|cursor|codeium|llama|mistral|noreply@anthropic'
+
+if grep -qiE "co-authored-by:.*($ai)" "$msg_file" \
+   || grep -qiE "(generated|written|authored|created) (with|by) .*($ai)" "$msg_file" \
+   || grep -q '🤖' "$msg_file"; then
+    echo "❌ commit-msg: AI attribution is forbidden." >&2
+    echo "   Constitution rule 040-git — \"No AI co-authorship — ever.\"" >&2
+    echo "   Remove any 'Co-Authored-By: <AI>', 'Generated with <AI>', or 🤖 line, then commit again." >&2
+    exit 1
+fi
+exit 0

@@ -129,6 +129,32 @@ git config --global user.name  "Your Name"
 
 ---
 
+## 🪝 Git Hooks (automatic enforcement)
+
+Two hooks turn the non-negotiable git rules (`rules/040-git.md`) into deterministic
+gates that no agent or human can "forget". Their canonical sources live in
+`templates/hooks/`, and they are installed into each repo's `.git/hooks/` by
+`amir init-project` (new repos) and `amir update-projects` (existing repos).
+
+| Hook | What it blocks |
+|------|----------------|
+| `pre-commit` | Direct commits to `main`/`master` (use a feature branch); and the **Docs Checklist** — a code change must also touch a doc (README / CHANGELOG / docs/ / `*.md`). |
+| `commit-msg` | **AI co-authorship — ever.** Any `Co-Authored-By: <AI>` trailer, a "Generated with `<AI>`" line, or a 🤖 marker in the message. |
+
+### Don't want them? How to opt out
+
+```bash
+git commit --no-verify             # bypass for ONE commit (leaves a shell-history trace)
+rm .git/hooks/commit-msg           # remove a single hook from this clone
+rm .git/hooks/pre-commit
+amir update-projects --no-hook     # sync the constitution WITHOUT (re)installing hooks
+```
+
+Removing a hook only affects that one clone; the templates and the rules stay
+intact, and a later `amir update-projects` reinstalls them unless you pass `--no-hook`.
+
+---
+
 ## 📚 Documentation
 
 ### ⭐ Flagship Guide
