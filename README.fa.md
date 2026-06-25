@@ -440,6 +440,26 @@ curl http://localhost:8765/health  # → {"status":"ok","skills":367}
 
 ---
 
+## 🪝 هوک‌های گیت (اعمالِ خودکار)
+
+دو هوک، قوانینِ غیرقابل‌مذاکرهٔ گیت (`rules/040-git.md`) را به دروازه‌هایی قطعی تبدیل می‌کنند که هیچ اجنت یا انسانی نتواند «فراموش»‌شان کند. منبعِ canonicalشان در `templates/hooks/` است و با `amir init-project` (مخزنِ جدید) و `amir update-projects` (مخزنِ موجود) در `.git/hooks/` نصب می‌شوند.
+
+| هوک | چه چیزی را بلاک می‌کند |
+|------|------------------------|
+| `pre-commit` | commitِ مستقیم روی `main`/`master` (باید feature branch بزنی)؛ و **چک‌لیستِ مستندات** — تغییرِ کد باید یک سند را هم به‌روز کند. |
+| `commit-msg` | **هم‌نویسندگیِ هوش مصنوعی — هرگز.** هر تریلرِ `Co-Authored-By: <AI>`، خطِ «Generated with `<AI>`»، یا نشانهٔ 🤖. |
+
+### دوستشان نداری؟ نحوهٔ غیرفعال‌سازی
+
+```bash
+git commit --no-verify             # دور زدن برای فقط یک commit (ردّش در history می‌ماند)
+rm .git/hooks/commit-msg           # حذفِ یک هوک از این clone
+rm .git/hooks/pre-commit
+amir update-projects --no-hook     # sync constitution بدونِ نصبِ دوبارهٔ هوک‌ها
+```
+
+حذفِ یک هوک فقط همان clone را تحت‌تأثیر می‌گذارد؛ templateها و قوانین دست‌نخورده می‌مانند و `amir update-projects`ِ بعدی دوباره نصبشان می‌کند مگر `--no-hook` بدهی.
+
 ## 🤝 مشارکت
 قبل از هر Pull Request فایل [CONTRIBUTING.md](CONTRIBUTING.md) را بخوانید.
 
