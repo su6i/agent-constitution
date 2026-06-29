@@ -3,7 +3,7 @@ title: "000Core: Global Constitution"
 description: Core project standards and non-negotiable behavior rules.
 location: rules/000-core.md
 agent_priority: High
-last_updated: 2026-02-21
+last_updated: 2026-06-30
 ---
 
 # Core Rules
@@ -35,3 +35,16 @@ last_updated: 2026-02-21
 - First read the error, then diagnose
 - If not solved after 3 attempts: Report and wait for approval
 - Never add dependencies without approval
+
+## No Silent Errors (Non-Negotiable)
+
+Every error you observe — lint, type, test, build, LaTeX, runtime, deprecation
+warning — must be either **fixed now** or **recorded in `TODO.md`** for later.
+Seeing an error and moving on without doing one of those two is forbidden.
+
+- "It was already there" / "not caused by my change" is **not** a reason to
+  ignore it — record it.
+- When you defer a fix (e.g. to keep a commit's scope clean), immediately add an
+  item under a bugs/lint section in the project `TODO.md` with the exact
+  `file:line` and the error message.
+- Applies to errors surfaced by any tool you run, not only the files you edited.
