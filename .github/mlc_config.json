@@ -4,6 +4,9 @@
       "pattern": "^https://img.shields.io"
     },
     {
+      "pattern": "^https://id.atlassian.com"
+    },
+    {
       "pattern": "^https://linkedin.com"
     },
     {
