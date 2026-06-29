@@ -28,7 +28,7 @@ Not every file is a subordinate appendix of the flagship guide, but every major 
 ## Repository Map
 
 | Area | Role | Relationship to the flagship guide |
-|---|---|---|
+| --- | --- | --- |
 | [README.md](../README.md) | Entry point | Explains the project and directs readers to the flagship guide first |
 | [AGENTIC-CODING-SETUP.md](../AGENTIC-CODING-SETUP.md) | Canonical technical document | Defines the main methodology, benchmarks, model choices, and cost strategy |
 | [AGENTS.md](../AGENTS.md) | Agent execution contract | Converts repository philosophy into actionable runtime rules for coding agents |

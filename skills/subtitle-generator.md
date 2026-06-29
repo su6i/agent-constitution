@@ -13,6 +13,7 @@ Comprehensive technical protocol for producing professional Persian subtitles us
 ---
 
 ## 1. Subtitle Generation Pipeline
+
 The standard workflow follows a 5-phase execution model.
 
 ```mermaid
@@ -25,7 +26,9 @@ graph TD
 ```
 
 ### 1.1 Audio Extraction & Transcription
+
 Standardized extraction for optimal Whisper performance.
+
 ```bash
 # Extract high-quality audio
 ffmpeg -i input.mp4 -q:a 0 -map a audio.wav
@@ -37,6 +40,7 @@ whisper audio.wav --model large-v3 --language fa --output_format json --word_tim
 ---
 
 ## 2. Typographical Standards for Persian
+
 Mandatory rules for visual clarity and cinematic quality.
 
 | Rule | Parameter | Context |
@@ -49,6 +53,7 @@ Mandatory rules for visual clarity and cinematic quality.
 ---
 
 ## 3. Specialized Persian ASS Style
+
 The ASS (Advanced Substation Alpha) format is the standard for stylized hardcoded subtitles.
 
 ```ini
@@ -58,6 +63,7 @@ Style: Default,B Nazanin,48,&H00FFFFFF,&H000000FF,&H00000000,&H64000000,0,0,0,0,
 ```
 
 ### 3.1 Hardcoding Command
+
 ```bash
 ffmpeg -i input.mp4 -vf "ass=subtitle.ass" -c:a copy output.mp4
 ```
@@ -67,6 +73,7 @@ ffmpeg -i input.mp4 -vf "ass=subtitle.ass" -c:a copy output.mp4
 ## 4. Supporting Scripts
 
 ### 4.1 Sentence Splitting Protocol (`split_sentences.py`)
+
 ```python
 import json
 import sys
@@ -89,6 +96,7 @@ def split_subtitle(text, max_chars=42):
 ```
 
 ### 4.2 Whisper to ASS Converter (`apply_subtitle.py`)
+
 ```python
 import json
 import sys
@@ -106,6 +114,7 @@ def seconds_to_ass_time(seconds):
 ---
 
 ## 5. Best Practices & Cinematic Rules
+
 - **The 1-7-2 Rule:** 1s min duration, 7s max duration, 2-frame gap between subtitles.
 - **BiDi Support:** For mixed text (Persian/English), always wrap in Unicode control characters if Pango fails.
 - **Manim Hint:** Use the `safe_persian_text` utility defined in `manim-animation.md` for rendering.

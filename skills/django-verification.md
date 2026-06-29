@@ -54,6 +54,7 @@ python manage.py check --deploy
 ```
 
 Common issues:
+
 - Missing type hints on public functions
 - PEP 8 formatting violations
 - Unsorted imports
@@ -79,6 +80,7 @@ python manage.py makemigrations --merge  # Only if conflicts exist
 ```
 
 Report:
+
 - Number of pending migrations
 - Any migration conflicts
 - Model changes without migrations
@@ -101,6 +103,7 @@ open htmlcov/index.html
 ```
 
 Report:
+
 - Total tests: X passed, Y failed, Z skipped
 - Overall coverage: XX%
 - Per-app coverage breakdown
@@ -108,7 +111,7 @@ Report:
 Coverage targets:
 
 | Component | Target |
-|-----------|--------|
+| ----------- | -------- |
 | Models | 90%+ |
 | Serializers | 85%+ |
 | Views | 80%+ |
@@ -136,6 +139,7 @@ python -c "from django.core.exceptions import ImproperlyConfigured; from django.
 ```
 
 Report:
+
 - Vulnerable dependencies found
 - Security configuration issues
 - Hardcoded secrets detected
@@ -180,6 +184,7 @@ EOF
 ```
 
 Report:
+
 - Number of queries per page (should be < 50 for typical pages)
 - Missing database indexes
 - Duplicate queries detected
@@ -272,6 +277,7 @@ git diff | grep "import pdb"  # Debugger
 ```
 
 Checklist:
+
 - No debugging statements (print, pdb, breakpoint())
 - No TODO/FIXME comments in critical code
 - No hardcoded secrets or credentials
@@ -454,7 +460,7 @@ jobs:
 ## Quick Reference
 
 | Check | Command |
-|-------|---------|
+| ------- | --------- |
 | Environment | `python --version` |
 | Type checking | `mypy .` |
 | Linting | `ruff check .` |

@@ -22,7 +22,7 @@ After completing a complex task, the agent pauses to rate its own output against
 ### The 5 Evaluation Axes
 
 | Axis | Question | What it catches |
-|---|---|---|
+| --- | --- | --- |
 | **Accuracy** | Are the facts, claims, and outputs correct? | Hallucinations, wrong API names, incorrect syntax, false statements |
 | **Completeness** | Did it cover everything the user asked for? | Missed edge cases, unhandled error paths, forgotten requirements, skipped subtasks |
 | **Clarity** | Is the explanation understandable and well-structured? | Confusing explanations, jargon without definition, missing context, rambling |

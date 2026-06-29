@@ -7,10 +7,12 @@ last_updated: 2026-03-08
 ---
 
 **🔗 Related Screenwriting Skills:**
+
 - [Screenwriting Frameworks](screenwriting-frameworks.md) - 3-Act Design, Tension Arcs, Character Modeling
 - [YouTube Scriptwriting](screenwriting-youtube.md) - Information Gaps, AVD Optimization, Zeigarnik Effect
 
 **🔗 Related Content Creation:**
+
 - [Storytelling TTS System](storytelling-tts-m4-system.md) - Multi-model voice orchestration
 - [Narrative Frameworks](storytelling-narrative-frameworks.md) - Character arcs & emotional DNA
 
@@ -20,8 +22,6 @@ last_updated: 2026-03-08
 
 # Skill: Automated Scriptwriting Pipeline
 
-
-
 Technical protocols for **100% automated** script generation using Claude/LLM orchestration, Leitner vocabulary integration, and CLIL methodology. This document defines the complete pipeline from topic selection to tagged screenplay.
 
 ---
@@ -29,6 +29,7 @@ Technical protocols for **100% automated** script generation using Claude/LLM or
 ## 1. What You Need for Full Automation
 
 ### 1.1 Required Components
+
 | Component | Purpose | Tool |
 | :--- | :--- | :--- |
 | **Orchestrator** | Manages pipeline steps | Claude API / CrewAI |
@@ -38,6 +39,7 @@ Technical protocols for **100% automated** script generation using Claude/LLM or
 | **Validator** | Quality checks | Custom Python |
 
 ### 1.2 Minimal Setup (M4 Mac Mini)
+
 ```bash
 # Install dependencies
 pip install anthropic chromadb sqlite-utils pydantic
@@ -74,6 +76,7 @@ pip install anthropic chromadb sqlite-utils pydantic
 ## 3. Step 1: Query Memory (Leitner + RAG)
 
 ### 3.1 Get Vocabulary for Review
+
 ```python
 import sqlite3
 from datetime import datetime
@@ -96,6 +99,7 @@ def get_review_vocabulary(db_path: str, limit: int = 15) -> list:
 ```
 
 ### 3.2 Get Related Past Episodes
+
 ```python
 import chromadb
 
@@ -118,6 +122,7 @@ def get_related_episodes(topic: str, exclude_recent: int = 3) -> list:
 ## 4. Step 2: Generate Script (Claude + CLIL)
 
 ### 4.1 The Master Prompt Template
+
 ```python
 SCRIPT_PROMPT = """
 You are a master storyteller for a Technical Educational Channel, creating immersive 
@@ -166,7 +171,9 @@ Target words: {new_vocabulary}
   </part>
 </episode>
 ```
+
 """
+
 ```
 
 ### 4.2 Generate with Claude API
@@ -204,6 +211,7 @@ def generate_script(
 ## 5. Step 3: Validate & Tag
 
 ### 5.1 Validation Checks
+
 ```python
 from pydantic import BaseModel
 from typing import List
@@ -243,6 +251,7 @@ def validate_script(script_xml: str, required_vocab: list) -> ScriptValidation:
 ```
 
 ### 5.2 Re-generation Loop
+
 ```python
 async def generate_validated_script(topic: str, max_attempts: int = 3):
     """Generate script with automatic retry if validation fails."""
@@ -269,6 +278,7 @@ async def generate_validated_script(topic: str, max_attempts: int = 3):
 ## 6. Output: Voice-Ready Script
 
 ### 6.1 Final Script Format
+
 ```xml
 <episode topic="automation_basics" duration="15min" lang="en">
   <metadata>
@@ -345,10 +355,12 @@ async def daily_content_pipeline():
 | Human review | Optional (QA only) |
 
 ## 🔗 Related Screenwriting Skills
+
 - **[Screenwriting Frameworks](screenwriting-frameworks.md)** - 3-Act Design, Tension Arcs, Character Modeling
 - **[YouTube Scriptwriting](screenwriting-youtube.md)** - Information Gaps, AVD Optimization, Zeigarnik Effect
 
 ## 🔗 Related Content Creation
+
 - **[Storytelling TTS System](storytelling-tts-m4-system.md)** - Multi-model voice orchestration
 - **[Narrative Frameworks](storytelling-narrative-frameworks.md)** - Character arcs & emotional DNA
 

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - 2026-06-09
 
 ### Added
+
 - `templates/hooks/pre-commit` — canonical git pre-commit gate enforcing two
   non-negotiable rules deterministically: no direct commits to `main`/`master`,
   and the Pre-Commit Docs Checklist (code changes must touch a doc; minor
@@ -27,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Full IDE setup docs: Cursor, VS Code, Antigravity IDE, JetBrains, Gemini CLI
 
 ### Changed
+
 - `templates/gitignore.template` — replaced the 410-line generic toptal dump
   with a curated 2026 Python/uv ignore. Removes the `[Ll]ib`/`[Bb]in`/`scripts`/
   `include` patterns that silently hid source directories, drops the leftover
@@ -36,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   src-layout, `.gitkeep`, storage policy, `uv init`, mandatory first session.
 
 ### Fixed
+
 - CI `Check Internal Links` — repaired the long-standing red build:
   - 75 `skills/*.md` files used `](../../README.md)` (one level too deep) → `](../README.md)`.
   - ~115 links to bundled reference files not shipped in this repo (e.g. Angular/
@@ -46,11 +49,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `AGENTS.md` stale skill count updated from 77 to 343
 
 ### Fixed
+
 - MCP server now negotiates protocol version (`2025-11-25` and `2024-11-05` supported)
 - `prompts/list` returns empty list instead of error
 - `resources/list` no longer sends 48KB payload on connect (skills moved to tools)
 
 ### Added
+
 - `list_skills` tool — lists all 343 skills so Claude can discover them proactively
 - `get_skill` tool — reads any skill by name without requiring the caller to know the resource URI
 
@@ -61,6 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🎉 Initial Release
 
 #### Added
+
 - **58 Technical Skills** covering:
   - Python, JS/TS, Swift, Kotlin development
   - AI/ML workflows (LLM, RAG, Reinforcement Learning)
@@ -90,6 +96,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CI/CD Pipeline** for link validation
 
 #### Changed
+
 - Migrated from root-level files to `.cursor/` directory structure
 - Converted all prompts from `.txt` to `.md` format
 - Standardized skill files to Anthropic's format
@@ -99,12 +106,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2026-02-14
 
 ### Added
+
 - **Subtitle Generator Skill** (`.cursor/skills/subtitle-generator.md`): Professional Persian subtitle pipeline (Whisper, FFmpeg, Manim).
 - **Supporting Scripts** for Subtitle Generator:
-    - `split_sentences.py`: Optimized Persian sentence splitting.
-    - `apply_subtitle.py`: Whisper JSON to stylized ASS converter.
+  - `split_sentences.py`: Optimized Persian sentence splitting.
+  - `apply_subtitle.py`: Whisper JSON to stylized ASS converter.
 
 ### Changed
+
 - **Manim Animation Skill**: Integrated Section 19 with Persian/Emoji typography protocols and renderer warmup techniques.
 
 ---
@@ -112,6 +121,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
+
 - MCP Server integration
 - VS Code extension
 - Raycast scripts

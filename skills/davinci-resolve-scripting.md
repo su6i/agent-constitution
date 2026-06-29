@@ -19,6 +19,7 @@ Supported runtimes: Python 3.6+ (64-bit) or Lua 5.1. Free version has some limit
 Set these **before** importing `DaVinciResolveScript`:
 
 ### macOS
+
 ```bash
 export RESOLVE_SCRIPT_API="/Library/Application Support/Blackmagic Design/DaVinci Resolve/Developer/Scripting"
 export RESOLVE_SCRIPT_LIB="/Applications/DaVinci Resolve/DaVinci Resolve.app/Contents/Libraries/Fusion/fusionscript.so"
@@ -26,6 +27,7 @@ export PYTHONPATH="$PYTHONPATH:$RESOLVE_SCRIPT_API/Modules/"
 ```
 
 ### Windows
+
 ```bat
 set RESOLVE_SCRIPT_API=%PROGRAMDATA%\Blackmagic Design\DaVinci Resolve\Support\Developer\Scripting
 set RESOLVE_SCRIPT_LIB=C:\Program Files\Blackmagic Design\DaVinci Resolve\fusionscript.dll
@@ -33,6 +35,7 @@ set PYTHONPATH=%PYTHONPATH%;%RESOLVE_SCRIPT_API%\Modules\
 ```
 
 ### Linux
+
 ```bash
 export RESOLVE_SCRIPT_API="/opt/resolve/Developer/Scripting"
 export RESOLVE_SCRIPT_LIB="/opt/resolve/libs/Fusion/fusionscript.so"
@@ -40,6 +43,7 @@ export PYTHONPATH="$PYTHONPATH:$RESOLVE_SCRIPT_API/Modules/"
 ```
 
 ### Programmatic setup helper (cross-platform)
+
 ```python
 import os, sys
 
@@ -200,6 +204,7 @@ for i in range(1, project.GetTimelineCount() + 1):
 ```
 
 ### Add / manage tracks
+
 ```python
 timeline.AddTrack("video")
 timeline.AddTrack("audio", "stereo")
@@ -211,6 +216,7 @@ timeline.DeleteTrack("video", 3)
 ```
 
 ### Read timeline items
+
 ```python
 for item in timeline.GetItemListInTrack("video", 1):
     print(item.GetName(), item.GetStart(), item.GetEnd(), item.GetDuration())
@@ -220,6 +226,7 @@ for item in timeline.GetItemListInTrack("video", 1):
 ```
 
 ### Timeline item transforms
+
 ```python
 item.SetProperty("Pan", 100.0)
 item.SetProperty("ZoomX", 110.0)
@@ -231,6 +238,7 @@ item.SetClipEnabled(False)
 ```
 
 ### Timeline markers
+
 ```python
 timeline.AddMarker(100, "Blue", "Scene Start", "Note text", 1)
 markers = timeline.GetMarkers()   # {frame: {color, duration, name, note}, ...}
@@ -239,6 +247,7 @@ timeline.DeleteMarkersByColor("All")
 ```
 
 ### Timeline export
+
 ```python
 timeline.Export("/out/cut.edl",    resolve.EXPORT_EDL,        resolve.EXPORT_NONE)
 timeline.Export("/out/cut.fcpxml", resolve.EXPORT_FCPXML_1_10, resolve.EXPORT_NONE)
@@ -292,6 +301,7 @@ pm.SaveProject()
 ```
 
 ### Batch render multiple segments
+
 ```python
 shots = [
     {"name": "shot_001", "mark_in": 0,   "mark_out": 100},
@@ -325,6 +335,7 @@ for shot in shots:
 ## Utility Functions
 
 ### Timecode conversion
+
 ```python
 def timecode_to_frames(tc: str, fps: float) -> int:
     h, m, s, f = map(int, tc.split(":"))
@@ -340,6 +351,7 @@ def frames_to_timecode(frames: int, fps: float) -> str:
 ```
 
 ### Check for offline/missing clips
+
 ```python
 def check_offline_media(timeline):
     from pathlib import Path
@@ -423,6 +435,7 @@ pm.SaveProject()
 ---
 
 ## References
+
 - Official scripting guide (inside Resolve install): `Developer/Scripting/README.txt`
-- ReadTheDocs intro: https://resolvedevdoc.readthedocs.io/en/latest/API_intro.html
-- Community gists: https://gist.github.com/X-Raym/2f2bf453fc481b9cca624d7ca0e19de8
+- ReadTheDocs intro: <https://resolvedevdoc.readthedocs.io/en/latest/API_intro.html>
+- Community gists: <https://gist.github.com/X-Raym/2f2bf453fc481b9cca624d7ca0e19de8>

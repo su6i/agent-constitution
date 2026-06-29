@@ -105,7 +105,7 @@ export async function updateUser(_state: unknown, formData: FormData) {
 Prefixed env vars are bundled into the client. Treat them as public.
 
 | Framework | Public prefix | Private |
-|---|---|---|
+| --- | --- | --- |
 | Next.js | `NEXT_PUBLIC_*` | All others |
 | Vite | `VITE_*` | `.env` server-side only |
 | Create React App | `REACT_APP_*`, plus `NODE_ENV` and `PUBLIC_URL` | All others (anything without the `REACT_APP_` prefix is server-side only) |

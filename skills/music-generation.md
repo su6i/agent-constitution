@@ -11,7 +11,7 @@ last_updated: 2026-05-30
 ## Decision Table
 
 | Tool | Cost | Quality | Latency | Commercial? | Best for |
-|------|------|---------|---------|-------------|----------|
+| ------ | ------ | --------- | --------- | ------------- | ---------- |
 | **MusicGen (local)** | Free | Good (32kHz) | 1–5 min/clip | CC-BY-NC (weights) | Dev/testing, non-commercial |
 | **AudioGen (local)** | Free | Good | 1–3 min | CC-BY-NC (weights) | Sound FX, ambience, not music |
 | **Bark (local)** | Free (MIT) | Medium | Slow on CPU | Yes (MIT) | Voice + music hybrid, jingles |
@@ -81,7 +81,7 @@ audio_write("music_90s", full, model.sample_rate, strategy="loudness")
 ### Model size guide
 
 | Model | Size | VRAM | Notes |
-|-------|------|------|-------|
+| ------- | ------ | ------ | ------- |
 | `musicgen-small` | 300M | ~4GB | Fast, decent quality |
 | `musicgen-medium` | 1.5B | ~8GB | Best quality/speed trade-off |
 | `musicgen-large` | 3.3B | ~16GB | Best quality |
@@ -167,6 +167,7 @@ while not all(s.audio_url for s in songs):
 ```
 
 **Notes:**
+
 - Cookie expires — regenerate when getting 401.
 - Suno TOS restricts monetization of generated tracks. Verify current policy before publishing.
 
@@ -272,7 +273,7 @@ ffmpeg -i voice.wav -i music.wav \
 ## 6. Music Categories for YouTube
 
 | Category | MusicGen Prompt | Duration |
-|----------|----------------|----------|
+| ---------- | ---------------- | ---------- |
 | Upbeat intro | `"upbeat corporate pop, energetic, 128bpm, no vocals, bright piano"` | 10–15s |
 | Calm background | `"lo-fi hip hop, soft piano, relaxed drums, ambient, no vocals"` | 60–180s |
 | Tech explainer | `"modern electronic background, minimal, focused, 100bpm, no vocals"` | 60–120s |
@@ -286,7 +287,7 @@ ffmpeg -i voice.wav -i music.wav \
 ## 7. Licensing Summary
 
 | Tool | Weights/Model License | Code License | Commercial YouTube Use |
-|------|-----------------------|--------------|------------------------|
+| ------ | ----------------------- | -------------- | ------------------------ |
 | MusicGen / AudioGen | CC-BY-NC 4.0 | MIT | No (non-commercial only) |
 | Bark | MIT | MIT | Yes |
 | Suno (generated audio) | Suno TOS | N/A | Check current TOS |

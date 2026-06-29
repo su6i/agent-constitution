@@ -10,8 +10,8 @@ last_updated: 2026-05-30
 
 XTTS v2 is Coqui's production TTS model. It supports 17 languages, clones any voice from a 6-second reference audio, and streams with under 200ms latency. License: MPL 2.0.
 
-- Repo: https://github.com/coqui-ai/TTS
-- Docs: https://tts.readthedocs.io/en/dev/models/xtts.html
+- Repo: <https://github.com/coqui-ai/TTS>
+- Docs: <https://tts.readthedocs.io/en/dev/models/xtts.html>
 - HuggingFace model: `coqui/XTTS-v2`
 
 ---
@@ -198,7 +198,7 @@ python TTS/bin/train_tts.py \
 ## GPU vs CPU
 
 | Hardware | Speed | Notes |
-|---|---|---|
+| --- | --- | --- |
 | NVIDIA GPU (CUDA) | ~30× realtime | Recommended for production |
 | Apple Silicon (MPS) | ~5–8× realtime | Supported via PyTorch MPS |
 | CPU only | ~0.5–1× realtime | Usable for short texts |
@@ -216,7 +216,7 @@ tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to("mps")
 ## Common Errors
 
 | Error | Cause | Fix |
-|---|---|---|
+| --- | --- | --- |
 | `espeak not found` | Missing system dep | `brew install espeak` / `apt install espeak-ng` |
 | `RuntimeError: CUDA out of memory` | GPU VRAM < 4GB | Use CPU or reduce batch size |
 | `ValueError: Speaker wav is too short` | Reference < 3s | Use a longer reference clip |

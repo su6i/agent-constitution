@@ -802,7 +802,7 @@ pytest --pdb
 ## Quick Reference
 
 | Pattern | Usage |
-|---------|-------|
+| --------- | ------- |
 | `pytest.raises()` | Test expected exceptions |
 | `@pytest.fixture()` | Create reusable test fixtures |
 | `@pytest.mark.parametrize()` | Run tests with multiple inputs |

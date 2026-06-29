@@ -625,7 +625,7 @@ issues:
 ## Quick Reference: Go Idioms
 
 | Idiom | Description |
-|-------|-------------|
+| ------- | ------------- |
 | Accept interfaces, return structs | Functions accept interface params, return concrete types |
 | Errors are values | Treat errors as first-class values, not exceptions |
 | Don't communicate by sharing memory | Use channels for coordination between goroutines |

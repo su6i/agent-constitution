@@ -17,6 +17,7 @@ Technical protocols for producing 45 minutes of daily language learning content 
 ## 1. The 3-Part Episode Format
 
 ### 1.1 Episode Architecture
+
 ```
 ┌─────────────────────────────────────────────────┐
 │         DAILY EPISODE (45 min total)            │
@@ -40,6 +41,7 @@ Technical protocols for producing 45 minutes of daily language learning content 
 ## 2. Part 1: Main Story (20 min)
 
 ### 2.1 Story Structure
+
 ```
 STORY ARC (Hero's Journey Compressed):
 ├── Hook (0-1 min) → Problem introduction
@@ -50,11 +52,13 @@ STORY ARC (Hero's Journey Compressed):
 ```
 
 ### 2.2 Vocabulary Integration
-*   **New words:** 15-20 introduced naturally.
-*   **Review words:** 50-80 from Leitner system.
-*   **Density:** 1 new word per 60-90 seconds.
+
+* **New words:** 15-20 introduced naturally.
+* **Review words:** 50-80 from Leitner system.
+* **Density:** 1 new word per 60-90 seconds.
 
 ### 2.3 Character Dialogue
+
 ```xml
 <scene id="1" duration="180">
   <dialogue character="protagonist" emotion="curious">
@@ -72,11 +76,13 @@ STORY ARC (Hero's Journey Compressed):
 ## 3. Part 2: Active Recall (10 min)
 
 ### 3.1 The Minimal Subtitle Technique
-*   **No audio** except ambient music.
-*   Subtitles appear for **3 seconds**, then fade.
-*   Viewer must recall pronunciation and meaning.
+
+* **No audio** except ambient music.
+* Subtitles appear for **3 seconds**, then fade.
+* Viewer must recall pronunciation and meaning.
 
 ### 3.2 Implementation
+
 ```python
 RECALL_SEQUENCE = {
     "display_time": 3.0,      # seconds
@@ -87,20 +93,23 @@ RECALL_SEQUENCE = {
 ```
 
 ### 3.3 Visual Treatment
-*   Same story scenes, stripped of audio.
-*   Key vocabulary highlighted.
-*   Progress bar showing completion.
+
+* Same story scenes, stripped of audio.
+* Key vocabulary highlighted.
+* Progress bar showing completion.
 
 ---
 
 ## 4. Part 3: Deep Dive (15 min)
 
 ### 4.1 Feynman Technique Application
-*   Explain technical concepts **simply**.
-*   Use language **one level below** story level.
-*   Break down complex sentences from Part 1.
+
+* Explain technical concepts **simply**.
+* Use language **one level below** story level.
+* Break down complex sentences from Part 1.
 
 ### 4.2 Structure
+
 ```
 DEEP DIVE SEGMENTS (3 min each):
 ├── Vocabulary Spotlight (5 words in depth)
@@ -111,15 +120,17 @@ DEEP DIVE SEGMENTS (3 min each):
 ```
 
 ### 4.3 Narrator Voice
-*   Slower pace than story.
-*   More pauses for processing.
-*   Warmer, more supportive tone.
+
+* Slower pace than story.
+* More pauses for processing.
+* Warmer, more supportive tone.
 
 ---
 
 ## 5. Daily Production Pipeline
 
 ### 5.1 Workflow
+
 ```
 DAILY PRODUCTION (Target: 4-6 hours total)
 ├── Script Generation (Claude)     1 hr
@@ -130,6 +141,7 @@ DAILY PRODUCTION (Target: 4-6 hours total)
 ```
 
 ### 5.2 Parallel Processing
+
 ```python
 async def produce_episode(script):
     # Run in parallel
@@ -147,6 +159,7 @@ async def produce_episode(script):
 ## 6. Cognitive Load Management
 
 ### 6.1 Pomodoro Integration
+
 ```
 VIEWER EXPERIENCE:
 ├── Part 1 (20 min) = Focus Block 1
@@ -157,6 +170,7 @@ VIEWER EXPERIENCE:
 ```
 
 ### 6.2 Vocabulary Pacing
+
 | Time Block | New Words | Review Words | Density |
 | :--- | :--- | :--- | :--- |
 | 0-10 min | 8 | 20 | Higher |

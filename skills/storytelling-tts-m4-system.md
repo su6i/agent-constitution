@@ -11,6 +11,7 @@ last_updated: 2026-03-08
 [Back to README](../README.md)
 
 **📚 Related Storytelling Skills:**
+
 - [Narrative Frameworks](storytelling-narrative-frameworks.md) - Story structure & character arcs
 - [CLIL Education](storytelling-clil-education.md) - Educational storytelling with language learning
 
@@ -33,6 +34,7 @@ last_updated: 2026-03-08
 This comprehensive system provides three major orchestration layers:
 
 #### 1. **Multi-Model TTS Orchestration**
+
 ```yaml
 models:
   xtts_v2:
@@ -52,6 +54,7 @@ models:
 ```
 
 #### 2. **Character Management System**
+
 ```yaml
 character_system:
   features:
@@ -66,6 +69,7 @@ character_system:
 ```
 
 #### 3. **Emotion Engine**
+
 ```python
 # Emotion mapping protocol
 EMOTION_PROFILES = {
@@ -3845,6 +3849,7 @@ TEXTS_FOR_RECORDING = {
 ```
 
 ### مرحله ۲: تنظیمات ضبط روی مک‌مینی M4
+
 ```bash
 # تنظیمات سیستم برای ضبط با کیفیت
 # 1. غیرفعال کردن صدای سیستم
@@ -3861,12 +3866,14 @@ sudo osascript -e 'set volume output volume 50'
 ```
 
 ### مرحله ۳: ضبط صداها
+
 1. **هر شخصیت حداقل ۵ نمونه** (هر نمونه ۱۰-۳۰ ثانیه)
 2. **تنوع احساسی**: خنثی، شاد، جدی، متعجب
 3. **فاصله از میکروفون**: ۱۵-۲۰ سانتی‌متر
 4. **صداهای زمینه**: زیر ۳۰ دسی‌بل
 
 ### مرحله ۴: پردازش اولیه
+
 ```python
 # scripts/process_recordings.py
 import soundfile as sf
@@ -3896,6 +3903,7 @@ def process_audio_file(input_path, output_path):
 ## 🎭 ساخت شخصیت‌های صوتی
 
 ### شخصیت ۱: راوی (Narrator)
+
 ```
 ویژگی‌ها:
 - جنسیت: مرد/زن (طبق انتخاب شما)
@@ -3910,6 +3918,7 @@ def process_audio_file(input_path, output_path):
 ```
 
 ### شخصیت ۲: استاد (Professor)
+
 ```
 ویژگی‌ها:
 - جنسیت: مرد
@@ -3924,6 +3933,7 @@ def process_audio_file(input_path, output_path):
 ```
 
 ### شخصیت ۳: دانش‌آموز (Student)
+
 ```
 ویژگی‌ها:
 - جنسیت: زن
@@ -3939,7 +3949,8 @@ def process_audio_file(input_path, output_path):
 
 ## 🔧 پردازش حرفه‌ای با اسکریپت
 
-### اسکریپت پردازش دسته‌ای:
+### اسکریپت پردازش دسته‌ای
+
 ```python
 # scripts/batch_voice_processing.py
 import os
@@ -4210,7 +4221,8 @@ if __name__ == "__main__":
 
 ## 📊 چک‌لیست نهایی کیفیت صدا
 
-### معیارهای قابل قبول:
+### معیارهای قابل قبول
+
 - ✅ **SNR**: بیشتر از ۲۰ دسی‌بل
 - ✅ **Dynamic Range**: بیشتر از ۴۰ دسی‌بل  
 - ✅ **Clipping**: کمتر از ۰٫۱٪
@@ -4218,7 +4230,8 @@ if __name__ == "__main__":
 - ✅ **Sample Rate**: ۲۴۰۰۰ هرتز یا بیشتر
 - ✅ **Bit Depth**: ۱۶ بیت یا بیشتر
 
-### اقدامات در صورت کیفیت پایین:
+### اقدامات در صورت کیفیت پایین
+
 1. **نویز زیاد**: استفاده از فیلتر high-pass
 2. **اکو**: ضبط در محیط با عایق بهتر
 3. **قطع شدن صدا**: تنظیم gain میکروفون
@@ -4244,6 +4257,7 @@ cp voices/processed/*.wav voices/reference_samples/
 ```
 
 این راهنما تمام مراحل از ضبط تا پردازش صداها را پوشش می‌دهد. با دنبال کردن این دستورالعمل‌ها، صداهای با کیفیتی برای شخصیت‌های داستان‌های خود خواهید داشت.
+
 ```
 
 ---
@@ -4446,6 +4460,7 @@ class TTSSystemDebugger:
 **Success Rate:** 95% on M4 Macs
 
 **Recommended Usage Pattern:**
+
 1. Initialize system once
 2. Create character voices
 3. Generate stories using scripts
@@ -4453,6 +4468,7 @@ class TTSSystemDebugger:
 5. Optimize based on usage
 
 **Files to Deliver to User:**
+
 1. `m4_tts_setup_guide.md` - Complete setup instructions
 2. `character_templates.zip` - Pre-made character templates  
 3. `sample_scripts/` - Example story scripts

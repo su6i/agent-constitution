@@ -5,7 +5,7 @@ Exposes all 343 skills, workflows, and rules as callable tools to any MCP-compat
 Two server modes — same knowledge base, different transports:
 
 | File | Transport | Use with |
-|---|---|---|
+| --- | --- | --- |
 | `server.py` | stdio | Claude Code CLI |
 | `server_http.py` | HTTP + SSE | Cursor, VS Code, Antigravity IDE, Gemini CLI |
 
@@ -32,6 +32,7 @@ curl http://localhost:8765/health
 ## IDE Setup
 
 ### Claude Code CLI
+
 No setup needed — stdio is configured automatically via `.claude/settings.json`.
 
 ```bash
@@ -77,7 +78,7 @@ Restart Cursor → check **Settings → MCP** for a green status indicator.
 }
 ```
 
-3. Reload VS Code — skills appear in the Continue chat panel.
+1. Reload VS Code — skills appear in the Continue chat panel.
 
 ---
 
@@ -103,7 +104,7 @@ Antigravity IDE is a VS Code fork — the setup is identical to VS Code.
 }
 ```
 
-4. Reload Antigravity IDE → use Continue chat panel (`Cmd+L`).
+1. Reload Antigravity IDE → use Continue chat panel (`Cmd+L`).
 
 ---
 
@@ -132,6 +133,7 @@ Antigravity IDE is a VS Code fork — the setup is identical to VS Code.
 ```
 
 Then in any Gemini CLI session:
+
 ```bash
 gemini  # agent-constitution tools are available automatically
 ```
@@ -148,7 +150,7 @@ gemini  # agent-constitution tools are available automatically
 ## Available Tools
 
 | Tool | Description |
-|---|---|
+| --- | --- |
 | `list_skills` | List all 343 skill names (call this first to discover) |
 | `get_skill` | Read a skill by name — e.g. `fastapi-best-practices` |
 | `get_rules` | Get the global repository rules |
@@ -157,7 +159,7 @@ gemini  # agent-constitution tools are available automatically
 ## Endpoints
 
 | Endpoint | Transport | Purpose |
-|---|---|---|
+| --- | --- | --- |
 | `GET /sse` | SSE | Cursor, VS Code/Antigravity (Continue), JetBrains |
 | `POST /mcp` | Streamable HTTP | Gemini CLI, custom clients |
 | `POST /message?sessionId=<id>` | SSE | SSE response channel |

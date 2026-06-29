@@ -167,7 +167,7 @@ Scoring tables must match the Royal College of Physicians specification exactly.
 ### Alert Severity and UI Behavior
 
 | Severity | UI Behavior | Clinician Action Required |
-|----------|-------------|--------------------------|
+| ---------- | ------------- | -------------------------- |
 | Critical | Block action. Non-dismissable modal. Red. | Must document override reason to proceed |
 | Major | Warning banner inline. Orange. | Must acknowledge before proceeding |
 | Minor | Info note inline. Yellow. | Awareness only, no action required |

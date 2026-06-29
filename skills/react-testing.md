@@ -37,7 +37,7 @@ A test should NOT:
 ## Library Choice
 
 | Runner | When | Note |
-|---|---|---|
+| --- | --- | --- |
 | **Vitest** | Vite, Remix, modern setups | Faster, native ESM, Jest-compatible API |
 | **Jest** | Next.js, CRA, established repos | Default for many React projects |
 | **Playwright Component Testing** | Real browser engine needed | Use when JSDOM lacks the required feature |
@@ -281,7 +281,7 @@ Decision boundary:
 ## Coverage Targets
 
 | Layer | Target |
-|---|---|
+| --- | --- |
 | Pure utilities | >=90% |
 | Custom hooks | >=85% |
 | Presentational components | >=80% — behavior, not lines |

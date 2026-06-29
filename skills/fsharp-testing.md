@@ -18,7 +18,7 @@ Comprehensive testing patterns for F# applications using xUnit, FsUnit, Unquote,
 ## Test Framework Stack
 
 | Tool | Purpose |
-|---|---|
+| --- | --- |
 | **xUnit** | Test framework (standard .NET ecosystem choice) |
 | **FsUnit.xUnit** | F#-friendly assertion syntax for xUnit |
 | **Unquote** | Assertion library using F# quotations for clear failure messages |
@@ -247,7 +247,7 @@ tests/
 ## Common Anti-Patterns
 
 | Anti-Pattern | Fix |
-|---|---|
+| --- | --- |
 | Testing implementation details | Test behavior and outcomes |
 | Mutable shared test state | Fresh state per test |
 | `Thread.Sleep` in async tests | Use `Task.Delay` with timeout, or polling helpers |

@@ -32,7 +32,7 @@ project-root/
 ### Layer Responsibilities
 
 | Layer | Purpose | Persistence |
-|---|---|---|
+| --- | --- | --- |
 | Kernel (`CLAUDE.md`) | Identity, routing, model policies, agent registry | Git-tracked |
 | Agents (`agents/`) | Specialist identities with scoped tools and memory | Git-tracked |
 | Commands (`.claude/commands/`) | User-facing slash commands (`/daily-sync`, `/outreach`) | Git-tracked |
@@ -146,7 +146,7 @@ Run the morning briefing:
 ### Standard Command Set
 
 | Command | Purpose |
-|---|---|
+| --- | --- |
 | `/daily-sync` | Morning briefing: status, blockers, priorities |
 | `/outreach` | Run outreach workflow (email, LinkedIn, etc.) |
 | `/research <topic>` | Deep research with citation tracking |

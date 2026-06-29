@@ -420,7 +420,7 @@ Day 7: Migration drops old status column
 ## Anti-Patterns
 
 | Anti-Pattern | Why It Fails | Better Approach |
-|-------------|-------------|-----------------|
+| ------------- | ------------- | ----------------- |
 | Manual SQL in production | No audit trail, unrepeatable | Always use migration files |
 | Editing deployed migrations | Causes drift between environments | Create new migration instead |
 | NOT NULL without default | Locks table, rewrites all rows | Add nullable, backfill, then add constraint |

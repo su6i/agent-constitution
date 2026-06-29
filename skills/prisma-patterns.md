@@ -31,7 +31,7 @@ Prisma 5 introduced `relationJoins`, which can load relations via JOIN rather th
 ### ID Strategy
 
 | Strategy | Use When | Avoid When |
-|---|---|---|
+| --- | --- | --- |
 | `@default(cuid())` | Default choice — URL-safe, sortable, no collisions | Sequential IDs needed for external systems |
 | `@default(uuid())` | Interoperability with non-Prisma systems required | High-write tables (random UUIDs fragment B-tree indexes) |
 | `@default(autoincrement())` | Internal join tables, audit logs | Public-facing IDs (exposes record count) |
@@ -61,7 +61,7 @@ model User {
 ### `include` vs `select`
 
 | | `include` | `select` |
-|---|---|---|
+| --- | --- | --- |
 | Returns | All scalar fields + specified relations | Only specified fields |
 | Use when | You need most fields plus a relation | Hot paths, large tables, avoiding over-fetch |
 | Performance | May over-fetch on wide tables | Minimal payload, faster on large datasets |
@@ -95,7 +95,7 @@ return { id: user.id, name: user.name, email: user.email };
 ### Transaction Form Selection
 
 | Situation | Use |
-|---|---|
+| --- | --- |
 | Independent operations, no inter-dependency | Array form |
 | Later step depends on earlier result | Interactive form |
 | External calls (email, HTTP) involved | Outside transaction entirely |
@@ -354,7 +354,7 @@ await prisma.post.deleteMany({ where: { authorId: userId } });
 ## Best Practices
 
 | Rule | Reason |
-|---|---|
+| --- | --- |
 | `migrate deploy` in CI/CD, `migrate dev` only locally | `migrate dev` can reset the DB on drift |
 | Map entities to response DTOs | Prevents leaking internal fields |
 | Catch `PrismaClientKnownRequestError` at service boundary | Translate to domain errors |

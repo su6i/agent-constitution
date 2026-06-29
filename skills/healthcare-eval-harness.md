@@ -89,7 +89,7 @@ echo "Integration pass rate: ${rate}% ($passed/$total)"
 ### Pass/Fail Matrix
 
 | Category | Threshold | On Failure |
-|----------|-----------|------------|
+| ---------- | ----------- | ------------ |
 | CDSS Accuracy | 100% | **BLOCK deployment** |
 | PHI Exposure | 100% | **BLOCK deployment** |
 | Data Integrity | 100% | **BLOCK deployment** |

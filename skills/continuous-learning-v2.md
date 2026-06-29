@@ -6,6 +6,7 @@ version: 2.1.0
 ---
 
 # Continuous Learning v2.1 - Instinct
+
 -Based Architecture
 
 An advanced learning system that turns your Claude Code sessions into reusable knowledge through atomic "instincts" - small learned behaviors with confidence scoring.
@@ -25,7 +26,7 @@ An advanced learning system that turns your Claude Code sessions into reusable k
 ## What's New in v2.1
 
 | Feature | v2.0 | v2.1 |
-|---------|------|------|
+| --------- | ------ | ------ |
 | Storage | Global (`~/.claude/homunculus/`) | Project-scoped (`${XDG_DATA_HOME:-~/.local/share}/ecc-homunculus/projects/<hash>/`) |
 | Scope | All instincts apply everywhere | Project-scoped + global |
 | Detection | None | git remote URL / repo path |
@@ -36,7 +37,7 @@ An advanced learning system that turns your Claude Code sessions into reusable k
 ## What's New in v2 (vs v1)
 
 | Feature | v1 | v2 |
-|---------|----|----|
+| --------- | ---- | ---- |
 | Observation | Stop hook (session end) | PreToolUse/PostToolUse (100% reliable) |
 | Analysis | Main context | Background agent (Haiku) |
 | Granularity | Full skills | Atomic "instincts" |
@@ -71,6 +72,7 @@ Use functional patterns over classes when appropriate.
 ```
 
 **Properties:**
+
 - **Atomic** -- one trigger, one action
 - **Confidence-weighted** -- 0.3 = tentative, 0.9 = near certain
 - **Domain-tagged** -- code-style, testing, git, debugging, workflow, etc.
@@ -206,7 +208,7 @@ mkdir -p "${XDG_DATA_HOME:-$HOME/.local/share}/ecc-homunculus"/{instincts/{perso
 ## Commands
 
 | Command | Description |
-|---------|-------------|
+| --------- | ------------- |
 | `/instinct-status` | Show all instincts (project-scoped + global) with confidence |
 | `/evolve` | Cluster related instincts into skills/commands, suggest promotions |
 | `/instinct-export` | Export instincts (filterable by scope/domain) |
@@ -230,7 +232,7 @@ Edit `config.json` to control the background observer:
 ```
 
 | Key | Default | Description |
-|-----|---------|-------------|
+| ----- | --------- | ------------- |
 | `observer.enabled` | `false` | Enable the background observer agent |
 | `observer.run_interval_minutes` | `5` | How often the observer analyzes observations |
 | `observer.min_observations_to_analyze` | `20` | Minimum observations before analysis runs |
@@ -270,7 +272,7 @@ ${XDG_DATA_HOME:-~/.local/share}/ecc-homunculus/
 ## Scope Decision Guide
 
 | Pattern Type | Scope | Examples |
-|-------------|-------|---------|
+| ------------- | ------- | --------- |
 | Language/framework conventions | **project** | "Use React hooks", "Follow Django REST patterns" |
 | File structure preferences | **project** | "Tests in `__tests__`/", "Components in src/components/" |
 | Code style | **project** | "Use functional style", "Prefer dataclasses" |
@@ -285,6 +287,7 @@ ${XDG_DATA_HOME:-~/.local/share}/ecc-homunculus/
 When the same instinct appears in multiple projects with high confidence, it's a candidate for promotion to global scope.
 
 **Auto-promotion criteria:**
+
 - Same instinct ID in 2+ projects
 - Average confidence >= 0.8
 
@@ -308,18 +311,20 @@ The `/evolve` command also suggests promotion candidates.
 Confidence evolves over time:
 
 | Score | Meaning | Behavior |
-|-------|---------|----------|
+| ------- | --------- | ---------- |
 | 0.3 | Tentative | Suggested but not enforced |
 | 0.5 | Moderate | Applied when relevant |
 | 0.7 | Strong | Auto-approved for application |
 | 0.9 | Near-certain | Core behavior |
 
 **Confidence increases** when:
+
 - Pattern is repeatedly observed
 - User doesn't correct the suggested behavior
 - Similar instincts from other sources agree
 
 **Confidence decreases** when:
+
 - User explicitly corrects the behavior
 - Pattern isn't observed for extended periods
 - Contradicting evidence appears
@@ -329,6 +334,7 @@ Confidence evolves over time:
 > "v1 relied on skills to observe. Skills are probabilistic -- they fire ~50-80% of the time based on Claude's judgment."
 
 Hooks fire **100% of the time**, deterministically. This means:
+
 - Every tool call is observed
 - No patterns are missed
 - Learning is comprehensive
@@ -336,6 +342,7 @@ Hooks fire **100% of the time**, deterministically. This means:
 ## Backward Compatibility
 
 v2.1 is fully compatible with v2.0 and v1:
+
 - Existing global instincts can be migrated from `~/.claude/homunculus/instincts/` with `scripts/migrate-homunculus.sh`
 - Existing `~/.claude/skills/learned/` skills from v1 still work
 - Stop hook still runs (but now also feeds into v2)

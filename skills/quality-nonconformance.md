@@ -159,7 +159,7 @@ Before closing any CAPA, verify:
 ### Inspection Level Adjustment
 
 | Condition | Action |
-|---|---|
+| --- | --- |
 | New supplier, first 5 lots | Tightened inspection (Level III or 100%) |
 | 10+ consecutive lots accepted at normal | Qualify for reduced or skip-lot |
 | 1 lot rejected under reduced inspection | Revert to normal immediately |
@@ -171,7 +171,7 @@ Before closing any CAPA, verify:
 ### Supplier Corrective Action Escalation
 
 | Stage | Trigger | Action | Timeline |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Level 1: SCAR issued | Single significant NC or 3+ minor NCs in 90 days | Formal SCAR requiring 8D response | 10 days for response, 30 for implementation |
 | Level 2: Supplier on watch | SCAR not responded to in time, or corrective action not effective | Increased inspection, supplier on probation, procurement notified | 60 days to demonstrate improvement |
 | Level 3: Controlled shipping | Continued quality failures during watch period | Supplier must submit inspection data with each shipment; or third-party sort at supplier's expense | 90 days to demonstrate sustained improvement |
@@ -225,7 +225,7 @@ Brief templates appear below. Adapt them to your MRB, supplier quality, and CAPA
 ### Automatic Escalation Triggers
 
 | Trigger | Action | Timeline |
-|---|---|---|
+| --- | --- | --- |
 | Safety-critical non-conformance | Notify VP Quality and Regulatory immediately | Within 1 hour |
 | Field failure or customer complaint | Assign dedicated investigator, notify account team | Within 4 hours |
 | Repeat NCR (same failure mode, 3+ occurrences) | Mandatory CAPA initiation, management review | Within 24 hours |
@@ -244,7 +244,7 @@ Level 1 (Quality Engineer) → Level 2 (Quality Supervisor, 4 hours) → Level 3
 Track these metrics weekly and trend monthly:
 
 | Metric | Target | Red Flag |
-|---|---|---|
+| --- | --- | --- |
 | NCR closure time (median) | < 15 business days | > 30 business days |
 | CAPA on-time closure rate | > 90% | < 75% |
 | CAPA effectiveness rate (no recurrence) | > 85% | < 70% |

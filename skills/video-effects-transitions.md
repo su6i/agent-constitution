@@ -17,6 +17,7 @@ Sources synthesized from: mifi/lossless-cut, scriptituk/xfade-easing, remotion-d
 `xfade` requires re-encoding. Both clips must have identical frame size and frame rate.
 
 **Syntax:**
+
 ```bash
 ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
   -filter_complex "[0:v][1:v]xfade=transition=TRANSITION:duration=SECS:offset=OFFSET[v]" \
@@ -28,7 +29,7 @@ ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
 **All built-in transition names:**
 
 | Category | Transitions |
-|---|---|
+| --- | --- |
 | Fade | `fade`, `fadeblack`, `fadewhite`, `fadegrays` |
 | Wipe | `wipeleft`, `wiperight`, `wipeup`, `wipedown` |
 | Slide | `slideleft`, `slideright`, `slideup`, `slidedown` |
@@ -45,16 +46,19 @@ ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
 ## 2. Fade In / Fade Out
 
 ### Fade in from black (first 1s)
+
 ```bash
 ffmpeg -i input.mp4 -vf "fade=t=in:st=0:d=1" -c:v libx264 -crf 18 out.mp4
 ```
 
 ### Fade out to black (last 1s, video is 60s long)
+
 ```bash
 ffmpeg -i input.mp4 -vf "fade=t=out:st=59:d=1" -c:v libx264 -crf 18 out.mp4
 ```
 
 ### Fade in + fade out in one pass
+
 ```bash
 DURATION=60  # total seconds
 ffmpeg -i input.mp4 \
@@ -63,6 +67,7 @@ ffmpeg -i input.mp4 \
 ```
 
 ### Audio fade in/out (afade)
+
 ```bash
 # fade audio in over 1s, out starting at 59s
 ffmpeg -i input.mp4 \
@@ -71,6 +76,7 @@ ffmpeg -i input.mp4 \
 ```
 
 ### Fade video + audio together
+
 ```bash
 ffmpeg -i input.mp4 \
   -vf "fade=t=in:st=0:d=1,fade=t=out:st=59:d=1" \
@@ -93,6 +99,7 @@ ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
 ```
 
 **Tip — get exact duration of clip_a:**
+
 ```bash
 ffprobe -v quiet -show_entries format=duration -of csv=p=0 clip_a.mp4
 # offset = duration - xfade_duration
@@ -103,6 +110,7 @@ ffprobe -v quiet -show_entries format=duration -of csv=p=0 clip_a.mp4
 ## 4. Wipe, Zoom, Slide — Ready-to-Use Commands
 
 ### Wipe right (horizontal wipe, B enters from left)
+
 ```bash
 ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
   -filter_complex "[0:v][1:v]xfade=transition=wiperight:duration=0.8:offset=29[v]" \
@@ -110,6 +118,7 @@ ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
 ```
 
 ### Zoom in (scale-up reveal)
+
 ```bash
 ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
   -filter_complex "[0:v][1:v]xfade=transition=zoomin:duration=1:offset=29[v]" \
@@ -117,6 +126,7 @@ ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
 ```
 
 ### Diagonal wipe (top-left)
+
 ```bash
 ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
   -filter_complex "[0:v][1:v]xfade=transition=diagtl:duration=0.8:offset=29[v]" \
@@ -124,6 +134,7 @@ ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
 ```
 
 ### Radial sweep (clock wipe)
+
 ```bash
 ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
   -filter_complex "[0:v][1:v]xfade=transition=radial:duration=1.2:offset=29[v]" \
@@ -131,6 +142,7 @@ ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
 ```
 
 ### Pixelize (dissolve into pixels)
+
 ```bash
 ffmpeg -i clip_a.mp4 -i clip_b.mp4 \
   -filter_complex "[0:v][1:v]xfade=transition=pixelize:duration=0.6:offset=29[v]" \
@@ -152,6 +164,7 @@ result.write_videofile("out.mp4", codec="libx264", fps=30)
 ```
 
 ### Fade between clips (moviepy)
+
 ```python
 from moviepy.editor import VideoFileClip, concatenate_videoclips
 
@@ -164,6 +177,7 @@ result.write_videofile("out.mp4", codec="libx264")
 ```
 
 ### Crossfade with overlap (moviepy)
+
 ```python
 from moviepy.editor import VideoFileClip, CompositeVideoClip
 
@@ -217,6 +231,7 @@ xfade_concat(["a.mp4", "b.mp4", "c.mp4"], "out.mp4", transition="wiperight")
 ## 7. Intro / Outro Template
 
 ### Black screen + text overlay (5s intro)
+
 ```bash
 # Step 1: generate 5s black screen with text
 ffmpeg -f lavfi -i color=c=black:size=1920x1080:rate=30 \
@@ -227,6 +242,7 @@ ffmpeg -f lavfi -i color=c=black:size=1920x1080:rate=30 \
 ```
 
 ### Intro + main video + outro
+
 ```bash
 # Step 2: concat intro + main + outro with fade transitions
 ffmpeg -i intro.mp4 -i main.mp4 -i outro.mp4 \
@@ -237,6 +253,7 @@ ffmpeg -i intro.mp4 -i main.mp4 -i outro.mp4 \
 ```
 
 ### Intro with music fade-in
+
 ```bash
 ffmpeg -f lavfi -i color=c=black:size=1920x1080:rate=30 \
   -i music.mp3 \
@@ -301,6 +318,7 @@ export const MyVideo = () => (
 `fade`, `slide`, `wipe`, `flip`, `clockWipe`, `none`
 
 Render to MP4:
+
 ```bash
 npx remotion render MyVideo out.mp4 --codec=h264
 ```
@@ -310,7 +328,7 @@ npx remotion render MyVideo out.mp4 --codec=h264
 ## 10. Quick Reference — Transition Duration Guidelines
 
 | Use case | Duration |
-|---|---|
+| --- | --- |
 | Hard social cut | 0s (concat demuxer) |
 | Snappy broadcast wipe | 0.3 – 0.5s |
 | Standard YouTube fade | 0.5 – 1.0s |

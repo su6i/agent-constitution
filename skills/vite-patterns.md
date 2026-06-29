@@ -69,7 +69,7 @@ export default defineConfig(({ command, mode }) => {
 #### Key Config Options
 
 | Key | Default | Description |
-|-----|---------|-------------|
+| ----- | --------- | ------------- |
 | `root` | `'.'` | Project root (where `index.html` lives) |
 | `base` | `'/'` | Public base path for deployed assets |
 | `envPrefix` | `'VITE_'` | Prefix for client-exposed env vars |
@@ -84,7 +84,7 @@ export default defineConfig(({ command, mode }) => {
 Most plugin needs are covered by a handful of well-maintained packages. Reach for these before writing your own.
 
 | Plugin | Purpose | When to use |
-|--------|---------|-------------|
+| -------- | --------- | ------------- |
 | `@vitejs/plugin-react-swc` | React HMR + Fast Refresh via SWC | Default for React apps (faster than Babel variant) |
 | `@vitejs/plugin-react` | React HMR + Fast Refresh via Babel | Only if you need Babel plugins (emotion, MobX decorators) |
 | `@vitejs/plugin-vue` | Vue 3 SFC support | Vue apps |
@@ -428,7 +428,7 @@ import.meta.hot.data.count = 0                 // CORRECT
 ## Quick Reference
 
 | Pattern | When to Use |
-|---------|-------------|
+| --------- | ------------- |
 | `defineConfig` | Always — provides type inference |
 | `loadEnv(mode, root, ['VITE_'])` | Access env vars in config (explicit prefix) |
 | `vite-plugin-checker` | Any TypeScript app (fills the type-check gap) |

@@ -703,7 +703,7 @@ open htmlcov/index.html
 ### Coverage Goals
 
 | Component | Target Coverage |
-|-----------|-----------------|
+| ----------- | ----------------- |
 | Models | 90%+ |
 | Serializers | 85%+ |
 | Views | 80%+ |
@@ -714,7 +714,7 @@ open htmlcov/index.html
 ## Quick Reference
 
 | Pattern | Usage |
-|---------|-------|
+| --------- | ------- |
 | `@pytest.mark.django_db` | Enable database access |
 | `client` | Django test client |
 | `api_client` | DRF API client |

@@ -9,6 +9,7 @@ last_updated: 2026-02-21
 # Security Rules
 
 ## NEVER
+
 - Never write any API key, password, or token directly in the code
 - Do not add `.env` file to git (must be in .gitignore)
 - Never log any secret
@@ -16,6 +17,7 @@ last_updated: 2026-02-21
 - Do not construct SQL queries with f-strings (SQL injection)
 
 ## Correct Pattern for Secrets
+
 ```python
 import os
 from dotenv import load_dotenv
@@ -26,10 +28,12 @@ API_KEY = "sk-1234..."                    # ❌ Forbidden
 ```
 
 ## Check before every commit
+
 - `git diff --staged | grep -i "api_key\|secret\|password\|token"`
 - If there are results: STOP and report
 
 ## If a Secret or Legal/Privacy Violation Was Already Committed (Non-Negotiable)
+
 A new commit that removes or fixes the value is **not sufficient** — the
 exposed data still exists in every prior commit, in the reflog, and on any
 remote/fork that already fetched it.

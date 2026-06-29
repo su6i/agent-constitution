@@ -456,7 +456,7 @@ on test => sub {
 ## Quick Reference: Modern Perl Idioms
 
 | Legacy Pattern | Modern Replacement |
-|---|---|
+| --- | --- |
 | `use strict; use warnings;` | `use v5.36;` |
 | `my ($x, $y) = @_;` | `sub foo($x, $y) { ... }` |
 | `@{ $ref }` | `$ref->@*` |

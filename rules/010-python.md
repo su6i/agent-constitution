@@ -9,6 +9,7 @@ last_updated: 2026-02-21
 # Python Standards
 
 ## Tools (Only these)
+
 - Package manager: `uv sync` / `uv add` / `uv run`
 - Formatter: `ruff format`
 - Linter: `ruff check --fix`
@@ -16,6 +17,7 @@ last_updated: 2026-02-21
 - Test: `pytest` with coverage
 
 ## Code
+
 - Functions up to 20 lines — split if larger
 - Mandatory Type hints for all public functions
 - Docstrings for public functions (one line is enough)
@@ -23,6 +25,7 @@ last_updated: 2026-02-21
 - Logging instead of print in production code
 
 ## File Structure
+
 src/
 ├── core/      # Main logic
 ├── api/       # API endpoints
@@ -30,4 +33,5 @@ src/
 └── utils/     # Helper functions
 
 ## Run after every change
+
 `uv run ruff check --fix . && uv run mypy src/`

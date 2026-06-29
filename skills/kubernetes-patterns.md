@@ -43,7 +43,7 @@ This skill provides **copy-pasteable, production-grade YAML patterns** and **kub
 See the sections below for complete, runnable examples. Quick references:
 
 | Task | Jump to |
-|------|---------|
+| ------ | --------- |
 | Full production Deployment YAML | [Core Workload Patterns](#core-workload-patterns) |
 | Probe configuration | [Probes](#probes--liveness-readiness-startup) |
 | RBAC least-privilege setup | [RBAC](#rbac--roles-and-serviceaccounts) |
@@ -166,7 +166,7 @@ spec:
 Understanding when to use each probe is critical:
 
 | Probe | Failure Action | Use For |
-|-------|---------------|---------|
+| ------- | --------------- | --------- |
 | `startupProbe` | Kills container if slow to start | Slow-starting apps (JVM, Python) |
 | `livenessProbe` | Restarts container | Deadlock / hung process detection |
 | `readinessProbe` | Removes from Service endpoints | Temporary unavailability (DB reconnect) |
@@ -347,7 +347,7 @@ resources:
 **Rules of thumb:**
 
 | Workload Type | CPU Request | Memory Request | Notes |
-|---------------|-------------|----------------|-------|
+| --------------- | ------------- | ---------------- | ------- |
 | Web API | 100–250m | 128–256Mi | Set limits 2-4x requests |
 | Worker/consumer | 250–500m | 256–512Mi | Memory limit = request for predictability |
 | JVM app | 500m–1 | 512Mi–2Gi | Allow headroom above `-Xmx` for JVM overhead |
@@ -724,6 +724,7 @@ spec:
 ## Best Practices Checklist
 
 ### Security
+
 - [ ] Container runs as non-root (`runAsNonRoot: true`, `runAsUser` set)
 - [ ] `readOnlyRootFilesystem: true` with `emptyDir` for writable paths
 - [ ] `allowPrivilegeEscalation: false`
@@ -734,6 +735,7 @@ spec:
 - [ ] Secrets managed via Sealed Secrets or External Secrets Operator
 
 ### Reliability
+
 - [ ] All 3 probe types configured (startup + liveness + readiness)
 - [ ] Resource requests AND limits set on every container
 - [ ] `minReplicas: 2+` for any production workload
@@ -742,6 +744,7 @@ spec:
 - [ ] HPA configured for variable-load services
 
 ### Observability
+
 - [ ] App exposes `/health` (liveness) and `/ready` (readiness) endpoints
 - [ ] Structured JSON logging (no PII in logs)
 - [ ] Resource labels: `app`, `version`, `environment`

@@ -55,7 +55,7 @@ its palette, texture, lighting, and subject matter as a unit.
 The genres cluster into families. Pick a **primary** family and at most **one accent**:
 
 | Family | Genres in it | Reads as |
-|--------|-------------|----------|
+| -------- | ------------- | ---------- |
 | **Ethereal / divine** | spiritualism, glacial folk, beacons, zen core, fairy tale | weightless, holy, glowing, soft |
 | **Hyperpop / Y2K-cyber** | cyberdelia, acid house, acid nora, neo aggressano, new liquid | glossy, chrome, neon, kawaii-cyber |
 | **Dark / occult** | dark academia, smoke nostalgia, communist core, abstract tech | high-contrast, ominous, grain |
@@ -72,6 +72,7 @@ accent — i.e. holy light and crystalline bloom, punctuated by chrome and neon.
 Distilled directly from the strongest reference reels. This is the concrete grade.
 
 ### Palette
+
 - **Base:** near-black void (#05060a) and bone white (#f4f1ea). Most frames are one or the other.
 - **Divine accent:** molten gold / ember orange (#ffb24d → #ff7a18) — the *one warm light* in the dark.
 - **Crystalline accent:** iridescent violet→cyan→magenta bokeh (#8a6bff, #4fc3ff, #ff6ad5) — the
@@ -84,6 +85,7 @@ Rule: **one accent per shot.** Gold lives in dark frames; iridescence lives in l
 never both in one shot.
 
 ### Light & texture
+
 - Darkness pierced by a single warm source (ember bloom, divine shaft). High contrast, deep blacks.
 - Crystalline / glitter bokeh, lens flares, bloom, light leaks — *heavenly*, not dirty.
 - Film grain + subtle chromatic aberration on the dark frames; clean gloss on the bright frames.
@@ -91,6 +93,7 @@ never both in one shot.
 - Subjects: winged figures, clouds, halos, angels, crystalline structures, candy-cyber portraits.
 
 ### Motion
+
 - Slow, floating, weightless camera (drift, slow push, slow orbit) — *cloud* trance.
 - Bursts of speed only at the drop. Otherwise everything breathes.
 - Particles rising (embers, dust, glitter) — upward motion = ascension.
@@ -136,7 +139,7 @@ This skill is the conductor. Each ECC skill is an instrument. Do not skip layers
 ```
 
 | Step | ECC skill to load | What it does here |
-|------|-------------------|-------------------|
+| ------ | ------------------- | ------------------- |
 | Structure & cut | `video-editing` | FFmpeg cut/concat/reframe, EDL, scene/silence detection |
 | Generate b-roll | `fal-ai-media` | image/video models per genre preset |
 | Compose & overlay | `remotion-video-creation` | beat-synced `<Sequence>`s, text, blooms, masks |
@@ -155,6 +158,7 @@ The current track is **138 BPM, B minor**. Constants:
 - `8-bar phrase      = 13.913s`  →  the loop length from the track
 
 In Remotion, snap every `from={}` to a beat:
+
 ```ts
 const FPS = 30;
 const BPM = 138;
@@ -168,7 +172,7 @@ The song arrangement (from the project's own notes) is
 **Intro → Verse → Drop → Bridge → Drop → Outro (~2:05)**. Map taste to each section:
 
 | Section | Genre/mood lean | Grammar | Shot ideas |
-|---------|-----------------|---------|------------|
+| --------- | ----------------- | --------- | ------------ |
 | **Intro** | Ethereal/divine, near-black | slow push, no cuts | ember bloom in the void; a single shaft of gold; dust rising |
 | **Verse** | Dark + macro hero-on-black | hard cuts every 2 beats | key, eye, gear, water drop, petal — rhythmic macro montage |
 | **Drop** | Hyperpop bloom + crystalline | speed-ramp in, cut on the one, fast | candy-pink figure, chrome, iridescent bokeh, winged ascension |
@@ -240,6 +244,7 @@ export const AngelcoreMV: React.FC = () => (
   </AbsoluteFill>
 );
 ```
+
 Render: `npx remotion render src/index.ts AngelcoreMV out.mp4`. See `remotion-video-creation`
 for project setup, audio track binding, and render flags.
 

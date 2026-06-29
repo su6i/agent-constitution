@@ -82,7 +82,7 @@ Do not just list names. For each comparison, answer:
 For every real gap, recommend the correct ECC-native shape:
 
 | Gap Type | Preferred ECC Shape |
-|----------|---------------------|
+| ---------- | --------------------- |
 | Repeatable operator workflow | Skill |
 | Automatic enforcement or side-effect | Hook |
 | Specialized delegated role | Agent |

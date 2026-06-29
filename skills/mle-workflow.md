@@ -40,7 +40,7 @@ Do not treat MLE as separate from software engineering. Most ECC SWE workflows a
 The recommended `minimal --with capability:machine-learning` install keeps the core agent surface available alongside this skill. For skill-only or agent-limited harnesses, pair `skill:mle-workflow` with `agent:mle-reviewer` where the target supports agents.
 
 | SWE surface | MLE use |
-|-------------|---------|
+| ------------- | --------- |
 | `product-capability` / `architecture-decision-records` | Turn model work into explicit product contracts and record irreversible data, model, and rollout choices |
 | `repo-scan` / `codebase-onboarding` / `code-tour` | Find existing training, feature, serving, eval, and monitoring paths before introducing a parallel ML stack |
 | `plan` / `feature-dev` | Scope model changes as product capabilities with data, eval, serving, and rollback phases |
@@ -67,7 +67,7 @@ The recommended `minimal --with capability:machine-learning` install keeps the c
 Use these simulations as coverage checks when planning or reviewing MLE work. A strong MLE workflow should reduce each task to explicit contracts, reusable SWE surfaces, automated evidence, and a reviewable artifact.
 
 | ID | Common MLE task | Streamlined ECC path | Required output | Pipeline lanes covered |
-|----|-----------------|----------------------|-----------------|------------------------|
+| ---- | ----------------- | ---------------------- | ----------------- | ------------------------ |
 | MLE-01 | Frame an ambiguous prediction, ranking, recommender, classifier, embedding, or forecast capability | `product-capability`, `plan`, `architecture-decision-records`, `mle-workflow` | Iteration Compact naming who cares, decision owner, success metric, unacceptable mistakes, assumptions, constraints, and first experiment | product contract, stakeholder loss, risk, rollout |
 | MLE-02 | Define metric goals, labels, data sources, and the mistake budget | `repo-scan`, `database-reviewer`, `database-migrations`, `postgres-patterns`, `clickhouse-io` | Data and metric contract with entity grain, label timing, label confidence, feature timing, point-in-time joins, split policy, and dataset snapshot | data contract, metric design, leakage, reproducibility |
 | MLE-03 | Build a baseline model and scoring path before adding complexity | `tdd-workflow`, `python-testing`, `python-patterns`, `code-reviewer` | Baseline scorer with confusion matrix, calibration notes, latency/cost estimate, known weaknesses, and tests for score shape and determinism | baseline, scoring, testing, serving parity |

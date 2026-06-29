@@ -30,7 +30,7 @@ This document is the primary technical guide of this repository. It serves as th
 
 ## 📊 1. Comparative Analysis of 11 Leading Coding Models
 
-### Ranked Model Matrix (By SWE-bench Performance Tier):
+### Ranked Model Matrix (By SWE-bench Performance Tier)
 
 1. 👑 **Claude Opus 4.6** (Score: 80.8%)
 2. 🥈 **Gemini 3.1 Pro** (Score: 80.6%)
@@ -73,6 +73,7 @@ Before reviewing the data, understanding the objective of each benchmark is esse
    - **Real-world Utility:** For large-scale projects, a massive context window (e.g., 1M+) allows the model to comprehend the entire codebase simultaneously, ensuring structural changes don't break distant dependencies.
 
 ### Functional Benchmark Matrix (Comprehensive Analysis)
+
 <div style="overflow-x:auto; border-radius:12px; border:1px solid rgba(255,255,255,0.1);">
   <table style="width:100%; border-collapse:collapse; font-size:10px; color:#dde0f2; min-width:1400px;">
     <thead>
@@ -118,7 +119,7 @@ Before reviewing the data, understanding the objective of each benchmark is esse
 A critical distinction that affects cost planning — **not all models in Copilot cost premium requests**:
 
 | Model | Type | Premium Request | Per-month (300 budget) |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **GPT-4.1** | Included | ✅ Free — zero | Unlimited |
 | **GPT-5-mini** | Included | ✅ Free — zero | Unlimited |
 | **GPT-4o** | Included | ✅ Free — zero | Unlimited |
@@ -158,13 +159,17 @@ A critical distinction that affects cost planning — **not all models in Copilo
 In agentic programming, cost is not just a number—it is an investment to prevent "Technical Debt." Our strategy is built on two core principles:
 
 ### 1. The "Sandwich Strategy"
+
 This three-layered methodology ensures logical integrity across the project lifecycle:
+
 - **Top Layer (Planning):** Utilizing Frontier-class models (e.g., Claude 4.6 Sonnet) for context analysis and `task.md` drafting. Errors at this stage lead to systemic project failure.
 - **Middle Layer (Execution):** Offloading the bulk of implementation to economic models (e.g., DeepSeek V3.2). These engines produce 80-90% of the code volume at near-zero cost.
 - **Bottom Layer (Verification):** Returning to a Frontier model or human reviewer for final validation and logical verification.
 
 ### 2. The "90/10 Rule" for Cost Control
+
 This rule ensures your API billing remains sustainable:
+
 - **90% of Messages:** Must be processed by high-efficiency, low-cost models (DeepSeek, MiniMax).
 - **10% of Messages:** Reserved for critical architectural decisions and resolution of complex logical deadlocks, handled by premium models (Claude Opus/Sonnet).
 *Result: 70-85% reduction in project costs with zero compromise on quality.*
@@ -176,12 +181,14 @@ This rule ensures your API billing remains sustainable:
 *Ranking Logic: This system follows the industry/gaming standard where **S-Tier** (Superior/Super) resides above A-Tier as the absolute highest priority, followed by A and B in descending order of general utility.*
 
 ### Tier S (Top Priority - Gold Standard): Core Agentic Environments  
+
 - **VS Code + Cline (or Roo-Code) + GitHub Copilot:**  
   - **What & Why:** **Cline** is an open-source autonomous agent for VS Code that allows direct integration of AI models. Its BYOK (Bring Your Own Key) capability ensures you pay only for actual usage rather than a flat monthly fee.  
   - **Cost Structure:** The extension itself is **Free**. Your only cost is the API consumption from providers like Anthropic or DeepSeek.  
   - **Comparison:** Unlike Cursor, which charges $20/mo, Cline removes the middleman, offering direct connectivity to the source models with no arbitrary rate limits.  
 
 ### Tier A (Essential): Professional Infrastructure & CLI  
+
 - **Warp Terminal:**  
   - **What:** The world's most modern terminal with integrated AI that understands and executes CLI commands.  
   - **Plan Differences:**  
@@ -193,6 +200,7 @@ This rule ensures your API billing remains sustainable:
 - **Google Cloud CLI & Tools:** Essential infrastructure management for Gemini-class models.
 
 ### Tier B (Specialized): Automation & Smart Monitoring  
+
 - **OpenClaw:**  
   - **What:** A viral open-source autonomous agent with **213k stars** and **39.6k forks** on GitHub (as of February 20, 2026).  
   - **Key Features:**  
@@ -204,12 +212,14 @@ This rule ensures your API billing remains sustainable:
 > ⚠️ **Security Notice (Feb 17, 2026 — Verified):** A supply chain attack was identified in Cline v2.3.0 — malicious packages automatically installed OpenClaw without consent. Additionally, Cisco Talos security researchers reported that **26% of skills available on ClawHub contain malicious code** (credential stealers and backdoors). Action required: run `npm ls -g cline` and confirm your version is **not** 2.3.0. Avoid installing ClawHub skills from unverified authors.
 >
 > **Scope clarification:** OpenClaw is a **personal AI assistant** (manages email, calendar, WhatsApp automations) — it is **not** an inline coding agent like Cline. Rule of thumb:
+>
 > - **Daily coding (file edits, interactive sessions, code review): Cline > OpenClaw**
 > - **DevOps automation, background monitoring, pipeline orchestration, multi-system coordination: OpenClaw > Cline**
 >
 > These are entirely separate tools designed for entirely different workflows. Don't try to use OpenClaw for step-by-step coding — it wasn't designed for that.
 
 ### Tier A+ (Google Ecosystem Integration): Cloud-Native Agents  
+
 - **Google Jules:**  
   - **What:** An asynchronous, cloud-hosted coding agent directly integrated with GitHub.  
   - **Philosophy:** Unlike Cline (which runs on your hardware), Jules operates on a Google Cloud VM. You assign tasks via GitHub issues or the UI, and Jules creates PRs autonomously.  
@@ -255,7 +265,7 @@ The tools below cover gaps at zero recurring cost. Use alongside the core VS Cod
 **IDE quick comparison (Firebase/IDX column removed):**
 
 | | VS Code | Cursor | GitHub Codespaces |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Environment | 💻 Local | 💻 Local | ☁️ Cloud |
 | Price | Free | $20/mo | ~$0.18/hr |
 | AI Quality | ⭐⭐⭐⭐⭐ (with Cline/Copilot) | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
@@ -267,6 +277,7 @@ The tools below cover gaps at zero recurring cost. Use alongside the core VS Cod
 Jules is fundamentally different from Cline. Understanding this difference is key to using both tools together effectively:
 
 **How Jules works (step by step):**
+
 1. Go to `jules.google` and connect your GitHub repository.
 2. Choose a repo and branch (Jules creates its own work branch automatically).
 3. Write a task description — or assign a GitHub issue with the label `jules`.
@@ -275,6 +286,7 @@ Jules is fundamentally different from Cline. Understanding this difference is ke
 6. When done, Jules opens a **Pull Request**. You review and merge.
 
 **The power: parallel async execution.** While you work in VS Code + Cline on the main feature, Jules handles background tasks simultaneously:
+
 - "Write tests for module X"
 - "Fix these 3 minor bugs"
 - "Update README and CHANGELOG"
@@ -289,8 +301,9 @@ This means you effectively have two agents working in parallel.
 > **AGENTS.md matters for Jules:** Jules reads the `AGENTS.md` file at the root of your repository to understand project conventions (commit format, test commands, package manager). Keep it accurate — it's Jules's only briefing document.
 
 > ⚠️ **CRITICAL: Three agents, three roles — they are NOT fallbacks for each other.**
+>
 > | Agent | Role | When to use |
-> |---|---|---|
+> | --- | --- | --- |
 > | **Cline** (VS Code) | Active primary coding session — file edits, interactive | Most of your work |
 > | **Jules** | Async/background tasks on separate branches | Tests, docs, minor bugs — in parallel with Cline |
 > | **Gemini CLI** | Quick terminal Q&A — no project context needed | "What does this error mean?" or one-shot queries |
@@ -302,7 +315,7 @@ This means you effectively have two agents working in parallel.
 Gemini CLI is a terminal-native coding agent (open-source, Apache 2.0). It is **completely free** with generous daily quotas:
 
 | Account | Model | Requests/day | Best for |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Free Google account | **Gemini Flash** | **1,000/day** | Quick Q&A, one-shot queries |
 | Free Google account | **Gemini Pro** | ~10–50/day | Deeper analysis (not reliable for daily use) |
 | Google **AI Pro** ($19.99/mo) | Flash + Pro | Higher (exact number **not published** by Google) | Heavy daily terminal agent usage |
@@ -339,7 +352,7 @@ gemini -p "find the hardest open issue: $(gh issue list --assignee @me)" | jules
 **Antigravity vs. VS Code+Cline — Quick Comparison:**
 
 | Feature | Antigravity (Primary) | VS Code + Cline (Fallback) |
-|---|---|---|
+| --- | --- | --- |
 | Inline completion | ✅ Unlimited with Google AI Pro | Copilot Free (50 req/month free) |
 | Multi-agent parallel | ✅ Agent Manager | ⚠️ Single-thread |
 | DeepSeek direct | ⚠️ Only via `router.py` bridge | ✅ Native in Cline |
@@ -351,6 +364,7 @@ gemini -p "find the hardest open issue: $(gh issue list --assignee @me)" | jules
 | Approval control | ⚠️ Agent is more autonomous | ✅ Confirm each step |
 
 **When to switch from Antigravity to VS Code+Cline:**
+
 - Task requires **DeepSeek** (cheapest) or **Claude Sonnet** (most accurate) directly
 - Need granular step-by-step **approval** for sensitive code changes
 - Long session with heavy context (Antigravity hits rate limits faster)
@@ -358,6 +372,7 @@ gemini -p "find the hardest open issue: $(gh issue list --assignee @me)" | jules
 - Antigravity itself is glitching or rate-limited
 
 **Installing Antigravity:**
+
 ```bash
 # macOS
 brew install --cask antigravity
@@ -382,12 +397,12 @@ winget install Google.Antigravity
 The primary bottleneck in agentic programming is "Context." If the agent is unaware of a file's existence or project standards, quality degrades.
 
 - **Rules Files (`.cursor/rules/`):**  
-    - Create `.mdc` files for specific technologies or standards.  
-    - **Example:** "Always use Clean Architecture," "No `any` types in TypeScript."  
-    - **Heuristic:** "Before editing a file, always read the associated `.test.ts` to understand the business logic."  
+  - Create `.mdc` files for specific technologies or standards.  
+  - **Example:** "Always use Clean Architecture," "No `any` types in TypeScript."  
+  - **Heuristic:** "Before editing a file, always read the associated `.test.ts` to understand the business logic."  
 
 - **Repository Map (Repomap / Knowledge Graph):**  
-    - Tools like Cline generate a semantic map of your codebase. Maintain a clean directory structure to ensure the agent finds relevant dependencies accurately.  
+  - Tools like Cline generate a semantic map of your codebase. Maintain a clean directory structure to ensure the agent finds relevant dependencies accurately.  
 
 ---
 
@@ -453,12 +468,14 @@ The `ComplexityAnalyzer` class categorizes every prompt into one of five levels 
 </div>
 
 **Context-based score multipliers (additive):**
+
 - `file_count > 10` → +1.0 to COMPLEX score
 - `environment == 'production'` → +2.0 to CRITICAL score
 - `urgent == True` → +1.0 to CRITICAL score
 - `word_count > 200` → +0.5 to COMPLEX; `word_count > 100` → +0.5 to MODERATE
 
 **Custom analyzer override** (for domain-specific routing):
+
 ```python
 from ai_router import ComplexityAnalyzer, TaskComplexity
 
@@ -590,6 +607,7 @@ router = AIRouter(MODEL_CONFIGS, DEV_ROUTING)             # Development
 </div>
 
 **Interactive mode — inline model overrides:**
+
 ```
 @opus      → Force Claude Opus 4.6
 @sonnet    → Force Claude Sonnet 4.6
@@ -600,6 +618,7 @@ exit       → Quit
 ```
 
 **Select routing strategy at launch:**
+
 ```bash
 python router_cli.py --strategy balanced       # default
 python router_cli.py --strategy conservative   # production
@@ -611,6 +630,7 @@ python router_cli.py --strategy cost-optimized # budget
 ### 6.5. Source Code & Installation
 
 **Dependencies (`requirements.txt`):**
+
 ```
 # ── Core (required) ──────────────────────────────────────────
 anthropic>=0.40.0          # Claude Opus / Sonnet / Haiku
@@ -639,6 +659,7 @@ aiofiles>=23.0.0
 > **Recommendation:** For projects that need more than Claude + DeepSeek, use `litellm` as a drop-in replacement for both `ClaudeClient` and `DeepSeekClient`. It provides a single unified interface for all 11 models listed in Section 1 without rewriting the router logic.
 
 **Setup (3 steps):**
+
 ```bash
 # 1. Install dependencies
 pip install -r requirements.txt
@@ -656,7 +677,7 @@ cp config_example.py config.py
 **Source files (full production implementation):**
 
 | File | Description |
-|---|---|
+| --- | --- |
 | [`ai_router.py`](skills/ai-router/ai_router.py) | Core engine: `AIRouter`, `ComplexityAnalyzer`, `CacheManager`, `CostTracker`, `CircuitBreaker`, `ClaudeClient`, `DeepSeekClient` |
 | [`config_example.py`](skills/ai-router/config_example.py) | All four routing strategies with complete `ModelConfig` pricing tables |
 | [`router_cli.py`](skills/ai-router/router_cli.py) | Full CLI with interactive, single-prompt, batch, stats, and cost-estimation modes |
@@ -953,6 +974,7 @@ if __name__ == "__main__":
 ```
 
 **`costLog.json` format** (date-keyed dict, per-provider — used by both `router.py` and `cost_monitor.py`):
+
 ```json
 {
   "2026-03-11": {
@@ -981,7 +1003,7 @@ if __name__ == "__main__":
 3. **Verification & Autonomous Self-Healing:**  
     - Mandate the agent to use **TDD** (Test-Driven Development: writing tests *before* the actual implementation).  
     - **Autonomous Loop:** Using terminal access (e.g., Cline), the agent should independently execute tests, analyze failure logs, and perform code iterations until all benchmarks are passed. You only review the final success report.  
-	
+
 4. **Refinement:**  
     - "Review this file for logical flaws or security vulnerabilities."  
     - **Recommended Model:** Claude 4.6 Sonnet (for final polishing).  
@@ -993,22 +1015,27 @@ if __name__ == "__main__":
 These are the most common failure points in production agentic workflows that are not covered by the checklist above:
 
 **1. Infinite Loop & Cost Explosion Prevention**
+
 - In Cline settings: set **Context Window Size** to `80K` and **Max requests per task** to `20`.
 - Create a `.clinerules` file in your project root with the instruction: `"Stop and ask the user if uncertain about the next step. Never retry the same action more than 3 times."`
 - Without these limits, a single Cline session with Claude Sonnet can cost $10–$50 in minutes.
 
 **2. Memory Bank (Cross-Session Persistence)**
+
 - Cline's Memory Bank keeps context alive between sessions. Without it, the agent starts from zero every time.
 - Initialize these files: `memory-bank/activeContext.md`, `memory-bank/progress.md`, `memory-bank/systemPatterns.md`.
 - Enable Memory Bank in Cline settings → the agent will auto-read and update these on each session start.
 
 **3. Context Explosion on Resume**
+
 - When resuming a long task, Cline re-sends the full conversation history — prompt caching stops working and costs spike. Some users reported going from $30/mo to $230/mo solely from this.
 - Rule: **One task = One Cline session = One commit.** Never resume. Instead, write a `session-summary.md` capturing the current state and start a fresh session with it as context.
 
 **4. TDD Rule File (Required for Compliance)**
+
 - Writing "use TDD" in the checklist is not enough — agents ignore it without a rule file.
 - Create `.cursor/rules/tdd.mdc`:
+
   ```
   Always write the failing test BEFORE writing implementation code.
   Never write implementation before the test exists.
@@ -1017,21 +1044,25 @@ These are the most common failure points in production agentic workflows that ar
   ```
 
 **5. Secret Management**
+
 - API keys (DeepSeek, Anthropic, MiniMax) scattered across `.env` files are a leak risk — especially if OpenClaw or any 3rd party agent is installed.
 - Add to `.gitignore`: `.env`, `.env.*`, `config.py` (if it contains keys).
 - Use `direnv` or `dotenv-vault` for secrets. Add a rule: `"Never hardcode API keys. Always use environment variables. Never commit .env files."`
 
 **6. Cost Telemetry & Budget Alerts**
+
 - "Check the dashboard daily" is insufficient for automation.
 - In the **Anthropic Console** and **DeepSeek Platform**: configure a hard budget alert at $5/day and a soft alert at $2/day.
 - In code: use the `tokencost` Python library to track cost per API call in real time.
 
 **7. API Fallback Chain**
+
 - DeepSeek rate-limits during peak hours. The pseudo-code fallback in Section 6 must be implemented.
 - Recommended chain: `DeepSeek V3.2` → (on fail) → `MiniMax M2.5` → (on fail) → `Gemini Flash` (often free via Google AI Studio).
 - The `ai_router.py` in Section 6 already implements this pattern via `CircuitBreaker` + `_generate_with_fallback()`.
 
 **8. Large Project Strategy (+50 files)**
+
 - DeepSeek V3.2's 128K context window is insufficient for projects with 50+ files.
 - For large-scale architecture and planning: use **Gemini 3.1 Pro** (1M context) or **Kimi K2.5** (256K).
 - Reduce context load before sending to the agent: use `tree` output and Repomap summaries instead of full file contents.
@@ -1043,7 +1074,7 @@ These are the most common failure points in production agentic workflows that ar
 Use this table before every task to pick the correct model instantly. Wrong model = wasted money or degraded quality.
 
 | Task Type | Model | Cost/task (est.) | Why |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Trivial: tests, config, lint fixes, small bugs | **DeepSeek V3.2** | ~$0.01 | Cache-hit: $0.028/M input; fastest for repetitive patterns |
 | Moderate: new features, refactors, multi-file changes | **MiniMax M2.5** | ~$0.05 | 80.2% SWE-bench; strong reasoning at low cost |
 | Critical: architecture, security review, API design | **Claude Sonnet 4.6** | ~$0.15 | Best reasoning; worth the premium for irreversible decisions |
@@ -1055,6 +1086,7 @@ Use this table before every task to pick the correct model instantly. Wrong mode
 | Moderate-Critical, complex tool chains, Claude reliability at lower price | **Claude Haiku 4.5** | ~$0.02 | >73% SWE-bench Verified; Claude's tool-call precision at ~4× cheaper than Sonnet — use when MiniMax/DeepSeek tool-calling fails in multi-step agentic workflows |
 
 **OpenRouter as universal fallback:** If DeepSeek is rate-limiting, a model is down, or you want one API key for all models without VPN requirements:
+
 - Provider: OpenRouter | Base URL: `https://openrouter.ai/api/v1`
 - Use model IDs like: `deepseek/deepseek-v3.2` · `anthropic/claude-sonnet-4-5` · `minimax/minimax-m2.5`
 - Works with Cline, Roo Code, and any OpenAI-compatible client with zero code changes — just update the base URL and API key.
@@ -1062,7 +1094,7 @@ Use this table before every task to pick the correct model instantly. Wrong mode
 **DeepSeek V3.2 — cost breakdown per platform (budget: $20):**
 
 | Platform | Input (per 1M) | Output (per 1M) | Messages / $20 | Notes |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **DeepSeek API direct** ⭐ | $0.028 cache-hit | $0.42 | **~2,000+** | 5M free tokens on signup; best cache-hit rate |
 | **OpenRouter** | $0.24 | $0.38 | ~1,500 | No VPN needed; works in restricted regions |
 | **Together AI** | $0.25 | $0.40 | ~1,400 | Good uptime for fallback |
@@ -1076,10 +1108,10 @@ Use this table before every task to pick the correct model instantly. Wrong mode
 
 The objective of this configuration is to achieve **Maximum Efficiency with Minimum Recurring Costs**. The justification for each expenditure is as follows:
 
-1. **VS Code + Copilot + Cline ($28/mo):**   
+1. **VS Code + Copilot + Cline ($28/mo):**
    - **Rationale:** Copilot provides efficient autocomplete and routine suggestions for $10. Cline handles autonomous agentic tasks by connecting to low-cost APIs (like DeepSeek). This combination is more cost-effective than $20/mo IDE subscriptions as it eliminates arbitrary rate limits and offers granular control.  
 
-2. **Warp Build ($20/mo):**   
+2. **Warp Build ($20/mo):**
    - **Rationale:** This is the key to AI integration in the terminal. With BYOK, the cost of executing CLI commands—which could previously reach several cents—is reduced to less than 0.001 cents.  
    - **Alternative:** Consider **Ghostty** (free terminal) + **Google AI Pro** ($19.99/mo) instead — same budget, broader capabilities.  
 
@@ -1148,7 +1180,7 @@ For users who want to evaluate trade-offs with a different lens — cost vs. cov
 **If budget is the priority (best ROI):**
 
 | Rank | Setup | Cost/mo | Value | Quality | Simplicity |
-|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- |
 | 🥇 | DeepSeek + Claude API direct + VS Code+Cline | $8–12 | 98 | 86 | 60 |
 | 🥈 | **Google AI Pro + Copilot Pro** *(your setup)* | $29.99 | 83 | 78 | 92 |
 | 🥉 | Google AI Pro + Claude API direct (no Copilot) | $26–30 | 80 | 82 | 80 |
@@ -1158,7 +1190,7 @@ For users who want to evaluate trade-offs with a different lens — cost vs. cov
 **If code quality is the priority:**
 
 | Rank | Setup | Cost/mo | Quality | Value |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 🏆 | Three-model + Router (DeepSeek + MiniMax + Claude API) | $15–22 | 93 | 88 |
 | 🥈 | Google AI Pro + Claude API direct + VS Code+Cline | $27–33 | 88 | 78 |
 | 🥉 | **Google AI Pro + Copilot Pro** *(your setup)* | $29.99 | 79 | 83 |
@@ -1173,15 +1205,15 @@ For users who want to evaluate trade-offs with a different lens — cost vs. cov
 - **MCP Servers (Model Context Protocol):**
 
   **Core (Universal):**
-    - `filesystem`: Enables deep navigation and file system manipulation.
-    - `github`: Grants the agent authority to manage issues and PRs.
-    - `brave-search`: Provides the agent with live internet access to fetch 2026 documentation.
+  - `filesystem`: Enables deep navigation and file system manipulation.
+  - `github`: Grants the agent authority to manage issues and PRs.
+  - `brave-search`: Provides the agent with live internet access to fetch 2026 documentation.
 
   **Python Development (Recommended):**
-    - `mcp-sqlite`: Direct database querying and schema inspection.
-    - `mcp-docker`: Container management from within the agent.
-    - `mcp-pytest`: Agent-triggered test execution for autonomous TDD loops.
-    - `mcp-python-interpreter`: Safe sandboxed Python execution for pre-file validation before writing to disk.
+  - `mcp-sqlite`: Direct database querying and schema inspection.
+  - `mcp-docker`: Container management from within the agent.
+  - `mcp-pytest`: Agent-triggered test execution for autonomous TDD loops.
+  - `mcp-python-interpreter`: Safe sandboxed Python execution for pre-file validation before writing to disk.
 
 ### Cline MCP Configuration (JSON)
 
@@ -1224,7 +1256,7 @@ Add MCP servers via **VS Code → `Ctrl+Shift+P` → "Cline: Open MCP Settings"*
 ### Conservative Alert Thresholds (based on field experience)
 
 | Threshold | Amount | Action |
-|---|---|---|
+| --- | --- | --- |
 | Daily soft alert | **$1.00/day** | Investigate which task is consuming — refine prompt or switch to cheaper model |
 | Weekly review | **$5.00/week** | Review task routing — are you over-using Claude for trivial tasks? |
 | Monthly **hard stop** | **$25.00/month** | Pause all API calls — review and reset. Build in a $5 buffer (stop at $25, goal is $30 ceiling) |
@@ -1303,6 +1335,7 @@ if __name__ == "__main__":
 ```
 
 **`memory-bank/costLog.json` format** (append one entry per task):
+
 ```json
 [
   {"date": "2026-03-11", "cost": 0.45, "task": "refactor auth module"},
@@ -1319,7 +1352,7 @@ Run after each session: `python memory-bank/cost_monitor.py`
 
 To transform a standard editor into an **Agentic Coding Operating System**, leveraging the `.cursor` directory structure is mandatory. This framework allows the agent to comprehend the "project constitution" and "team standards" beyond the immediate code.  
 
-### Key Components & Practical Utility:  
+### Key Components & Practical Utility  
 
 1. **`.cursor/rules/` (.mdc files - The Constitution):**  
    - **Role:** Defines non-negotiable project standards and AI identity.  
@@ -1331,10 +1364,11 @@ To transform a standard editor into an **Agentic Coding Operating System**, leve
 
 2. **`skills/` (Knowledge Capsules):**  
    - **Role:** Documents experiences for future reuse (Knowledge Capture).  
-  - **Real-world Example:** Supporting skills capture reusable techniques, while this flagship guide defines the reference model-selection and cost-optimization strategy they extend.  
-   - **Benefit:** Prevents "reinventing the wheel." The agent applies lessons from past tasks to new ones.  
 
-3. **`workflows/` (Operational Roadmaps):**  
+- **Real-world Example:** Supporting skills capture reusable techniques, while this flagship guide defines the reference model-selection and cost-optimization strategy they extend.  
+- **Benefit:** Prevents "reinventing the wheel." The agent applies lessons from past tasks to new ones.  
+
+1. **`workflows/` (Operational Roadmaps):**  
    - **Role:** Defines step-by-step sequences for sensitive processes.  
    - **Real-world Examples:**  
      - **`init-project.md`:** Automatically creates `.env.example`, `src/`, and `docs/` directories.  
@@ -1342,10 +1376,10 @@ To transform a standard editor into an **Agentic Coding Operating System**, leve
      - **`documentation.md`:** Automatically updates `CHANGELOG.md` after every significant change.  
    - **Benefit:** Eliminates human error in repetitive tasks and guarantees high-quality output.  
 
-4. **`prompts/` (High-Level Instruction Library):**
+2. **`prompts/` (High-Level Instruction Library):**
    - **Role:** Stores Mega-Prompts designed for repetitive yet sensitive tasks.
 
-5. **`mcp/` (External Tool Integration):**
+3. **`mcp/` (External Tool Integration):**
    - **Role:** The protocol for connecting to external utilities (databases, browsers, code analysis tools).
 
 ---
@@ -1355,6 +1389,7 @@ To transform a standard editor into an **Agentic Coding Operating System**, leve
 These are production-ready file contents. Copy them verbatim into your project's `.cursor/rules/` directory. For VS Code + Cline: place them in `.cursor/rules/` and also create a `.clinerules` file at the project root (see below).
 
 **`.cursor/rules/000-core.mdc`** — Always-active core rules (cost control, project standards):
+
 ```
 ---
 description: Core project rules — always applied
@@ -1391,6 +1426,7 @@ alwaysApply: true
 ---
 
 **`.cursor/rules/010-python.mdc`** — Python coding standards:
+
 ```
 ---
 description: Python coding standards
@@ -1427,6 +1463,7 @@ uv run ruff check --fix . && uv run mypy src/
 ---
 
 **`.cursor/rules/020-tdd.mdc`** — TDD rules:
+
 ```
 ---
 description: Test-Driven Development — mandatory rules
@@ -1460,6 +1497,7 @@ alwaysApply: true
 ---
 
 **`.cursor/rules/030-security.mdc`** — Security & secret management:
+
 ```
 ---
 description: Mandatory security rules
@@ -1486,15 +1524,19 @@ API_KEY = "sk-1234..."                    # ❌ FORBIDDEN
 ```
 
 ## Before Every Commit
+
 - git diff --staged | grep -i "api_key\|secret\|password\|token"
 - If any result: STOP and report immediately
+
 ```
 
 ---
 
 **`.cursor/rules/040-git.mdc`** — Git & commit rules:
 ```
+
 ---
+
 description: Git and commit rules
 alwaysApply: true
 ---
@@ -1502,12 +1544,15 @@ alwaysApply: true
 # Git Rules
 
 ## Golden Rule
+
 One task = one commit = one feature branch
 
 ## Commit Message Format
+
 [type]: [short description]
 
 Allowed types:
+
 - feat:      new feature
 - fix:       bug fix
 - test:      add/change tests
@@ -1516,15 +1561,18 @@ Allowed types:
 - chore:     maintenance work
 
 ## Before Commit
+
 1. uv run ruff check --fix .   — fix lint issues
 2. uv run pytest               — all tests must pass
 3. Check for secrets: no API key in staged files
 4. Then: git commit -m "[type]: [description]"
 
 ## Forbidden
+
 - Direct commit to main
 - Large commits with many unrelated changes
 - Commit messages like "fix", "update", "changes"
+
 ```
 
 ---
@@ -1558,6 +1606,7 @@ cost_today: $X.XX
 ---
 
 **`memory-bank/costLog.md`** — Cost tracking (update after every session):
+
 ```markdown
 ---
 goal: monthly cost under $30
@@ -1582,6 +1631,7 @@ alert_at: $5 daily / $20 weekly
 ---
 
 **`.clinerules`** — Cline-specific rules for VS Code (place at project root):
+
 ```markdown
 # Cline Rules — VS Code
 
@@ -1608,6 +1658,7 @@ alert_at: $5 daily / $20 weekly
 ```
 
 **Cline API Settings** — Configure in Cline sidebar → Settings (⚙️):
+
 ```bash
 # ── Model 1: DeepSeek (default — cheapest) ──
 Provider:  OpenAI Compatible
@@ -1637,6 +1688,7 @@ Models:    deepseek/deepseek-v3.2
 ---
 
 **`GEMINI.md`** — Context file for Gemini CLI (place at **project root**). Gemini CLI reads this file automatically at the start of each session, just like Jules reads `AGENTS.md`.
+
 ```markdown
 # GEMINI.md — Project Context for Gemini CLI
 
@@ -1667,16 +1719,19 @@ Python 3.12 · package manager: uv · test runner: pytest · linter: ruff
 ```
 
 > **How to add `GEMINI.md` to your project:**
+>
 > ```bash
 > # Create at project root (same level as AGENTS.md and .clinerules)
 > touch GEMINI.md
 > # Edit with the template above — customize to your actual project structure
 > ```
+>
 > Gemini CLI will pick it up automatically with no configuration required.
 
 ---
 
 **`Dual-IDE File Structure`** — How to support both Antigravity and VS Code+Cline simultaneously:
+
 ```
 project/
 │
@@ -1716,6 +1771,7 @@ project/
 ---
 
 **`skills/core.md`** — Core rules file for Antigravity (place in `skills/`):
+
 ```markdown
 ---
 name: core
@@ -1746,6 +1802,7 @@ alwaysApply: true
 ---
 
 **`skills/router-guide.md`** — How to use `router.py` from inside Antigravity:
+
 ```markdown
 ---
 name: router-guide
@@ -1765,13 +1822,16 @@ result = asyncio.run(router.generate("Your question or task here"))
 ```
 
 ## Solution B — Delegate to VS Code+Cline
+
 When a task requires DeepSeek/Claude, tell the user:
 "This task requires [DeepSeek/Claude]. Please switch to VS Code+Cline."
 
 ## When VS Code+Cline is Required
+
 - Tasks for DeepSeek (cheaper than Gemini at scale) → TRIVIAL + high-frequency
 - Final security code review with Claude Sonnet → CRITICAL
 - Long sessions where Antigravity hits rate limits
+
 ```
 
 ---
@@ -1781,10 +1841,12 @@ When a task requires DeepSeek/Claude, tell the user:
 **Prompt Engineering for Cline (task-state template):**
 Begin every task with a structured context block so the agent knows its state:
 ```
+
 Goal: [one-sentence objective]
 Current state: [what already exists]
 Constraints: [must-not-do list]
 Expected output: [exact file / function / test]
+
 ```
 This pattern eliminates 80% of regeneration cycles caused by ambiguous tasks.
 
@@ -1828,10 +1890,13 @@ Large context windows are the #1 cost driver in long sessions. Apply these techn
 - **File references over content:** Send `path/to/file.py:42-60` instead of pasting the full file — agent reads only the relevant slice.
 - **Lazy loading:** Attach files only when the agent explicitly needs them, not pre-emptively.
 - **Repomap for large projects:** Send the tree, not the code:
+
 ```bash
 tree -I '__pycache__|*.pyc|.venv|node_modules' --noreport | head -50
 ```
+
 This tells the agent which files exist without reading all of them.
+
 - **DeepSeek cache-hit (10× cheaper):** DeepSeek charges $0.028/M tokens for cache-hit vs. $0.28/M for cache-miss. Keep your system prompt **identical** across requests — any change invalidates the cache and costs 10× more. Store your system prompt as a constant in your router config.
 
 ---
@@ -1856,11 +1921,13 @@ async def draft_then_refine(task_prompt: str) -> str:
 **Why this works:** Claude reads only the draft (a few hundred tokens) instead of the full repository context. Each Claude call becomes ~5× cheaper than asking Claude to implement from scratch without a draft.
 
 **Best use cases:**
+
 - Feature implementation: DeepSeek writes 90% → Claude reviews and finalizes
 - Refactoring: DeepSeek restructures → Claude improves naming, docs, and edge cases
 - Test generation: DeepSeek generates test skeletons → Claude adds edge cases and assertions
 
 **Skip this pattern for:**
+
 - Security reviews (Claude needs full codebase context to find vulnerabilities)
 - Architecture planning (full context matters more than cost here)
 
@@ -1869,7 +1936,7 @@ async def draft_then_refine(task_prompt: str) -> str:
 **When NOT to use an Agent (use Copilot inline instead):**
 
 | Situation | Wrong choice | Right choice |
-|---|---|---|
+| --- | --- | --- |
 | Single-line autocomplete | Agent (Cline) | Copilot inline |
 | Renaming a variable | Agent (Cline) | Copilot inline / IDE rename |
 | Writing a docstring | Agent (Cline) | Copilot Chat (Ctrl+I) |
@@ -1901,6 +1968,7 @@ uv run mypy src/
 > **Rule from AGENTS.md:** Use `uv` for all package management. Never call `pip` directly. Never activate the virtual environment manually — always prefix commands with `uv run`.
 
 **Recommended `pyproject.toml` (copy-paste ready):**
+
 ```toml
 [project]
 name = "my-project"
@@ -2006,6 +2074,7 @@ The `AIRouter` in Section 6 (`skills/ai-router/ai_router.py`) adds SHA-256 respo
 
 **Agent Testing ("Golden Set" Benchmark Approach):**
 To verify an agent's quality doesn't regress after model swaps or prompt changes:
+
 1. Create `tests/agent_golden/` with 10–20 representative task prompts.
 2. Each file: `task.md` (input) + `expected_output.py` (reference output).
 3. Run the agent against each task; compare outputs with `difflib` or an LLM-as-judge.
@@ -2014,6 +2083,7 @@ To verify an agent's quality doesn't regress after model swaps or prompt changes
 > Target: **Golden set score ≥ 90%** before any production routing change.
 
 **Golden set benchmark script (copy-paste ready):**
+
 ```python
 """
 benchmark_agent.py — test models against your personal golden set
@@ -2108,7 +2178,7 @@ ollama pull deepseek-r1:7b
 **⚙️ Hardware Requirements:**
 
 | Model | RAM Required | VRAM (GPU) | Apple Silicon |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Qwen2.5-Coder 7B** | **8 GB** ⭐ | 6 GB VRAM | M1/M2 8 GB: ~25 tok/sec |
 | **DeepSeek R1 Distill 7B** | **8 GB** ⭐ | 6 GB VRAM | M1/M2 8 GB: ~20 tok/sec |
 | Qwen2.5-Coder 14B | 16 GB | 10 GB VRAM | M2 Pro 16 GB: ~30 tok/sec |
@@ -2183,11 +2253,13 @@ def make_request(user_task: str) -> dict:
 For mathematical problems, algorithm design, or complex debugging — without needing Claude:
 
 **Via DeepSeek API** (or OpenRouter):
+
 ```
 Model ID: deepseek/deepseek-r1-distill-qwen-7b
 ```
 
 **Via Ollama** (local — free):
+
 ```bash
 ollama pull deepseek-r1:7b   # requires: 8 GB RAM (Apple Silicon M1+) or 6 GB VRAM
 ```
@@ -2195,7 +2267,7 @@ ollama pull deepseek-r1:7b   # requires: 8 GB RAM (Apple Silicon M1+) or 6 GB VR
 **Reasoning options comparison for daily tasks:**
 
 | Option | Cost/task | Quality | Best for |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | R1 Distill 7B (Ollama — local) | **$0** | Good | simple math, algorithms |
 | DeepSeek V3.2 reasoning=true | ~$0.002 | Excellent | complex debugging |
 | DeepSeek Speciale (OpenRouter) | ~$0.01 | Outstanding | proof-level reasoning |
@@ -2206,6 +2278,7 @@ ollama pull deepseek-r1:7b   # requires: 8 GB RAM (Apple Silicon M1+) or 6 GB VR
 ---
 
 ## �🚀 12. Operational Lifecycle
+
 1. **Architecture:** Documentation of technical specifications and blueprints by Frontier-class models (powered by the `init-project` workflow).  
 2. **Implementation:** Step-by-step development by cost-optimized execution engines (monitored by `quality-assurance`).  
 3. **Verification:** Unit testing execution and final validation of system logic via the `ABR Loop`.  
@@ -2215,5 +2288,3 @@ ollama pull deepseek-r1:7b   # requires: 8 GB RAM (Apple Silicon M1+) or 6 GB VR
 
 ---
 [Back to README](README.md)
-
-

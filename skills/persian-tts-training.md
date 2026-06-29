@@ -15,7 +15,7 @@ Practical guide for producing commercial-quality Persian (Farsi) TTS, from zero-
 ## Available Persian TTS Models — Ranked by Quality
 
 | Rank | Model | Type | Quality | Notes |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 1 | XTTS v2 fine-tuned on Persian | Voice cloning | High | Needs 1–10h Persian audio |
 | 2 | GPT-SoVITS (Persian audio) | Few-shot clone | High | Works with ~1 min reference |
 | 3 | karim23657/Persian-tts-coqui VITS | Pretrained | Good | Best open-source baseline |
@@ -45,7 +45,8 @@ Cons: Robotic quality, no voice control, single speaker.
 ## Option 2: GPT-SoVITS — Few-Shot Voice Cloning (Best Quality/Effort Ratio)
 
 GPT-SoVITS can clone a voice from ~1 minute of audio. Works well with Persian.
-- Repo: https://github.com/RVC-Boss/GPT-SoVITS (58k+ stars)
+
+- Repo: <https://github.com/RVC-Boss/GPT-SoVITS> (58k+ stars)
 - Stars indicate wide community support and active maintenance
 
 ### Setup (Google Colab / Linux)
@@ -118,7 +119,7 @@ metadata.csv example:
 ### Persian Datasets Available
 
 | Dataset | Size | Source |
-|---|---|---|
+| --- | --- | --- |
 | persian-tts-dataset-female | ~5h | Kaggle: magnoliasis |
 | persian-tts-dataset-male | ~5h | Kaggle: magnoliasis |
 | persian-tts-dataset-male1 | ~5h | Kaggle: magnoliasis |
@@ -172,7 +173,8 @@ sf.write("output_fa.wav", out["wav"], 24000)
 ## Option 4: Coqui VITS Fine-Tuned on Persian (Lightest Option)
 
 Pre-trained Persian VITS models from karim23657 (203 stars — most-starred Persian TTS repo):
-- Repo: https://github.com/karim23657/Persian-tts-coqui
+
+- Repo: <https://github.com/karim23657/Persian-tts-coqui>
 - Models on HuggingFace: `Kamtera/persian-tts-female-vits`, `Kamtera/persian-tts-male1-vits`
 
 ### Use Pretrained Model Directly
@@ -239,7 +241,7 @@ os.makedirs("/content/dataset/wavs", exist_ok=True)
 ## GPU Rental Options
 
 | Provider | Price/hr (A100) | Price/hr (H100) | Notes |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **vast.ai** | ~$1.5–2.5 | ~$3–5 | Cheapest, peer-to-peer, spot available |
 | **RunPod** | ~$2–3 | ~$3.5–5 | Reliable, persistent storage |
 | **Lambda Labs** | ~$2.5–3.5 | ~$4–6 | Clean UX, on-demand |
@@ -247,6 +249,7 @@ os.makedirs("/content/dataset/wavs", exist_ok=True)
 | **Paperspace** | ~$2.5–4 | ~$5 | Good GPU selection |
 
 **Recommended for training:**
+
 - Short fine-tune (VITS, ~5h): vast.ai spot A100 = ~$7–12 total
 - XTTS v2 full fine-tune (~24h): RunPod A100 = ~$50–75 total
 - GPT-SoVITS (1–2h): Colab T4 free tier sufficient
@@ -256,13 +259,14 @@ os.makedirs("/content/dataset/wavs", exist_ok=True)
 ## Minimum Audio Requirements
 
 | Model | Minimum | Quality | Optimal |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | GPT-SoVITS | 1 min | Acceptable | 5–10 min |
 | XTTS v2 fine-tune | 1 hour | Good | 10 hours |
 | VITS fine-tune | 1 hour | Good | 5 hours |
 | MMS-TTS (no training) | 0 | Pre-trained | — |
 
 **Audio quality checklist:**
+
 - Sample rate: 22050 Hz or 44100 Hz
 - Format: WAV (PCM 16-bit)
 - Noise: < -40 dB background noise
@@ -275,7 +279,7 @@ os.makedirs("/content/dataset/wavs", exist_ok=True)
 ## Expected Training Times
 
 | Model | Dataset | GPU | Time |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | GPT-SoVITS (SoVITS stage) | 5 min audio | T4 16GB | 15–30 min |
 | GPT-SoVITS (GPT stage) | 5 min audio | T4 16GB | 30–60 min |
 | VITS (100k steps) | 5h audio | T4 16GB | 6–8 hours |
@@ -303,6 +307,7 @@ text = pnorm.sub_alphabets("این متن را نرمال کن")
 ```
 
 Common Persian TTS issues:
+
 - Arabic `ي` vs Persian `ی` → causes mispronunciation; normalize first
 - Numbers: spell out or use `num2words` with `lang='fa'`
 - English words in Persian text: transliterate or skip

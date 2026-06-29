@@ -11,6 +11,7 @@ last_updated: 2026-03-08
 [Back to README](../README.md)
 
 **🔗 Related Voice Skills:**
+
 - [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
 - [Voice Orchestration](voice-orchestration-multi-model.md) - Multi-model pipeline management
 - [Voice AI Cloning](voice-ai-cloning-finetuning.md) - Dataset curation & fine-tuning
@@ -23,11 +24,13 @@ Technical protocols for producing commercial-quality emotional voice acting from
 ## 1. The One-Person Studio Problem
 
 ### 1.1 Challenge
-*   **Reality:** You are one person voicing multiple characters.
-*   **Requirement:** Each character needs distinct voice + emotions.
-*   **Solution:** Strategic reference recording + AI voice cloning.
+
+- **Reality:** You are one person voicing multiple characters.
+- **Requirement:** Each character needs distinct voice + emotions.
+- **Solution:** Strategic reference recording + AI voice cloning.
 
 ### 1.2 Character Voice Matrix
+
 | Character | Base Voice | Pitch Shift | Speed | Style |
 | :--- | :--- | :--- | :--- | :--- |
 | Protagonist | Natural | 0% | 1.0x | Curious |
@@ -40,6 +43,7 @@ Technical protocols for producing commercial-quality emotional voice acting from
 ## 2. Reference Recording Protocol
 
 ### 2.1 Recording Requirements
+
 | Spec | Value |
 | :--- | :--- |
 | Duration | 30 seconds per emotion |
@@ -48,6 +52,7 @@ Technical protocols for producing commercial-quality emotional voice acting from
 | Microphone | Condenser (SM7B, AT2020) |
 
 ### 2.2 Emotion Reference Checklist
+
 ```
 RECORDING SESSION TEMPLATE:
 □ Neutral (baseline, conversational)
@@ -63,6 +68,7 @@ RECORDING SESSION TEMPLATE:
 ```
 
 ### 2.3 Recording Script
+
 ```
 # For each emotion, read this passage:
 
@@ -80,6 +86,7 @@ a normal Tuesday afternoon."
 ## 3. GPT-SoVITS Emotion Cloning
 
 ### 3.1 Reference Organization
+
 ```
 ~/.moltbot/voices/
 ├── protagonist/
@@ -98,6 +105,7 @@ a normal Tuesday afternoon."
 ```
 
 ### 3.2 Emotion Selection Logic
+
 ```python
 def select_emotion_reference(character: str, emotion: str) -> str:
     """Select appropriate reference audio for synthesis."""
@@ -118,6 +126,7 @@ def select_emotion_reference(character: str, emotion: str) -> str:
 ```
 
 ### 3.3 Script Emotion Tagging
+
 ```xml
 <dialogue character="protagonist" emotion="excited">
     I finally figured it out! The automation works!
@@ -133,6 +142,7 @@ def select_emotion_reference(character: str, emotion: str) -> str:
 ## 4. Non-Verbal Sound Production
 
 ### 4.1 Recording Additional Sounds
+
 ```
 SOUND EFFECTS TO RECORD:
 □ Laugh (genuine, 3 variations)
@@ -146,6 +156,7 @@ SOUND EFFECTS TO RECORD:
 ```
 
 ### 4.2 Insertion Points
+
 ```python
 # Script with non-verbal markers
 script = """
@@ -160,6 +171,7 @@ PROTAGONIST: [laugh] Why didn't I think of that!
 ## 5. Character Differentiation Techniques
 
 ### 5.1 Voice Modification Stack
+
 ```python
 CHARACTER_PROFILES = {
     "protagonist": {
@@ -184,6 +196,7 @@ CHARACTER_PROFILES = {
 ```
 
 ### 5.2 Post-Processing Pipeline
+
 ```python
 def process_character_audio(audio, character: str):
     profile = CHARACTER_PROFILES[character]
@@ -208,14 +221,16 @@ def process_character_audio(audio, character: str):
 ## 6. Quality Assurance
 
 ### 6.1 Emotion Verification
-*   Listen test: Does the emotion come through?
-*   A/B test: Compare with professional voice actors.
-*   Consistency: Same emotion sounds same across clips.
+
+- Listen test: Does the emotion come through?
+- A/B test: Compare with professional voice actors.
+- Consistency: Same emotion sounds same across clips.
 
 ### 6.2 Character Distinction Test
-*   Play clips without context.
-*   Can listener identify which character?
-*   Target: >90% correct identification.
+
+- Play clips without context.
+- Can listener identify which character?
+- Target: >90% correct identification.
 
 ---
 

@@ -18,7 +18,7 @@ Comprehensive testing patterns for .NET applications using xUnit, FluentAssertio
 ## Test Framework Stack
 
 | Tool | Purpose |
-|---|---|
+| --- | --- |
 | **xUnit** | Test framework (preferred for .NET) |
 | **FluentAssertions** | Readable assertion syntax |
 | **NSubstitute** or **Moq** | Mocking dependencies |
@@ -292,7 +292,7 @@ var order = new OrderBuilder()
 ## Common Anti-Patterns
 
 | Anti-Pattern | Fix |
-|---|---|
+| --- | --- |
 | Testing implementation details | Test behavior and outcomes |
 | Shared mutable test state | Fresh instance per test (xUnit does this via constructors) |
 | `Thread.Sleep` in async tests | Use `Task.Delay` with timeout, or polling helpers |

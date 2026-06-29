@@ -23,7 +23,7 @@ each phase to an existing ECC agent or command. This file is that pipeline.
 ## The operation family
 
 | Skill | Operation | Trigger | First move |
-|-------|-----------|---------|------------|
+| ------- | ----------- | --------- | ------------ |
 | `orch-add-feature` | feature | capability does not exist yet | research + plan a new slice |
 | `orch-change-feature` | tweak | works, but desired behavior differs | amend existing behavior *and its tests* |
 | `orch-fix-defect` | fix | broken; behavior is wrong | reproduce as a failing test, then fix |
@@ -43,7 +43,7 @@ Ceremony scales to blast radius. Score the request on three signals, take the
 can override:
 
 | Tier | Files touched | New dependency / contract | Design ambiguity | Phases that run |
-|------|---------------|---------------------------|------------------|-----------------|
+| ------ | --------------- | --------------------------- | ------------------ | ----------------- |
 | trivial | 1, a few lines | none | none — the change is obvious | 4 → 5 → 6 |
 | small | 1 file / 1 function | none | clear once you read the code | (1 light) → 4 → 5 → 6 |
 | standard | 2–5 files | maybe a new internal module | one real choice to make | 1 → 2 → 4 → 5 → 6 |
@@ -87,7 +87,7 @@ Everything between the gates flows without stopping.
 ## Agent / command map
 
 | Phase | Primary | Fallback / escalation |
-|-------|---------|----------------------|
+| ------- | --------- | ---------------------- |
 | Intake / understand | `code-explorer` | trace existing paths before a tweak, fix, or refactor |
 | Plan | `planner` | `architect`, `code-architect` for structural calls |
 | Implement | `tdd-guide` (or `tdd-workflow` skill) | `build-error-resolver` / `/build-fix` on build breaks |

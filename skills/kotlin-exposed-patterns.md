@@ -704,7 +704,7 @@ dependencies {
 ## Quick Reference: Exposed Patterns
 
 | Pattern | Description |
-|---------|-------------|
+| --------- | ------------- |
 | `object Table : UUIDTable("name")` | Define table with UUID primary key |
 | `newSuspendedTransaction { }` | Coroutine-safe transaction block |
 | `Table.selectAll().where { }` | Query with conditions |

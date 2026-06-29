@@ -8,6 +8,7 @@ updated: 2026-05-20
 ## Project Configuration
 
 ### Settings File (`.claude/settings.local.json`)
+
 Controls which Bash commands Claude can run without asking permission:
 
 ```json
@@ -33,7 +34,9 @@ Controls which Bash commands Claude can run without asking permission:
 **Rule:** Use wildcard patterns (`amir *`) not specific commands. One entry per tool family.
 
 ### CLAUDE.md (Project Memory)
+
 Claude reads `CLAUDE.md` on every session start. Keep it updated with:
+
 - Security rules (sensitive data check before commit)
 - Architecture decisions with dates
 - Key file map
@@ -44,6 +47,7 @@ Claude reads `CLAUDE.md` on every session start. Keep it updated with:
 ## Subagent Patterns
 
 ### When to spawn a subagent
+
 ```
 Main context: write/edit code, ask questions, make decisions
 Explore agent: read-only search ("find all callers of X", "list files matching *.sh")
@@ -52,6 +56,7 @@ general-purpose: research + multi-step tasks with many tool calls
 ```
 
 ### Parallel subagent example
+
 ```
 Two independent lookups → spawn both simultaneously:
 - Agent 1 (Explore): "find where _subtitle_run is called"
@@ -60,6 +65,7 @@ Two independent lookups → spawn both simultaneously:
 ```
 
 ### Subagent prompt template
+
 ```markdown
 ## Context
 [What project this is, what you're trying to do, what you've already tried]
@@ -88,6 +94,7 @@ Use Plan Mode for any task that touches multiple files or has unclear scope:
 Auto-memory stored at: `/Users/su6i/.claude/projects/*/memory/`
 
 Types:
+
 - `user_*.md` — user profile, preferences
 - `feedback_*.md` — corrections and confirmed approaches
 - `project_*.md` — ongoing work, decisions, deadlines
@@ -113,6 +120,7 @@ Hooks run shell commands before/after tool events:
 ```
 
 Useful hooks for amir-cli:
+
 - `PreToolUse` on `Edit`: run `git diff --stat` to show scope before editing
 - `PostToolUse` on `Bash`: capture long ffmpeg output to temp file instead of polluting context
 

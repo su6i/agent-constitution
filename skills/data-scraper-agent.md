@@ -37,7 +37,7 @@ schedule   summarises Sheets /
 ### Free Stack
 
 | Layer | Tool | Why |
-|---|---|---|
+| --- | --- | --- |
 | **Scraping** | `requests` + `BeautifulSoup` | No cost, covers 80% of public sites |
 | **JS-rendered sites** | `playwright` (free) | When HTML scraping fails |
 | **AI enrichment** | Gemini Flash via REST API | 500 req/day, 1M tokens/day — free |
@@ -85,6 +85,7 @@ Ask the user:
 5. **Frequency:** "How often should it run? Every hour, daily, weekly?"
 
 Common examples to prompt:
+
 - Job boards → score relevance to resume
 - Product prices → alert on drops
 - GitHub repos → summarise new releases
@@ -182,6 +183,7 @@ def _normalise(raw: dict) -> dict:
 ```
 
 **HTML scraping pattern:**
+
 ```python
 soup = BeautifulSoup(resp.text, "lxml")
 for card in soup.select("[class*='listing']"):
@@ -192,6 +194,7 @@ for card in soup.select("[class*='listing']"):
 ```
 
 **RSS feed pattern:**
+
 ```python
 import xml.etree.ElementTree as ET
 root = ET.fromstring(resp.text)
@@ -624,12 +627,14 @@ ai:
 ## Common Scraping Patterns
 
 ### Pattern 1: REST API (easiest)
+
 ```python
 resp = requests.get(url, params={"q": query}, headers=HEADERS, timeout=15)
 items = resp.json().get("results", [])
 ```
 
 ### Pattern 2: HTML Scraping
+
 ```python
 soup = BeautifulSoup(resp.text, "lxml")
 for card in soup.select(".listing-card"):
@@ -638,6 +643,7 @@ for card in soup.select(".listing-card"):
 ```
 
 ### Pattern 3: RSS Feed
+
 ```python
 import xml.etree.ElementTree as ET
 root = ET.fromstring(resp.text)
@@ -648,6 +654,7 @@ for item in root.findall(".//item"):
 ```
 
 ### Pattern 4: Paginated API
+
 ```python
 page = 1
 while True:
@@ -664,6 +671,7 @@ while True:
 ```
 
 ### Pattern 5: JS-Rendered Pages (Playwright)
+
 ```python
 from playwright.sync_api import sync_playwright
 
@@ -683,7 +691,7 @@ soup = BeautifulSoup(html, "lxml")
 ## Anti-Patterns to Avoid
 
 | Anti-pattern | Problem | Fix |
-|---|---|---|
+| --- | --- | --- |
 | One LLM call per item | Hits rate limits instantly | Batch 5 items per call |
 | Hardcoded keywords in code | Not reusable | Move all config to `config.yaml` |
 | Scraping without rate limit | IP ban | Add `time.sleep(1)` between requests |
@@ -698,7 +706,7 @@ soup = BeautifulSoup(html, "lxml")
 ## Free Tier Limits Reference
 
 | Service | Free Limit | Typical Usage |
-|---|---|---|
+| --- | --- | --- |
 | Gemini Flash Lite | 30 RPM, 1500 RPD | ~56 req/day at 3-hr intervals |
 | Gemini 2.0 Flash | 15 RPM, 1500 RPD | Good fallback |
 | Gemini 2.5 Flash | 10 RPM, 500 RPD | Use sparingly |

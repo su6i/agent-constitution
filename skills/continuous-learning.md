@@ -64,7 +64,7 @@ Edit `config.json` to customize:
 ## Pattern Types
 
 | Pattern | Description |
-|---------|-------------|
+| --------- | ------------- |
 | `error_resolution` | How specific errors were resolved |
 | `user_corrections` | Patterns from user corrections |
 | `workarounds` | Solutions to framework/library quirks |
@@ -109,7 +109,7 @@ Add to your `~/.claude/settings.json`:
 Homunculus v2 takes a more sophisticated approach:
 
 | Feature | Our Approach | Homunculus v2 |
-|---------|--------------|---------------|
+| --------- | -------------- | --------------- |
 | Observation | Stop hook (end of session) | PreToolUse/PostToolUse hooks (100% reliable) |
 | Analysis | Main context | Background agent (Haiku) |
 | Granularity | Full skills | Atomic "instincts" |

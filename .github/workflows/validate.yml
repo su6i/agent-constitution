@@ -38,7 +38,6 @@ jobs:
 
       - name: Lint Markdown
         run: markdownlint '**/*.md' --ignore node_modules --ignore .storage
-        continue-on-error: true
 
   validate-structure:
     name: Verify File Structure
@@ -53,7 +52,8 @@ jobs:
           test -f README.md && echo "✅ README.md exists"
           test -f CONTRIBUTING.md && echo "✅ CONTRIBUTING.md exists"
           test -f CHANGELOG.md && echo "✅ CHANGELOG.md exists"
-          test -d .cursor/skills && echo "✅ .cursor/skills/ exists"
-          test -d .cursor/workflows && echo "✅ .cursor/workflows/ exists"
-          test -d .cursor/prompts && echo "✅ .cursor/prompts/ exists"
+          test -d rules && echo "✅ rules/ exists"
+          test -d skills && echo "✅ skills/ exists"
+          test -d workflows && echo "✅ workflows/ exists"
+          test -d templates && echo "✅ templates/ exists"
           echo "All checks passed!"

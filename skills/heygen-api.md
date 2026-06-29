@@ -215,7 +215,7 @@ heygen_pipeline(
 ## Common Parameters
 
 | Parameter | Values | Notes |
-|---|---|---|
+| --- | --- | --- |
 | `avatar_style` | `normal`, `circle`, `closeUp` | crop style |
 | `speed` | 0.5–2.0 | voice speed |
 | `dimension` | 1280×720, 1920×1080, 720×1280 | 16:9 or 9:16 |

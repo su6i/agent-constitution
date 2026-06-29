@@ -39,6 +39,7 @@ Where do we start?
 ## TODO Update Rule (Non-Negotiable)
 
 **After completing any TODO item — before committing — update `TODO.md`:**
+
 - Mark the item as done: `- [x]` and add completion date
 - Move it to a `## Completed` section at the bottom
 - Update the status table if present

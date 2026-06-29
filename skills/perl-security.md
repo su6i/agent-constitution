@@ -457,7 +457,7 @@ perlcritic --severity 4 --theme security --quiet lib/ || exit 1
 ## Quick Security Checklist
 
 | Check | What to Verify |
-|---|---|
+| --- | --- |
 | Taint mode | `-T` flag on CGI/web scripts |
 | Input validation | Allowlist patterns, length limits |
 | File operations | Three-arg open, path traversal checks |

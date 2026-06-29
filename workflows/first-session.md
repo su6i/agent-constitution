@@ -16,7 +16,9 @@ last_updated: 2026-06-09
 > `TODO.md` in the new project links here as item #1.
 
 ## When this runs
+
 The agent detects an un-onboarded project when **any** of these is true:
+
 - `CLAUDE.md` still contains `<!-- TODO` markers.
 - `TODO.md` still has the unchecked "First Session" checklist.
 
@@ -49,11 +51,13 @@ proceeding to the user's actual request.
    already git-ignored. Wire the code's data path accordingly.
 
 6. **Verify the skeleton (anti-hallucination).** Run and show output:
+
    ```bash
    git status                          # empty dirs have .gitkeep, nothing stray
    git check-ignore lib bin src tests  # confirm NO source dir is ignored
    ls -la                              # README.md, .env.example, CLAUDE.md present
    ```
+
    For Python projects also confirm `pyproject.toml` and `.python-version` exist
    and `uv sync` succeeds.
 
@@ -61,6 +65,7 @@ proceeding to the user's actual request.
    git protocol (`rules/040-git.md`).
 
 ## Done criteria
+
 - No `TODO`/placeholder markers remain in `CLAUDE.md`, `README.md`, `.env.example`.
 - No real source directory is git-ignored.
 - The skeleton verification commands were run and their output shown.

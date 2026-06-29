@@ -7,6 +7,7 @@ last_updated: 2026-05-30
 ---
 
 **🔗 Related Media Tools:**
+
 - [FFmpeg Recipes](ffmpeg-recipes.md) - Low-level FFmpeg filters and encoding
 - [FFmpeg Reference](ffmpeg-reference.md) - Technical flags and codec reference
 - [yt-dlp Web Download](youtube-dlp-web-download.md) - Download source videos before editing
@@ -19,7 +20,7 @@ last_updated: 2026-05-30
 
 Auto-editor (by WyattBlue) is a CLI tool that automatically edits video and audio by analyzing audio loudness, motion, or subtitles. It removes dead space (silence / still frames), speeds up sections, and exports to standard formats or NLE-compatible timelines.
 
-Repo: https://github.com/WyattBlue/auto-editor
+Repo: <https://github.com/WyattBlue/auto-editor>
 PyPI: `auto-editor`
 Requires: Python ≥ 3.10, FFmpeg in PATH
 
@@ -231,7 +232,7 @@ For subtitle-then-edit workflows, run auto-editor **before** `amir subtitle` so 
 ## 9. Common Recipes
 
 | Goal | Command |
-|------|---------|
+| ------ | --------- |
 | Remove silence, keep natural feel | `auto-editor input.mp4 --margin 0.3sec` |
 | Aggressive cut (lectures, tutorials) | `auto-editor input.mp4 --edit audio:threshold=-30dB --margin 0.1sec` |
 | Speed up silence 4×, don't cut | `auto-editor input.mp4 --silent-speed 4` |
@@ -244,7 +245,7 @@ For subtitle-then-edit workflows, run auto-editor **before** `amir subtitle` so 
 ## 10. Troubleshooting
 
 | Symptom | Cause | Fix |
-|---------|-------|-----|
+| --------- | ------- | ----- |
 | Too many cuts, choppy feel | Threshold too aggressive | Raise `--margin` to `0.4sec` or lower threshold to `-45dB` |
 | Almost nothing cut | Threshold too lenient | Lower threshold: `-30dB` or `-25dB` |
 | `ffmpeg not found` error | FFmpeg not in PATH | `brew install ffmpeg` or `apt install ffmpeg` |

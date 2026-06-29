@@ -115,7 +115,7 @@ def extract_with_cache(
 ## Key Design Decisions
 
 | Decision | Rationale |
-|----------|-----------|
+| ---------- | ----------- |
 | SHA-256 content hash | Path-independent, auto-invalidates on content change |
 | `{hash}.json` file naming | O(1) lookup, no index file needed |
 | Service layer wrapper | SRP: extraction stays pure, cache is a separate concern |

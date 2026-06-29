@@ -47,7 +47,7 @@ Gather:
 Every item should end up in one of these states:
 
 | State | Meaning |
-|-------|---------|
+| ------- | --------- |
 | Merge | self-contained, policy-compliant, ready |
 | Port/Rebuild | useful idea, but should be manually re-landed inside ECC |
 | Close | wrong direction, stale, unsafe, or duplicated |

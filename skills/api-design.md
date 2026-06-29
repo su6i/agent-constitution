@@ -60,7 +60,7 @@ POST   /api/v1/auth/refresh
 ### Method Semantics
 
 | Method | Idempotent | Safe | Use For |
-|--------|-----------|------|---------|
+| -------- | ----------- | ------ | --------- |
 | GET | Yes | Yes | Retrieve resources |
 | POST | No | No | Create resources, trigger actions |
 | PUT | Yes | No | Full replacement of a resource |
@@ -239,7 +239,7 @@ LIMIT 21;  -- fetch one extra to determine has_next
 ### When to Use Which
 
 | Use Case | Pagination Type |
-|----------|----------------|
+| ---------- | ---------------- |
 | Admin dashboards, small datasets (<10K) | Offset |
 | Infinite scroll, feeds, large datasets | Cursor |
 | Public APIs | Cursor (default) with offset (optional) |
@@ -348,7 +348,7 @@ Retry-After: 60
 ### Rate Limit Tiers
 
 | Tier | Limit | Window | Use Case |
-|------|-------|--------|----------|
+| ------ | ------- | -------- | ---------- |
 | Anonymous | 30/min | Per IP | Public endpoints |
 | Authenticated | 100/min | Per user | Standard API access |
 | Premium | 1000/min | Per API key | Paid API plans |

@@ -19,7 +19,7 @@ paths:
 ## Test Types
 
 | Type | Tool | Location | When to Write |
-|------|------|----------|---------------|
+| ------ | ------ | ---------- | --------------- |
 | Unit | `dart:test` | `test/unit/` | All domain logic, state managers, repositories |
 | Widget | `flutter_test` | `test/widget/` | All widgets with meaningful behavior |
 | Golden | `flutter_test` | `test/golden/` | Design-critical UI components |

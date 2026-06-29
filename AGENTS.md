@@ -8,9 +8,11 @@ last_updated: 2026-02-21
 # AGENTS.md — Agent Guide for this Project
 
 ## Project Summary
+
 This repository contains the constitution and standards for Agentic Coding 2026, focusing on the strategic balance between computational power and operational cost efficiency.
 
 ## Structure
+
 - `rules/` — Core project standards and formatting rules (Universal Structure).
 - `skills/` — Reusable domain-specific knowledge modules (343 skills).
 - `workflows/` — Repeatable operating procedures and process templates.
@@ -19,6 +21,7 @@ This repository contains the constitution and standards for Agentic Coding 2026,
 - `bin/` — Automation scripts (scaffolding, MCP server, validation).
 
 ## Important Rules for Jules & Other Agents
+
 - Perform one task at a time — small PRs are preferred over large ones.
 - Always write tests before implementing any changes (TDD).
 - Use `uv` for package management, never use `pip` directly.
@@ -26,11 +29,13 @@ This repository contains the constitution and standards for Agentic Coding 2026,
 - **Never mention your own name, model name, or agent identity in any commit message.** Commit messages describe the change, not who made it.
 
 ## Running Tests
+
 ```bash
 uv run pytest --cov=src
 ```
 
 ## Linting & Formatting
+
 ```bash
 uv run ruff check --fix . && uv run mypy src/
 ```

@@ -7,6 +7,7 @@ last_updated: 2026-05-30
 ---
 
 **🔗 Related Skills:**
+
 - [yt-dlp Web Download](youtube-dlp-web-download.md) - Download reference footage
 - [FFmpeg Recipes](ffmpeg-recipes.md) - Video assembly and encoding
 - [Subtitle Generator](subtitle-generator.md) - Auto-captions for uploaded videos
@@ -471,7 +472,7 @@ def run_pipeline(topic: str, output_dir: str = "/tmp/yt_pipeline") -> str:
 ## 12. Common Pitfalls & Best Practices
 
 | Issue | Solution |
-|-------|----------|
+| ------- | ---------- |
 | OAuth token expires | Persist `token.json`, use `creds.refresh()` before upload |
 | Video too long for TTS chunk limit | Split script into paragraphs, concatenate audio with FFmpeg |
 | Stock footage aspect ratio mismatch | Normalize all clips to 1920×1080 with FFmpeg `scale+pad` before concat |

@@ -310,7 +310,7 @@ public async Task<ProcessResult> ProcessPaymentAsync(
 ## Anti-Patterns to Avoid
 
 | Anti-Pattern | Fix |
-|---|---|
+| --- | --- |
 | `async void` methods | Return `Task` (except event handlers) |
 | `.Result` or `.Wait()` | Use `await` |
 | `catch (Exception) { }` | Handle or rethrow with context |

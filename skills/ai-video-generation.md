@@ -14,6 +14,7 @@ Five major APIs for programmatic AI video generation as of mid-2026. All use asy
 submit request → receive task_id → poll until complete → download MP4.
 
 **Install all SDKs:**
+
 ```bash
 pip install runwayml lumaai fal-client requests python-jose
 ```
@@ -22,11 +23,12 @@ pip install runwayml lumaai fal-client requests python-jose
 
 ## 1. RunwayML (Gen-3 Alpha / Gen-4 Turbo)
 
-**Official docs:** https://docs.dev.runwayml.com  
-**Python SDK:** https://github.com/runwayml/sdk-python  
+**Official docs:** <https://docs.dev.runwayml.com>  
+**Python SDK:** <https://github.com/runwayml/sdk-python>  
 **Install:** `pip install runwayml`
 
 ### Authentication
+
 ```python
 import os
 from runwayml import RunwayML
@@ -35,6 +37,7 @@ client = RunwayML(api_key=os.environ["RUNWAYML_API_SECRET"])
 ```
 
 ### Image-to-Video (primary use case)
+
 ```python
 task = client.image_to_video.create(
     model="gen4_turbo",           # or "gen3a_turbo" (older, cheaper)
@@ -47,6 +50,7 @@ task_id = task.id
 ```
 
 ### Text-to-Video (Gen-4.5+, no image needed)
+
 ```python
 task = client.image_to_video.create(
     model="gen4_turbo",
@@ -57,6 +61,7 @@ task = client.image_to_video.create(
 ```
 
 ### Polling for completion
+
 ```python
 import time
 
@@ -81,14 +86,16 @@ def poll_runway(client, task_id: str, max_wait: int = 600) -> str:
 ```
 
 ### Key parameters
+
 | Parameter | Values | Notes |
-|-----------|--------|-------|
+| ----------- | -------- | ------- |
 | `model` | `gen4_turbo`, `gen3a_turbo` | gen4_turbo = higher quality |
 | `ratio` | `1280:720`, `720:1280`, `960:960` | landscape / portrait / square |
 | `duration` | `5`, `10` | seconds |
 | `prompt_text` | string | motion/style description |
 
 ### Pricing (2026)
+
 - **Gen-4 Turbo:** ~$0.05/sec ($0.25 for 5s, $0.50 for 10s)
 - **Gen-3 Alpha Turbo:** ~$0.05/sec (5 credits/sec via subscription)
 - API access requires Runway Standard plan ($15/mo) or higher
@@ -97,11 +104,12 @@ def poll_runway(client, task_id: str, max_wait: int = 600) -> str:
 
 ## 2. Kling AI (v1 / v2 / v3)
 
-**Official docs:** https://app.klingai.com/global/dev/document-api  
+**Official docs:** <https://app.klingai.com/global/dev/document-api>  
 **Base URL:** `https://api.klingai.com`  
 **Auth:** JWT from Access Key + Secret Key (expires 30 min)
 
 ### Authentication — JWT generation
+
 ```python
 import time
 import requests
@@ -125,6 +133,7 @@ def kling_headers(access_key: str, secret_key: str) -> dict:
 ```
 
 ### Text-to-Video
+
 ```python
 BASE_URL = "https://api.klingai.com"
 
@@ -158,6 +167,7 @@ def kling_text_to_video(
 ```
 
 ### Image-to-Video
+
 ```python
 def kling_image_to_video(
     image_url: str,
@@ -183,6 +193,7 @@ def kling_image_to_video(
 ```
 
 ### Polling
+
 ```python
 def poll_kling(task_id: str, max_wait: int = 600) -> str:
     headers = kling_headers(
@@ -207,13 +218,15 @@ def poll_kling(task_id: str, max_wait: int = 600) -> str:
 ```
 
 ### Models available (2026)
+
 | Model | Max duration | Notes |
-|-------|-------------|-------|
+| ------- | ------------- | ------- |
 | `kling-v1-standard` | 10s | Budget |
 | `kling-v2.6-pro` | 10s | Good quality/cost ratio |
 | `kling-v3-text-to-video` | 15s | Latest, native audio-visual sync |
 
 ### Pricing (2026)
+
 - ~$0.07/sec (Kling 3.0 standard mode)
 - Subscription: $6.99/mo (Kling Standard)
 
@@ -221,11 +234,12 @@ def poll_kling(task_id: str, max_wait: int = 600) -> str:
 
 ## 3. Luma Dream Machine (Ray 2 / Ray Flash)
 
-**Official docs:** https://docs.lumalabs.ai/docs/video-generation  
-**Python SDK:** https://github.com/lumalabs/lumaai-python  
+**Official docs:** <https://docs.lumalabs.ai/docs/video-generation>  
+**Python SDK:** <https://github.com/lumalabs/lumaai-python>  
 **Install:** `pip install lumaai`
 
 ### Authentication
+
 ```python
 import os
 from lumaai import LumaAI
@@ -235,6 +249,7 @@ client = LumaAI(auth_token=os.environ["LUMAAI_API_KEY"])
 ```
 
 ### Text-to-Video
+
 ```python
 generation = client.generations.create(
     model="ray-2",             # "ray-2" | "ray-flash-2" (faster/cheaper)
@@ -246,6 +261,7 @@ generation_id = generation.id
 ```
 
 ### Image-to-Video
+
 ```python
 generation = client.generations.create(
     model="ray-2",
@@ -261,6 +277,7 @@ generation = client.generations.create(
 ```
 
 ### Video-to-Video (extend / interpolate)
+
 ```python
 # Extend an existing video
 generation = client.generations.create(
@@ -276,6 +293,7 @@ generation = client.generations.create(
 ```
 
 ### Polling
+
 ```python
 def poll_luma(client: LumaAI, generation_id: str, max_wait: int = 600) -> str:
     delay = 3
@@ -293,26 +311,29 @@ def poll_luma(client: LumaAI, generation_id: str, max_wait: int = 600) -> str:
 ```
 
 ### Key parameters
+
 | Parameter | Values | Notes |
-|-----------|--------|-------|
+| ----------- | -------- | ------- |
 | `model` | `ray-2`, `ray-flash-2` | ray-flash-2 = ~2x faster, lower cost |
 | `aspect_ratio` | `16:9`, `9:16`, `1:1`, `4:3`, `21:9` | |
 | `loop` | `True`/`False` | Seamless loop for background videos |
 
 ### Pricing (2026)
+
 - Ray 2: ~$0.09/video (5s) via subscription
-- API: pay-per-generation via https://lumalabs.ai/dream-machine/api/keys
+- API: pay-per-generation via <https://lumalabs.ai/dream-machine/api/keys>
 
 ---
 
 ## 4. Pika 2.2 (via fal.ai)
 
-**fal.ai model page:** https://fal.ai/models/fal-ai/pika/v2.2/text-to-video  
+**fal.ai model page:** <https://fal.ai/models/fal-ai/pika/v2.2/text-to-video>  
 **Install:** `pip install fal-client`
 
 Pika 2.2 API is officially hosted on fal.ai (announced December 2025). Direct Pika API requires applying at pika.art/api for enterprise access. The fal.ai route is the standard developer path.
 
 ### Authentication
+
 ```python
 import os
 import fal_client
@@ -322,6 +343,7 @@ os.environ["FAL_KEY"] = "your-fal-key"   # or set in shell
 ```
 
 ### Text-to-Video
+
 ```python
 result = fal_client.subscribe(
     "fal-ai/pika/v2.2/text-to-video",
@@ -340,6 +362,7 @@ video_url = result["video"]["url"]
 ```
 
 ### Image-to-Video
+
 ```python
 result = fal_client.subscribe(
     "fal-ai/pika/v2.2/image-to-video",
@@ -354,6 +377,7 @@ video_url = result["video"]["url"]
 ```
 
 ### Async pattern (non-blocking)
+
 ```python
 handler = fal_client.submit(
     "fal-ai/pika/v2.2/text-to-video",
@@ -367,6 +391,7 @@ result = fal_client.result("fal-ai/pika/v2.2/text-to-video", request_id)
 ```
 
 ### Pricing (2026)
+
 - 5s at 720p: $0.20/video
 - 5s at 1080p: $0.45/video
 - 10s at 1080p: $0.90/video
@@ -375,10 +400,11 @@ result = fal_client.result("fal-ai/pika/v2.2/text-to-video", request_id)
 
 ## 5. Minimax / Hailuo (Video-01, Hailuo-02, Hailuo-2.3)
 
-**Official docs:** https://platform.minimax.io/docs/guides/video-generation  
+**Official docs:** <https://platform.minimax.io/docs/guides/video-generation>  
 **Base URL:** `https://api.minimax.io/v1`
 
 ### Authentication
+
 ```python
 import os, requests
 
@@ -390,6 +416,7 @@ MINIMAX_HEADERS = {
 ```
 
 ### Text-to-Video
+
 ```python
 def minimax_text_to_video(
     prompt: str,
@@ -408,6 +435,7 @@ def minimax_text_to_video(
 ```
 
 ### Image-to-Video
+
 ```python
 def minimax_image_to_video(
     prompt: str,
@@ -432,6 +460,7 @@ def minimax_image_to_video(
 ```
 
 ### Polling
+
 ```python
 def poll_minimax(task_id: str, max_wait: int = 600) -> str:
     delay = 5
@@ -463,23 +492,25 @@ def minimax_get_video_url(file_id: str) -> str:
 ```
 
 ### Models available (2026)
+
 | Model | Resolution | Notes |
-|-------|-----------|-------|
+| ------- | ----------- | ------- |
 | `video-01` | 720p | Original, widely supported |
 | `MiniMax-Hailuo-02` | 1080p | Improved quality |
 | `MiniMax-Hailuo-2.3` | 1080p | Best current quality |
 | `hailuo-3.0` (beta) | 4K | Next-gen, limited access |
 
 ### Pricing (2026)
+
 - ~$0.07/sec ($0.42 for 6s at 1080p)
-- Direct API access: https://platform.minimax.io
+- Direct API access: <https://platform.minimax.io>
 
 ---
 
 ## Comparison Table
 
 | Provider | Max Duration | Max Res | Cost/5s | Auth Method | Best For |
-|----------|-------------|---------|---------|-------------|----------|
+| ---------- | ------------- | --------- | --------- | ------------- | ---------- |
 | **RunwayML Gen-4 Turbo** | 10s | 1280×720 | ~$0.25 | API secret key | Cinematic motion, image-to-video |
 | **Kling v3** | 15s | 1080p | ~$0.35 | JWT (30 min TTL) | Long clips, audio-visual sync |
 | **Luma Ray 2** | ~5s | 1080p | ~$0.09 | Bearer token | Fluid motion, looping background |
@@ -487,6 +518,7 @@ def minimax_get_video_url(file_id: str) -> str:
 | **Minimax Hailuo-02** | 6s | 1080p | ~$0.35 | Bearer token | Realism, cost-effective |
 
 **Recommended by use case:**
+
 - Cinematic quality: RunwayML Gen-4 Turbo or Luma Ray 2
 - Lowest cost: Minimax Hailuo or Kling v2.6 standard
 - Longest clip: Kling v3 (15 seconds)
@@ -537,6 +569,7 @@ def poll_with_backoff(
 ```
 
 **Usage example (Minimax):**
+
 ```python
 task_id = minimax_text_to_video("A volcano erupting at night")
 

@@ -458,7 +458,7 @@ cargo bench              # Run benchmarks
 ## Quick Reference: Rust Idioms
 
 | Idiom | Description |
-|-------|-------------|
+| ------- | ------------- |
 | Borrow, don't clone | Pass `&T` instead of cloning unless ownership is needed |
 | Make illegal states unrepresentable | Use enums to model valid states only |
 | `?` over `unwrap()` | Propagate errors, never panic in library/production code |

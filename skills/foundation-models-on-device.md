@@ -61,6 +61,7 @@ let followUp = try await session.respond(to: "What about a vegetarian option?")
 ```
 
 Key points for instructions:
+
 - Define the model's role ("You are a mentor")
 - Specify what to do ("Help extract calendar events")
 - Set style preferences ("Respond as briefly as possible")
@@ -205,7 +206,7 @@ var body: some View {
 ## Key Design Decisions
 
 | Decision | Rationale |
-|----------|-----------|
+| ---------- | ----------- |
 | On-device execution | Privacy — no data leaves the device; works offline |
 | 4,096 token limit | On-device model constraint; chunk large data across sessions |
 | Snapshot streaming (not deltas) | Structured output friendly; each snapshot is a complete partial state |

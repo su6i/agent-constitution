@@ -34,6 +34,7 @@ const items = ['a', 'b'];
 ## Naming
 
 Follow Dart conventions:
+
 - `camelCase` for variables, parameters, and named constructors
 - `PascalCase` for classes, enums, typedefs, and extensions
 - `snake_case` for file names and library names

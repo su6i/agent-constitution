@@ -128,6 +128,7 @@ Incoterms define the transfer of costs, risk, and responsibility between buyer a
 ### Penalties and Compliance
 
 **US penalty framework under 19 USC § 1592:**
+
 - **Negligence:** 2× unpaid duties or 20% of dutiable value for first violation. Reduced to 1× or 10% with mitigation. Most common assessment.
 - **Gross negligence:** 4× unpaid duties or 40% of dutiable value. Harder to mitigate — requires showing systemic compliance measures.
 - **Fraud:** Full domestic value of the merchandise. Criminal referral possible. No mitigation without extraordinary cooperation.
@@ -228,7 +229,7 @@ Brief templates appear below. Adapt them to your broker, customs counsel, and re
 ### Automatic Escalation Triggers
 
 | Trigger | Action | Timeline |
-|---|---|---|
+| --- | --- | --- |
 | CBP detention or seizure | Notify VP and legal counsel | Within 1 hour |
 | Restricted party screening true positive | Halt transaction, notify compliance officer and legal | Immediately |
 | Potential penalty exposure > $50,000 | Notify VP Trade Compliance and General Counsel | Within 2 hours |
@@ -247,7 +248,7 @@ Level 1 (Analyst) → Level 2 (Trade Compliance Manager, 4 hours) → Level 3 (D
 Track these metrics monthly and trend quarterly:
 
 | Metric | Target | Red Flag |
-|---|---|---|
+| --- | --- | --- |
 | Classification accuracy (post-audit) | > 98% | < 95% |
 | FTA utilization rate (eligible shipments) | > 90% | < 70% |
 | Entry rejection rate | < 2% | > 5% |

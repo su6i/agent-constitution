@@ -11,6 +11,7 @@ Reference for the `uc` CLI — a decentralised self-hosting platform using Docke
 ## When to Activate
 
 Use this skill when working with Uncloud clusters, especially when:
+
 - Bootstrapping or joining machines with `uc machine`
 - Deploying services from Compose files with `uc deploy`
 - Publishing HTTP, HTTPS, TCP, or UDP ports through Uncloud
@@ -44,7 +45,7 @@ uc deploy
 ### Machines
 
 | Command | Purpose |
-|---------|---------|
+| --------- | --------- |
 | `uc machine init user@host` | Bootstrap first machine / new cluster |
 | `uc machine add user@host` | Join machine to existing cluster |
 | `uc machine ls` | List machines |
@@ -56,7 +57,7 @@ Key `init` flags: `--name`, `--network 10.210.0.0/16`, `--no-caddy`, `--no-dns`,
 ### Services
 
 | Command | Purpose |
-|---------|---------|
+| --------- | --------- |
 | `uc service ls` / `uc ls` | List services |
 | `uc service run IMAGE` | Run a single container service |
 | `uc deploy` | Deploy from `compose.yaml` |
@@ -113,7 +114,7 @@ uc ctx use prod    # Switch context
 ```
 
 | Example | Meaning |
-|---------|---------|
+| --------- | --------- |
 | `-p 8080/https` | HTTPS with auto `service-name.cluster-domain` hostname |
 | `-p app.example.com:8080/https` | HTTPS with custom hostname |
 | `-p 8080/http` | HTTP only, no TLS |
@@ -125,7 +126,7 @@ uc ctx use prod    # Switch context
 ```
 
 | Example | Meaning |
-|---------|---------|
+| --------- | --------- |
 | `-p 5432:5432@host` | TCP 5432 on all interfaces |
 | `-p 127.0.0.1:5432:5432@host` | TCP 5432 loopback only |
 | `-p 53:5353/udp@host` | UDP |
@@ -169,6 +170,7 @@ services:
 ```
 
 Template functions available inside `x-caddy`:
+
 - `{{upstreams [service] [port]}}` — healthy container IPs
 - `{{.Name}}` — service name
 - `{{.Upstreams}}` — map of all services → IPs
@@ -267,7 +269,7 @@ uc caddy config   # device.example.com block should appear
 Services inside the cluster resolve each other by name:
 
 | DNS name | Resolves to |
-|----------|------------|
+| ---------- | ------------ |
 | `service-name` | Any healthy container |
 | `service-name.internal` | Same |
 | `rr.service-name.internal` | Round-robin |
@@ -299,7 +301,7 @@ image: myapp:{{gitsha 7}}.${GITHUB_RUN_ID:-local}
 ```
 
 | Function | Output |
-|----------|--------|
+| ---------- | -------- |
 | `{{gitsha N}}` | First N chars of commit SHA |
 | `{{gitdate "format"}}` | Git commit date in Go format |
 | `{{date "format"}}` | Current date |
@@ -309,12 +311,14 @@ image: myapp:{{gitsha 7}}.${GITHUB_RUN_ID:-local}
 ## Common Workflows
 
 **Deploy from source:**
+
 ```bash
 uc deploy                          # Build + push + deploy
 uc build --push && uc deploy --no-build   # Separate steps
 ```
 
 **Inspect a service:**
+
 ```bash
 uc inspect web
 uc logs -f web
@@ -326,6 +330,7 @@ uc exec web /bin/sh -c "env"       # Run specific command
 **Zero-downtime deploys** happen automatically; Uncloud waits for health checks before terminating old containers.
 
 **Force recreate:**
+
 ```bash
 uc deploy --recreate
 ```
@@ -335,7 +340,7 @@ uc deploy --recreate
 ## Common Mistakes
 
 | Mistake | Fix |
-|---------|-----|
+| --------- | ----- |
 | Editing the Caddyfile directly | Use `x-caddy` in compose or `--caddyfile` on `uc service run` |
 | Proxying an HTTPS upstream with self-signed cert | Add `transport http { tls_insecure_skip_verify }` |
 | `uc caddy config` shows no user-defined blocks | Caddy admin socket unreachable — check `uc inspect caddy` and `uc logs caddy` |

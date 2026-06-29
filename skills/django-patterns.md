@@ -719,7 +719,7 @@ Product.objects.filter(stock=0).delete()
 ## Quick Reference
 
 | Pattern | Description |
-|---------|-------------|
+| --------- | ------------- |
 | Split settings | Separate dev/prod/test settings |
 | Custom QuerySet | Reusable query methods |
 | Service Layer | Business logic separation |
