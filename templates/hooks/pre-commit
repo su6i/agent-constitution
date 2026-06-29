@@ -14,6 +14,9 @@
 #   3. Personal/memory workspace files (TODO.md, SESSION.md, TASKS.md,
 #      ROADMAP.md, *.session.md, *.local.md) must never reach a commit, even
 #      if force-added with `git add -f` past .gitignore.
+#   4. Secrets / personal data in newly ADDED lines (keys, tokens, phone
+#      numbers, or values from the gitignored personal_data file) block the
+#      commit. Reports file + type only — never the matched value.
 #
 # Deliberate bypass (discouraged, leaves a trace in your shell history):
 #     git commit --no-verify
@@ -87,6 +90,75 @@ if [ "$blocked" = "1" ]; then
     echo ""
     echo "   Unstage it and confirm it is listed in .gitignore:"
     echo "     git restore --staged <file>"
+    echo ""
+    exit 1
+fi
+
+# ── Rule 4: block secrets / personal data in newly ADDED content ────────────
+# Scans only the lines this commit adds (never re-flags data already in
+# history). The personal denylist is sourced from the gitignored personal_data
+# file, so no personal value is stored in this hook. Reports FILE + TYPE only —
+# never the matched value (printing it would re-leak it; see rules/040-git.md
+# "Commit Message Privacy").
+scan_files=""
+while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    case "$f" in
+        *.example.*|.env.example|master_cv.example.json) continue ;;
+        *.png|*.jpg|*.jpeg|*.gif|*.pdf|*.gz|*.zip|*.xlsx|*.docx|*.lock) continue ;;
+    esac
+    scan_files="$scan_files $f"
+done <<EOF
+$staged
+EOF
+
+pii=0
+if [ -n "$scan_files" ]; then
+    added="$(git diff --cached --diff-filter=ACMR -U0 -- $scan_files 2>/dev/null \
+             | grep '^+' | grep -v '^+++')"
+
+    flag() { echo "🚨 pre-commit: possible $1 in staged additions (value hidden)."; pii=1; }
+
+    printf '%s\n' "$added" | grep -qE 'BEGIN [A-Z ]*PRIVATE KEY'  && flag "private key"
+    printf '%s\n' "$added" | grep -qE 'AKIA[0-9A-Z]{16}'          && flag "AWS access key"
+    printf '%s\n' "$added" | grep -qE '(gh[posru]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,})' && flag "GitHub token"
+    printf '%s\n' "$added" | grep -qE 'xox[baprs]-[A-Za-z0-9-]{10,}' && flag "Slack token"
+    printf '%s\n' "$added" | grep -qE 'sk-[A-Za-z0-9]{20,}'       && flag "API secret key"
+    printf '%s\n' "$added" | grep -qE '((\+33|0033)[ .]?|[^0-9+]0)[1-9]([ .]?[0-9]{2}){4}' && flag "phone number"
+
+    # Real email addresses (allow common placeholders).
+    emails="$(printf '%s\n' "$added" \
+        | grep -oiE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' \
+        | grep -ivE 'example\.(com|org|net)|@example|noreply|no-reply|your-?(email|name)|user@host|@test')"
+    [ -n "$emails" ] && flag "email address"
+
+    # Personal denylist from the gitignored personal_data file (identity fields only).
+    pd=""
+    for c in templates/shared/personal_data.tex templates/shared/personal_data.json; do
+        [ -f "$c" ] && pd="$c" && break
+    done
+    if [ -n "$pd" ] && [ -n "$added" ]; then
+        vals="$(grep -oE '\\(cvname|cvfirstname|cvlastname|cvemail|cvphone|cvlinkedin)\}\{[^}]+\}' "$pd" 2>/dev/null | sed -E 's/.*\}\{//; s/\}$//')
+$(grep -oiE '"(name|firstname|lastname|email|phone|tel|mobile)"[[:space:]]*:[[:space:]]*"[^"]+"' "$pd" 2>/dev/null | sed -E 's/.*:[[:space:]]*"//; s/"$//')"
+        while IFS= read -r v; do
+            [ -z "$v" ] && continue
+            [ "${#v}" -lt 4 ] && continue
+            case "$v" in http*|www.*) continue ;; esac
+            if printf '%s\n' "$added" | grep -Fq "$v"; then
+                flag "personal data (matches personal_data file)"
+                break
+            fi
+        done <<PD
+$vals
+PD
+    fi
+fi
+
+if [ "$pii" = "1" ]; then
+    echo ""
+    echo "   Remove the sensitive value or unstage the file. If this is genuinely"
+    echo "   a false positive, bypass once (leaves a shell-history trace):"
+    echo "     git commit --no-verify"
     echo ""
     exit 1
 fi
