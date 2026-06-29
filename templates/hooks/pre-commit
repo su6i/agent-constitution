@@ -17,6 +17,8 @@
 #   4. Secrets / personal data in newly ADDED lines (keys, tokens, phone
 #      numbers, or values from the gitignored personal_data file) block the
 #      commit. Reports file + type only — never the matched value.
+#   5. (Warning, non-blocking) Untracked throwaway files (scratch*, *_mock.py,
+#      *_draft.*, *.tmp, …) are listed as a cleanliness reminder.
 #
 # Deliberate bypass (discouraged, leaves a trace in your shell history):
 #     git commit --no-verify
@@ -161,6 +163,20 @@ if [ "$pii" = "1" ]; then
     echo "     git commit --no-verify"
     echo ""
     exit 1
+fi
+
+# ── Rule 5: warn (non-blocking) about untracked throwaway files ─────────────
+# Agent scratch files left in the tree clutter `git status`. This is a nudge,
+# not a block — untracked files are never committed anyway (see 040-git.md
+# "Before Commit" step 5).
+junk="$(git ls-files --others --exclude-standard 2>/dev/null \
+        | grep -iE '(^|/)(scratch|tmp_|debug_|run_mock)|_(draft|mock|tmp|scratch)\.|\.tmp$|_test\.(py|tex)$')"
+if [ -n "$junk" ]; then
+    echo ""
+    echo "🧹 pre-commit (reminder, not blocking): untracked throwaway files present:"
+    printf '%s\n' "$junk" | head -20 | sed 's/^/     /'
+    echo "   Remove them or add to .gitignore before they pile up."
+    echo ""
 fi
 
 exit 0
