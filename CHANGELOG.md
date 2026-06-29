@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `bin/open-branches.sh` + a session-start step — report unmerged / stale git branches (current repo with `--here`, or every repo under `~/@-github`) so half-done branches are not forgotten.
 - `templates/hooks/pre-commit` — canonical git pre-commit gate enforcing two
   non-negotiable rules deterministically: no direct commits to `main`/`master`,
   and the Pre-Commit Docs Checklist (code changes must touch a doc; minor
