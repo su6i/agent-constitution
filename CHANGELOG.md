@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - 2026-06-09
 
+### Fixed
+
+- CI `Validate Repository`: ignore `id.atlassian.com` in the markdown link-check config — it returns HTTP 202 to the bot checker (handled like the other bot-blocked domains already in the ignore list).
+
 ### Added
 
 - `templates/hooks/pre-commit` — canonical git pre-commit gate enforcing two
