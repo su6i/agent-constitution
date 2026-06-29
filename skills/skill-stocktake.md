@@ -115,7 +115,7 @@ Each skill is evaluated against this checklist:
 Verdict criteria:
 
 | Verdict | Meaning |
-|---------|---------|
+| --------- | --------- |
 | Keep | Useful and current |
 | Improve | Worth keeping, but specific improvements needed |
 | Update | Referenced technology is outdated (verify with WebSearch) |
@@ -123,12 +123,14 @@ Verdict criteria:
 | Merge into [X] | Substantial overlap with another skill; name the merge target |
 
 Evaluation is **holistic AI judgment** — not a numeric rubric. Guiding dimensions:
+
 - **Actionability**: code examples, commands, or steps that let you act immediately
 - **Scope fit**: name, trigger, and content are aligned; not too broad or narrow
 - **Uniqueness**: value not replaceable by MEMORY.md / CLAUDE.md / another skill
 - **Currency**: technical references work in the current environment
 
 **Reason quality requirements** — the `reason` field must be self-contained and decision-enabling:
+
 - Do NOT write "unchanged" alone — always restate the core evidence
 - For **Retire**: state (1) what specific defect was found, (2) what covers the same need instead
   - Bad: `"Superseded"`

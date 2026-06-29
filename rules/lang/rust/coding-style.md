@@ -42,6 +42,7 @@ fn normalize_bad(input: &mut String) {
 ## Naming
 
 Follow standard Rust conventions:
+
 - `snake_case` for functions, methods, variables, modules, crates
 - `PascalCase` (UpperCamelCase) for types, traits, enums, type parameters
 - `SCREAMING_SNAKE_CASE` for constants and statics

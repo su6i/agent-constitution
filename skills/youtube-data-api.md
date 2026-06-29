@@ -25,7 +25,7 @@ pip install google-api-python-client google-auth-oauthlib google-auth-httplib2
 **Scopes:**
 
 | Scope | Purpose |
-|---|---|
+| --- | --- |
 | `https://www.googleapis.com/auth/youtube.upload` | Upload videos only |
 | `https://www.googleapis.com/auth/youtube` | Full channel management |
 | `https://www.googleapis.com/auth/youtube.readonly` | Read-only |
@@ -33,6 +33,7 @@ pip install google-api-python-client google-auth-oauthlib google-auth-httplib2
 | `https://www.googleapis.com/auth/yt-analytics-monetary.readonly` | Analytics + revenue |
 
 **Setup:**
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com/) → APIs & Services → Enable "YouTube Data API v3"
 2. Create OAuth2 credentials → Download as `client_secrets.json`
 3. First run opens browser for consent; token cached in `token.pickle`
@@ -260,6 +261,7 @@ def get_video_stats(analytics, channel_id: str,
 ## 7. Chapters / Timestamps in Description
 
 YouTube auto-detects chapters from timestamps in the description. Rules:
+
 - First timestamp must be `0:00`
 - At least 3 timestamps required
 - Minimum chapter duration: 10 seconds
@@ -304,7 +306,7 @@ Request a quota increase: [Google Cloud Console → Quotas](https://console.clou
 ### Quota Costs per Operation
 
 | Operation | Units |
-|---|---|
+| --- | --- |
 | `videos.insert` | ~100 (was 1,600 before Dec 2025) |
 | `videos.update` | 50 |
 | `thumbnails.set` | 50 |
@@ -316,7 +318,7 @@ Request a quota increase: [Google Cloud Console → Quotas](https://console.clou
 ### Common Errors
 
 | Error | Cause | Fix |
-|---|---|---|
+| --- | --- | --- |
 | `quotaExceeded` | Daily 10k units exhausted | Wait for reset or request increase |
 | `uploadLimitExceeded` | Channel hit daily upload cap | ~6 uploads/day for new channels |
 | `forbidden` (thumbnail) | Channel < 1,000 subscribers | Use default thumbnails or join YPP |

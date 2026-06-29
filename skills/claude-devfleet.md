@@ -11,6 +11,7 @@ origin: community
 Use this skill when you need to dispatch multiple Claude Code agents to work on coding tasks in parallel. Each agent runs in an isolated git worktree with full tooling.
 
 Requires a running Claude DevFleet instance connected via MCP:
+
 ```bash
 claude mcp add devfleet --transport http http://localhost:18801/mcp
 ```
@@ -38,7 +39,7 @@ Report back to user
 ### Tools
 
 | Tool | Purpose |
-|------|---------|
+| ------ | --------- |
 | `plan_project(prompt)` | AI breaks a description into a project with chained missions |
 | `create_project(name, path?, description?)` | Create a project manually, returns `project_id` |
 | `create_mission(project_id, title, prompt, depends_on?, auto_dispatch?)` | Add a mission. `depends_on` is a list of mission ID strings (e.g., `["abc-123"]`). Set `auto_dispatch=true` to auto-start when deps are met. |

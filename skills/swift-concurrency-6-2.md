@@ -163,6 +163,7 @@ processedPhotos[item.id] = await processor.extractSticker(data: data, with: item
 ```
 
 To use `@concurrent`:
+
 1. Mark the containing type as `nonisolated`
 2. Add `@concurrent` to the function
 3. Add `async` if not already asynchronous
@@ -171,7 +172,7 @@ To use `@concurrent`:
 ## Key Design Decisions
 
 | Decision | Rationale |
-|----------|-----------|
+| ---------- | ----------- |
 | Single-threaded by default | Most natural code is data-race free; concurrency is opt-in |
 | Async stays on calling actor | Eliminates implicit offloading that caused data-race errors |
 | Isolated conformances | MainActor types can conform to protocols without unsafe workarounds |

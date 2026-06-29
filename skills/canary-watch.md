@@ -34,16 +34,19 @@ Monitors a deployed URL for regressions. Runs in a loop until stopped or until t
 ### Watch Modes
 
 **Quick check** (default): single pass, report results
+
 ```
 /canary-watch https://myapp.com
 ```
 
 **Sustained watch**: check every N minutes for M hours
+
 ```
 /canary-watch https://myapp.com --interval 5m --duration 2h
 ```
 
 **Diff mode**: compare staging vs production
+
 ```
 /canary-watch --compare https://staging.myapp.com https://myapp.com
 ```
@@ -75,6 +78,7 @@ info:      # log only
 ### Notifications
 
 When a critical threshold is crossed:
+
 - Desktop notification (macOS/Linux)
 - Optional: Slack/Discord webhook
 - Log to `~/.claude/canary-watch.log`
@@ -102,6 +106,7 @@ When a critical threshold is crossed:
 ## Integration
 
 Pair with:
+
 - `/browser-qa` for pre-deploy verification
 - Hooks: add as a PostToolUse hook on `git push` to auto-check after deploys
 - CI: run in GitHub Actions after deploy step

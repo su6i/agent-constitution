@@ -10,9 +10,9 @@ last_updated: 2026-05-30
 
 Fish Speech (now at S2 / S2 Pro) is a state-of-the-art open-source TTS system with zero-shot voice cloning. Trained on 10M+ hours of audio across 80+ languages. Architecture: Dual-Autoregressive (slow 4B + fast 400M).
 
-- GitHub: https://github.com/fishaudio/fish-speech (30k+ stars)
-- Docs: https://speech.fish.audio/
-- Model: https://huggingface.co/fishaudio/s2-pro
+- GitHub: <https://github.com/fishaudio/fish-speech> (30k+ stars)
+- Docs: <https://speech.fish.audio/>
+- Model: <https://huggingface.co/fishaudio/s2-pro>
 
 ---
 
@@ -141,6 +141,7 @@ sf.write("persian_cloned.wav", audio, samplerate=44100)
 ```
 
 **Tips for best cloning quality:**
+
 - Use 10–30 seconds of clean, single-speaker audio
 - Provide accurate `reference_text` (improves similarity)
 - Avoid background music/noise in reference
@@ -153,7 +154,7 @@ sf.write("persian_cloned.wav", audio, samplerate=44100)
 Fish Speech supports 80+ languages. Key languages for this project:
 
 | Language | Code | Quality |
-|---|---|---|
+| --- | --- | --- |
 | Persian / Farsi | `fa` | Tier 2 |
 | French | `fr` | Tier 2 |
 | English | `en` | Tier 1 |
@@ -196,6 +197,7 @@ for chunk in tts.infer_stream(
 ```
 
 **Streaming performance (H200 single GPU):**
+
 - TTFA (Time-to-First-Audio): ~100ms
 - RTF: 0.195
 - Throughput: 3000+ acoustic tokens/s
@@ -250,6 +252,7 @@ fish_speech infer \
 ```
 
 **Hardware requirements:**
+
 - Zero-shot cloning: 4GB VRAM (MPS supported)
 - Fine-tuning: 8GB+ VRAM recommended (16GB for comfortable training)
 - Apple Silicon: MPS supported for inference; fine-tuning uses CPU (slower but works)

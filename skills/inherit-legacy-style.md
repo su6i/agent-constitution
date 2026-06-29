@@ -33,7 +33,7 @@ Use this skill when you need to preserve legacy project style and prevent AI-gen
 Silently check for `.ai-style-rules.md` at the project root:
 
 | File exists? | Mode |
-|---|---|
+| --- | --- |
 | No | **Branch A — First-time Full-Scan** |
 | Yes | **Branch B — Incremental Sniff** |
 
@@ -48,7 +48,7 @@ git ls-files | grep -cE '\.(js|ts|jsx|tsx|vue|py|go|rs|java|kt|rb|php|cs|swift|c
 ```
 
 | Tier | Source files | Strategy |
-|---|---|---|
+| --- | --- | --- |
 | Small | ≲ 50 | Full close-read every source |
 | Medium | 50–500 | Infra layer = full read; business layer = sample 2–3 per dimension |
 | Large | ≳ 500 | Strict sampling + budget cap; `--stat` summary first, then targeted reads |
@@ -79,6 +79,7 @@ For each strong-signal conflict, present exactly ONE question with 4 options:
 Suspend until the user answers, then proceed to the next conflict. Never stack questions.
 
 **5. Generate `.ai-style-rules.md`** with three mandatory sections:
+
 - **[Golden Files]** — real exemplar paths annotated with what they demonstrate
 - **[Naming & State-Control Rules]** — concrete, checkable conventions
 - **[DONTs]** — anti-patterns that must not propagate
@@ -88,7 +89,7 @@ Suspend until the user answers, then proceed to the next conflict. Never stack q
 Ask the user for enforcement strength (use `AskUserQuestion`):
 
 | Option | Mechanism |
-|---|---|
+| --- | --- |
 | **1** Soft hook (recommended) | Write `@.ai-style-rules.md` reference into project `CLAUDE.md` |
 | **2** Hard hook | Soft hook + `PreToolUse[Write\|Edit\|MultiEdit]` Hook in `settings.json` |
 | **3** No hook | Keep the rules file; user references manually |

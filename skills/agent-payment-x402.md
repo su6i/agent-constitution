@@ -17,7 +17,7 @@ Use when: your agent needs to pay for an API call, purchase a service, settle wi
 Choose the integration path based on whether your agent is buying access to a paid API or charging others for one:
 
 | Need | Recommended path |
-|------|------------------|
+| ------ | ------------------ |
 | Agent pays a 402-gated API on Base or another agentwallet-supported chain | Use `agentwallet-sdk` as an MCP payment server with strict spending policy |
 | Agent pays a 402-gated API on X Layer | Use OKX Agent Payments Protocol from `okx/onchainos-skills`; `okx-x402-payment` is a deprecated legacy alias |
 | TypeScript API charges agents | Use OKX Payments TypeScript seller SDK docs for Express, Hono, Fastify, or Next.js |
@@ -34,16 +34,20 @@ Choose the integration path based on whether your agent is buying access to a pa
 ## How It Works
 
 ### x402 Protocol
+
 x402 extends HTTP 402 (Payment Required) into a machine-negotiable flow. When a server returns `402`, the agent's payment tool negotiates price, checks budget, signs a transaction, and retries only inside the policy and confirmation boundary set by the orchestrator.
 
 ### Spending Controls
+
 Every payment tool call enforces a `SpendingPolicy`:
+
 - **Per-task budget** — max spend for a single agent action
 - **Per-session budget** — cumulative limit across an entire session
 - **Allowlisted recipients** — restrict which addresses/services the agent can pay
 - **Rate limits** — max transactions per minute/hour
 
 ### Non-Custodial Wallets
+
 Agents hold their own keys via ERC-4337 smart accounts. The orchestrator sets policy before delegation; the agent can only spend within bounds. No pooled funds, no custodial risk.
 
 ## MCP Integration
@@ -68,7 +72,7 @@ The payment layer exposes standard MCP tools that slot into any Claude Code or a
 ### Available Tools (agent-callable)
 
 | Tool | Purpose |
-|------|---------|
+| ------ | --------- |
 | `get_balance` | Check agent wallet balance |
 | `send_payment` | Send payment to address or ENS |
 | `check_spending` | Query remaining budget |
@@ -90,7 +94,7 @@ For buyer-side agent flows:
 For seller-side API flows, fetch the latest language-specific guide before generating code:
 
 | Runtime | Current guide |
-|---------|---------------|
+| --------- | --------------- |
 | TypeScript | `https://raw.githubusercontent.com/okx/payments/main/typescript/SELLER.md` |
 | Go | `https://raw.githubusercontent.com/okx/payments/main/go/x402/SELLER.md` |
 | Rust | `https://raw.githubusercontent.com/okx/payments/main/rust/x402/SELLER.md` |

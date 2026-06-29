@@ -123,7 +123,7 @@ For complex forms (multi-step, dynamic field arrays, cross-field validation), us
 ## Data Fetching
 
 | Strategy | When |
-|---|---|
+| --- | --- |
 | RSC fetch (`await` in Server Component) | Per-request data in Next.js App Router, no client-side cache needed |
 | TanStack Query | Client-side cache, mutations, optimistic updates, polling |
 | SWR | Lightweight cache + revalidation, simpler than TanStack Query |

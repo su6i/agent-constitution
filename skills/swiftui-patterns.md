@@ -22,7 +22,7 @@ Modern SwiftUI patterns for building declarative, performant user interfaces on 
 Choose the simplest wrapper that fits:
 
 | Wrapper | Use Case |
-|---------|----------|
+| --------- | ---------- |
 | `@State` | View-local value types (toggles, form fields, sheet presentation) |
 | `@Binding` | Two-way reference to parent's `@State` |
 | `@Observable` class + `@State` | Owned model with multiple properties |

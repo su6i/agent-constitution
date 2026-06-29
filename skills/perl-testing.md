@@ -424,7 +424,7 @@ done_testing;
 ## Quick Reference
 
 | Task | Command / Pattern |
-|---|---|
+| --- | --- |
 | Run all tests | `prove -lr t/` |
 | Run one test verbose | `prove -lv t/unit/user.t` |
 | Parallel test run | `prove -lr -j8 t/` |

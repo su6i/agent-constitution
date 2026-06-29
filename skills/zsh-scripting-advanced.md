@@ -39,6 +39,7 @@ my_function() {
 ```
 
 **Rules:**
+
 - ALWAYS `trap - INT` before every `return` path (normal and abort)
 - Check `_ABORTED` after each blocking call
 - Propagate exit code 130 up the call stack
@@ -124,7 +125,7 @@ esac
 ## Exit Code Conventions (amir-cli)
 
 | Code | Meaning |
-|---|---|
+| --- | --- |
 | 0 | Success |
 | 1 | General error |
 | 2 | Usage error (bad arguments) |

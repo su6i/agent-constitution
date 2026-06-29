@@ -15,7 +15,7 @@ Three production-ready open TTS families available via `transformers` and `pipel
 ## Model Comparison
 
 | Model | Languages | Voice Control | Persian | Best For |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | **Parler-TTS Mini** (880M) | English-dominant | Text description | No | High-quality EN narration |
 | **Parler-TTS Large** (2.3B) | English-dominant | Text description | No | Best EN quality |
 | **MMS-TTS** | 1100+ incl. Persian | Fixed per checkpoint | Yes (`fas`) | Multilingual, Persian |
@@ -27,7 +27,7 @@ Three production-ready open TTS families available via `transformers` and `pipel
 
 Parler-TTS is unique: you control voice characteristics (gender, pace, pitch, environment) via a natural language description. No reference audio needed.
 
-- Repo: https://github.com/huggingface/parler-tts
+- Repo: <https://github.com/huggingface/parler-tts>
 - Models: `parler-tts/parler-tts-mini-v1` (880M), `parler-tts/parler-tts-large-v1` (2.3B)
 - Trained on 45k hours of audiobook data
 
@@ -103,7 +103,7 @@ for i, gen in enumerate(generations):
 
 Facebook MMS (Massively Multilingual Speech) covers 1100+ languages. Persian support: model ID `facebook/mms-tts-fas`.
 
-- Source: https://github.com/facebookresearch/fairseq/tree/main/examples/mms
+- Source: <https://github.com/facebookresearch/fairseq/tree/main/examples/mms>
 - HuggingFace hub: `facebook/mms-tts-{lang_code}`
 - Persian code: `fas` (ISO 639-3)
 - French code: `fra`, English: `eng`
@@ -178,7 +178,7 @@ Turkish        → tur
 Russian        → rus
 ```
 
-Full list: https://huggingface.co/facebook/mms-tts — search by ISO 639-3 code.
+Full list: <https://huggingface.co/facebook/mms-tts> — search by ISO 639-3 code.
 
 ---
 
@@ -211,7 +211,7 @@ sf.write("speecht5_output.wav", speech.numpy(), samplerate=16000)
 ## Choosing the Right Model
 
 | Use Case | Recommended Model |
-|---|---|
+| --- | --- |
 | Persian TTS | MMS-TTS (`facebook/mms-tts-fas`) |
 | French TTS | MMS-TTS (`facebook/mms-tts-fra`) or Parler-TTS |
 | High-quality English narration | Parler-TTS Large |
@@ -241,7 +241,7 @@ def save_wav(audio, sample_rate: int, path: str):
 ## Common Errors
 
 | Error | Fix |
-|---|---|
+| --- | --- |
 | `OSError: facebook/mms-tts-fas not found` | Check language code — use ISO 639-3 (`fas` not `fa`) |
 | `RuntimeError: CUDA out of memory` | Use CPU or smaller model |
 | Silent output (all zeros) | Input text may be empty or tokenized incorrectly |

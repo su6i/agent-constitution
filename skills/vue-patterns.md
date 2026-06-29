@@ -11,6 +11,7 @@ Comprehensive guide for Vue.js 3 development using Composition API (`<script set
 ## When to Activate
 
 Activate this skill when:
+
 - The project uses Vue.js (any version), Nuxt, Vite + Vue, or Pinia.
 - The user asks about Vue component architecture, composables, reactivity, or state management.
 - Reviewing Vue Single-File Components (`.vue` files).
@@ -43,7 +44,7 @@ src/
 ### File Naming
 
 | Convention | When to Use |
-|-----------|-------------|
+| ----------- | ------------- |
 | `PascalCase.vue` | All components (enforced by `vue/multi-word-component-names`) |
 | `useCamelCase.ts` | Composables |
 | `camelCase.ts` | Utilities, API clients, types |
@@ -152,6 +153,7 @@ export function useDebounce<T>(value: MaybeRef<T>, delay: number): Ref<T> {
 ### vs Mixins
 
 Composables replace Vue 2 mixins entirely:
+
 - **Mixins**: Opaque data flow, source-of-truth collisions, name conflicts.
 - **Composables**: Explicit imports, clear return values, composable and tree-shakable.
 
@@ -162,7 +164,7 @@ Composables replace Vue 2 mixins entirely:
 ### When to Use What
 
 | Pattern | Use Case |
-|---------|----------|
+| --------- | ---------- |
 | `ref()` / `reactive()` | Local component state |
 | Props + Emits | Parent-child communication |
 | Provide / Inject | Theme, config, plugin API |
@@ -279,7 +281,7 @@ watch(id, (newId) => fetchItem(newId));
 ## 7. Performance
 
 | Technique | When to Use |
-|-----------|-------------|
+| ----------- | ------------- |
 | `v-memo` | List items that rarely change |
 | `v-once` | Content rendered once and static forever |
 | `shallowRef()` | Large data structures replaced wholesale |
@@ -449,7 +451,7 @@ const AsyncComp = defineAsyncComponent({
 ## Anti-Patterns
 
 | Anti-Pattern | Why It's Wrong | The Fix |
-|-------------|---------------|---------|
+| ------------- | --------------- | --------- |
 | Destructuring `defineProps()` (Vue < 3.5) | Captures snapshot, loses reactivity | Access via `props.xxx` or use `toRefs()` |
 | `watch()` on destructured prop (Vue 3.5+) | Compile-time error — destructured props can't be watched directly | Use getter wrapper: `watch(() => count, ...)` |
 | `v-if` + `v-for` on same element | Ambiguous execution order | Use computed filtered array |

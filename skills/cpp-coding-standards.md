@@ -38,7 +38,7 @@ These themes recur across the entire guidelines and form the foundation:
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **P.1** | Express ideas directly in code |
 | **P.3** | Express intent |
 | **P.4** | Ideally, a program should be statically type safe |
@@ -77,7 +77,7 @@ int g_counter = 0;  // I.2 violation
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **F.1** | Package meaningful operations as carefully named functions |
 | **F.2** | A function should perform a single logical operation |
 | **F.3** | Keep functions short and simple |
@@ -133,7 +133,7 @@ static_assert(factorial(5) == 120);
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **C.2** | Use `class` if invariant exists; `struct` if data members vary independently |
 | **C.9** | Minimize exposure of members |
 | **C.20** | If you can avoid defining default operations, do (Rule of Zero) |
@@ -223,7 +223,7 @@ private:
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **R.1** | Manage resources automatically using RAII |
 | **R.3** | A raw pointer (`T*`) is non-owning |
 | **R.5** | Prefer scoped objects; don't heap-allocate unnecessarily |
@@ -292,7 +292,7 @@ private:
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **ES.5** | Keep scopes small |
 | **ES.20** | Always initialize an object |
 | **ES.23** | Prefer `{}` initializer syntax |
@@ -337,7 +337,7 @@ const auto config = [&] {
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **E.1** | Develop an error-handling strategy early in a design |
 | **E.2** | Throw an exception to signal that a function can't perform its assigned task |
 | **E.6** | Use RAII to prevent leaks |
@@ -393,7 +393,7 @@ void run() {
 ### All Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **Con.1** | By default, make objects immutable |
 | **Con.2** | By default, make member functions `const` |
 | **Con.3** | By default, pass pointers and references to `const` |
@@ -433,7 +433,7 @@ constexpr int MAX_SENSORS = 256;
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **CP.2** | Avoid data races |
 | **CP.3** | Minimize explicit sharing of writable data |
 | **CP.4** | Think in terms of tasks, rather than threads |
@@ -497,7 +497,7 @@ void transfer(Account& from, Account& to, double amount) {
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **T.1** | Use templates to raise the level of abstraction |
 | **T.2** | Use templates to express algorithms for many argument types |
 | **T.10** | Specify concepts for all template arguments |
@@ -548,7 +548,7 @@ void save(const T& obj, const std::string& path);
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **SL.1** | Use libraries wherever possible |
 | **SL.2** | Prefer the standard library to other libraries |
 | **SL.con.1** | Prefer `std::array` or `std::vector` over C arrays |
@@ -576,7 +576,7 @@ std::cout << "result: " << value << '\n';
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **Enum.1** | Prefer enumerations over macros |
 | **Enum.3** | Prefer `enum class` over plain `enum` |
 | **Enum.5** | Don't use ALL_CAPS for enumerators |
@@ -597,7 +597,7 @@ enum { RED, GREEN, BLUE };           // Enum.3 + Enum.5 + Enum.6 violation
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **SF.1** | Use `.cpp` for code files and `.h` for interface files |
 | **SF.7** | Don't write `using namespace` at global scope in a header |
 | **SF.8** | Use `#include` guards for all `.h` files |
@@ -667,7 +667,7 @@ private:
 ### Key Rules
 
 | Rule | Summary |
-|------|---------|
+| ------ | --------- |
 | **Per.1** | Don't optimize without reason |
 | **Per.2** | Don't optimize prematurely |
 | **Per.6** | Don't make claims about performance without measurements |

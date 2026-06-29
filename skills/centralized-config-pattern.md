@@ -1,14 +1,18 @@
 # Centralized Configuration Pattern (Best Practice 2026)
+
 [Back to README](../README.md)
 
 ## Problem Context
+
 When building CLI tools with mixed technology stacks (Bash + Python), maintaining encoding standards across different modules leads to code duplication and inconsistency. Previously, bitrate multipliers, CRF values, and encoding parameters were hardcoded in multiple locations:
+
 - `lib/commands/compress.sh` (Bash)
 - `lib/python/subtitle/processor.py` (Python)
 
 **Issue:** Changing a single encoding standard required modifying 2+ files, violating DRY principles.
 
 ## Solution: Single Source of Truth Pattern
+
 Industry standard adopted by Netflix, Google, Spotify for multi-language codebases.
 
 ### Architecture
@@ -23,6 +27,7 @@ lib/
 ```
 
 ### Configuration File (`lib/config/media.json`)
+
 ```json
 {
   "encoding": {
@@ -54,6 +59,7 @@ lib/
 ### Usage
 
 #### In Python Scripts
+
 ```python
 from lib.python.media_config import get_bitrate_multiplier, get_fallback_bitrate, get_default_crf
 
@@ -68,6 +74,7 @@ crf = get_default_crf()  # Returns 23
 ```
 
 #### In Bash Scripts
+
 ```bash
 # Source the library
 source "$AMIR_ROOT/lib/amir_lib.sh"
@@ -93,17 +100,20 @@ HW_ENCODER=$(get_hw_encoder "apple_silicon")
 ### Implementation Notes
 
 **Why JSON instead of YAML?**
+
 - Python has built-in JSON parser (no extra dependencies)
 - Bash can parse JSON via Python (already a dependency)
 - Faster parsing than YAML
 - Type safety (strict syntax)
 
 **File Location:**
+
 - `lib/config/` → Part of the codebase (developer standards)
 - `~/.amir/config.yaml` → User-specific preferences (separate concern)
 
 **Backward Compatibility:**
 The Python module includes fallback defaults if media.json is missing:
+
 ```python
 try:
     from lib.python.media_config import get_bitrate_multiplier
@@ -114,6 +124,7 @@ except ImportError:
 ### Migration Checklist
 
 When adding a new encoding parameter:
+
 1. ✅ Add value to `lib/config/media.json`
 2. ✅ Add convenience function in `lib/python/media_config.py`
 3. ✅ Add convenience function in `lib/amir_lib.sh`
@@ -121,6 +132,7 @@ When adding a new encoding parameter:
 5. ✅ Test both Bash and Python consumers
 
 ### References
+
 - [Netflix Tech Blog - Configuration Management](https://netflixtechblog.com/)
 - [Google SRE Book - Configuration](https://sre.google/sre-book/)
 - [12-Factor App - Configuration](https://12factor.net/config)

@@ -5,7 +5,7 @@
 ## Core Web Vitals Targets
 
 | Metric | Target |
-|--------|--------|
+| -------- | -------- |
 | LCP | < 2.5s |
 | INP | < 200ms |
 | CLS | < 0.1 |
@@ -15,7 +15,7 @@
 ## Bundle Budget
 
 | Page Type | JS Budget (gzipped) | CSS Budget |
-|-----------|---------------------|------------|
+| ----------- | --------------------- | ------------ |
 | Landing page | < 150kb | < 30kb |
 | App page | < 300kb | < 50kb |
 | Microsite | < 80kb | < 15kb |

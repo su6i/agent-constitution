@@ -12,6 +12,7 @@ A diagnostic workflow for agent systems that hide failures behind wrapper layers
 ## When to Activate
 
 **MANDATORY for:**
+
 - Releasing any agent or LLM-powered application to production
 - Shipping features with tool calling, memory, or multi-step workflows
 - Agent behavior degrades after adding wrapper layers
@@ -20,12 +21,14 @@ A diagnostic workflow for agent systems that hide failures behind wrapper layers
 - Debugging agent behavior for more than 15 minutes without finding root cause
 
 **Especially critical when:**
+
 - You've added new prompt layers, tool definitions, or memory systems
 - Different agents in your system behave inconsistently
 - The model was fine yesterday but is hallucinating today
 - You suspect hidden repair/retry loops silently mutating responses
 
 **Do not use for:**
+
 - General code debugging — use `agent-introspection-debugging`
 - Code review — use language-specific reviewer agents
 - Security scanning — use `security-review` or `security-review/scan`
@@ -37,7 +40,7 @@ A diagnostic workflow for agent systems that hide failures behind wrapper layers
 Every agent system has these layers. Any of them can corrupt the answer:
 
 | # | Layer | What Goes Wrong |
-|---|-------|----------------|
+| --- | ------- | ---------------- |
 | 1 | System prompt | Conflicting instructions, instruction bloat |
 | 2 | Session history | Stale context injection from previous turns |
 | 3 | Long-term memory | Pollution across sessions, old topics in new conversations |
@@ -58,6 +61,7 @@ Every agent system has these layers. Any of them can corrupt the answer:
 The base model produces correct answers, but the wrapper layers make it worse.
 
 **Symptoms:**
+
 - Model works fine in playground or direct API call, breaks in your agent
 - Added a new prompt layer, existing behavior degraded
 - Agent sounds confident but is confidently wrong
@@ -68,6 +72,7 @@ The base model produces correct answers, but the wrapper layers make it worse.
 Old topics leak into new conversations through history, memory retrieval, or distillation.
 
 **Symptoms:**
+
 - Agent brings up unrelated past topics
 - User corrections don't stick (old memory overwrites new)
 - Same-session artifacts re-enter as pseudo-facts
@@ -78,6 +83,7 @@ Old topics leak into new conversations through history, memory retrieval, or dis
 Tools are declared in the prompt but not enforced in code. The model skips them or hallucinates execution.
 
 **Symptoms:**
+
 - "Must use tool X" in prompt, but model answers without calling it
 - Tool results look correct but were never actually executed
 - Different tools fight over the same responsibility
@@ -88,6 +94,7 @@ Tools are declared in the prompt but not enforced in code. The model skips them 
 The agent's internal answer is correct, but the platform layer mutates it during delivery.
 
 **Symptoms:**
+
 - Logs show correct answer, user sees broken output
 - Markdown rendering, JSON parsing, or streaming fragments corrupt valid responses
 - Hidden fallback agent quietly replaces the answer before delivery
@@ -98,6 +105,7 @@ The agent's internal answer is correct, but the platform layer mutates it during
 Silent repair, retry, summarization, or recall agents run without explicit contracts.
 
 **Symptoms:**
+
 - Output changes between internal generation and user delivery
 - "Auto-fix" loops run a second LLM pass the user doesn't know about
 - Multiple agents modify the same output without coordination
@@ -173,7 +181,7 @@ Default fix order (code-first, not prompt-first):
 ## Severity Model
 
 | Level | Meaning | Action |
-|-------|---------|--------|
+| ------- | --------- | -------- |
 | `critical` | Agent can confidently produce wrong operational behavior | Fix before next release |
 | `high` | Agent frequently degrades correctness or stability | Fix this sprint |
 | `medium` | Correctness usually survives but output is fragile or wasteful | Plan for next cycle |
@@ -194,7 +202,7 @@ Do not lead with compliments or summaries. If the system is broken, say so direc
 When auditing an agent system, answer these:
 
 | # | Question | If Yes → |
-|---|----------|----------|
+| --- | ---------- | ---------- |
 | 1 | Can the model skip a required tool and still answer? | Tool not code-gated |
 | 2 | Does old conversation content appear in new turns? | Memory contamination |
 | 3 | Is the same info in system prompt AND memory AND history? | Context duplication |

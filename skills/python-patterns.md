@@ -685,7 +685,7 @@ addopts = "--cov=mypackage --cov-report=term-missing"
 ## Quick Reference: Python Idioms
 
 | Idiom | Description |
-|-------|-------------|
+| ------- | ------------- |
 | EAFP | Easier to Ask Forgiveness than Permission |
 | Context managers | Use `with` for resource management |
 | List comprehensions | For simple transformations |

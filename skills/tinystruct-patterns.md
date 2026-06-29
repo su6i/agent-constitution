@@ -37,6 +37,7 @@ Routing is handled by the `ActionRegistry`, which automatically maps path segmen
 ## Examples
 
 ### Basic Application (MyService)
+
 ```java
 public class MyService extends AbstractApplication {
     @Override
@@ -60,6 +61,7 @@ public class MyService extends AbstractApplication {
 ```
 
 ### HTTP Mode Disambiguation (login)
+
 ```java
 @Action(value = "login", mode = Mode.HTTP_POST)
 public String doLogin(Request<?, ?> request) throws ApplicationException {
@@ -69,6 +71,7 @@ public String doLogin(Request<?, ?> request) throws ApplicationException {
 ```
 
 ### Native JSON Data Handling (Builder + Builders)
+
 ```java
 import org.tinystruct.data.component.Builder;
 import org.tinystruct.data.component.Builders;
@@ -89,6 +92,7 @@ public String getData() throws ApplicationException {
 ```
 
 ### SSE (Server-Sent Events)
+
 ```java
 import org.tinystruct.http.SSEPushManager;
 
@@ -109,6 +113,7 @@ SSEPushManager.getInstance().broadcast(msg);
 ```
 
 ### File Upload
+
 ```java
 import org.tinystruct.data.FileEntity;
 
@@ -149,6 +154,7 @@ default.language=en_US
 ```
 
 Access config values in your application:
+
 ```java
 String port = this.getConfiguration("server.port");
 ```
@@ -156,7 +162,7 @@ String port = this.getConfiguration("server.port");
 ## Red Flags & Anti-patterns
 
 | Symptom | Correct Pattern |
-|---|---|
+| --- | --- |
 | Importing `com.google.gson` or `com.fasterxml.jackson` | Use `org.tinystruct.data.component.Builder` / `Builders`. |
 | Using `List<Builder>` for JSON arrays | Use `Builders` to avoid generic type erasure issues. |
 | `ApplicationRuntimeException: template not found` | Call `setTemplateRequired(false)` in `init()` for API-only apps. |

@@ -10,17 +10,17 @@ last_updated: 2026-05-30
 
 GPT-SoVITS is a powerful few-shot voice conversion and TTS system. Zero-shot from 5 seconds; fine-tune with 1 minute for high similarity. Current latest: v2Pro / v4.
 
-- GitHub: https://github.com/RVC-Boss/GPT-SoVITS
+- GitHub: <https://github.com/RVC-Boss/GPT-SoVITS>
 - License: MIT
-- Colab: https://colab.research.google.com/github/RVC-Boss/GPT-SoVITS/blob/main/Colab-WebUI.ipynb
-- User guide (English): https://rentry.co/GPT-SoVITS-guide#/
+- Colab: <https://colab.research.google.com/github/RVC-Boss/GPT-SoVITS/blob/main/Colab-WebUI.ipynb>
+- User guide (English): <https://rentry.co/GPT-SoVITS-guide#/>
 
 ---
 
 ## Version Overview
 
 | Version | Notes |
-|---|---|
+| --- | --- |
 | v1 | Original, stable |
 | v2 | Adds Korean, Cantonese; improved text frontend; 5k hours base |
 | v3 | Higher timbre similarity; less data needed; 24kHz output |
@@ -34,7 +34,7 @@ GPT-SoVITS is a powerful few-shot voice conversion and TTS system. Zero-shot fro
 ## GPU Requirements
 
 | Task | Minimum VRAM | Recommended |
-|---|---|---|
+| --- | --- | --- |
 | Inference (zero-shot) | 4 GB | 6 GB |
 | Fine-tuning (v2/v2Pro) | 6 GB | 8 GB |
 | Fine-tuning (v3/v4) | 8 GB | 16 GB |
@@ -123,6 +123,7 @@ python webui.py
 ```
 
 WebUI tabs:
+
 1. **1A - Dataset Formatting** — slice audio into segments
 2. **1B - Fine-tuning** — runs ASR + trains GPT + SoVITS models
 3. **1C - Inference** — test the trained model
@@ -352,7 +353,7 @@ Or via WebUI tab 0 (preprocessing).
 ## Troubleshooting
 
 | Problem | Fix |
-|---|---|
+| --- | --- |
 | Low quality on Mac | Training uses CPU on MPS — use Colab instead |
 | Metallic voice artifacts | Switch from v3 to v4 |
 | Poor quality on noisy audio | Use v2Pro instead of v4 |

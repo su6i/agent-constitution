@@ -35,6 +35,7 @@ Maintain a **global memory directory** outside any single project:
 **Do NOT load global memory on every session** — it adds token cost to all projects.
 
 Load `~/.claude/global-memory/MEMORY.md` only when:
+
 - The task involves **2 or more repositories**
 - The user asks about a decision or event that was cross-project
 - The current task might conflict with something decided in a prior cross-repo session
@@ -44,7 +45,7 @@ For single-project work: ignore global memory entirely.
 ## What Belongs Here
 
 | Belongs in global memory | Does NOT belong here |
-|---|---|
+| --- | --- |
 | Rules applied to all repos (e.g. ban AI co-authorship) | Project-specific bugs or features |
 | Cross-repo session summaries | Code patterns or architecture for one repo |
 | Decisions that affect every future project | Ephemeral task state |
@@ -54,7 +55,7 @@ For single-project work: ignore global memory entirely.
 
 - **MEMORY.md is an index only** — one line per entry, no content
 - **Hard cap: 30 entries** — when full, move the oldest to `archive/YYYY.md`
-- Each line format: `- `Title` — one-line hook (max 120 chars)`
+- Each line format: `-`Title`— one-line hook (max 120 chars)`
 - Individual session files: keep concise, use tables over prose
 
 ## CLAUDE.md Integration

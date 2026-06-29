@@ -12,6 +12,7 @@ Reference-free evaluation of RAG systems using [RAGAS](https://docs.ragas.io).
 Covers setup, known compatibility issues, and workarounds discovered in production.
 
 **Related Skills:**
+
 - [LLM & ML Workflow](llm-ml-workflow.md) — LLM backend configuration
 - [Multi-RAG Orchestration](multi-rag-orchestration.md) — RAG pipeline design
 
@@ -20,7 +21,7 @@ Covers setup, known compatibility issues, and workarounds discovered in producti
 ## 1. Metrics (reference-free — no ground truth needed)
 
 | Metric | What it measures |
-|---|---|
+| --- | --- |
 | `faithfulness` | Claims in the answer are supported by retrieved context |
 | `answer_relevancy` | Answer actually addresses the question |
 
@@ -109,6 +110,7 @@ ragas_emb = LangchainEmbeddingsWrapper(
 ```
 
 Set these env vars to suppress noisy warnings:
+
 ```python
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 os.environ["HF_HUB_OFFLINE"] = "1"  # if model already cached
@@ -183,7 +185,7 @@ for hit in response.points:   # <-- .points not the response itself
 ## 9. Expected Scores (SemanticForest-RAG baseline)
 
 | Run | Questions | Model | faithfulness | answer_relevancy |
-|-----|-----------|-------|---|---|
+| ----- | ----------- | ------- | --- | --- |
 | 2026-06-10 | 3 | deepseek-v4-flash | 0.9167 | 0.9340 |
 | 2026-06-10 | 12 | deepseek-v4-flash | 1.0000 | 0.8429 |
 | 2026-06-10 | 3 | deepseek-v4-flash (patched) | 0.8839 | 0.9570 |

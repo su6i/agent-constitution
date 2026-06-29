@@ -38,6 +38,7 @@ Text("Hello, World!")
 ```
 
 Key customization options:
+
 - `.regular` — standard glass effect
 - `.tint(Color)` — add color tint for prominence
 - `.interactive()` — react to touch and pointer interactions
@@ -243,7 +244,7 @@ VStack { /* content */ }
 ## Key Design Decisions
 
 | Decision | Rationale |
-|----------|-----------|
+| ---------- | ----------- |
 | GlassEffectContainer wrapping | Performance optimization, enables morphing between glass elements |
 | `spacing` parameter | Controls merge distance — fine-tune how close elements must be to blend |
 | `@Namespace` + `glassEffectID` | Enables smooth morphing transitions on view hierarchy changes |

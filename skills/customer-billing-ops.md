@@ -61,7 +61,7 @@ Return a concise identity summary:
 Put the case into one bucket before acting:
 
 | Case | Typical action |
-|------|----------------|
+| ------ | ---------------- |
 | Duplicate personal subscription | cancel extras, consider refund |
 | Real multi-seat/team intent | preserve seats, clarify billing model |
 | Failed payment / incomplete checkout | recover via portal or update payment method |

@@ -7,6 +7,7 @@ last_updated: 2026-05-30
 ---
 
 **Related Skills:**
+
 - [YouTube Data API v3](youtube-data-api.md) — upload, thumbnails, scheduling
 - [YouTube Automation Pipeline](youtube-automation-pipeline.md) — end-to-end production
 - [YouTube SEO](youtube-seo.md) — title/tag optimization
@@ -24,7 +25,7 @@ Analytics API v2 is a **separate service** from the Data API v3. Build both from
 **Scopes required:**
 
 | Scope | Purpose |
-|---|---|
+| --- | --- |
 | `https://www.googleapis.com/auth/yt-analytics.readonly` | Views, watch time, CTR, retention |
 | `https://www.googleapis.com/auth/yt-analytics-monetary.readonly` | + revenue metrics |
 | `https://www.googleapis.com/auth/youtube.readonly` | Video list (for channel ID) |
@@ -76,7 +77,7 @@ def get_channel_id(youtube) -> str:
 ### Analytics API v2 Metrics
 
 | Metric | Description | Typical Range |
-|---|---|---|
+| --- | --- | --- |
 | `views` | Total video views | — |
 | `estimatedMinutesWatched` | Cumulative watch time in minutes | — |
 | `averageViewDuration` | Mean seconds watched per view | 100–400s |
@@ -97,7 +98,7 @@ def get_channel_id(youtube) -> str:
 ### Key Dimensions
 
 | Dimension | Description |
-|---|---|
+| --- | --- |
 | `day` | Daily breakdown (YYYY-MM-DD) |
 | `month` | Monthly breakdown (YYYY-MM) |
 | `video` | Per-video breakdown |
@@ -109,6 +110,7 @@ def get_channel_id(youtube) -> str:
 | `elapsedVideoTimeRatio` | 0.01–1.00 (audience retention) |
 
 ### Audience Retention Dimension (Special)
+
 Retention reports are **per-video only** and return 100 data points. Dimension `elapsedVideoTimeRatio=0.40` means 40% through the video.
 
 ---
@@ -504,13 +506,14 @@ def content_gap_analysis(analytics, youtube, channel_id: str,
 ## 10. Quota Reference
 
 | Operation | Units | Daily limit |
-|---|---|---|
+| --- | --- | --- |
 | Analytics `reports.query` | 1 | 10,000/project |
 | `videos.list` (read) | 1 | — |
 | `thumbnails.set` | 50 | — |
 | Reporting API (bulk CSV) | 0 | separate quota |
 
 **Quota-saving tips:**
+
 - Query channel-level aggregates daily; drill into per-video only for top/bottom performers
 - Cache results — analytics data is final after 48h delay (not real-time)
 - Use YouTube Reporting API for bulk historical exports instead of many `reports.query` calls
@@ -520,7 +523,7 @@ def content_gap_analysis(analytics, youtube, channel_id: str,
 ## 11. Gotchas
 
 | Issue | Cause | Fix |
-|---|---|---|
+| --- | --- | --- |
 | `impressions` / `impressionClickThroughRate` missing | Only available for **logged-in** YouTube users | Expected — partial data |
 | Retention report returns no rows | Video must have ≥ a few thousand views | Normal for new videos |
 | Data is delayed 48–72h | Analytics pipeline lag | Do not query yesterday for real-time decisions |

@@ -7,18 +7,18 @@ last_updated: 2026-06-23
 
 <div align="center">
 
-<img src="assets/project_logo.png" width="350">
+<img alt="Agent Constitution logo" src="assets/project_logo.png" width="350">
 
 <h1>Agent Constitution 📜</h1>
 
 <p align="center">
-  <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a>
-  <img src="https://img.shields.io/badge/Skills-367-blueviolet.svg" height="20" style="vertical-align: middle;">
-  <img src="https://img.shields.io/badge/Agents-63-orange.svg" height="20" style="vertical-align: middle;">
-  <img src="https://img.shields.io/badge/Commands-79-teal.svg" height="20" style="vertical-align: middle;">
-  <a href="workflows/documentation.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20" style="vertical-align: middle;"></a>
-  <a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20" style="vertical-align: middle; margin-bottom: -1px; margin-left: 3px;"></a>
+  <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a>
+  <a href="#"><img alt="Status: Active" src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a>
+  <img alt="Skills: 367" src="https://img.shields.io/badge/Skills-367-blueviolet.svg" height="20" style="vertical-align: middle;">
+  <img alt="Agents: 63" src="https://img.shields.io/badge/Agents-63-orange.svg" height="20" style="vertical-align: middle;">
+  <img alt="Commands: 79" src="https://img.shields.io/badge/Commands-79-teal.svg" height="20" style="vertical-align: middle;">
+  <a href="workflows/documentation.md"><img alt="Docs: Technical" src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20" style="vertical-align: middle;"></a>
+  <a href="https://linkedin.com/in/su6i"><img alt="LinkedIn" src="assets/linkedin_su6i.svg" height="20" style="vertical-align: middle; margin-bottom: -1px; margin-left: 3px;"></a>
 </p>
 
 <strong>The Validated Context Architecture for AI Agents.</strong><br>
@@ -47,9 +47,11 @@ bash <(curl -fsSL https://raw.githubusercontent.com/su6i/agent-constitution/main
 ---
 
 ## 📍 Primary Document
+
 The main technical document of this repository is [AGENTIC-CODING-SETUP.md](AGENTIC-CODING-SETUP.md).
 
 If you want the core benchmark analysis, cost model, routing strategy, setup patterns, and low-cost agentic coding methodology, start there first. The rest of the repository either:
+
 - introduces that document,
 - operationalizes it,
 - localizes it,
@@ -60,20 +62,24 @@ For the repository map, see [docs/INFORMATION-ARCHITECTURE.md](docs/INFORMATION-
 ---
 
 ## 🏗 The Problem
+
 Most AI Agents (Cursor, AntiGravity, Windsurf, Copilot) fail because their "memory" is unstructured. You give them a 50-page prompt, they hallucinate. You give them nothing, they write spaghetti code.
 **We needed a middle ground: A strict, modular "Constitution" that forces Agents to behave like Senior Engineers.**
 
 ## ⚡ The Solution: Context Architecture
+
 This repository is not just "rules". It is a **Modular Context Architecture**.
 It breaks down the software lifecycle into 5 atomic, linked workflows. The Agent loads *only* what it needs, when it needs it.
 
 In practice, the repository now has a clear center of gravity:
+
 - [AGENTIC-CODING-SETUP.md](AGENTIC-CODING-SETUP.md) is the flagship guide and canonical technical reference.
 - [README.md](README.md) is the onboarding and navigation layer.
 - [AGENTS.md](AGENTS.md) is the execution contract for agents.
 - `.agent/`, `templates/`, `bin/`, and `docs/` are the implementation and support layers around that core guidance.
 
-### Core Features 
+### Core Features
+
 - **⚖️ The Neural Gavel:** A strict `.cursorrules` router that prevents the Agent from guessing.
 - **🧠 Modular Memory:** Workflows for Init, Docs, AI, and QA are split to prevent "Lost-in-the-Middle" errors.
 - **🛡️ Truth Protocol:** Agents are forbidden from marking tasks "Done" without `ls -R` verification.
@@ -82,27 +88,34 @@ In practice, the repository now has a clear center of gravity:
 ## 🚀 Quick Start
 
 ### Read Order
+
 1. Read [AGENTIC-CODING-SETUP.md](AGENTIC-CODING-SETUP.md) for the core methodology.
 2. Read [AGENTS.md](AGENTS.md) for execution constraints and agent behavior.
 3. Use the workflow, template, and skill files as modular extensions of the core guide.
 
 ### Option A: Automated Scaffolding (Recommended)
-1.  **Install the Scaffolder:**
+
+1. **Install the Scaffolder:**
+
     ```bash
     # Add this alias to your shell config (~/.zshrc)
     alias init-gh='~/path/to/agent-constitution/bin/scaffold.sh'
     ```
-2.  **Run in any new project:**
+
+2. **Run in any new project:**
+
     ```bash
     mkdir my-new-project && cd my-new-project
     init-gh
     ```
+
     *Result: The `rules/`, `workflows/`, and `.agent/prompts/` are injected and committed automatically.*
 
 ### Option B: Manual Setup
-1.  Clone this repo.
-2.  Copy `rules/`, `workflows/`, and `.agent/prompts/` to your project root.
-3.  **Ask your Agent:**
+
+1. Clone this repo.
+2. Copy `rules/`, `workflows/`, and `.agent/prompts/` to your project root.
+3. **Ask your Agent:**
     > "Audit my codebase against the Quality Assurance protocol."
 
 ## ⚙️ Personalization
@@ -158,10 +171,12 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 ## 📚 Documentation
 
 ### ⭐ Flagship Guide
+
 - **[Agentic Coding 2026](AGENTIC-CODING-SETUP.md):** Canonical benchmark, ROI, routing, tooling, and low-cost setup guide for the repository.
 - **[Information Architecture](docs/INFORMATION-ARCHITECTURE.md):** Explains how the rest of the repository relates to the flagship guide.
 
 ### 🛠 Workflows
+
 - **[Init Workflow](workflows/init-project.md):** How to start clean.
 - **[First Session](workflows/first-session.md):** Onboard a scaffolded project — fill CLAUDE.md, verify structure.
 - **[Propagate Updates](workflows/propagate-constitution.md):** Roll new rules/skills/hook out to every project (`amir update-projects`).
@@ -171,6 +186,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 - **[Social Showcase](workflows/social-media-showcase.md):** World-class marketing assets.
 
 ### 📝 Prompts
+
 - **[Technical Template](.agent/prompts/template_technical.md):** Base structure for technical docs.
 - **[LinkedIn Launch](.agent/prompts/template_linkedin_launch.md):** Viral marketing hooks.
 - **[Logo Specs](.agent/prompts/template_project_logo.md):** DALL-E/Midjourney prompts for tech branding.
@@ -183,7 +199,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>AI & Machine Learning</strong> (26 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [ai-logic-patterns](skills/ai-logic-patterns.md) | Master prompting & agent orchestration rules |
 | [ai-regression-testing](skills/ai-regression-testing.md) | Automated regression suites for LLM outputs |
 | [ai-router](skills/ai-router/README.md) | Cost-aware model routing and fallback chains |
@@ -217,7 +233,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Agent Systems & Orchestration</strong> (22 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [agent-architecture-audit](skills/agent-architecture-audit.md) | 12-layer agent stack diagnostic & audit |
 | [agent-eval](skills/agent-eval.md) | Agent performance evaluation frameworks |
 | [agent-harness-construction](skills/agent-harness-construction.md) | Building production agent harnesses |
@@ -247,7 +263,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Video & Media Production</strong> (28 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [auto-editor](skills/auto-editor.md) | Automated silence removal & jump-cut editing |
 | [blender-motion-state-inspection](skills/blender-motion-state-inspection.md) | Debug Blender animation state machines |
 | [davinci-resolve-scripting](skills/davinci-resolve-scripting.md) | DaVinci Resolve Python API & timeline automation |
@@ -283,7 +299,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Voice, Audio & TTS</strong> (17 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [ai-dubbing-localization](skills/ai-dubbing-localization.md) | Automated dubbing & tone-preserving localization |
 | [ai-sfx-generation](skills/ai-sfx-generation.md) | Latent diffusion for sound design & SFX |
 | [audio-processing](skills/audio-processing.md) | Neural denoising & EBU R128 normalization |
@@ -310,7 +326,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Content, YouTube & Marketing</strong> (21 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [article-writing](skills/article-writing.md) | Long-form article structure & SEO writing |
 | [brand-discovery](skills/brand-discovery.md) | Brand positioning & identity research |
 | [brand-voice](skills/brand-voice.md) | Consistent brand voice modeling & guidelines |
@@ -341,7 +357,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Research & Science</strong> (12 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [deep-research](skills/deep-research.md) | Systematic multi-source research protocols |
 | [exa-search](skills/exa-search.md) | Exa semantic search API integration |
 | [market-research](skills/market-research.md) | Primary & secondary market research methods |
@@ -361,7 +377,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Python</strong> (8 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [python-core-standards](skills/python-core-standards.md) | Project structure, `uv`, typing & conventions |
 | [python-containerization](skills/python-containerization.md) | Docker: Slim vs Alpine, multi-stage builds |
 | [python-github-setup](skills/python-github-setup.md) | GitHub Actions, templates & semantic release |
@@ -377,7 +393,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Web & Frontend</strong> (24 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [angular-developer](skills/angular-developer.md) | Angular architecture, RxJS & state management |
 | [bun-runtime](skills/bun-runtime.md) | Bun runtime setup, bundling & testing |
 | [chrome-extension-best-practices](skills/chrome-extension-best-practices.md) | MV3 extensions, UI & Shadow DOM |
@@ -409,7 +425,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Backend</strong> (40 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [backend-patterns](skills/backend-patterns.md) | Cross-language backend architecture patterns |
 | [cpp-coding-standards](skills/cpp-coding-standards.md) | Modern C++20/23 standards & best practices |
 | [cpp-testing](skills/cpp-testing.md) | Catch2, GoogleTest & CMake testing |
@@ -460,7 +476,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Mobile</strong> (12 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [android-clean-architecture](skills/android-clean-architecture.md) | Android Clean Architecture & MVVM |
 | [compose-multiplatform-patterns](skills/compose-multiplatform-patterns.md) | Kotlin Multiplatform + Compose patterns |
 | [dart-flutter-patterns](skills/dart-flutter-patterns.md) | Flutter architecture & Dart patterns |
@@ -480,7 +496,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Database</strong> (6 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [clickhouse-io](skills/clickhouse-io.md) | ClickHouse OLAP queries & ingestion patterns |
 | [database-migrations](skills/database-migrations.md) | Safe schema migrations across databases |
 | [mysql-patterns](skills/mysql-patterns.md) | MySQL indexing, query optimization & replication |
@@ -494,7 +510,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>DevOps & Infrastructure</strong> (17 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [canary-watch](skills/canary-watch.md) | Canary deployment monitoring & rollback |
 | [config-gc](skills/config-gc.md) | Garbage-collect stale config & dead flags |
 | [deployment-patterns](skills/deployment-patterns.md) | Blue/green, canary & rolling deploy patterns |
@@ -519,7 +535,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Network & NetDevOps</strong> (10 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [cisco-ios-patterns](skills/cisco-ios-patterns.md) | Cisco IOS/IOS-XE config & automation patterns |
 | [homelab-network-readiness](skills/homelab-network-readiness.md) | Homelab pre-deployment network checklist |
 | [homelab-network-setup](skills/homelab-network-setup.md) | Homelab network design & VLAN architecture |
@@ -537,7 +553,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Web3 & Blockchain</strong> (7 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [defi-amm-security](skills/defi-amm-security.md) | AMM security: reentrancy, flash loans, MEV |
 | [evm-token-decimals](skills/evm-token-decimals.md) | EVM token decimal handling & precision |
 | [llm-trading-agent-security](skills/llm-trading-agent-security.md) | Security for LLM-driven on-chain agents |
@@ -552,7 +568,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Testing & QA</strong> (10 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [ai-regression-testing](skills/ai-regression-testing.md) | Automated regression for LLM outputs |
 | [benchmark](skills/benchmark.md) | Performance benchmarking methodology |
 | [benchmark-methodology](skills/benchmark-methodology.md) | Rigorous benchmark design & statistical analysis |
@@ -570,7 +586,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Security</strong> (9 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [django-security](skills/django-security.md) | Django security hardening & OWASP top 10 |
 | [gateguard](skills/gateguard.md) | Pre-edit investigation gate for critical files |
 | [healthcare-phi-compliance](skills/healthcare-phi-compliance.md) | HIPAA PHI handling & de-identification |
@@ -587,7 +603,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Claude Code & Agent Harness</strong> (18 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [agent-sort](skills/agent-sort.md) | Agent task routing & priority sorting |
 | [canary-watch](skills/canary-watch.md) | Deployment canary monitoring |
 | [claude-code-integration](skills/claude-code-integration.md) | Claude Code CLI, hooks, MCP & agentic patterns |
@@ -614,7 +630,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Scripting & Automation</strong> (9 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [automation-audit-ops](skills/automation-audit-ops.md) | Audit & optimize automation pipelines |
 | [cli-table-alignment](skills/cli-table-alignment.md) | Pixel-perfect ASCII tables with emoji support |
 | [dmux-workflows](skills/dmux-workflows.md) | tmux/dmux session & pane automation |
@@ -631,7 +647,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Business & Operations</strong> (20 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [carrier-relationship-management](skills/carrier-relationship-management.md) | Logistics carrier relationship & SLA management |
 | [customer-billing-ops](skills/customer-billing-ops.md) | Billing automation & subscription ops |
 | [customs-trade-compliance](skills/customs-trade-compliance.md) | Import/export compliance & HS code classification |
@@ -665,7 +681,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <summary><strong>Specialty & Misc</strong> (18 skills)</summary>
 
 | Skill | Description |
-|---|---|
+| --- | --- |
 | [ascii-game-dev](skills/ascii-game-dev.md) | ECS architecture & terminal rendering |
 | [blueprint](skills/blueprint.md) | Project blueprint & scaffolding templates |
 | [cv-latex-workspace](skills/cv-latex-workspace.md) | Multi-template CV with pdflatex/xelatex |
@@ -695,6 +711,7 @@ Connect this knowledge base to any MCP-compatible AI assistant.
 Two transports available — **stdio** (Claude Code CLI) and **HTTP** (everything else).
 
 ### One-time HTTP server setup
+
 ```bash
 cp bin/mcp-server/com.agent-constitution.mcp.plist ~/Library/LaunchAgents/
 launchctl load ~/Library/LaunchAgents/com.agent-constitution.mcp.plist
@@ -704,7 +721,7 @@ curl http://localhost:8765/health  # → {"status":"ok","skills":343}
 ### Connect your tool
 
 | Tool | Config |
-|---|---|
+| --- | --- |
 | **Claude Code CLI** | Zero config — stdio works out of the box |
 | **Cursor** | `~/.cursor/mcp.json` → `"url": "http://localhost:8765/sse"` |
 | **VS Code** | Continue.dev extension → `~/.continue/config.json` |
@@ -713,8 +730,9 @@ curl http://localhost:8765/health  # → {"status":"ok","skills":343}
 | **Gemini CLI** | `~/.gemini/settings.json` → `"httpUrl": "http://localhost:8765/mcp"` |
 
 ### Available Tools
+
 | Tool | Description |
-|---|---|
+| --- | --- |
 | `list_skills` | List all 343 skill names |
 | `get_skill` | Read any skill — e.g. `get_skill("fastapi-best-practices")` |
 | `get_rules` | Get global repository rules |

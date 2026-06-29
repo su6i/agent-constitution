@@ -126,7 +126,7 @@ if [ -n "$scan_files" ]; then
     printf '%s\n' "$added" | grep -qE '(gh[posru]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,})' && flag "GitHub token"
     printf '%s\n' "$added" | grep -qE 'xox[baprs]-[A-Za-z0-9-]{10,}' && flag "Slack token"
     printf '%s\n' "$added" | grep -qE 'sk-[A-Za-z0-9]{20,}'       && flag "API secret key"
-    printf '%s\n' "$added" | grep -qE '((\+33|0033)[ .]?|[^0-9+]0)[1-9]([ .]?[0-9]{2}){4}' && flag "phone number"
+    printf '%s\n' "$added" | grep -qE '(^|[^A-Za-z0-9+])(\+33[ .]?|0033[ .]?|0)[1-9]([ .]?[0-9]{2}){4}([^0-9]|$)' && flag "phone number"
 
     # Real email addresses (allow common placeholders).
     emails="$(printf '%s\n' "$added" \

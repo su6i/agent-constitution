@@ -45,7 +45,7 @@ Phase 3: Delegate + Verify
 ### What the Main Agent Sees
 
 | Scenario | Agent sees | Hook exit |
-|----------|-----------|-----------|
+| ---------- | ----------- | ----------- |
 | No violations | Nothing | 0 |
 | All fixed by subprocess | Nothing | 0 |
 | Violations remain after subprocess | `[hook] N violation(s) remain` | 2 |
@@ -64,6 +64,7 @@ LLMs will modify `.ruff.toml` or `biome.json` to disable rules rather than fix c
 ### Package Manager Enforcement
 
 A PreToolUse hook on Bash blocks legacy package managers:
+
 - `pip`, `pip3`, `poetry`, `pipenv` → Blocked (use `uv`)
 - `npm`, `yarn`, `pnpm` → Blocked (use `bun`)
 - Allowed exceptions: `npm audit`, `npm view`, `npm publish`
@@ -99,7 +100,7 @@ To use Plankton hooks in your own project:
 ### Language-Specific Dependencies
 
 | Language | Required | Optional |
-|----------|----------|----------|
+| ---------- | ---------- | ---------- |
 | Python | `ruff`, `uv` | `ty` (types), `vulture` (dead code), `bandit` (security) |
 | TypeScript/JS | `biome` | `oxlint`, `semgrep`, `knip` (dead exports) |
 | Shell | `shellcheck`, `shfmt` | — |
@@ -114,7 +115,7 @@ To use Plankton hooks in your own project:
 ### Complementary, Not Overlapping
 
 | Concern | ECC | Plankton |
-|---------|-----|----------|
+| --------- | ----- | ---------- |
 | Code quality enforcement | PostToolUse hooks (Prettier, tsc) | PostToolUse hooks (20+ linters + subprocess fixes) |
 | Security scanning | AgentShield, security-reviewer agent | Bandit (Python), Semgrep (TypeScript) |
 | Config protection | — | PreToolUse blocks + Stop hook detection |
@@ -132,6 +133,7 @@ To use Plankton hooks in your own project:
 ### Avoiding Hook Conflicts
 
 If running both ECC and Plankton hooks:
+
 - ECC's Prettier hook and Plankton's biome formatter may conflict on JS/TS files
 - Resolution: disable ECC's Prettier PostToolUse hook when using Plankton (Plankton's biome is more comprehensive)
 - Both can coexist on different file types (ECC handles what Plankton doesn't cover)
@@ -173,6 +175,7 @@ Plankton's `.claude/hooks/config.json` controls all behavior:
 ```
 
 **Key settings:**
+
 - Disable languages you don't use to speed up hooks
 - `volume_threshold` — violations > this count auto-escalate to a higher model tier
 - `subprocess_delegation: false` — skip Phase 3 entirely (just report violations)
@@ -180,7 +183,7 @@ Plankton's `.claude/hooks/config.json` controls all behavior:
 ## Environment Overrides
 
 | Variable | Purpose |
-|----------|---------|
+| ---------- | --------- |
 | `HOOK_SKIP_SUBPROCESS=1` | Skip Phase 3, report violations directly |
 | `HOOK_SUBPROCESS_TIMEOUT=N` | Override tier timeout |
 | `HOOK_DEBUG_MODEL=1` | Log model selection decisions |
@@ -230,6 +233,7 @@ Use the same commands in CI as local hooks:
 ### Health Metrics
 
 Track:
+
 - edits flagged by gates
 - average remediation time
 - repeat violations by category

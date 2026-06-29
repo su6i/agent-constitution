@@ -7,6 +7,7 @@ Thank you for your interest in contributing to the Agent Constitution! This docu
 ---
 
 ## 📋 Table of Contents
+
 - [Code of Conduct](#code-of-conduct)
 - [How to Contribute](#how-to-contribute)
 - [Skill File Structure](#skill-file-structure)
@@ -26,22 +27,27 @@ Thank you for your interest in contributing to the Agent Constitution! This docu
 ## How to Contribute
 
 ### 1. Reporting Issues
+
 - Use GitHub Issues for bug reports and feature requests.
 - Provide clear reproduction steps for bugs.
 - Include relevant file paths and error messages.
 
 ### 2. Proposing Changes
+
 - Fork the repository.
 - Create a feature branch: `git checkout -b feature/your-feature-name`
 - Make your changes following the guidelines below.
 - Submit a Pull Request.
 
 ### Git hooks (required)
+
 Install the pre-commit hook once after cloning — it blocks direct commits to
 `main` and enforces the Pre-Commit Docs Checklist:
+
 ```bash
 cp templates/hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
 ```
+
 Projects created with `amir init-project` get this hook installed automatically.
 Bypass deliberately (discouraged) with `git commit --no-verify`.
 
@@ -68,7 +74,8 @@ Content with technical depth...
 [Back to README](README.md)
 ```
 
-### Requirements:
+### Requirements
+
 - **Minimum 400 lines** for extreme-density encyclopedic skills.
 - **No promotional language** (avoid "Revolutionary", "Cutting-edge", etc.).
 - **Navigation links** at top and bottom.
@@ -79,6 +86,7 @@ Content with technical depth...
 ## Workflow Guidelines
 
 Workflow files in `.cursor/workflows/` must:
+
 - Have a clear `description` in YAML frontmatter.
 - Include step-by-step instructions.
 - Reference relevant prompts and skills.

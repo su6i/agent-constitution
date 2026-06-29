@@ -21,7 +21,7 @@ Performance optimization patterns for React 18/19 and Next.js, adapted from [Ver
 ## Priority Index
 
 | Priority | Category | Prefix | When it matters |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 1 — CRITICAL | Eliminating Waterfalls | `async-` | Anytime `await` is followed by independent `await` |
 | 2 — CRITICAL | Bundle Size Optimization | `bundle-` | First-load JS, route-level imports, third-party libs |
 | 3 — HIGH | Server-Side Performance | `server-` | RSC, Server Actions, API routes, SSR |
@@ -553,7 +553,7 @@ When the project ships React Compiler, demote `rerender-*` manual memoization ru
 ## Lighthouse / Web Vitals Mapping
 
 | Metric | Most relevant categories |
-|---|---|
+| --- | --- |
 | **LCP** (Largest Contentful Paint) | Waterfalls, Bundle Size, Resource Hints |
 | **INP** (Interaction to Next Paint) | Re-render, Rendering, JavaScript |
 | **CLS** (Cumulative Layout Shift) | Rendering (Suspense placement, image dimensions) |

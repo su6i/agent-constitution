@@ -39,7 +39,7 @@ Use compound components when related UI shares state and interaction semantics:
 Treat these separately:
 
 | Concern | Tooling |
-|---------|---------|
+| --------- | --------- |
 | Server state | TanStack Query, SWR, tRPC |
 | Client state | Zustand, Jotai, signals |
 | URL state | search params, route segments |
@@ -51,6 +51,7 @@ Treat these separately:
 ## URL As State
 
 Persist shareable state in the URL:
+
 - filters
 - sort order
 - pagination

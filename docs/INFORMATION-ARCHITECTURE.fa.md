@@ -27,7 +27,7 @@ last_updated: 2026-03-12
 ## نقشه مخزن
 
 | بخش | نقش | نسبت با سند شاخص |
-|---|---|---|
+| --- | --- | --- |
 | [README.fa.md](../README.fa.md) | ورودی فارسی | خواننده را به سند شاخص هدایت می‌کند |
 | [AGENTIC-CODING-SETUP.fa.md](../AGENTIC-CODING-SETUP.fa.md) | سند فنی canonical فارسی | تعریف methodology، benchmarking، انتخاب مدل و اقتصاد |
 | [README.md](../README.md) | ورودی انگلیسی | لایه ناوبری برای مخاطب بین‌المللی |

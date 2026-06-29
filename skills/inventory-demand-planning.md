@@ -125,7 +125,7 @@ The textbook formula is `SS = Z × σ_d × √(LT + RP)` where Z is the service 
 ### Forecast Method Selection by Demand Pattern
 
 | Demand Pattern | Primary Method | Fallback Method | Review Trigger |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Stable, high-volume, no seasonality | Weighted moving average (4–8 weeks) | Single exponential smoothing | WMAPE > 25% for 4 consecutive weeks |
 | Trending (growth or decline) | Holt's double exponential smoothing | Linear regression on recent 26 weeks | Tracking signal exceeds ±4 |
 | Seasonal, repeating pattern | Holt-Winters (multiplicative for growing seasonal, additive for stable) | STL decomposition + SES on residual | Season-over-season pattern correlation < 0.7 |
@@ -137,7 +137,7 @@ The textbook formula is `SS = Z × σ_d × √(LT + RP)` where Z is the service 
 ### Safety Stock Service Level Selection
 
 | Segment | Target Service Level | Z-Score | Rationale |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | AX (high-value, predictable) | 97.5% | 1.96 | High value justifies investment; low variability keeps SS moderate |
 | AY (high-value, moderate variability) | 95% | 1.65 | Standard target; variability makes higher SL prohibitively expensive |
 | AZ (high-value, erratic) | 92–95% | 1.41–1.65 | Erratic demand makes high SL astronomically expensive; supplement with expediting capability |
@@ -157,7 +157,7 @@ The textbook formula is `SS = Z × σ_d × √(LT + RP)` where Z is the service 
 ### Markdown Timing Decision
 
 | Sell-Through at Season Midpoint | Action | Expected Margin Recovery |
-|---|---|---|
+| --- | --- | --- |
 | ≥ 80% of plan | Hold price. Reorder cautiously if weeks of supply < 3. | Full margin |
 | 60–79% of plan | Take 20–25% markdown. No reorder. | 70–80% of original margin |
 | 40–59% of plan | Take 30–40% markdown immediately. Cancel any open POs. | 50–65% of original margin |
@@ -166,6 +166,7 @@ The textbook formula is `SS = Z × σ_d × √(LT + RP)` where Z is the service 
 ### Slow-Mover Kill Decision
 
 Evaluate quarterly. Flag for discontinuation when ALL of the following are true:
+
 - Weeks of supply > 26 at current sell-through rate
 - Last 13-week sales velocity < 50% of the item's first 13 weeks (lifecycle declining)
 - No promotional activity planned in the next 8 weeks
@@ -212,7 +213,7 @@ Brief templates appear above. Adapt them to your supplier, sales, and operations
 ### Automatic Escalation Triggers
 
 | Trigger | Action | Timeline |
-|---|---|---|
+| --- | --- | --- |
 | Projected stockout on A-item within 7 days | Alert demand planning manager + category merchant | Within 4 hours |
 | Vendor confirms lead time increase > 25% | Notify supply chain director; recalculate all open POs | Within 1 business day |
 | Promotional forecast miss > 40% (over or under) | Post-promo debrief with merchandising and vendor | Within 1 week of promo end |
@@ -230,7 +231,7 @@ Level 1 (Demand Planner) → Level 2 (Planning Manager, 24 hours) → Level 3 (D
 Track weekly and trend monthly:
 
 | Metric | Target | Red Flag |
-|---|---|---|
+| --- | --- | --- |
 | WMAPE (weighted mean absolute percentage error) | < 25% | > 35% |
 | Forecast bias | ±5% | > ±10% for 4+ weeks |
 | In-stock rate (A-items) | > 97% | < 94% |

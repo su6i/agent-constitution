@@ -12,7 +12,7 @@ Animated terminal demos are the highest-impact addition to any CLI/developer too
 ## Tool Comparison
 
 | | VHS | asciinema + agg |
-|---|---|---|
+| --- | --- | --- |
 | **Stars** | 20K (charmbracelet/vhs) | 17K + 1.6K |
 | **How it works** | Runs commands from a `.tape` script | Records a real interactive session |
 | **Output** | GIF, MP4, WebM, PNG frames | `.cast` → GIF (via agg) or embed on asciinema.org |
@@ -154,6 +154,7 @@ Sleep 1s
 ```
 
 Run with:
+
 ```bash
 vhs assets/demo.tape
 ```

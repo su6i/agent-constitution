@@ -23,6 +23,7 @@ This skill enforces idiomatic Kotlin conventions across seven key areas: null sa
 ## Examples
 
 **Null safety with Elvis operator:**
+
 ```kotlin
 fun getUserEmail(userId: String): String {
     val user = userRepository.findById(userId)
@@ -31,6 +32,7 @@ fun getUserEmail(userId: String): String {
 ```
 
 **Sealed class for exhaustive results:**
+
 ```kotlin
 sealed class Result<out T> {
     data class Success<T>(val data: T) : Result<T>()
@@ -40,6 +42,7 @@ sealed class Result<out T> {
 ```
 
 **Structured concurrency with async/await:**
+
 ```kotlin
 suspend fun fetchUserWithPosts(userId: String): UserProfile =
     coroutineScope {
@@ -649,7 +652,7 @@ val (active, inactive) = users.partition { it.isActive }
 ## Quick Reference: Kotlin Idioms
 
 | Idiom | Description |
-|-------|-------------|
+| ------- | ------------- |
 | `val` over `var` | Prefer immutable variables |
 | `data class` | For value objects with equals/hashCode/copy |
 | `sealed class/interface` | For restricted type hierarchies |

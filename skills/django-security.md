@@ -576,7 +576,7 @@ LOGGING = {
 ## Quick Security Checklist
 
 | Check | Description |
-|-------|-------------|
+| ------- | ------------- |
 | `DEBUG = False` | Never run with DEBUG in production |
 | HTTPS only | Force SSL, secure cookies |
 | Strong secrets | Use environment variables for SECRET_KEY |

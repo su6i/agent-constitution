@@ -11,6 +11,7 @@ last_updated: 2026-03-08
 [Back to README](../README.md)
 
 **🔗 Related Voice Skills:**
+
 - [Voice Synthesis Multilingual](voice-synthesis-multilingual.md) - Zero-shot XTTS & Fish Speech
 - [Voice Orchestration](voice-orchestration-multi-model.md) - Multi-model pipeline management
 - [Voice AI Cloning](voice-ai-cloning-finetuning.md) - Dataset curation & fine-tuning
@@ -23,11 +24,13 @@ Technical protocols for implementing Nari Labs' Dia TTS model for natural turn-t
 ## 1. Dia Architecture Overview
 
 ### 1.1 Core Capabilities
-*   **Turn-Taking:** Native support for conversational flow between speakers.
-*   **Non-Verbal Sounds:** Laughs, sighs, coughs, gasps generated inline.
-*   **Speed:** Real-time generation on consumer GPUs.
+
+- **Turn-Taking:** Native support for conversational flow between speakers.
+- **Non-Verbal Sounds:** Laughs, sighs, coughs, gasps generated inline.
+- **Speed:** Real-time generation on consumer GPUs.
 
 ### 1.2 Model Specifications
+
 | Spec | Value |
 | :--- | :--- |
 | Parameters | 1.6B |
@@ -41,6 +44,7 @@ Technical protocols for implementing Nari Labs' Dia TTS model for natural turn-t
 ## 2. Script Format for Dia
 
 ### 2.1 Speaker Tags
+
 ```
 [S1] Hello, how are you doing today?
 [S2] I'm great! (laughs) What about you?
@@ -48,6 +52,7 @@ Technical protocols for implementing Nari Labs' Dia TTS model for natural turn-t
 ```
 
 ### 2.2 Non-Verbal Annotations
+
 | Tag | Sound |
 | :--- | :--- |
 | `(laughs)` | Natural laughter |
@@ -61,6 +66,7 @@ Technical protocols for implementing Nari Labs' Dia TTS model for natural turn-t
 ## 3. Python Integration
 
 ### 3.1 Basic Usage
+
 ```python
 from dia import Dia
 
@@ -77,6 +83,7 @@ audio.save("dialogue.wav")
 ```
 
 ### 3.2 Voice Cloning with Dia
+
 ```python
 # Clone specific voices for S1 and S2
 model.set_speaker_reference(
@@ -94,6 +101,7 @@ model.set_speaker_reference(
 ## 4. Emotional Modulation
 
 ### 4.1 Inline Emotion Tags
+
 ```
 [S1] <happy> That's exactly what I needed! </happy>
 [S2] <sad> But what if it doesn't work? </sad>
@@ -101,6 +109,7 @@ model.set_speaker_reference(
 ```
 
 ### 4.2 Prosody Control
+
 ```python
 # Fine-grained control
 audio = model.generate(
@@ -116,6 +125,7 @@ audio = model.generate(
 ## 5. Integration with Moltbot Pipeline
 
 ### 5.1 Voice Router Integration
+
 ```python
 VOICE_ROUTER = {
     "dialogue_scene": {
@@ -133,6 +143,7 @@ VOICE_ROUTER = {
 ```
 
 ### 5.2 Scene-Based Switching
+
 ```python
 async def synthesize_scene(scene: dict):
     if scene["type"] == "dialogue":
@@ -146,13 +157,15 @@ async def synthesize_scene(scene: dict):
 ## 6. Hardware Optimization
 
 ### 6.1 Mac Mini M4 (MLX)
-*   Dia has community MLX port in development.
-*   Current status: Experimental, slower than CUDA.
-*   Fallback: Use API-based inference.
+
+- Dia has community MLX port in development.
+- Current status: Experimental, slower than CUDA.
+- Fallback: Use API-based inference.
 
 ### 6.2 Cloud GPU (RTX 4090)
-*   Full speed: ~10x real-time.
-*   Batch processing: Queue full episode dialogues.
+
+- Full speed: ~10x real-time.
+- Batch processing: Queue full episode dialogues.
 
 ---
 

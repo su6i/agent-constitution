@@ -17,10 +17,12 @@ Technical protocols for implementing the Method of Loci (Memory Palace) techniqu
 ## 1. The Memory Palace Architecture
 
 ### 1.1 Core Principle
-*   **Logic:** The brain remembers spatial locations better than abstract information.
-*   **Application:** Placing vocabulary/concepts in memorable visual locations within animated scenes.
+
+* **Logic:** The brain remembers spatial locations better than abstract information.
+* **Application:** Placing vocabulary/concepts in memorable visual locations within animated scenes.
 
 ### 1.2 Palace Structure Standards
+
 ```
 MEMORY PALACE HIERARCHY:
 ├── Palace (Series/Course)
@@ -35,6 +37,7 @@ MEMORY PALACE HIERARCHY:
 ## 2. Visual Anchor Design
 
 ### 2.1 Anchor Types
+
 | Type | Best For | Example |
 | :--- | :--- | :--- |
 | **Object** | Nouns | A glowing "automation" robot on desk |
@@ -43,8 +46,10 @@ MEMORY PALACE HIERARCHY:
 | **Sound** | Pronunciation | Echo effect at each station |
 
 ### 2.2 Absurdity Principle
-*   **Logic:** Bizarre/unusual images are remembered better.
-*   **Implementation:** Exaggerated animations, impossible physics.
+
+* **Logic:** Bizarre/unusual images are remembered better.
+* **Implementation:** Exaggerated animations, impossible physics.
+
 ```python
 # Example: Teaching "procrastinate"
 anchor = {
@@ -61,6 +66,7 @@ anchor = {
 ## 3. Animation Integration
 
 ### 3.1 Camera Path = Memory Journey
+
 ```python
 CAMERA_PATH = [
     {"station": "door", "word": "begin", "duration": 3},
@@ -73,14 +79,16 @@ CAMERA_PATH = [
 ```
 
 ### 3.2 Consistent Room Layout
-*   **Rule:** Same room layout across episodes of same series.
-*   **Reason:** Allows cumulative spatial memory building.
+
+* **Rule:** Same room layout across episodes of same series.
+* **Reason:** Allows cumulative spatial memory building.
 
 ---
 
 ## 4. Blender Implementation
 
 ### 4.1 Room Template Script
+
 ```python
 import bpy
 
@@ -111,6 +119,7 @@ def create_memory_room():
 ## 5. Integration with Leitner System
 
 ### 5.1 Station-Based Review
+
 ```sql
 CREATE TABLE loci_stations (
     station_id TEXT PRIMARY KEY,
@@ -123,9 +132,10 @@ CREATE TABLE loci_stations (
 ```
 
 ### 5.2 Review Animation
-*   When word is due for review → Camera revisits that station.
-*   Flash highlight effect on the object.
-*   Reinforces spatial-vocabulary connection.
+
+* When word is due for review → Camera revisits that station.
+* Flash highlight effect on the object.
+* Reinforces spatial-vocabulary connection.
 
 ---
 

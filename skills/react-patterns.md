@@ -167,7 +167,7 @@ For multi-step forms, dynamic field arrays, or cross-field validation: use a lib
 ## Data Fetching Decision Matrix
 
 | Need | Tool |
-|---|---|
+| --- | --- |
 | Per-request data in Next.js App Router | RSC `await fetch()` |
 | Client-side cache + mutations + invalidation | TanStack Query |
 | Lightweight client cache + revalidation | SWR |

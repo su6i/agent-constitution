@@ -68,9 +68,11 @@ my_project/
 ## Non-Negotiable Rules
 
 ### 1. No I/O in core/
+
 Files inside `core/` must never handle HTTP requests, read user input, or call external services directly. They receive data as Python objects and return Python objects. Period.
 
 ### 2. Validation in schemas/, not only in routers
+
 Pydantic models belong in `src/schemas/` and must be used by **core functions** too — not just FastAPI endpoints. This ensures CLI and other direct callers get the same data integrity guarantees.
 
 ```python
@@ -86,6 +88,7 @@ async def discover_endpoint(params: DiscoverParams):
 ```
 
 ### 3. Telegram bot uses Webhook, not Long-Polling
+
 When a FastAPI server is already running, the Telegram bot must integrate as a webhook endpoint (`POST /webhook/telegram`) — not as a separate long-polling process. This keeps the architecture unified and reduces resource usage.
 
 ```python
@@ -96,6 +99,7 @@ async def telegram_webhook(update: dict):
 ```
 
 ### 4. CORS configured from day one
+
 Chrome extensions and any browser-based client make cross-origin requests. `CORSMiddleware` must be configured at project start — not added later when bugs appear.
 
 ```python
@@ -110,9 +114,11 @@ app.add_middleware(
 ```
 
 ### 5. Interfaces are thin — no business logic
+
 Files in `api/`, `cli/`, `bot/` may only: parse input → call core/services → format output. If a route handler or command function exceeds ~15 lines of logic, that logic belongs in `core/` or `services/`.
 
 ### 6. One entry point, multiple subcommands
+
 `main.py` is the single entry point for all modes:
 
 ```bash

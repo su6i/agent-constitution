@@ -27,7 +27,7 @@ Patterns, architectures, and reference implementations for running Claude Code a
 From simplest to most sophisticated:
 
 | Pattern | Complexity | Best For |
-|---------|-----------|----------|
+| --------- | ----------- | ---------- |
 | [Sequential Pipeline](#1-sequential-pipeline-claude--p) | Low | Daily dev steps, scripted workflows |
 | [NanoClaw REPL](#2-nanoclaw-repl) | Low | Interactive persistent sessions |
 | [Infinite Agentic Loop](#3-infinite-agentic-loop) | Medium | Parallel content generation, spec-driven work |
@@ -76,6 +76,7 @@ claude -p "Create a conventional commit for all staged changes. Use 'feat: add O
 ### Variations
 
 **With model routing:**
+
 ```bash
 # Research with Opus (deep reasoning)
 claude -p --model opus "Analyze the codebase architecture and write a plan for adding caching..."
@@ -88,6 +89,7 @@ claude -p --model opus "Review all changes for security issues, race conditions,
 ```
 
 **With environment context:**
+
 ```bash
 # Pass context via files, not prompt length
 echo "Focus areas: auth module, API rate limiting" > .claude-context.md
@@ -96,6 +98,7 @@ rm .claude-context.md
 ```
 
 **With `--allowedTools` restrictions:**
+
 ```bash
 # Read-only analysis pass
 claude -p --allowedTools "Read,Grep,Glob" "Audit this codebase for security vulnerabilities..."
@@ -128,7 +131,7 @@ CLAW_SESSION=my-project CLAW_SKILLS=tdd-workflow,security-review node scripts/cl
 ### When NanoClaw vs Sequential Pipeline
 
 | Use Case | NanoClaw | Sequential Pipeline |
-|----------|----------|-------------------|
+| ---------- | ---------- | ------------------- |
 | Interactive exploration | Yes | No |
 | Scripted automation | No | Yes |
 | Session persistence | Built-in | Manual |
@@ -189,6 +192,7 @@ PHASE 5 (infinite mode): Loop in waves of 3-5 until context is low.
 ```
 
 **Invoke:**
+
 ```bash
 /project:infinite specs/component-spec.md src/ 5
 /project:infinite specs/component-spec.md src/ infinite
@@ -197,7 +201,7 @@ PHASE 5 (infinite mode): Loop in waves of 3-5 until context is low.
 ### Batching Strategy
 
 | Count | Strategy |
-|-------|----------|
+| ------- | ---------- |
 | 1-5 | All agents simultaneously |
 | 6-20 | Batches of 5 |
 | infinite | Waves of 3-5, progressive sophistication |
@@ -281,6 +285,7 @@ Claude reads this file at iteration start and updates it at iteration end. This 
 ### CI Failure Recovery
 
 When PR checks fail, Continuous Claude automatically:
+
 1. Fetches the failed run ID via `gh run list`
 2. Spawns a new `claude -p` with CI fix context
 3. Claude inspects logs via `gh run view`, fixes code, commits, pushes
@@ -302,7 +307,7 @@ Three consecutive iterations signaling completion stops the loop, preventing was
 ### Key Configuration
 
 | Flag | Purpose |
-|------|---------|
+| ------ | --------- |
 | `--max-runs N` | Stop after N successful iterations |
 | `--max-cost $X` | Stop after spending $X |
 | `--max-duration 2h` | Stop after time elapsed |
@@ -321,6 +326,7 @@ Three consecutive iterations signaling completion stops the loop, preventing was
 ### The Problem
 
 When you ask an LLM to implement with TDD, it takes "write tests" too literally:
+
 - Tests that verify TypeScript's type system works (testing `typeof x === 'string'`)
 - Overly defensive runtime checks for things the type system already guarantees
 - Tests for framework behavior rather than business logic
@@ -329,6 +335,7 @@ When you ask an LLM to implement with TDD, it takes "write tests" too literally:
 ### Why Not Negative Instructions?
 
 Adding "don't test type systems" or "don't add unnecessary checks" to the Implementer prompt has downstream effects:
+
 - The model becomes hesitant about ALL testing
 - It skips legitimate edge case tests
 - Quality degrades unpredictably
@@ -426,12 +433,14 @@ interface WorkUnit {
 ```
 
 **Decomposition Rules:**
+
 - Prefer fewer, cohesive units (minimize merge risk)
 - Minimize cross-unit file overlap (avoid conflicts)
 - Keep tests WITH implementation (never separate "implement X" + "test X")
 - Dependencies only where real code dependency exists
 
 The dependency DAG determines execution order:
+
 ```
 Layer 0: [unit-a, unit-b]     ← no deps, run in parallel
 Layer 1: [unit-c]             ← depends on unit-a
@@ -443,7 +452,7 @@ Layer 2: [unit-d, unit-e]     ← depend on unit-c
 Different tiers get different pipeline depths:
 
 | Tier | Pipeline Stages |
-|------|----------------|
+| ------ | ---------------- |
 | **trivial** | implement → test |
 | **small** | implement → test → code-review |
 | **medium** | research → plan → implement → test → PRD-review + code-review → review-fix |
@@ -456,7 +465,7 @@ This prevents expensive operations on simple changes while ensuring architectura
 Each stage runs in its own agent process with its own context window:
 
 | Stage | Model | Purpose |
-|-------|-------|---------|
+| ------- | ------- | --------- |
 | Research | Sonnet | Read codebase + RFC, produce context doc |
 | Plan | Opus | Design implementation steps |
 | Implement | Codex | Write code following the plan |
@@ -485,6 +494,7 @@ Unit branch
 ```
 
 **File Overlap Intelligence:**
+
 - Non-overlapping units land speculatively in parallel
 - Overlapping units land one-by-one, rebasing each time
 
@@ -515,6 +525,7 @@ evictionContext ─────────────────────�
 ### Worktree Isolation
 
 Every unit runs in an isolated worktree (uses jj/Jujutsu, not git):
+
 ```
 /tmp/workflow-wt-{unit-id}/
 ```
@@ -533,7 +544,7 @@ Pipeline stages for the same unit **share** a worktree, preserving state (contex
 ### When to Use Ralphinho vs Simpler Patterns
 
 | Signal | Use Ralphinho | Use Simpler Pattern |
-|--------|--------------|-------------------|
+| -------- | -------------- | ------------------- |
 | Multiple interdependent work units | Yes | No |
 | Need parallel implementation | Yes | No |
 | Merge conflicts likely | Yes | No (sequential is fine) |
@@ -571,6 +582,7 @@ These patterns compose well:
 3. **Any loop + Verification** — Use ECC's `/verify` command or `verification-loop` skill as a gate before commits.
 
 4. **Ralphinho's tiered approach in simpler loops** — Even in a sequential pipeline, you can route simple tasks to Haiku and complex tasks to Opus:
+
    ```bash
    # Simple formatting fix
    claude -p --model haiku "Fix the import ordering in src/utils.ts"
@@ -602,7 +614,7 @@ These patterns compose well:
 ## References
 
 | Project | Author | Link |
-|---------|--------|------|
+| --------- | -------- | ------ |
 | Ralphinho | enitrat | credit: @enitrat |
 | Infinite Agentic Loop | disler | credit: @disler |
 | Continuous Claude | AnandChowdhary | credit: @AnandChowdhary |

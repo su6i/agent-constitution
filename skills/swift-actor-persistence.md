@@ -111,7 +111,7 @@ final class QuestionListViewModel {
 ## Key Design Decisions
 
 | Decision | Rationale |
-|----------|-----------|
+| ---------- | ----------- |
 | Actor (not class + lock) | Compiler-enforced thread safety, no manual synchronization |
 | In-memory cache + file persistence | Fast reads from cache, durable writes to disk |
 | Synchronous init loading | Avoids async initialization complexity |

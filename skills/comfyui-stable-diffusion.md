@@ -15,8 +15,9 @@ Sources: comfyanonymous/ComfyUI · AUTOMATIC1111/stable-diffusion-webui · ltdrd
 ## 1. Local Setup
 
 ### GPU requirements
+
 | Model | VRAM min | Notes |
-|-------|----------|-------|
+| ------- | ---------- | ------- |
 | SD 1.5 | 2 GB | 512×512 default |
 | SDXL base | 8 GB | 1024×1024; use `--lowvram` on 6 GB |
 | SDXL + refiner | 12 GB | two-pass pipeline |
@@ -24,6 +25,7 @@ Sources: comfyanonymous/ComfyUI · AUTOMATIC1111/stable-diffusion-webui · ltdrd
 ComfyUI uses smart memory offloading — can run on 1 GB VRAM with `--cpu` (slow).
 
 ### Install ComfyUI
+
 ```bash
 git clone https://github.com/comfyanonymous/ComfyUI
 cd ComfyUI
@@ -36,6 +38,7 @@ wget -O models/checkpoints/sd_xl_base_1.0.safetensors \
 ```
 
 ### Start server
+
 ```bash
 # Default: localhost:8188
 python main.py
@@ -48,6 +51,7 @@ python main.py --cpu
 ```
 
 ### Install ComfyUI-Manager (custom nodes hub)
+
 ```bash
 cd ComfyUI/custom_nodes
 git clone https://github.com/ltdrdata/ComfyUI-Manager comfyui-manager
@@ -201,6 +205,7 @@ PRESETS = {
 ```
 
 Key rules:
+
 - Reserve left or right third of frame as empty space for text overlay
 - High contrast + vivid colors outperform realistic/muted tones in CTR tests
 - Specify `looking at camera` for face shots — avoids profile views
@@ -288,6 +293,7 @@ for path in paths:
 ## 7. AUTOMATIC1111 WebUI API
 
 Start A1111 with API enabled:
+
 ```bash
 ./webui.sh --api --nowebui          # Linux/macOS
 # Windows: webui-user.bat --api --nowebui

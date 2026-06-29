@@ -208,7 +208,7 @@ export function FadeIn() {
 #### Core Patterns
 
 | Scenario | Pattern |
-|---|---|
+| --- | --- |
 | Hover feedback | `whileHover` |
 | Tap / press feedback | `whileTap` |
 | Reveal on scroll | `whileInView` |
@@ -230,7 +230,7 @@ export function FadeIn() {
 Always specify `mode` explicitly — the default (`"sync"`) runs enter and exit simultaneously, which causes visual overlap in most UI patterns.
 
 | `mode` | When to use |
-|---|---|
+| --- | --- |
 | `"wait"` | Exit completes before enter starts. Use for **modals, toasts, page transitions**. |
 | `"sync"` (default) | Enter and exit overlap. Use only when overlap is intentional (e.g., crossfade carousels). |
 | `"popLayout"` | Exiting element is popped out of flow immediately; remaining items animate to fill. Use for **lists, tabs, dismissible cards**. |

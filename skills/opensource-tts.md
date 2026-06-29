@@ -11,7 +11,7 @@ last_updated: 2026-05-30
 ## Quick Decision Table
 
 | Tool | Persian (fa) | French (fr) | English (en) | Quality | Speed | Setup | Best For |
-|------|:---:|:---:|:---:|---------|-------|-------|----------|
+| ------ | :---: | :---: | :---: | --------- | ------- | ------- | ---------- |
 | **edge-tts** | fa-IR (4 voices) | fr-FR/fr-CA | Yes | Good | Instant | Trivial | Quick narration, no GPU |
 | **F5-TTS** | Via cloning | Via cloning | Native | Excellent | Fast (GPU) | Moderate | Zero-shot voice cloning |
 | **GPT-SoVITS** | Via training | Via training | Native | Best | Medium | Complex | Fine-tuned voice, 1 min sample |
@@ -19,6 +19,7 @@ last_updated: 2026-05-30
 | **Piper** | No | Yes (fr_FR) | Yes | Good | Very fast | Easy | Offline, embedded systems |
 
 **Decision guide:**
+
 - Need Persian voice fast with no GPU → `edge-tts` with `fa-IR-DilaraNeural`
 - Need to clone a specific person's voice → `F5-TTS` (zero-shot, 5s ref) or `GPT-SoVITS` (1 min training)
 - Need French narration, offline → `Piper` (fr_FR-siwis-medium)
@@ -329,6 +330,7 @@ voice.synthesize_wav("Text", wav_file, syn_config=config)
 ## Persian TTS — Best Approaches
 
 **Option 1: edge-tts (fastest, no GPU)**
+
 ```python
 import asyncio, edge_tts
 
@@ -340,6 +342,7 @@ asyncio.run(persian_tts("سلام دنیا، این یک آزمایش است."))
 ```
 
 **Option 2: F5-TTS cloning from fa-IR sample (GPU, best quality)**
+
 ```python
 from f5_tts.api import F5TTS
 
@@ -360,6 +363,7 @@ tts.infer(
 ## French TTS — Best Approaches
 
 **edge-tts (no GPU, instant):**
+
 ```bash
 edge-tts --voice fr-FR-DeniseNeural \
   --text "Bonjour, je suis votre assistant." \
@@ -367,6 +371,7 @@ edge-tts --voice fr-FR-DeniseNeural \
 ```
 
 **Piper (offline, fast):**
+
 ```bash
 pip install piper-tts
 python3 -m piper.download_voices fr_FR-siwis-medium
@@ -374,6 +379,7 @@ echo "Bonjour le monde" | piper --model fr_FR-siwis-medium --output_file out.wav
 ```
 
 **OpenVoice V2 (clone a specific French voice):**
+
 - Generate base audio with `TTS(language="FR")`
 - Apply `target_se` from any reference speaker
 - Produces the target person's voice speaking French
@@ -413,6 +419,7 @@ print(results)  # ['fa_01.mp3', 'fr_01.mp3', 'en_01.mp3']
 ```
 
 **For F5-TTS batch (GPU):**
+
 ```python
 from f5_tts.api import F5TTS
 

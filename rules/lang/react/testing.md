@@ -188,7 +188,7 @@ For those, use Playwright Component Testing or end-to-end Playwright/Cypress run
 ## Coverage Targets
 
 | Layer | Target |
-|---|---|
+| --- | --- |
 | Pure utility functions | ≥90% |
 | Custom hooks | ≥85% |
 | Components (presentational) | ≥80% — behavior, not lines |

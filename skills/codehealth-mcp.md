@@ -59,7 +59,7 @@ Token setup is documented in the upstream repo (link above). Standalone mode doe
 ### 2. Call standalone tools only
 
 | Tool | When to use |
-|------|-------------|
+| ------ | ------------- |
 | `code_health_review` | Full structural analysis **before** modifying a file |
 | `code_health_score` | Quick numeric score after each change (delta check) |
 | `pre_commit_code_health_safeguard` | Block commits that introduce Code Health regressions |
@@ -70,7 +70,7 @@ Do **not** call platform-only tools (e.g. repository-wide technical debt hotspot
 ### 3. Interpret scores (1–10)
 
 | Range | Meaning | Agent behavior |
-|-------|---------|----------------|
+| ------- | --------- | ---------------- |
 | **9.0–10.0** | Green — healthy | Safer to extend; still prefer vertical slices |
 | **4.0–8.9** | Yellow — debt | Tread carefully; no drive-by refactors |
 | **1.0–3.9** | Red — severe debt | Narrow scope only |
@@ -148,7 +148,7 @@ Drive-by cleanup across the module
 ## Pairing with ECC
 
 | ECC skill / flow | Code Health MCP role |
-|------------------|----------------------|
+| ------------------ | ---------------------- |
 | `coding-standards` | Style/naming; Code Health = structure/complexity |
 | `plankton-code-quality` | Write-time lint/format; Code Health = pre/post edit structural gate |
 | `verification-loop` / `/quality-gate` | Add structural regression check before "done" |

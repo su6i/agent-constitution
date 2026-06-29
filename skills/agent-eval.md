@@ -51,7 +51,7 @@ Each agent run gets its own git worktree — no Docker required. This provides r
 ### Metrics Collected
 
 | Metric | What It Measures |
-|--------|-----------------|
+| -------- | ----------------- |
 | Pass rate | Did the agent produce code that passes the judge? |
 | Cost | API spend per task (when available) |
 | Time | Wall-clock seconds to completion |
@@ -77,6 +77,7 @@ agent-eval run --task tasks/add-retry-logic.yaml --agent claude-code --agent aid
 ```
 
 Each run:
+
 1. Creates a fresh git worktree from the specified commit
 2. Hands the prompt to the agent
 3. Runs the judge criteria

@@ -38,7 +38,7 @@ Your test (Python)
 **UIA quality by framework:**
 
 | Framework | AutomationId | Reliability | Notes |
-|-----------|-------------|-------------|-------|
+| ----------- | ------------- | ------------- | ------- |
 | WPF | ★★★★★ | Excellent | `x:Name` maps directly to AutomationId |
 | WinForms | ★★★★☆ | Good | `AccessibleName` = AutomationId |
 | UWP / WinUI 3 | ★★★★★ | Excellent | Full Microsoft support |
@@ -440,7 +440,7 @@ def test_heavy_load(self, app): ...
 Common causes and fixes:
 
 | Cause | Fix |
-|-------|-----|
+| ------- | ----- |
 | Control not ready | Replace `time.sleep` with `wait_visible` |
 | Window not focused | Add `win.set_focus()` before interactions |
 | Animation in progress | `wait_until(lambda: not loading_indicator.exists())` |
@@ -621,7 +621,7 @@ Launch: `WindowsSandbox.exe e2e-sandbox.wsb`
 ### Tier comparison
 
 | Tier | Isolation | Setup cost | Works on CI | Use when |
-|------|-----------|-----------|-------------|----------|
+| ------ | ----------- | ----------- | ------------- | ---------- |
 | 1 — `tmp_path` env redirect | Filesystem | Zero | Always | Default for all tests |
 | 2 — Job Object | Process tree | Low | Always | Prevent child-process escape |
 | 3 — Windows Sandbox | Full OS | Medium | Needs Pro/Enterprise image | Nightly clean-room runs |

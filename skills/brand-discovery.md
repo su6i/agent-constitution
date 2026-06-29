@@ -74,7 +74,7 @@ Apply these rules throughout every module:
 ## Module sequence
 
 | File | Label | Frameworks used |
-|------|-------|-----------------|
+| ------ | ------- | ----------------- |
 | `10_purpose-why.md` | Purpose / Why | Sinek Golden Circle, Lencioni |
 | `20_positioning.md` | Positioning | Dunford "Obviously Awesome", Moore template |
 | `30_audience-niche.md` | Audience & Niche | Baker "Business of Expertise", ICP |

@@ -184,7 +184,7 @@ set before benchmarking. The strategic tension from the positioning brief is
 **Step 1 — eight-axis population (sample candidates):**
 
 | Candidate | Positioning stance | Specialization | Size band | Engagement | Distinctiveness | Evidence model | Brand strength | Market |
-|---|---|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Studio A | brand-led / editorial | identity only | micro | productized | contrarian | aesthetic-led | cult | global-remote |
 | Studio B | capability-led | broad DS+motion | boutique | bespoke | conventional | outcome-led | interchangeable | US |
 | Agency C | capability-led | brand+digital | mid-size | retainer | conventional | outcome-led | interchangeable | EU |
@@ -195,7 +195,7 @@ set before benchmarking. The strategic tension from the positioning brief is
 because the client's moat is POV-first, not capability breadth):**
 
 | Candidate | Offer overlap (1–5) | Distinctiveness (1–5) | Commercial credibility (1–5) | Craft proximity (1–5) | Tier | Include? |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 | Studio A | 5 | 5 | 3 | 5 | Direct | ✓ must-profile |
 | Studio B | 3 | 2 | 5 | 3 | Adjacent | ✓ credibility anchor |
 | Agency C | 2 | 1 | 5 | 2 | Aspirational | ✓ scale reference |

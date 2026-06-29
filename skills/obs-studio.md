@@ -9,6 +9,7 @@ last_updated: 2026-05-30
 # Skill: OBS Studio Scripting
 
 Two distinct control modes exist:
+
 - **In-process (obspython)** — Python script loaded inside OBS via Tools > Scripts. Full access to the C API via `import obspython as S`. Runs in the OBS process.
 - **External (obsws-python)** — Python process outside OBS connecting over WebSocket v5 (port 4455). Included by default in OBS >= 28.
 
@@ -17,6 +18,7 @@ Two distinct control modes exist:
 ## In-Process: obspython Basics
 
 ### Script lifecycle hooks
+
 ```python
 import obspython as S
 
@@ -30,6 +32,7 @@ def script_update(settings): pass  # called when settings change
 ```
 
 ### Scene switching
+
 ```python
 def set_scene_by_name(scene_name: str):
     scenes = S.obs_frontend_get_scenes()
@@ -41,6 +44,7 @@ def set_scene_by_name(scene_name: str):
 ```
 
 ### Source visibility toggle
+
 ```python
 def toggle_source_visibility(source_name: str):
     current_scene = S.obs_frontend_get_current_scene()
@@ -53,6 +57,7 @@ def toggle_source_visibility(source_name: str):
 ```
 
 ### Recording start / stop
+
 ```python
 # Check state
 def is_recording() -> bool:
@@ -69,6 +74,7 @@ S.obs_frontend_recording_pause(False)  # resume
 ```
 
 ### Streaming start / stop
+
 ```python
 S.obs_frontend_streaming_start()
 S.obs_frontend_streaming_stop()
@@ -76,6 +82,7 @@ is_live = S.obs_frontend_streaming_active()
 ```
 
 ### Add a source to current scene
+
 ```python
 def add_text_source(text: str, source_name: str):
     settings = S.obs_data_create()
@@ -88,8 +95,9 @@ def add_text_source(text: str, source_name: str):
 ```
 
 Source type identifier strings:
+
 | Source | ID string |
-|---|---|
+| --- | --- |
 | Browser | `browser_source` |
 | Display Capture | `monitor_capture` |
 | Game Capture | `game_capture` |
@@ -100,6 +108,7 @@ Source type identifier strings:
 | Color Source | `color_source` |
 
 ### Add a filter to a source
+
 ```python
 def add_opacity_filter(source_name: str, opacity: int = 50):
     source = S.obs_get_source_by_name(source_name)
@@ -113,6 +122,7 @@ def add_opacity_filter(source_name: str, opacity: int = 50):
 ```
 
 ### Events (frontend callbacks)
+
 ```python
 def on_event(event):
     if event == S.OBS_FRONTEND_EVENT_SCENE_CHANGED:
@@ -134,6 +144,7 @@ Key frontend event constants:
 `OBS_FRONTEND_EVENT_STREAMING_STOPPED`, `OBS_FRONTEND_EVENT_REPLAY_BUFFER_SAVED`
 
 ### Timers (in-script polling)
+
 ```python
 def tick():
     print("tick")
@@ -146,6 +157,7 @@ def script_unload():
 ```
 
 ### Hotkey registration (persistent)
+
 ```python
 HOTKEY_ID = S.OBS_INVALID_HOTKEY_ID
 
@@ -169,6 +181,7 @@ def script_save(settings):
 ```
 
 ### Debug tips
+
 - No stdin — use `print()` (goes to OBS log, also in Help > Log Files > View Current Log)
 - VS Code attach: install `debugpy`, place `debugpy.breakpoint()`, attach by Process ID (obs64.exe on Windows)
 
@@ -177,11 +190,13 @@ def script_save(settings):
 ## External: obsws-python (WebSocket v5)
 
 ### Install
+
 ```bash
 pip install obsws-python
 ```
 
 ### Config file (optional) — `~/config.toml`
+
 ```toml
 [connection]
 host = "localhost"
@@ -190,6 +205,7 @@ password = "mystrongpass"
 ```
 
 ### Request client — basic usage
+
 ```python
 import obsws_python as obs
 
@@ -231,6 +247,7 @@ print(resp.output_active)
 ```
 
 ### Event client — async callbacks
+
 ```python
 import obsws_python as obs
 
@@ -254,12 +271,14 @@ except KeyboardInterrupt:
 ```
 
 ### Raw send (for unlisted requests)
+
 ```python
 resp = cl.send("GetVersion", raw=True)
 print(resp)   # raw dict
 ```
 
 ### Error handling
+
 ```python
 from obsws_python import OBSSDKRequestError, OBSSDKTimeoutError
 
@@ -272,8 +291,9 @@ except OBSSDKTimeoutError:
 ```
 
 ### Key WebSocket requests (snake_case method names)
+
 | API call | obsws-python method |
-|---|---|
+| --- | --- |
 | `GetVersion` | `get_version()` |
 | `GetSceneList` | `get_scene_list()` |
 | `SetCurrentProgramScene` | `set_current_program_scene(scene_name)` |
@@ -294,7 +314,7 @@ except OBSSDKTimeoutError:
 ## Choosing the Right Approach
 
 | Criterion | obspython (in-process) | obsws-python (external) |
-|---|---|---|
+| --- | --- | --- |
 | Access to C API | Full | Limited to WS protocol |
 | Requires OBS restart on change | Yes | No |
 | Can run from another machine | No | Yes |
@@ -304,7 +324,8 @@ except OBSSDKTimeoutError:
 ---
 
 ## References
-- OBS docs: https://obsproject.com/docs/scripting.html
-- obspython full export: https://github.com/upgradeQ/Streaming-Software-Scripting-Reference/blob/master/src/export.md
-- WebSocket protocol: https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md
-- obsws-python PyPI: https://pypi.org/project/obsws-python
+
+- OBS docs: <https://obsproject.com/docs/scripting.html>
+- obspython full export: <https://github.com/upgradeQ/Streaming-Software-Scripting-Reference/blob/master/src/export.md>
+- WebSocket protocol: <https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md>
+- obsws-python PyPI: <https://pypi.org/project/obsws-python>

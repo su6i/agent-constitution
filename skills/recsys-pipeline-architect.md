@@ -28,7 +28,7 @@ Upstream: <https://github.com/mturac/recsys-pipeline-architect>
 ## The six-stage framework
 
 | # | Stage | Job | Parallel? |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | 1 | **Source** | Fetch candidates from one or more origins | Yes — multiple sources run in parallel |
 | 2 | **Hydrator** | Enrich each candidate with metadata needed for filtering and scoring | Yes — independent hydrators run in parallel |
 | 3 | **Filter** | Drop candidates that should never be shown (blocked, expired, duplicate, ineligible) | Sequential — each filter sees fewer items |

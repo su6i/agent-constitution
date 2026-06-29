@@ -122,6 +122,7 @@ mod tests {
 ## Test Naming
 
 Use descriptive names that explain the scenario:
+
 - `creates_user_with_valid_email()`
 - `rejects_order_when_insufficient_stock()`
 - `returns_none_when_not_found()`

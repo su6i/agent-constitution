@@ -675,7 +675,7 @@ fun Application.configureDI() {
 ## Quick Reference: Ktor Patterns
 
 | Pattern | Description |
-|---------|-------------|
+| --------- | ------------- |
 | `route("/path") { get { } }` | Route grouping with DSL |
 | `call.receive<T>()` | Deserialize request body |
 | `call.respond(status, body)` | Send response with status |
