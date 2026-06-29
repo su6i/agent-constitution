@@ -23,7 +23,8 @@ Then continue with the steps below.
 
 1. Look for `TODO.md` in the project root
 2. If it exists: read it and announce all open items grouped by priority level
-3. Ask: "Where do we start?"
+3. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
+4. Ask: "Where do we start?"
 
 ## Announcement Format
 
@@ -42,8 +43,16 @@ Level 3 (long-term):
 Known bugs:
   • [bug title]
 
+🌿 Open branches (unmerged into main):
+  • feature/foo — 3 ahead, last 12 days ago  ⚠️ stale
+  • fix/bar     — 1 ahead, last 2 days ago
+
 Where do we start?
 ```
+
+To scan **all** projects at once (catch branches in repos you have not opened
+in weeks), run `bin/open-branches.sh` — it reports unmerged / stale branches
+across every git repo under `~/@-github`.
 
 ## TODO Update Rule (Non-Negotiable)
 
