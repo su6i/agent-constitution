@@ -27,6 +27,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   CLI, Act = proxy `http://localhost:8787/v1`). Separate from install.sh (zero-touch
   unchanged). Skill version bumped 1.4.0 → 1.5.0.
 
+### Fixed
+
+- `templates/hooks/pre-commit`:
+  - Rule 2: deletion-only commits no longer require a documentation update.
+    The `all_staged` variable (all diff-filter modes) is now computed alongside
+    `staged` (ACMR only); if `staged` is empty but `all_staged` is non-empty, the
+    docs check is explicitly skipped. This makes the intent clear rather than
+    relying on an implicit empty-string exit.
+  - Rule 3: added `CLAUDE.md` to the personal-files blocklist (project-level
+    CLAUDE.md files may contain personal configuration; use `--no-verify` to
+    commit the shared template version intentionally). Rule 3 now iterates over
+    `all_staged` (not `staged`) so it also catches personal files in
+    deletion-only commits.
+  - Added a comment block noting that merge commits bypass pre-commit and
+    recommending CI-level secret-scan and branch-protection checks as the
+    server-side gate.
+
 ## [Unreleased] - 2026-06-09
 
 ### Fixed
