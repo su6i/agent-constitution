@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased] - 2026-06-30
+
+### Added
+
+- `skills/ai-router`: `RoutingConfig.roles` dict — maps role names ("planning", "acting"
+  or any custom key) to ordered `ModelType` tuples; `generate(role=...)` activates
+  role-based model selection (tried before complexity routing, circuit-open models
+  skipped, complexity routing is the final fallback). Fallback chain honours the role
+  order too. Skill version bumped 1.2.0 → 1.3.0.
+
 ## [Unreleased] - 2026-06-09
 
 ### Fixed

@@ -74,6 +74,24 @@ class RoutingConfig:
     # Leave empty in shared/example configs; set it in your PERSONAL config only.
     prefer_models: tuple = ()
 
+    # ── Plan/Act role routing ───────────────────────────────────────────────
+    # Generic role → ordered model priority list.  Empty = fall back to
+    # complexity routing.  Supported role names (convention, not enforced):
+    # "planning" and "acting".  Personal configs may add more roles.
+    # NEUTRAL DEFAULTS — do NOT put personal model choices here.
+    #
+    # Example personal config:
+    #   roles = {
+    #       "planning": (ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET),
+    #       "acting":   (ModelType.DEEPSEEK_PRO, ModelType.MINIMAX, ModelType.GROK),
+    #   }
+    #
+    # On every generate() call pass role="planning" or role="acting" (via kwargs
+    # or context["role"]) to activate role-based selection.  If the primary role
+    # model is unavailable / circuit-open the next in the tuple is tried before
+    # complexity routing kicks in as the final fallback.
+    roles: dict = field(default_factory=dict)
+
     # Fallback strategy
     enable_fallback: bool = True
     fallback_on_error: bool = True
@@ -613,28 +631,48 @@ class AIRouter:
         self,
         prompt: str,
         context: Optional[Dict[str, Any]] = None,
-        force_model: Optional[ModelType] = None
+        force_model: Optional[ModelType] = None,
+        role: Optional[str] = None,
     ) -> ModelType:
         """
-        Select appropriate model based on task complexity
-        
+        Select appropriate model based on task complexity (or role if provided).
+
         Args:
             prompt: The user's prompt
             context: Additional context for complexity analysis
             force_model: Override automatic selection
-        
+            role: Optional role name ("planning", "acting", or any custom key).
+                  If set and present in routing_config.roles, the role's ordered
+                  model list is tried before complexity routing.
+
         Returns:
             Selected ModelType
         """
         if force_model:
             return force_model
-        
+
+        # ── Role-based routing (highest priority after force_model) ─────────
+        # Resolve role from explicit arg or from context dict.
+        resolved_role = role or (context or {}).get("role")
+        if resolved_role and resolved_role in self.routing_config.roles:
+            for m in self.routing_config.roles[resolved_role]:
+                if m in self.clients and self.circuit_breakers[m].can_request():
+                    self.logger.info(
+                        f"Role '{resolved_role}' → {m.value}"
+                    )
+                    return m
+            # All role models unavailable → fall through to complexity routing.
+            self.logger.warning(
+                f"Role '{resolved_role}': no available model in role list, "
+                "falling back to complexity routing."
+            )
+
         complexity, confidence = self.complexity_analyzer.analyze(prompt, context)
-        
+
         self.logger.info(
             f"Complexity analysis: {complexity.name} (confidence: {confidence:.2f})"
         )
-        
+
         # Honor configured provider preference for non-critical tasks (generic — a user
         # might prefer a provider to spend prepaid credit). Critical tasks ignore it.
         if complexity.value <= self.routing_config.sonnet_max_complexity:
@@ -649,19 +687,19 @@ class AIRouter:
                 return ModelType.DEEPSEEK_FLASH
             elif ModelType.DEEPSEEK_PRO in self.clients:
                 return ModelType.DEEPSEEK_PRO
-        
+
         if complexity.value <= self.routing_config.haiku_max_complexity:
             if ModelType.CLAUDE_HAIKU in self.clients:
                 return ModelType.CLAUDE_HAIKU
-        
+
         if complexity.value <= self.routing_config.sonnet_max_complexity:
             if ModelType.CLAUDE_SONNET in self.clients:
                 return ModelType.CLAUDE_SONNET
-        
+
         # Default to most powerful model for critical tasks
         if ModelType.CLAUDE_OPUS in self.clients:
             return ModelType.CLAUDE_OPUS
-        
+
         # Fallback to any available model
         return next(iter(self.clients.keys()))
     
@@ -681,12 +719,18 @@ class AIRouter:
           max_tokens          — override max tokens
           is_urgent           — bool; non-urgent DeepSeek jobs may be deferred off-peak
           output_config       — dict, e.g. {"effort": "high"} (passed through to Claude)
+          role                — "planning" | "acting" | any key in routing_config.roles;
+                                activates role-based model selection (tried before
+                                complexity routing).
         """
         async with self.semaphore:
             start_time = time.time()
 
+            # Extract role (consumed here, not forwarded to the model client)
+            role = kwargs.pop("role", None)
+
             # Determine selected model
-            selected_model = self.select_model(prompt, context, force_model)
+            selected_model = self.select_model(prompt, context, force_model, role=role)
 
             # Check cache first
             if self.cache:
@@ -726,7 +770,7 @@ class AIRouter:
 
             # Try primary model with circuit breaker (applies peak_multiplier in cost)
             response_data = await self._generate_with_fallback(
-                prompt, selected_model, start_time, **kwargs
+                prompt, selected_model, start_time, role=role, **kwargs
             )
 
             # Cache the response
@@ -740,22 +784,36 @@ class AIRouter:
         prompt: str,
         primary_model: ModelType,
         start_time: float,
+        role: Optional[str] = None,
         **kwargs
     ) -> Dict[str, Any]:
-        """Generate with automatic fallback on failure"""
+        """Generate with automatic fallback on failure."""
         models_to_try = [primary_model]
-        
+
         # Add fallback models if enabled
         if self.routing_config.enable_fallback:
+            # Role fallbacks: remaining models in the role list (after the primary),
+            # so the user's explicit priority order is honoured on error too.
+            role_fallbacks: List[ModelType] = []
+            if role and role in self.routing_config.roles:
+                role_fallbacks = [
+                    m for m in self.routing_config.roles[role]
+                    if m != primary_model and m in self.clients
+                ]
+
             # Preferred providers first (honors prefer_models, e.g. prepaid credit),
             # then cheapest-first pay-as-you-go so a primary error degrades cost-safely.
-            fallback_order = list(self.routing_config.prefer_models) + [
+            generic_fallbacks = list(self.routing_config.prefer_models) + [
                 ModelType.DEEPSEEK_FLASH,
                 ModelType.DEEPSEEK_PRO,
                 ModelType.CLAUDE_SONNET,
                 ModelType.CLAUDE_HAIKU,
             ]
-            models_to_try.extend([m for m in fallback_order if m != primary_model and m in self.clients])
+            # Role fallbacks take priority over generic fallbacks.
+            combined = role_fallbacks + [
+                m for m in generic_fallbacks if m not in role_fallbacks
+            ]
+            models_to_try.extend([m for m in combined if m != primary_model and m in self.clients])
         
         last_error = None
         
