@@ -2,6 +2,8 @@
 name: bootstrap-installer
 description: Write zero-touch, idempotent install.sh / setup scripts for CLI and service projects — OS detection, uv-first dependency setup, .env config with auto-generated secrets, central-source bootstrap (clone-or-update + symlink, no submodule), and end-of-run verification. Use when creating or reviewing a project installer / bootstrap script.
 origin: ECC
+version: 1.0.0
+updated: 2026-06-30
 ---
 
 # Bootstrap Installer
@@ -95,6 +97,25 @@ success "constitution linked → $CENTRAL"
 
 `.agent/constitution` (the symlink) is gitignored. A cloner runs `install.sh` once and
 the link is created; edits to the central clone are seen instantly by every project.
+
+## Skill Registration (version-safe)
+
+To surface the central skills in Claude Code's `/skills`, link each into
+`~/.claude/skills/<name>/SKILL.md`. Many projects run their own installer against
+the **same** central source, so registration must be **idempotent and version-safe**
+— never clobber a newer skill registered by another project (see `036-skill-versioning`):
+
+```bash
+skill_version() { grep -m1 '^version:' "$1" | sed 's/^version:[[:space:]]*//' | tr -d '"'; }
+is_newer() { [ "$1" != "$2" ] && [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | tail -1)" = "$1" ]; }
+# for each central skill f → dst=~/.claude/skills/<name>/SKILL.md:
+#   symlink already points at f      → re-link (no-op, idempotent)
+#   dst exists from another source    → relink ONLY if our version is strictly newer
+#   dst absent                        → link
+```
+
+Because every project links to the one central source, the normal case is a no-op;
+the version check only fires when sources diverge, and it keeps the newer skill.
 
 ## Config / Secrets Pattern
 
