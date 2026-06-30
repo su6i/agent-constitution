@@ -29,7 +29,7 @@ class ModelType(Enum):
     CLAUDE_SONNET = "claude-sonnet-4-6"
     CLAUDE_HAIKU = "claude-haiku-4-5"
     MINIMAX = "MiniMax-M3"                 # minimax.io current model (set prefer_models to try it first)
-    DEEPSEEK_FLASH = "deepseek-v4-flash"   # deepseek-chat/-reasoner deprecate 2026-07-24 → use v4 names
+    DEEPSEEK_FLASH = "deepseek-v4-flash"   # deepseek-chat/-reasoner are deprecated — use v4 names (active now)
     DEEPSEEK_PRO = "deepseek-v4-pro"       # complex tasks ($0.435 in / $0.87 out per 1M)
     GROK = "grok-3"                        # xAI Grok — VERIFY: check https://docs.x.ai/docs for current model ID
     OPENAI = "gpt-4.1"                     # OpenAI — VERIFY: check https://platform.openai.com/docs/models
@@ -1029,7 +1029,7 @@ async def main():
         ModelType.DEEPSEEK_FLASH: ModelConfig(
             # DeepSeek official price (api-docs.deepseek.com/quick_start/pricing):
             # input $0.14 cache-miss / $0.0028 cache-hit, output $0.28 per 1M.
-            # ⚠️ Peak/valley from mid-July 2026: peak = 2× (UTC 01-04 & 06-10).
+            # ⚠️ DeepSeek peak/valley is active now: peak = 2× (UTC 01-04 & 06-10).
             name="deepseek-v4-flash",
             api_key="your-deepseek-api-key",
             base_url="https://api.deepseek.com/v1",

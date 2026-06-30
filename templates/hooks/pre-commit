@@ -96,18 +96,24 @@ EOF
 fi
 
 # ── Rule 3: block personal/memory workspace files ──────────────────────────
-# CLAUDE.md is included because project-level CLAUDE.md files often contain
-# personal configuration (user context, local paths, personal plan) that must
-# not enter the shared repo.  If you intentionally want to commit the shared
-# template CLAUDE.md, bypass once with: git commit --no-verify
+# TODO/SESSION/TASKS/ROADMAP and *.session/*.local are always personal → blocked
+# by name. CLAUDE.md is blocked ONLY when it is gitignored — i.e. a force-added
+# personal CLAUDE.md (with user context/local paths). A repo's own *tracked*
+# CLAUDE.md (the shared template, a project's intentional agent doc) is allowed.
 blocked=0
 while IFS= read -r f; do
     [ -z "$f" ] && continue
     base="$(basename "$f")"
     case "$base" in
-        TODO.md|SESSION.md|TASKS.md|ROADMAP.md|CLAUDE.md|*.session.md|*.local.md)
+        TODO.md|SESSION.md|TASKS.md|ROADMAP.md|*.session.md|*.local.md)
             echo "🚨 pre-commit: '$f' is a personal/memory workspace file and must never be committed."
             blocked=1
+            ;;
+        CLAUDE.md)
+            if git check-ignore -q "$f" 2>/dev/null; then
+                echo "🚨 pre-commit: '$f' is gitignored (personal CLAUDE.md) and was force-added — must not be committed."
+                blocked=1
+            fi
             ;;
     esac
 done <<EOF
