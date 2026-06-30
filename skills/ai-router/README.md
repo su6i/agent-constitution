@@ -1,7 +1,7 @@
 ---
 name: ai-router
 description: Production-ready multi-model AI router — routes by task complexity to the cheapest capable model (DeepSeek/MiniMax/Claude tiers), with prompt-cache reads, response caching, fallback, circuit breaker, cost tracking, off-peak gating, effort mapping, and an OpenAI-compatible FastAPI proxy. Use when configuring cost-optimized LLM routing, a Cline/OpenAI-compatible proxy, or batch-deferred non-urgent jobs.
-version: 1.4.0
+version: 1.5.0
 updated: 2026-06-30
 ---
 
@@ -17,6 +17,7 @@ updated: 2026-06-30
 | `server.py` | FastAPI OpenAI-compatible proxy (`POST /v1/chat/completions`) — point Cline here |
 | `batch_queue.py` | Non-urgent job queue; flushes to Anthropic Batches API (50% off) or off-peak |
 | `router_cli.py` | CLI for quick one-shot queries |
+| `configure.py` | Interactive wizard: pick planning/acting model priorities, writes `roles.yaml`, prints Cline snippet |
 | `config_example.py` | Annotated example configuration (copy to your vault, fill in keys) |
 | `requirements.txt` | Python dependencies |
 
@@ -29,11 +30,17 @@ pip install -r requirements.txt
 # Point at your personal config (exports build() -> AIRouter)
 export AIROUTER_CONFIG_MODULE=config   # or vault.config, etc.
 
+# (Optional) pick your model priorities interactively
+python configure.py           # or: router configure
+
 # Start the proxy
 uvicorn server:app --host 0.0.0.0 --port 8787
 ```
 
-Cline: set `base_url = http://localhost:8787/v1` in settings.
+Cline: set `base_url = http://localhost:8787/v1` in settings (Act model only — Plan model uses the subscription CLI provider, NOT the proxy).
+
+> **Note on install.sh:** `install.sh` stays zero-touch. After it finishes it prints:
+> `"Run \`router configure\` to choose your planning/acting model priorities."`
 
 ## ویژگی‌ها
 
