@@ -2,9 +2,14 @@
 name: bootstrap-installer
 description: Write zero-touch, idempotent install.sh / setup scripts for CLI and service projects — OS detection, uv-first dependency setup, .env config with auto-generated secrets, central-source bootstrap (clone-or-update + symlink, no submodule), and end-of-run verification. Use when creating or reviewing a project installer / bootstrap script.
 origin: ECC
-version: 1.0.0
+version: 1.1.0
 updated: 2026-06-30
 ---
+
+> The vault dirs (`data/shared/references/secrets/workspace`) are created on-demand
+> by `bin/scaffold-vault.sh [slug]` — call it from the installer's config step (or
+> any agent) instead of hand-creating per-project folders. It derives the slug the
+> same way as the `035-data-vault` resolver (git remote → repo name).
 
 # Bootstrap Installer
 

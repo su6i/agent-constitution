@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased] - 2026-06-30
+
+### Added
+
+- `skills/ai-router`: `RoutingConfig.roles` dict — maps role names ("planning", "acting"
+  or any custom key) to ordered `ModelType` tuples; `generate(role=...)` activates
+  role-based model selection (tried before complexity routing, circuit-open models
+  skipped, complexity routing is the final fallback). Fallback chain honours the role
+  order. Skill version bumped 1.2.0 → 1.3.0.
+- `skills/ai-router`: `OpenAICompatibleClient` — generic httpx client for any
+  `POST /chat/completions` provider (Grok, OpenAI, MiniMax, future providers).
+  Added `ModelType.GROK` (`grok-3`, VERIFY at docs.x.ai) and `ModelType.OPENAI`
+  (`gpt-4.1`, VERIFY at platform.openai.com). `_initialize_clients` wires these to
+  the new client. Skill version bumped 1.3.0 → 1.4.0.
+- `skills/ai-router/configure.py` — interactive wizard: asks planning/acting model
+  priorities, writes `~/.config/ai-router/roles.yaml` (overridable via
+  `AIROUTER_ROLES_FILE`), and prints a Cline settings snippet (Plan = subscription
+  CLI, Act = proxy `http://localhost:8787/v1`). Separate from install.sh (zero-touch
+  unchanged). Skill version bumped 1.4.0 → 1.5.0.
+
+- `rules/035-data-vault.md`: added **Layered Secrets Model** section documenting
+  the two-layer `_shared/secrets/.env` + `<project>/secrets/.env` resolution
+  order, the multiple-Telegram-bots pattern (separate project vaults), and a
+  Python `load_secrets()` reference snippet.
+- `AGENTIC-CODING-SETUP.md`: updated stale model IDs and names to current values —
+  `claude-opus-4-8` ($5/$25), `claude-sonnet-4-6` ($3/$15), `claude-haiku-4-5`
+  ($1/$5); `MiniMax M3` / `MiniMax-M3`; removed stale date-stamped Claude ID
+  (`claude-sonnet-4-5-20251001`); added deprecation notes for `deepseek-chat`
+  (deprecates 2026-07-24); updated `last_updated` to 2026-06-30. Benchmark
+  scores for models other than Claude kept as-is (uncertain); OpenRouter slugs
+  for MiniMax/Grok flagged with VERIFY comments.
+
+### Fixed
+
+- `templates/hooks/pre-commit`:
+  - Rule 2: deletion-only commits no longer require a documentation update.
+    The `all_staged` variable (all diff-filter modes) is now computed alongside
+    `staged` (ACMR only); if `staged` is empty but `all_staged` is non-empty, the
+    docs check is explicitly skipped. This makes the intent clear rather than
+    relying on an implicit empty-string exit.
+  - Rule 3: added `CLAUDE.md` to the personal-files blocklist (project-level
+    CLAUDE.md files may contain personal configuration; use `--no-verify` to
+    commit the shared template version intentionally). Rule 3 now iterates over
+    `all_staged` (not `staged`) so it also catches personal files in
+    deletion-only commits.
+  - Added a comment block noting that merge commits bypass pre-commit and
+    recommending CI-level secret-scan and branch-protection checks as the
+    server-side gate.
+
 ## [Unreleased] - 2026-06-09
 
 ### Fixed
