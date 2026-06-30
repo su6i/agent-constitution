@@ -12,67 +12,30 @@ last_updated: 2026-06-30
 
 *This guide was prepared by Claude Sonnet 4.6.*
 
-This document is the primary technical guide of this repository. It serves as the canonical reference for implementing High-Productivity Agentic Coding workflows, focusing on the strategic balance between **Computational Performance** and **Operational Cost Efficiency** based on February 2026 data.
+Canonical reference for High-Productivity Agentic Coding workflows — strategic balance of **Computational Performance** and **Operational Cost Efficiency**.
 
 ---
 
-## 📅 Technical Updates & Parameter Revisions (Feb 20, 2026)
+## 📅 Key Model Updates (Feb–Jun 2026)
 
-<div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:16px 20px; font-size:12px; color:#dde0f2; line-height:1.8;">
-  <strong>Key Technical Revisions:</strong><br>
-  1. <strong>DeepSeek V3.2-Speciale:</strong> Agent-optimized iteration; accessible via OpenRouter (Tool-use protocol).<br>
-  2. <strong>Gemini 3.1 Pro:</strong> Released Feb 19; recorded 77.1% on ARC-AGI-2 (Novel Reasoning benchmark).<br>
-  3. <strong>Claude Sonnet 4.6:</strong> Released Feb 17; 79.6% SWE-bench score with $3 input / $15 output pricing structure.<br>
-  4. <strong>Claude Opus 4.8</strong> (`claude-opus-4-8`): $5 input / $25 output per million tokens.
-</div>
+> **DeepSeek V3.2-Speciale** — agent-optimized; available via OpenRouter (tool-use protocol). **Gemini 3.1 Pro** — 77.1% ARC-AGI-2. **Claude Sonnet 4.6** (`claude-sonnet-4-6`) — 79.6% SWE-bench, $3/$15 per 1M tokens. **Claude Opus 4.8** (`claude-opus-4-8`) — $5/$25 per 1M tokens.
 
 ---
 
 ## 📊 1. Comparative Analysis of 11 Leading Coding Models
 
-### Ranked Model Matrix (By SWE-bench Performance Tier)
+### Benchmark Definitions
 
-1. 👑 **Claude Opus 4.8** (Score: 80.8%+)
-2. 🥈 **Gemini 3.1 Pro** (Score: 80.6%)
-3. 🥉 **MiniMax M3** (Score: ~80%)
-4. **GPT-5.4** (Score: 80.0%)
-5. **Claude Sonnet 4.6** (Score: 79.6%)
-6. **Kimi K2.5** (Score: 76.8%)
-7. **Gemini 3 Pro** (Score: 76.2%)
-8. **DeepSeek Speciale** (Score: ~76%)
-9. **DeepSeek V3.2** (Score: ~73%)
-10. **Gemini 3 Flash** (Score: 57.6%)
-11. **GPT-5 mini** (Score: ~52%)
+| Benchmark | Measures | Agentic relevance |
+|---|---|---|
+| **SWE-bench Verified** | Autonomous GitHub issue resolution | High score = reliable Builder for full engineering tasks |
+| **Terminal-Bench 2.0** | CLI accuracy — shell, packages, file ops | Fewer terminal-level errors in headless agentic runs |
+| **OSWorld** | Browser + desktop GUI use | Critical if agent must research docs or run UI tests |
+| **ARC-AGI-2** | Novel abstract reasoning | Proxy for raw intelligence on unseen architectural problems; primary Architect selector |
+| **AIME 2025** | Multi-step symbolic math | High score → logical consistency, fewer hallucinations |
+| **Context Window** | Active memory capacity | Large window = comprehend full codebase simultaneously |
 
-### Key Performance Indicators & Benchmark Definitions
-
-Before reviewing the data, understanding the objective of each benchmark is essential for strategic model selection:
-
-1. **SWE-bench Verified (Software Engineering Capability):**
-   - **Objective:** Evaluates the model's ability to resolve real-world GitHub issues autonomously.
-   - **Real-world Utility:** High scores indicate the model's reliability in writing code, passing unit tests, and completing full engineering tasks without human intervention. Crucial for the `Builder` role.
-
-2. **Terminal-Bench 2.0 (CLI Proficiency):**
-   - **Objective:** Assesses accuracy in shell command execution, package management, and file system navigation.
-   - **Real-world Utility:** Higher percentages translate to fewer terminal-level errors (e.g., incorrect dependency installation). Vital for agentic setups with full terminal access.
-
-3. **OSWorld (Computer Use & Web Interaction):**
-   - **Objective:** Measures the model's ability to use browsers and desktop applications like a human.
-   - **Real-world Utility:** Critical if your project requires the agent to research new documentation online or perform UI testing.
-
-4. **ARC-AGI-2 (Novel Abstract Reasoning):**
-   - **Objective:** Measures problem-solving power in scenarios the model has not encountered during training.
-   - **Real-world Utility:** This is a proxy for "raw intelligence" when facing novel architectural challenges. High-scoring models are the primary choice for the `Architect` role.
-
-5. **AIME 2025 (Advanced Mathematical Reasoning):**
-   - **Objective:** Evaluates symbolic logic and stability in multi-step reasoning processes.
-   - **Real-world Utility:** High scores imply logical consistency, significantly reducing the probability of hallucinations during complex coding workflows.
-
-6. **Context Window (Operational Memory):**
-   - **Objective:** The total capacity for retaining repository code and context in active memory.
-   - **Real-world Utility:** For large-scale projects, a massive context window (e.g., 1M+) allows the model to comprehend the entire codebase simultaneously, ensuring structural changes don't break distant dependencies.
-
-### Functional Benchmark Matrix (Comprehensive Analysis)
+### Functional Benchmark Matrix — 11 Models Ranked by SWE-bench Score
 
 <div style="overflow-x:auto; border-radius:12px; border:1px solid rgba(255,255,255,0.1);">
   <table style="width:100%; border-collapse:collapse; font-size:10px; color:#dde0f2; min-width:1400px;">
@@ -124,7 +87,7 @@ A critical distinction that affects cost planning — **not all models in Copilo
 | **GPT-5-mini** | Included | ✅ Free — zero | Unlimited |
 | **GPT-4o** | Included | ✅ Free — zero | Unlimited |
 | **Claude Sonnet 4.6** | Premium | ⚠️ **1x** (currently — temporary) | 300 interactions/month = ~10/day |
-| **Claude Opus 4.5** | Premium | ❌ **3x** | 100 interactions/month = ~3/day |
+| **Claude Opus 4.8** | Premium | ❌ **3x** | 100 interactions/month = ~3/day |
 | After 300 premium used | — | — | GPT-4.1 / GPT-5-mini remain free |
 
 > ⚠️ **GitHub warns:** Claude Sonnet's 1x multiplier is **temporary** — it may increase to 2x or 3x as Anthropic adjusts pricing. If this happens, your 300 budget shrinks to 150 or 100. Use Claude Sonnet only for genuinely critical tasks: architecture review, security audit, logical deadlocks.
@@ -1106,18 +1069,7 @@ Use this table before every task to pick the correct model instantly. Wrong mode
 
 ## 🎯 8. Final Setup Recommendation & Economic Rationale
 
-The objective of this configuration is to achieve **Maximum Efficiency with Minimum Recurring Costs**. The justification for each expenditure is as follows:
-
-1. **VS Code + Copilot + Cline ($28/mo):**
-   - **Rationale:** Copilot provides efficient autocomplete and routine suggestions for $10. Cline handles autonomous agentic tasks by connecting to low-cost APIs (like DeepSeek). This combination is more cost-effective than $20/mo IDE subscriptions as it eliminates arbitrary rate limits and offers granular control.  
-
-2. **Warp Build ($20/mo):**
-   - **Rationale:** This is the key to AI integration in the terminal. With BYOK, the cost of executing CLI commands—which could previously reach several cents—is reduced to less than 0.001 cents.  
-   - **Alternative:** Consider **Ghostty** (free terminal) + **Google AI Pro** ($19.99/mo) instead — same budget, broader capabilities.  
-
-3. **API Budget Allocation (Min $20 Credit):**  
-   - **Claude Sonnet 4.6 (Intelligence):** Paying for the Architect model to prevent expensive design errors.  
-   - **DeepSeek V3.2 (Execution):** This model leverages cache-hit mechanisms to handle the bulk of code generation at near-zero cost.  
+Goal: **Maximum Efficiency, Minimum Recurring Costs.** Core stack: VS Code + Cline (free extension, API-only cost) + Copilot ($10/mo inline) + DeepSeek API (near-zero with cache-hit) + Claude Sonnet 4.6 for critical decisions. Terminal: **Ghostty** (free) or swap Warp $20 for **Google AI Pro** ($19.99) to add Gemini CLI + Jules.
 
 ### 8.1. Setup Tiers by Budget
 
@@ -2274,14 +2226,6 @@ ollama pull deepseek-r1:7b   # requires: 8 GB RAM (Apple Silicon M1+) or 6 GB VR
 | Claude Sonnet 4.6 | ~$0.15 | Outstanding | architecture + security |
 
 > **Recommendation:** For daily debugging and algorithm tasks → `deepseek-r1:7b` free locally. For harder problems → DeepSeek V3.2 with `reasoning: true`. Claude only for architecture and security review.
-
----
-
-## �🚀 12. Operational Lifecycle
-
-1. **Architecture:** Documentation of technical specifications and blueprints by Frontier-class models (powered by the `init-project` workflow).  
-2. **Implementation:** Step-by-step development by cost-optimized execution engines (monitored by `quality-assurance`).  
-3. **Verification:** Unit testing execution and final validation of system logic via the `ABR Loop`.  
 
 ---
 *Technical Update: June 30, 2026 — Model IDs and names updated; see CHANGELOG*
