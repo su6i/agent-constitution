@@ -31,6 +31,8 @@ class ModelType(Enum):
     MINIMAX = "MiniMax-M3"                 # minimax.io current model (set prefer_models to try it first)
     DEEPSEEK_FLASH = "deepseek-v4-flash"   # deepseek-chat/-reasoner deprecate 2026-07-24 → use v4 names
     DEEPSEEK_PRO = "deepseek-v4-pro"       # complex tasks ($0.435 in / $0.87 out per 1M)
+    GROK = "grok-3"                        # xAI Grok — VERIFY: check https://docs.x.ai/docs for current model ID
+    OPENAI = "gpt-4.1"                     # OpenAI — VERIFY: check https://platform.openai.com/docs/models
 
 
 class TaskComplexity(Enum):
@@ -487,7 +489,67 @@ class DeepSeekClient(ModelClient):
     
     async def __aenter__(self):
         return self
-    
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.client.aclose()
+
+
+class OpenAICompatibleClient(ModelClient):
+    """Generic client for any OpenAI-compatible /chat/completions endpoint.
+
+    Covers:
+    - Grok    (base_url="https://api.x.ai/v1",       model=ModelType.GROK.value)
+    - OpenAI  (base_url="https://api.openai.com/v1",  model=ModelType.OPENAI.value)
+    - MiniMax (base_url="https://api.minimax.io/v1",  model=ModelType.MINIMAX.value)
+
+    Wire new providers by creating a ModelConfig with the appropriate base_url and
+    api_key — no new client class needed.
+    """
+
+    def __init__(self, config: ModelConfig):
+        super().__init__(config)
+        base_url = config.base_url or "https://api.openai.com/v1"
+        self.client = httpx.AsyncClient(
+            base_url=base_url,
+            timeout=config.timeout,
+            headers={
+                "Authorization": f"Bearer {config.api_key}",
+                "Content-Type": "application/json",
+            },
+        )
+
+    async def generate(self, prompt: str, **kwargs) -> Tuple[str, int, int]:
+        """Send a chat completion request to the configured endpoint."""
+        max_tokens = kwargs.get("max_tokens", self.config.max_tokens)
+        temperature = kwargs.get("temperature", 1.0)
+
+        payload: Dict[str, Any] = {
+            "model": self.config.name,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": max_tokens,
+        }
+        # Some providers reject temperature=1.0 — only send if explicitly set.
+        if "temperature" in kwargs:
+            payload["temperature"] = temperature
+
+        system = kwargs.get("system")
+        if system:
+            payload["messages"].insert(0, {"role": "system", "content": system})
+
+        response = await self.client.post("/chat/completions", json=payload)
+        response.raise_for_status()
+        data = response.json()
+
+        response_text = data["choices"][0]["message"]["content"]
+        usage = data.get("usage", {})
+        input_tokens = usage.get("prompt_tokens", 0)
+        output_tokens = usage.get("completion_tokens", 0)
+
+        return response_text, input_tokens, output_tokens
+
+    async def __aenter__(self):
+        return self
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.client.aclose()
 
@@ -574,13 +636,23 @@ class AIRouter:
         # Technique 5: emit local-timezone peak warning on startup
         self._log_peak_warning()
     
+    # ModelTypes handled by OpenAICompatibleClient (base_url from ModelConfig.base_url)
+    _OPENAI_COMPAT_TYPES = frozenset([
+        ModelType.GROK,
+        ModelType.OPENAI,
+        ModelType.MINIMAX,
+    ])
+
     def _initialize_clients(self):
-        """Initialize model clients based on configuration"""
+        """Initialize model clients based on configuration."""
         for model_type, config in self.model_configs.items():
-            if model_type in [ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET, ModelType.CLAUDE_HAIKU]:
+            if model_type in (ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET, ModelType.CLAUDE_HAIKU):
                 self.clients[model_type] = ClaudeClient(config)
-            elif model_type in [ModelType.DEEPSEEK_FLASH, ModelType.DEEPSEEK_PRO]:
+            elif model_type in (ModelType.DEEPSEEK_FLASH, ModelType.DEEPSEEK_PRO):
                 self.clients[model_type] = DeepSeekClient(config)
+            elif model_type in self._OPENAI_COMPAT_TYPES:
+                # Generic OpenAI-compatible endpoint (Grok, OpenAI, MiniMax, …)
+                self.clients[model_type] = OpenAICompatibleClient(config)
     
     def _setup_logging(self):
         """Setup logging configuration"""
@@ -964,7 +1036,26 @@ async def main():
             input_cost_per_1m=0.14,
             output_cost_per_1m=0.28,
             max_tokens=16384
-        )
+        ),
+        # ── OpenAI-compatible providers (optional, add any subset) ──────────
+        ModelType.GROK: ModelConfig(
+            # xAI Grok — VERIFY model ID at https://docs.x.ai/docs/models
+            name="grok-3",
+            api_key="your-xai-api-key",
+            base_url="https://api.x.ai/v1",
+            input_cost_per_1m=3.0,   # VERIFY current pricing at docs.x.ai
+            output_cost_per_1m=15.0,
+            max_tokens=131072,
+        ),
+        ModelType.OPENAI: ModelConfig(
+            # OpenAI — VERIFY model ID at https://platform.openai.com/docs/models
+            name="gpt-4.1",
+            api_key="your-openai-api-key",
+            base_url="https://api.openai.com/v1",
+            input_cost_per_1m=2.0,   # VERIFY current pricing at platform.openai.com
+            output_cost_per_1m=8.0,
+            max_tokens=32768,
+        ),
     }
     
     # Configure routing

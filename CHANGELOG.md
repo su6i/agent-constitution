@@ -15,7 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   or any custom key) to ordered `ModelType` tuples; `generate(role=...)` activates
   role-based model selection (tried before complexity routing, circuit-open models
   skipped, complexity routing is the final fallback). Fallback chain honours the role
-  order too. Skill version bumped 1.2.0 → 1.3.0.
+  order. Skill version bumped 1.2.0 → 1.3.0.
+- `skills/ai-router`: `OpenAICompatibleClient` — generic httpx client for any
+  `POST /chat/completions` provider (Grok, OpenAI, MiniMax, future providers).
+  Added `ModelType.GROK` (`grok-3`, VERIFY at docs.x.ai) and `ModelType.OPENAI`
+  (`gpt-4.1`, VERIFY at platform.openai.com). `_initialize_clients` wires these to
+  the new client. Skill version bumped 1.3.0 → 1.4.0.
 
 ## [Unreleased] - 2026-06-09
 

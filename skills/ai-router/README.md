@@ -1,7 +1,7 @@
 ---
 name: ai-router
 description: Production-ready multi-model AI router — routes by task complexity to the cheapest capable model (DeepSeek/MiniMax/Claude tiers), with prompt-cache reads, response caching, fallback, circuit breaker, cost tracking, off-peak gating, effort mapping, and an OpenAI-compatible FastAPI proxy. Use when configuring cost-optimized LLM routing, a Cline/OpenAI-compatible proxy, or batch-deferred non-urgent jobs.
-version: 1.3.0
+version: 1.4.0
 updated: 2026-06-30
 ---
 
@@ -56,6 +56,21 @@ Cline: set `base_url = http://localhost:8787/v1` in settings.
 - Detailed logging و metrics
 - Configurable routing strategies
 - Multi-model fallback chains
+
+## Supported Providers
+
+| ModelType | Client | base_url |
+|---|---|---|
+| `CLAUDE_OPUS / SONNET / HAIKU` | `ClaudeClient` (Anthropic SDK) | — |
+| `DEEPSEEK_FLASH / PRO` | `DeepSeekClient` (httpx) | `https://api.deepseek.com/v1` |
+| `GROK` | `OpenAICompatibleClient` | `https://api.x.ai/v1` — VERIFY model ID at docs.x.ai |
+| `OPENAI` | `OpenAICompatibleClient` | `https://api.openai.com/v1` — VERIFY model ID at platform.openai.com |
+| `MINIMAX` | `OpenAICompatibleClient` | `https://api.minimax.io/v1` |
+
+`OpenAICompatibleClient` handles any provider that exposes a standard
+`POST /chat/completions` endpoint (OpenAI request shape). Adding a new
+provider requires only a new `ModelType` enum member and a `ModelConfig` entry —
+no new client class needed.
 
 ## Plan/Act Role Routing
 
