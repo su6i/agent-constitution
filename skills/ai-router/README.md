@@ -1,13 +1,39 @@
 ---
 name: ai-router
-description: Production-ready multi-model AI router — routes by task complexity to the cheapest capable model (DeepSeek/MiniMax/Claude tiers), with prompt-cache reads, response caching, fallback, circuit breaker, and cost tracking. Use when configuring cost-optimized LLM routing or a Cline/OpenAI-compatible proxy.
-version: 1.1.0
+description: Production-ready multi-model AI router — routes by task complexity to the cheapest capable model (DeepSeek/MiniMax/Claude tiers), with prompt-cache reads, response caching, fallback, circuit breaker, cost tracking, off-peak gating, effort mapping, and an OpenAI-compatible FastAPI proxy. Use when configuring cost-optimized LLM routing, a Cline/OpenAI-compatible proxy, or batch-deferred non-urgent jobs.
+version: 1.2.0
 updated: 2026-06-30
 ---
 
 # AI Router - Professional Multi-Model Routing System
 
 یک سیستم حرفه‌ای و production-ready برای routing هوشمند بین مدل‌های مختلف AI با تمرکز بر بهینه‌سازی هزینه.
+
+## Files
+
+| File | Purpose |
+|---|---|
+| `ai_router.py` | Core engine — `AIRouter`, `RoutingConfig`, model clients, complexity analyser |
+| `server.py` | FastAPI OpenAI-compatible proxy (`POST /v1/chat/completions`) — point Cline here |
+| `batch_queue.py` | Non-urgent job queue; flushes to Anthropic Batches API (50% off) or off-peak |
+| `router_cli.py` | CLI for quick one-shot queries |
+| `config_example.py` | Annotated example configuration (copy to your vault, fill in keys) |
+| `requirements.txt` | Python dependencies |
+
+### Quick start (proxy)
+
+```bash
+# Install deps
+pip install -r requirements.txt
+
+# Point at your personal config (exports build() -> AIRouter)
+export AIROUTER_CONFIG_MODULE=config   # or vault.config, etc.
+
+# Start the proxy
+uvicorn server:app --host 0.0.0.0 --port 8787
+```
+
+Cline: set `base_url = http://localhost:8787/v1` in settings.
 
 ## ویژگی‌ها
 
@@ -30,6 +56,37 @@ updated: 2026-06-30
 - Detailed logging و metrics
 - Configurable routing strategies
 - Multi-model fallback chains
+
+## 6 Cost Techniques (RoutingConfig fields)
+
+All fields have **neutral defaults** (off/empty). Set them in your personal config.
+
+| Field | Default | Purpose |
+|---|---|---|
+| `prefer_models` | `()` | Try these models first (e.g. to spend prepaid credit) |
+| `complexity_to_effort` | `{}` | Map complexity int → `"low"/"medium"/"high"` effort for Claude extended-thinking |
+| `enable_prompt_cache` | `True` | Mark stable system prompt with `cache_control` (Claude ~0.1× read price) |
+| `batch_flush_seconds` | `0` | Flush non-urgent jobs to Anthropic Batches (50% off) every N seconds |
+| `batch_max` | `100` | Flush immediately when queue reaches this size |
+| `peak_windows_utc` | `[]` | List of `[start, end]` UTC hour pairs where pricing is higher |
+| `peak_multiplier` | `1.0` | Cost multiplier applied during peak windows |
+| `max_tokens_policy` | `"fixed"` | `"estimate"` = derive max_tokens from prompt length |
+| `enable_context_editing` | `False` | Enable `clear_tool_uses_20250919` beta for long agentic sessions |
+
+Example personal config (DeepSeek peak windows, MiniMax credit preference):
+
+```python
+routing = RoutingConfig(
+    prefer_models=(ModelType.MINIMAX,),          # spend prepaid credit first
+    complexity_to_effort={1: "low", 2: "low", 3: "medium", 4: "high"},
+    peak_windows_utc=[[1, 4], [6, 10]],          # DeepSeek peak UTC hours
+    peak_multiplier=2.0,                          # 2× during peak
+    batch_flush_seconds=60,
+    batch_max=50,
+    max_tokens_policy="estimate",
+    enable_context_editing=True,
+)
+```
 
 ## نصب و راه‌اندازی
 
