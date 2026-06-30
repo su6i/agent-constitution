@@ -34,7 +34,7 @@ Every logo lives in **two different boxes**, so produce **two variants** togethe
 | Target | Shape | File | Why |
 |---|---|---|---|
 | **GitHub README** | horizontal banner **3.33:1** (~1080×324) | `assets/project_logo_horizontal.(svg\|png)` | icon left + wordmark right |
-| **Website (`amirshirali.com`)** | **square 1:1** (1024×1024) | `portfolio/public/logo-<project>.(svg\|png)` | the portfolio renders cards with `aspect-square … object-cover` → a horizontal banner gets **cropped**! |
+| **Website (`<your-domain>.com`)** | **square 1:1** (1024×1024) | `portfolio/public/logo-<project>.(svg\|png)` | the portfolio renders cards with `aspect-square … object-cover` → a horizontal banner gets **cropped**! |
 
 **Rule:** whenever you design or refresh a GitHub logo, **also produce the square
 website variant** (same icon + palette; wordmark below the icon, or icon-only) and

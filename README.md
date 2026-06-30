@@ -124,13 +124,13 @@ Before using this constitution in your own project, replace the author email wit
 
 | File | Lines | What to change |
 |---|---|---|
-| `rules/040-git.md` | 51, 52, 53, 81 | Replace `sushiant60@gmail.com` with your own email |
+| `rules/040-git.md` | 51, 52, 53, 81 | Replace `<your-git-email>` with your own email |
 
 **Why:** The Commit Identity rule enforces a specific author email on every commit. The value shipped in this repo is the original author's address — it must be yours before you start using the rules.
 
 ```bash
 # Quick replace (run from the repo root):
-sed -i '' 's/sushiant60@gmail\.com/your@email.com/g' rules/040-git.md
+sed -i '' 's/<your-git-email>/your@email.com/g' rules/040-git.md
 ```
 
 Then set your global git identity to match:
