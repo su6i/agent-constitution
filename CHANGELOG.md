@@ -31,6 +31,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the two-layer `_shared/secrets/.env` + `<project>/secrets/.env` resolution
   order, the multiple-Telegram-bots pattern (separate project vaults), and a
   Python `load_secrets()` reference snippet.
+- `AGENTIC-CODING-SETUP.md`: updated stale model IDs and names to current values —
+  `claude-opus-4-8` ($5/$25), `claude-sonnet-4-6` ($3/$15), `claude-haiku-4-5`
+  ($1/$5); `MiniMax M3` / `MiniMax-M3`; removed stale date-stamped Claude ID
+  (`claude-sonnet-4-5-20251001`); added deprecation notes for `deepseek-chat`
+  (deprecates 2026-07-24); updated `last_updated` to 2026-06-30. Benchmark
+  scores for models other than Claude kept as-is (uncertain); OpenRouter slugs
+  for MiniMax/Grok flagged with VERIFY comments.
 
 ### Fixed
 
