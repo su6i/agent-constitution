@@ -1,7 +1,7 @@
 ---
 name: ai-router
 description: Production-ready multi-model AI router — routes by task complexity to the cheapest capable model (DeepSeek/MiniMax/Claude tiers), with prompt-cache reads, response caching, fallback, circuit breaker, cost tracking, off-peak gating, effort mapping, and an OpenAI-compatible FastAPI proxy. Use when configuring cost-optimized LLM routing, a Cline/OpenAI-compatible proxy, or batch-deferred non-urgent jobs.
-version: 1.2.0
+version: 1.3.0
 updated: 2026-06-30
 ---
 
@@ -56,6 +56,26 @@ Cline: set `base_url = http://localhost:8787/v1` in settings.
 - Detailed logging و metrics
 - Configurable routing strategies
 - Multi-model fallback chains
+
+## Plan/Act Role Routing
+
+Pass `role="planning"` or `role="acting"` (or any custom key) in `generate()` kwargs.
+If the role is present in `RoutingConfig.roles`, its ordered model list is tried first —
+circuit-open models are skipped, complexity routing is the final fallback.
+
+```python
+routing = RoutingConfig(
+    roles={
+        # set personal choices in your vault config, not here
+        "planning": (ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET),
+        "acting":   (ModelType.DEEPSEEK_PRO, ModelType.MINIMAX, ModelType.GROK),
+    }
+)
+
+response = await router.generate(prompt, role="acting")
+```
+
+`RoutingConfig.roles` defaults to `{}` (empty) — no personal model choices in the shared engine.
 
 ## 6 Cost Techniques (RoutingConfig fields)
 
