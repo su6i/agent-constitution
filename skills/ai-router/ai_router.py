@@ -24,12 +24,13 @@ import httpx
 # ============================================================================
 
 class ModelType(Enum):
-    """Available AI models (updated 2026-05-20)"""
-    CLAUDE_OPUS = "claude-opus-4-7"
+    """Available AI models (updated 2026-06-30; Claude IDs/prices per claude-api skill)"""
+    CLAUDE_OPUS = "claude-opus-4-8"
     CLAUDE_SONNET = "claude-sonnet-4-6"
-    CLAUDE_HAIKU = "claude-haiku-4-5-20251001"
-    DEEPSEEK_FLASH = "deepseek-v4-flash"   # replaces deepseek-chat + deepseek-reasoner
-    DEEPSEEK_PRO = "deepseek-v4-pro"       # replaces deepseek-coder for complex tasks
+    CLAUDE_HAIKU = "claude-haiku-4-5"
+    MINIMAX = "MiniMax-M3"                 # minimax.io current model (set prefer_models to try it first)
+    DEEPSEEK_FLASH = "deepseek-v4-flash"   # deepseek-chat/-reasoner deprecate 2026-07-24 → use v4 names
+    DEEPSEEK_PRO = "deepseek-v4-pro"       # complex tasks ($0.435 in / $0.87 out per 1M)
 
 
 class TaskComplexity(Enum):
@@ -68,6 +69,11 @@ class RoutingConfig:
     cache_ttl_seconds: int = 3600
     enable_cost_tracking: bool = True
     
+    # Provider preference — models to try first (in order) for non-critical tasks,
+    # e.g. to spend prepaid credit on one provider before cheaper pay-as-you-go models.
+    # Leave empty in shared/example configs; set it in your PERSONAL config only.
+    prefer_models: tuple = ()
+
     # Fallback strategy
     enable_fallback: bool = True
     fallback_on_error: bool = True
@@ -337,26 +343,47 @@ class ClaudeClient(ModelClient):
         )
     
     async def generate(self, prompt: str, **kwargs) -> Tuple[str, int, int]:
-        """Generate response using Claude API"""
+        """Generate response using Claude API (with prompt-cache read)."""
         max_tokens = kwargs.get('max_tokens', self.config.max_tokens)
-        temperature = kwargs.get('temperature', 1.0)
         system = kwargs.get('system', None)
-        
+
         messages = [{"role": "user", "content": prompt}]
-        
+
+        # Prompt caching: mark the stable system prefix as cacheable so repeated calls
+        # bill it at ~0.1x (read) instead of full input price. Keep `system` byte-stable
+        # (no timestamps/UUIDs) and put volatile content in the user message.
+        system_param = anthropic.NOT_GIVEN
+        if system:
+            system_param = [{
+                "type": "text", "text": system,
+                "cache_control": {"type": "ephemeral"},
+            }]
+
+        # Opus 4.7/4.8 reject sampling params (400) — only send temperature otherwise.
+        extra = {}
+        if not self.config.name.startswith(("claude-opus-4-8", "claude-opus-4-7")):
+            extra["temperature"] = kwargs.get('temperature', 1.0)
+
         response = await self.client.messages.create(
             model=self.config.name,
             max_tokens=max_tokens,
-            temperature=temperature,
             messages=messages,
-            system=system if system else anthropic.NOT_GIVEN
+            system=system_param,
+            **extra,
         )
-        
+
         response_text = response.content[0].text
-        input_tokens = response.usage.input_tokens
-        output_tokens = response.usage.output_tokens
-        
-        return response_text, input_tokens, output_tokens
+        u = response.usage
+        cache_read = getattr(u, "cache_read_input_tokens", 0) or 0
+        cache_write = getattr(u, "cache_creation_input_tokens", 0) or 0
+        # Bill cache reads at ~0.1x and writes at ~1.25x of input price by folding them
+        # into an effective input-token count, so calculate_cost() stays accurate.
+        effective_input = int(u.input_tokens + cache_read * 0.1 + cache_write * 1.25)
+        if cache_read:
+            logging.getLogger('AIRouter').info(
+                f"prompt cache: {cache_read} read, {cache_write} written")
+
+        return response_text, effective_input, u.output_tokens
 
 
 class DeepSeekClient(ModelClient):
@@ -520,9 +547,16 @@ class AIRouter:
             f"Complexity analysis: {complexity.name} (confidence: {confidence:.2f})"
         )
         
+        # Honor configured provider preference for non-critical tasks (generic — a user
+        # might prefer a provider to spend prepaid credit). Critical tasks ignore it.
+        if complexity.value <= self.routing_config.sonnet_max_complexity:
+            for m in self.routing_config.prefer_models:
+                if m in self.clients:
+                    return m
+
         # Route based on complexity
         if complexity.value <= self.routing_config.deepseek_max_complexity:
-            # Try DeepSeek first (cheaper): Flash for simple, Pro for moderate
+            # DeepSeek is the cheapest pay-as-you-go tier: Flash for simple, Pro for moderate.
             if complexity.value <= 1 and ModelType.DEEPSEEK_FLASH in self.clients:
                 return ModelType.DEEPSEEK_FLASH
             elif ModelType.DEEPSEEK_PRO in self.clients:
@@ -601,11 +635,13 @@ class AIRouter:
         
         # Add fallback models if enabled
         if self.routing_config.enable_fallback:
-            fallback_order = [
+            # Preferred providers first (honors prefer_models, e.g. prepaid credit),
+            # then cheapest-first pay-as-you-go so a primary error degrades cost-safely.
+            fallback_order = list(self.routing_config.prefer_models) + [
+                ModelType.DEEPSEEK_FLASH,
+                ModelType.DEEPSEEK_PRO,
                 ModelType.CLAUDE_SONNET,
                 ModelType.CLAUDE_HAIKU,
-                ModelType.DEEPSEEK_PRO,
-                ModelType.DEEPSEEK_FLASH,
             ]
             models_to_try.extend([m for m in fallback_order if m != primary_model and m in self.clients])
         
@@ -710,20 +746,41 @@ async def main():
     # Configure models (replace with your actual API keys)
     model_configs = {
         ModelType.CLAUDE_OPUS: ModelConfig(
-            name="claude-opus-4-6",
+            name="claude-opus-4-8",
             api_key="your-claude-api-key",
             input_cost_per_1m=5.0,
             output_cost_per_1m=25.0,
             max_tokens=8192
         ),
         ModelType.CLAUDE_SONNET: ModelConfig(
-            name="claude-sonnet-4-5-20250929",
+            name="claude-sonnet-4-6",
+            api_key="your-claude-api-key",
+            input_cost_per_1m=3.0,
+            output_cost_per_1m=15.0,
+            max_tokens=8192
+        ),
+        ModelType.CLAUDE_HAIKU: ModelConfig(
+            name="claude-haiku-4-5",
             api_key="your-claude-api-key",
             input_cost_per_1m=1.0,
             output_cost_per_1m=5.0,
             max_tokens=8192
         ),
+        ModelType.MINIMAX: ModelConfig(
+            # minimax.io example provider. List price; M3 has a permanent 50% off.
+            # To always try MiniMax first (e.g. to spend prepaid credit), set
+            # RoutingConfig(prefer_models=(ModelType.MINIMAX,)) in your personal config.
+            name="MiniMax-M3",
+            api_key="your-minimax-api-key",
+            base_url="https://api.minimax.io/v1",   # verify on platform.minimax.io
+            input_cost_per_1m=0.30,
+            output_cost_per_1m=1.20,
+            max_tokens=16384
+        ),
         ModelType.DEEPSEEK_FLASH: ModelConfig(
+            # DeepSeek official price (api-docs.deepseek.com/quick_start/pricing):
+            # input $0.14 cache-miss / $0.0028 cache-hit, output $0.28 per 1M.
+            # ⚠️ Peak/valley from mid-July 2026: peak = 2× (UTC 01-04 & 06-10).
             name="deepseek-v4-flash",
             api_key="your-deepseek-api-key",
             base_url="https://api.deepseek.com/v1",
