@@ -16,10 +16,11 @@ cross-repo refactor — has no natural home and gets lost between sessions.
 
 ## Solution: Global Memory Index
 
-Maintain a **global memory directory** outside any single project:
+Maintain a **central memory directory** in the vault, alongside the project
+vaults (see `035-data-vault.md`) — keeping all uncommittable state in one root:
 
 ```
-~/.claude/global-memory/
+~/.local/share/agent-projects/_memory/
 ├── MEMORY.md          ← index only — loaded on-demand
 ├── sessions/          ← cross-repo session summaries
 │   └── YYYY-MM-DD-topic.md
@@ -27,7 +28,8 @@ Maintain a **global memory directory** outside any single project:
     └── YYYY.md
 ```
 
-> **Personalization:** Adjust `~/.claude/global-memory/` to match your own config path.
+> **Personalization:** override the base with `$XDG_DATA_HOME`; the `_memory`
+> directory sits next to `agent-projects/<project>/`.
 > Add a reference to it in your global `CLAUDE.md` (see below).
 
 ## Load Rule (Non-Negotiable)
@@ -64,7 +66,7 @@ Add this section to your global `~/.claude/CLAUDE.md`:
 
 ```markdown
 ## Cross-Project Memory
-Global memory lives at `~/.claude/global-memory/MEMORY.md`.
+Central memory lives at `~/.local/share/agent-projects/_memory/MEMORY.md`.
 Read it only when the task spans multiple repos or the user asks about a cross-project decision.
 Each MEMORY.md entry is one line. Cap at 30 entries — archive when full.
 ```
