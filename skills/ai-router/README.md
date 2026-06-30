@@ -1,3 +1,10 @@
+---
+name: ai-router
+description: Production-ready multi-model AI router — routes by task complexity to the cheapest capable model (DeepSeek/MiniMax/Claude tiers), with prompt-cache reads, response caching, fallback, circuit breaker, and cost tracking. Use when configuring cost-optimized LLM routing or a Cline/OpenAI-compatible proxy.
+version: 1.1.0
+updated: 2026-06-30
+---
+
 # AI Router - Professional Multi-Model Routing System
 
 یک سیستم حرفه‌ای و production-ready برای routing هوشمند بین مدل‌های مختلف AI با تمرکز بر بهینه‌سازی هزینه.
