@@ -3,7 +3,7 @@ title: "Agentic Coding 2026"
 description: Advanced setup, benchmarks, and ROI analysis for AI-driven development.
 location: AGENTIC-CODING-SETUP.md
 document_role: flagship-guide
-last_updated: 2026-02-21
+last_updated: 2026-06-30
 ---
 
 [Back to README](README.md)
@@ -23,7 +23,7 @@ This document is the primary technical guide of this repository. It serves as th
   1. <strong>DeepSeek V3.2-Speciale:</strong> Agent-optimized iteration; accessible via OpenRouter (Tool-use protocol).<br>
   2. <strong>Gemini 3.1 Pro:</strong> Released Feb 19; recorded 77.1% on ARC-AGI-2 (Novel Reasoning benchmark).<br>
   3. <strong>Claude Sonnet 4.6:</strong> Released Feb 17; 79.6% SWE-bench score with $3 input / $15 output pricing structure.<br>
-  4. <strong>Claude Opus 4.6:</strong> Pricing verified at $5 input / $25 output per million tokens.
+  4. <strong>Claude Opus 4.8</strong> (`claude-opus-4-8`): $5 input / $25 output per million tokens.
 </div>
 
 ---
@@ -32,9 +32,9 @@ This document is the primary technical guide of this repository. It serves as th
 
 ### Ranked Model Matrix (By SWE-bench Performance Tier)
 
-1. 👑 **Claude Opus 4.6** (Score: 80.8%)
+1. 👑 **Claude Opus 4.8** (Score: 80.8%+)
 2. 🥈 **Gemini 3.1 Pro** (Score: 80.6%)
-3. 🥉 **MiniMax M2.5** (Score: 80.2%)
+3. 🥉 **MiniMax M3** (Score: ~80%)
 4. **GPT-5.4** (Score: 80.0%)
 5. **Claude Sonnet 4.6** (Score: 79.6%)
 6. **Kimi K2.5** (Score: 76.8%)
@@ -79,7 +79,7 @@ Before reviewing the data, understanding the objective of each benchmark is esse
     <thead>
       <tr style="background:rgba(255,255,255,0.05);">
         <th style="padding:10px; text-align:left;">Performance Metrics</th>
-        <th>Opus 4.6</th>
+        <th>Opus 4.8</th>
         <th>Sonnet 4.6</th>
         <th>Gem 3.1 Pr</th>
         <th>Gem 3 Pro</th>
@@ -111,7 +111,7 @@ Before reviewing the data, understanding the objective of each benchmark is esse
 
 - **Claude Sonnet 4.6:** Optimal performance-to-cost ratio for high-frequency workflows ($3 input / $15 output).
 - **DeepSeek V3.2:** Optimized for high-volume execution via cost-efficient caching ($0.028 cache-hit / $0.42 output).
-- **MiniMax M2.5:** Frontier-grade performance at significantly reduced operational overhead ($0.30 input / $1.20 output).
+- **MiniMax M3** (`MiniMax-M3`): Frontier-grade performance at significantly reduced operational overhead ($0.30 input / $1.20 output).
 - **Gemini 3.1 Pro:** Primary reference for non-deterministic and complex architectural reasoning ($2 input / $12 output).
 
 ### GitHub Copilot: Included vs. Premium Request Models
@@ -136,20 +136,20 @@ A critical distinction that affects cost planning — **not all models in Copilo
 ## 🏛️ 3. Strategic Role Allocation (A-B-R Methodology)
 
 1. **Architect & System Designer:**  
-   - **Choice 1 (Best ROI):** **MiniMax M2.5**. Top-tier reasoning (80.2%) at a highly competitive price point. Ideal for drafting complex `task.md` documents.  
+   - **Choice 1 (Best ROI):** **MiniMax M3**. Top-tier reasoning at a highly competitive price point. Ideal for drafting complex `task.md` documents.  
    - **Choice 2 (Infinite Context):** **Gemini 3.1 Pro**. The standard for recursive analysis across massive codebases (1M+ tokens).  
-   - **Anthropic Alternative:** **Claude 4.6 Sonnet**. High performance and speed iterations (Opus is excluded due to irrational pricing and poor ROI).  
+   - **Anthropic Alternative:** **Claude Sonnet 4.6**. High performance and speed iterations (Opus is excluded due to irrational pricing and poor ROI).  
 
 2. **Execution Engine (Builder):**  
    - **Choice 1 (Agentic Economics):** **DeepSeek V3.2**. Unrivaled price efficiency (due to caching) and execution speed for routine development tasks.  
-   - **Choice 2 (Mid-Range Powerhouse):** **MiniMax M2.5**. Excellent balance between deep reasoning and competitive operational pricing.  
+   - **Choice 2 (Mid-Range Powerhouse):** **MiniMax M3**. Excellent balance between deep reasoning and competitive operational pricing.  
 
 3. **Refactor & Retreival Specialist:**  
-   - **Choice 1:** **MiniMax M2.5**. Specialized in ultra-large documentation retrieval and complex block-level refactoring.  
-   - **Choice 2:** **Claude 4.6 Sonnet**. Preferred when architectural precision and adherence to strict patterns are the priority.  
+   - **Choice 1:** **MiniMax M3**. Specialized in ultra-large documentation retrieval and complex block-level refactoring.  
+   - **Choice 2:** **Claude Sonnet 4.6**. Preferred when architectural precision and adherence to strict patterns are the priority.  
 
 4. **Quality Assurance (Reviewer):**  
-   - **Choice 1:** **Claude 4.6 Opus**. The definitive model for identifying deep logical errors and security vulnerabilities.  
+   - **Choice 1:** **Claude Opus 4.8**. The definitive model for identifying deep logical errors and security vulnerabilities.  
    - **Choice 2:** **Human-in-the-Loop**. Final inspection to ensure code readability, maintainability, and Clean Code standards.  
 
 ---
@@ -162,7 +162,7 @@ In agentic programming, cost is not just a number—it is an investment to preve
 
 This three-layered methodology ensures logical integrity across the project lifecycle:
 
-- **Top Layer (Planning):** Utilizing Frontier-class models (e.g., Claude 4.6 Sonnet) for context analysis and `task.md` drafting. Errors at this stage lead to systemic project failure.
+- **Top Layer (Planning):** Utilizing Frontier-class models (e.g., Claude Sonnet 4.6) for context analysis and `task.md` drafting. Errors at this stage lead to systemic project failure.
 - **Middle Layer (Execution):** Offloading the bulk of implementation to economic models (e.g., DeepSeek V3.2). These engines produce 80-90% of the code volume at near-zero cost.
 - **Bottom Layer (Verification):** Returning to a Frontier model or human reviewer for final validation and logical verification.
 
@@ -423,8 +423,8 @@ class AIRouter:
         
         # 2. Routing Logic:
         # - Trivial: DeepSeek V3.2 (Cost: ~0)
-        # - Moderate: MiniMax M2.5 (High Reasoning / Low Cost)
-        # - Critical: Claude 4.6 Sonnet / Opus (Highest Logic)
+        # - Moderate: MiniMax M3 (High Reasoning / Low Cost)
+        # - Critical: Claude Sonnet 4.6 / Opus 4.8 (Highest Logic)
         if complexity.value <= TaskComplexity.SIMPLE:
             return ModelType.DEEPSEEK_V3
         elif complexity.value <= TaskComplexity.MODERATE:
@@ -551,7 +551,7 @@ router = AIRouter(MODEL_CONFIGS, DEV_ROUTING)             # Development
       <tr><td style="padding:8px;">DeepSeek Coder</td><td style="padding:8px; text-align:center;">40%</td><td style="padding:8px; text-align:center;">200</td><td style="padding:8px; text-align:center;">~$0.60</td><td style="padding:8px; text-align:center;">~$18</td></tr>
       <tr style="background:rgba(255,255,255,0.02);"><td style="padding:8px;">Claude Haiku</td><td style="padding:8px; text-align:center;">30%</td><td style="padding:8px; text-align:center;">150</td><td style="padding:8px; text-align:center;">~$2.50</td><td style="padding:8px; text-align:center;">~$75</td></tr>
       <tr><td style="padding:8px;">Claude Sonnet 4.6</td><td style="padding:8px; text-align:center;">25%</td><td style="padding:8px; text-align:center;">125</td><td style="padding:8px; text-align:center;">~$6.25</td><td style="padding:8px; text-align:center;">~$187</td></tr>
-      <tr style="background:rgba(255,255,255,0.02);"><td style="padding:8px;">Claude Opus 4.6</td><td style="padding:8px; text-align:center;">5%</td><td style="padding:8px; text-align:center;">25</td><td style="padding:8px; text-align:center;">~$3.00</td><td style="padding:8px; text-align:center;">~$90</td></tr>
+      <tr style="background:rgba(255,255,255,0.02);"><td style="padding:8px;">Claude Opus 4.8</td><td style="padding:8px; text-align:center;">5%</td><td style="padding:8px; text-align:center;">25</td><td style="padding:8px; text-align:center;">~$3.00</td><td style="padding:8px; text-align:center;">~$90</td></tr>
       <tr style="background:rgba(59,130,246,0.15); font-weight:bold;"><td style="padding:8px;">Total</td><td style="padding:8px; text-align:center;">100%</td><td style="padding:8px; text-align:center;">500</td><td style="padding:8px; text-align:center;">~$12.35</td><td style="padding:8px; text-align:center;">~$370</td></tr>
     </tbody>
   </table>
@@ -609,7 +609,7 @@ router = AIRouter(MODEL_CONFIGS, DEV_ROUTING)             # Development
 **Interactive mode — inline model overrides:**
 
 ```
-@opus      → Force Claude Opus 4.6
+@opus      → Force Claude Opus 4.8
 @sonnet    → Force Claude Sonnet 4.6
 @haiku     → Force Claude Haiku
 @deepseek  → Force DeepSeek Coder
@@ -873,9 +873,9 @@ class LLMRouter:
             ),
         }
         self._models = {
-            "deepseek": "deepseek-chat",
-            "minimax":  "minimax-m2.5",
-            "claude":   "claude-sonnet-4-5-20251001",
+            "deepseek": "deepseek-chat",   # ⚠️ deprecates 2026-07-24 → use deepseek-v4-flash
+            "minimax":  "MiniMax-M3",
+            "claude":   "claude-sonnet-4-6",
         }
         # fallback chain per primary model
         self._fallback = {
@@ -993,8 +993,8 @@ if __name__ == "__main__":
 
 1. **Initialization:**  
     - Start with a clean `task.md` (bullet points) and an `implementation_plan.md` (roadmap).  
-    - **Recommended Model:** **MiniMax M2.5** (Highest reasoning ROI for the design phase).  
-    - **Note:** If you prefer the Anthropic ecosystem, use **Claude 4.6 Sonnet** (Opus is not recommended for daily workflows due to excessive costs).  
+    - **Recommended Model:** **MiniMax M3** (Highest reasoning ROI for the design phase).  
+    - **Note:** If you prefer the Anthropic ecosystem, use **Claude Sonnet 4.6** (Opus is not recommended for daily workflows due to excessive costs).  
 
 2. **Implementation:**  
     - Switch to **DeepSeek V3.2** for implementation.  
@@ -1006,7 +1006,7 @@ if __name__ == "__main__":
 
 4. **Refinement:**  
     - "Review this file for logical flaws or security vulnerabilities."  
-    - **Recommended Model:** Claude 4.6 Sonnet (for final polishing).  
+    - **Recommended Model:** Claude Sonnet 4.6 (for final polishing).  
 
 ---
 
@@ -1058,7 +1058,7 @@ These are the most common failure points in production agentic workflows that ar
 **7. API Fallback Chain**
 
 - DeepSeek rate-limits during peak hours. The pseudo-code fallback in Section 6 must be implemented.
-- Recommended chain: `DeepSeek V3.2` → (on fail) → `MiniMax M2.5` → (on fail) → `Gemini Flash` (often free via Google AI Studio).
+- Recommended chain: `DeepSeek V3.2/V4` → (on fail) → `MiniMax M3` → (on fail) → `Gemini Flash` (often free via Google AI Studio).
 - The `ai_router.py` in Section 6 already implements this pattern via `CircuitBreaker` + `_generate_with_fallback()`.
 
 **8. Large Project Strategy (+50 files)**
@@ -1076,7 +1076,7 @@ Use this table before every task to pick the correct model instantly. Wrong mode
 | Task Type | Model | Cost/task (est.) | Why |
 | --- | --- | --- | --- |
 | Trivial: tests, config, lint fixes, small bugs | **DeepSeek V3.2** | ~$0.01 | Cache-hit: $0.028/M input; fastest for repetitive patterns |
-| Moderate: new features, refactors, multi-file changes | **MiniMax M2.5** | ~$0.05 | 80.2% SWE-bench; strong reasoning at low cost |
+| Moderate: new features, refactors, multi-file changes | **MiniMax M3** | ~$0.05 | Strong reasoning at low cost |
 | Critical: architecture, security review, API design | **Claude Sonnet 4.6** | ~$0.15 | Best reasoning; worth the premium for irreversible decisions |
 | Quick Q&A (no project context needed) | **Gemini CLI (Flash)** | **$0** | Free, 1,000 req/day; use from terminal |
 | Background tasks (tests, docs, minor fixes) | **Jules** | **$0 (beta)** | Async on separate branch; runs while you work on main |
@@ -1088,7 +1088,7 @@ Use this table before every task to pick the correct model instantly. Wrong mode
 **OpenRouter as universal fallback:** If DeepSeek is rate-limiting, a model is down, or you want one API key for all models without VPN requirements:
 
 - Provider: OpenRouter | Base URL: `https://openrouter.ai/api/v1`
-- Use model IDs like: `deepseek/deepseek-v3.2` · `anthropic/claude-sonnet-4-5` · `minimax/minimax-m2.5`
+- Use model IDs like: `deepseek/deepseek-v3.2` · `anthropic/claude-sonnet-4-6` · `minimax/MiniMax-M3` (VERIFY OpenRouter slugs at openrouter.ai/models)
 - Works with Cline, Roo Code, and any OpenAI-compatible client with zero code changes — just update the base URL and API key.
 
 **DeepSeek V3.2 — cost breakdown per platform (budget: $20):**
@@ -1116,7 +1116,7 @@ The objective of this configuration is to achieve **Maximum Efficiency with Mini
    - **Alternative:** Consider **Ghostty** (free terminal) + **Google AI Pro** ($19.99/mo) instead — same budget, broader capabilities.  
 
 3. **API Budget Allocation (Min $20 Credit):**  
-   - **Claude 4.6 Sonnet (Intelligence):** Paying for the Architect model to prevent expensive design errors.  
+   - **Claude Sonnet 4.6 (Intelligence):** Paying for the Architect model to prevent expensive design errors.  
    - **DeepSeek V3.2 (Execution):** This model leverages cache-hit mechanisms to handle the bulk of code generation at near-zero cost.  
 
 ### 8.1. Setup Tiers by Budget
@@ -1636,8 +1636,8 @@ alert_at: $5 daily / $20 weekly
 # Cline Rules — VS Code
 
 ## Model Routing
-- TRIVIAL tasks: DeepSeek V3.2 (direct API)
-- MODERATE tasks: MiniMax M2.5
+- TRIVIAL tasks: DeepSeek V3.2/V4 (direct API)
+- MODERATE tasks: MiniMax M3
 - CRITICAL tasks: Claude Sonnet 4.6
 
 ## Cost Control
@@ -1670,19 +1670,19 @@ Model:     deepseek-chat
 Provider:  OpenAI Compatible
 Base URL:  https://api.minimax.chat/v1
 API Key:   $MINIMAX_API_KEY
-Model:     minimax-m2.5
+Model:     MiniMax-M3
 
 # ── Model 3: Claude Sonnet ──
 Provider:  Anthropic
 API Key:   $ANTHROPIC_API_KEY
-Model:     claude-sonnet-4-5-20251001
+Model:     claude-sonnet-4-6
 
 # ── Alternative: All models via OpenRouter (one API key, no VPN) ──
 Provider:  OpenRouter
 API Key:   $OPENROUTER_API_KEY
 Models:    deepseek/deepseek-v3.2
-           minimax/minimax-m2.5
-           anthropic/claude-sonnet-4-5
+           minimax/MiniMax-M3           # VERIFY slug at openrouter.ai/models
+           anthropic/claude-sonnet-4-6
 ```
 
 ---
@@ -1711,8 +1711,8 @@ Python 3.12 · package manager: uv · test runner: pytest · linter: ruff
 | `skills/` | Knowledge capsules for AI agents |
 
 ## Model Routing (for reference)
-- Trivial (tests, config): DeepSeek V3.2
-- Moderate (features, refactor): MiniMax M2.5
+- Trivial (tests, config): DeepSeek V3.2/V4
+- Moderate (features, refactor): MiniMax M3
 - Critical (architecture, security): Claude Sonnet
 - Quick Q&A: Gemini CLI (you are here)
 - Async background tasks: Jules
@@ -1781,7 +1781,7 @@ alwaysApply: true
 
 ## Cost Control (CRITICAL)
 - Declare complexity before every task: TRIVIAL / MODERATE / CRITICAL
-- TRIVIAL → DeepSeek (cheapest) | MODERATE → MiniMax M2.5 | CRITICAL → Claude Sonnet 4.6
+- TRIVIAL → DeepSeek (cheapest) | MODERATE → MiniMax M3 | CRITICAL → Claude Sonnet 4.6
 - Maximum 20 requests per task — then STOP and report
 - If unsure: ask one question, not ten
 
@@ -1995,7 +1995,7 @@ python_version = "3.12"
 ---
 
 **Rate Limiting & Exponential Backoff:**
-When building autonomous agent loops, always implement backoff to avoid hitting API rate limits. DeepSeek in particular hits rate limits during peak hours (UTC 14–20 when China's working day overlaps). The following production-ready router uses MiniMax M2.5 as a middle tier fallback:
+When building autonomous agent loops, always implement backoff to avoid hitting API rate limits. DeepSeek in particular hits rate limits during peak hours (UTC 14–20 when China's working day overlaps). The following production-ready router uses MiniMax M3 as a middle tier fallback:
 
 ```python
 """
@@ -2006,8 +2006,8 @@ from enum import Enum
 from openai import AsyncOpenAI
 
 class TaskLevel(Enum):
-    TRIVIAL = 1    # DeepSeek V3.2
-    MODERATE = 2   # MiniMax M2.5
+    TRIVIAL = 1    # DeepSeek V3.2/V4
+    MODERATE = 2   # MiniMax M3
     CRITICAL = 3   # Claude Sonnet 4.6
 
 class APIRouter:
@@ -2045,9 +2045,9 @@ class APIRouter:
 
     async def generate(self, prompt: str, level: TaskLevel = TaskLevel.TRIVIAL) -> str:
         chain = {
-            TaskLevel.TRIVIAL:  [("deepseek", "deepseek-chat"),   ("minimax", "minimax-m2.5")],
-            TaskLevel.MODERATE: [("minimax",  "minimax-m2.5"),    ("deepseek", "deepseek-chat")],
-            TaskLevel.CRITICAL: [("claude",   "claude-sonnet-4-5-20251001"), ("minimax", "minimax-m2.5")],
+            TaskLevel.TRIVIAL:  [("deepseek", "deepseek-chat"),   ("minimax", "MiniMax-M3")],   # ⚠️ deepseek-chat deprecates 2026-07-24
+            TaskLevel.MODERATE: [("minimax",  "MiniMax-M3"),      ("deepseek", "deepseek-chat")],
+            TaskLevel.CRITICAL: [("claude",   "claude-sonnet-4-6"), ("minimax", "MiniMax-M3")],
         }
         for provider, model in chain[level]:
             if not self._is_available(provider):
@@ -2235,7 +2235,7 @@ SYSTEM_PROMPT = """You are a Python expert. Rules:
 
 def make_request(user_task: str) -> dict:
     return {
-        "model": "claude-sonnet-4-5-20251001",
+        "model": "claude-sonnet-4-6",
         "system": SYSTEM_PROMPT,       # ← constant (cache hit)
         "messages": [{"role": "user", "content": user_task}],  # ← variable per request
     }
@@ -2284,7 +2284,7 @@ ollama pull deepseek-r1:7b   # requires: 8 GB RAM (Apple Silicon M1+) or 6 GB VR
 3. **Verification:** Unit testing execution and final validation of system logic via the `ABR Loop`.  
 
 ---
-*Technical Update: February 20, 2026 — Verified Data-Driven Analysis*
+*Technical Update: June 30, 2026 — Model IDs and names updated; see CHANGELOG*
 
 ---
 [Back to README](README.md)
