@@ -21,11 +21,13 @@ Then continue with the steps below.
 
 **At the start of every session — before any action — these steps are mandatory:**
 
-1. Look for `TODO.md` in the project's **vault workspace** —
-   `<vault>/workspace/TODO.md` (resolve `<vault>` per `035-data-vault.md`).
-   `TODO.md`/`SESSION.md` no longer live in the repo root; they are personal
-   workspace files and would otherwise get committed by accident (e.g. through a
-   merge, which the pre-commit hook does not scan).
+1. Read the **single central TODO** at
+   `${XDG_DATA_HOME:-~/.local/share}/agent-projects/_memory/TODO.md` — one file for
+   ALL projects, with a `## <project>` section each (`<project>` = the vault slug,
+   see `035-data-vault.md`). Read the **current project's section** plus the
+   `## 🌐 Cross-project` section. There is no per-repo `TODO.md` any more — repo-root
+   `TODO.md` is personal and would get committed by accident (e.g. through a merge,
+   which the pre-commit hook does not scan).
 2. If it exists: read it and announce all open items grouped by priority level
 3. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
 4. Ask: "Where do we start?"
@@ -60,13 +62,17 @@ across every git repo under `~/@-github`.
 
 ## TODO Update Rule (Non-Negotiable)
 
-**After completing any TODO item — before committing — update `TODO.md`:**
+**All tasks — for every project — go in the one central TODO**
+(`_memory/TODO.md`), under that project's `## <project>` section. Never create a
+per-repo `TODO.md`. New task → add it under the right project section. This is how a
+solo operator sees every project's work in one place and nothing is forgotten.
+
+**After completing any TODO item — before committing — update the central TODO:**
 
 - Mark the item as done: `- [x]` and add completion date
-- Move it to a `## Completed` section at the bottom
-- Update the status table if present
+- Update the status if present
 
-This is part of the commit. A task is not done until `TODO.md` reflects it.
+A task is not done until the central TODO reflects it.
 
 ## Task Execution Pipeline (Every Task)
 
@@ -81,8 +87,8 @@ Follow this full lifecycle for every task — keep it in mind throughout, not on
 
 ## Notes
 
-- If `TODO.md` does not exist in the vault workspace: inform the user and offer to create it there
-- `TODO.md`/`SESSION.md` live in `<vault>/workspace/`, never in the repo (see `035-data-vault.md`) — so they cannot be committed by accident
+- If the central `_memory/TODO.md` has no section for this project yet: create one (`## <project>`)
+- `SESSION.md` (per-project work log) lives in `<vault>/workspace/`; the TODO is the one central `_memory/TODO.md` — neither is in the repo, so neither can be committed by accident (see `035-data-vault.md`)
 - If the project has no `TODO.md`, check for `ROADMAP.md` or `TASKS.md` in the same workspace
 
 ## Why This Rule Exists
