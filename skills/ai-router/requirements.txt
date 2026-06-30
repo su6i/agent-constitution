@@ -5,6 +5,10 @@ python-dotenv>=1.0.0
 pydantic>=2.0.0
 aiofiles>=23.0.0
 
+# ── Proxy server (FastAPI) ────────────────────────────────────
+fastapi>=0.115.0           # OpenAI-compatible proxy (server.py)
+uvicorn[standard]>=0.30.0  # ASGI runner: uvicorn server:app --port 8787
+
 # ── Optional: GPT-5.x / OpenAI-compatible APIs ───────────────
 # openai>=1.0.0            # GPT-5.2, GPT-5 mini (OpenAI API)
 
