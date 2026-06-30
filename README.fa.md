@@ -115,10 +115,10 @@ bash <(curl -fsSL https://raw.githubusercontent.com/su6i/agent-constitution/main
 
 | فایل | خطوط | چه چیزی |
 |---|---|---|
-| `rules/040-git.md` | 51، 52، 53، 81 | `sushiant60@gmail.com` را با ایمیل خود عوض کنید |
+| `rules/040-git.md` | 51، 52، 53، 81 | `<your-git-email>` را با ایمیل خود عوض کنید |
 
 ```bash
-sed -i '' 's/sushiant60@gmail\.com/your@email.com/g' rules/040-git.md
+sed -i '' 's/<your-git-email>/your@email.com/g' rules/040-git.md
 ```
 
 </div>

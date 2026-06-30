@@ -3,7 +3,7 @@
 # Canonical source: agent-constitution/templates/hooks/pre-commit
 # Installed into .git/hooks/pre-commit (this repo + every `amir init-project`).
 #
-# Enforces three NON-NEGOTIABLE constitution rules deterministically, so they
+# Enforces four NON-NEGOTIABLE constitution rules deterministically, so they
 # cannot be "forgotten" by any agent or human:
 #
 #   1. No direct commits to main/master — use a feature branch.
@@ -11,14 +11,24 @@
 #      documentation (README / CHANGELOG / docs/ / any *.md). A minor change
 #      that is really a continuation of the previous commit must be folded in
 #      with `git commit --amend`, not landed as a new doc-less commit.
+#      Exception: commits that ONLY delete files do not require a doc update
+#      (deletions cannot introduce new behaviour that needs documenting).
 #   3. Personal/memory workspace files (TODO.md, SESSION.md, TASKS.md,
-#      ROADMAP.md, *.session.md, *.local.md) must never reach a commit, even
-#      if force-added with `git add -f` past .gitignore.
+#      ROADMAP.md, CLAUDE.md, *.session.md, *.local.md) must never reach a
+#      commit, even if force-added with `git add -f` past .gitignore.
+#      (CLAUDE.md may contain project-specific personal configuration that
+#      must not enter the shared repo; commit it only via --no-verify if
+#      you are intentionally updating the shared template version.)
 #   4. Secrets / personal data in newly ADDED lines (keys, tokens, phone
 #      numbers, or values from the gitignored personal_data file) block the
 #      commit. Reports file + type only — never the matched value.
 #   5. (Warning, non-blocking) Untracked throwaway files (scratch*, *_mock.py,
 #      *_draft.*, *.tmp, …) are listed as a cleanliness reminder.
+#
+# Merge commits: git does NOT run pre-commit on merge commits (fast-forward or
+# --no-ff). Rules 1–4 are therefore not enforced on merges. Ensure your CI
+# pipeline runs equivalent secret-scan and branch-protection checks on PRs so
+# merges into main are gated at the server side too.
 #
 # Deliberate bypass (discouraged, leaves a trace in your shell history):
 #     git commit --no-verify
@@ -40,40 +50,56 @@ if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
 fi
 
 # ── Rule 2: code changes require a documentation change ─────────────────────
+# Only Added/Copied/Modified/Renamed files can introduce undocumented behaviour.
+# Deletion-only commits do not require a doc update: removing code cannot add
+# behaviour that needs to be documented.  We detect this case explicitly so the
+# intent is clear rather than relying on an empty `staged` string.
+all_staged="$(git diff --cached --name-only)"
 staged="$(git diff --cached --name-only --diff-filter=ACMR)"
-[ -z "$staged" ] && exit 0
 
-doc=0
-code=0
-while IFS= read -r f; do
-    [ -z "$f" ] && continue
-    case "$f" in
-        *.md|*.MD|docs/*|*/docs/*|CHANGELOG*|README*)
-            doc=1 ;;
-        *)
-            code=1 ;;
-    esac
-done <<EOF
+# If ALL staged changes are deletions (ACMR list is empty but something is staged),
+# skip the docs check — deletions are always allowed without a matching doc change.
+if [ -z "$staged" ] && [ -n "$all_staged" ]; then
+    : # deletion-only commit — skip Rule 2 and proceed to Rules 3-5
+elif [ -z "$staged" ]; then
+    exit 0  # nothing staged at all — nothing to check
+else
+    doc=0
+    code=0
+    while IFS= read -r f; do
+        [ -z "$f" ] && continue
+        case "$f" in
+            *.md|*.MD|docs/*|*/docs/*|CHANGELOG*|README*)
+                doc=1 ;;
+            *)
+                code=1 ;;
+        esac
+    done <<EOF
 $staged
 EOF
 
-if [ "$code" = "1" ] && [ "$doc" = "0" ]; then
-    echo ""
-    echo "🚨 pre-commit: code changed but NO documentation was updated."
-    echo "   The Pre-Commit Docs Checklist is non-negotiable. Update one of:"
-    echo "     • README        — if usage / features / structure changed"
-    echo "     • CHANGELOG.md   — if the project has one"
-    echo "     • docs/**        — if documented behaviour changed"
-    echo "   …then re-stage and commit again."
-    echo ""
-    echo "   If this is a MINOR continuation of the previous commit, amend it"
-    echo "   instead of creating a new commit:"
-    echo "     git commit --amend"
-    echo ""
-    exit 1
+    if [ "$code" = "1" ] && [ "$doc" = "0" ]; then
+        echo ""
+        echo "🚨 pre-commit: code changed but NO documentation was updated."
+        echo "   The Pre-Commit Docs Checklist is non-negotiable. Update one of:"
+        echo "     • README        — if usage / features / structure changed"
+        echo "     • CHANGELOG.md   — if the project has one"
+        echo "     • docs/**        — if documented behaviour changed"
+        echo "   …then re-stage and commit again."
+        echo ""
+        echo "   If this is a MINOR continuation of the previous commit, amend it"
+        echo "   instead of creating a new commit:"
+        echo "     git commit --amend"
+        echo ""
+        exit 1
+    fi
 fi
 
 # ── Rule 3: block personal/memory workspace files ──────────────────────────
+# TODO/SESSION/TASKS/ROADMAP and *.session/*.local are always personal → blocked
+# by name. CLAUDE.md is blocked ONLY when it is gitignored — i.e. a force-added
+# personal CLAUDE.md (with user context/local paths). A repo's own *tracked*
+# CLAUDE.md (the shared template, a project's intentional agent doc) is allowed.
 blocked=0
 while IFS= read -r f; do
     [ -z "$f" ] && continue
@@ -83,9 +109,15 @@ while IFS= read -r f; do
             echo "🚨 pre-commit: '$f' is a personal/memory workspace file and must never be committed."
             blocked=1
             ;;
+        CLAUDE.md)
+            if git check-ignore -q "$f" 2>/dev/null; then
+                echo "🚨 pre-commit: '$f' is gitignored (personal CLAUDE.md) and was force-added — must not be committed."
+                blocked=1
+            fi
+            ;;
     esac
 done <<EOF
-$staged
+$all_staged
 EOF
 
 if [ "$blocked" = "1" ]; then

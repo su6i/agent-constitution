@@ -1,7 +1,7 @@
 ---
 name: ai-router
 description: Production-ready multi-model AI router — routes by task complexity to the cheapest capable model (DeepSeek/MiniMax/Claude tiers), with prompt-cache reads, response caching, fallback, circuit breaker, cost tracking, off-peak gating, effort mapping, and an OpenAI-compatible FastAPI proxy. Use when configuring cost-optimized LLM routing, a Cline/OpenAI-compatible proxy, or batch-deferred non-urgent jobs.
-version: 1.2.0
+version: 1.5.1
 updated: 2026-06-30
 ---
 
@@ -17,6 +17,7 @@ updated: 2026-06-30
 | `server.py` | FastAPI OpenAI-compatible proxy (`POST /v1/chat/completions`) — point Cline here |
 | `batch_queue.py` | Non-urgent job queue; flushes to Anthropic Batches API (50% off) or off-peak |
 | `router_cli.py` | CLI for quick one-shot queries |
+| `configure.py` | Interactive wizard: pick planning/acting model priorities, writes `roles.yaml`, prints Cline snippet |
 | `config_example.py` | Annotated example configuration (copy to your vault, fill in keys) |
 | `requirements.txt` | Python dependencies |
 
@@ -29,11 +30,17 @@ pip install -r requirements.txt
 # Point at your personal config (exports build() -> AIRouter)
 export AIROUTER_CONFIG_MODULE=config   # or vault.config, etc.
 
+# (Optional) pick your model priorities interactively
+python configure.py           # or: router configure
+
 # Start the proxy
 uvicorn server:app --host 0.0.0.0 --port 8787
 ```
 
-Cline: set `base_url = http://localhost:8787/v1` in settings.
+Cline: set `base_url = http://localhost:8787/v1` in settings (Act model only — Plan model uses the subscription CLI provider, NOT the proxy).
+
+> **Note on install.sh:** `install.sh` stays zero-touch. After it finishes it prints:
+> `"Run \`router configure\` to choose your planning/acting model priorities."`
 
 ## ویژگی‌ها
 
@@ -56,6 +63,41 @@ Cline: set `base_url = http://localhost:8787/v1` in settings.
 - Detailed logging و metrics
 - Configurable routing strategies
 - Multi-model fallback chains
+
+## Supported Providers
+
+| ModelType | Client | base_url |
+|---|---|---|
+| `CLAUDE_OPUS / SONNET / HAIKU` | `ClaudeClient` (Anthropic SDK) | — |
+| `DEEPSEEK_FLASH / PRO` | `DeepSeekClient` (httpx) | `https://api.deepseek.com/v1` |
+| `GROK` | `OpenAICompatibleClient` | `https://api.x.ai/v1` — VERIFY model ID at docs.x.ai |
+| `OPENAI` | `OpenAICompatibleClient` | `https://api.openai.com/v1` — VERIFY model ID at platform.openai.com |
+| `MINIMAX` | `OpenAICompatibleClient` | `https://api.minimax.io/v1` |
+
+`OpenAICompatibleClient` handles any provider that exposes a standard
+`POST /chat/completions` endpoint (OpenAI request shape). Adding a new
+provider requires only a new `ModelType` enum member and a `ModelConfig` entry —
+no new client class needed.
+
+## Plan/Act Role Routing
+
+Pass `role="planning"` or `role="acting"` (or any custom key) in `generate()` kwargs.
+If the role is present in `RoutingConfig.roles`, its ordered model list is tried first —
+circuit-open models are skipped, complexity routing is the final fallback.
+
+```python
+routing = RoutingConfig(
+    roles={
+        # set personal choices in your vault config, not here
+        "planning": (ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET),
+        "acting":   (ModelType.DEEPSEEK_PRO, ModelType.MINIMAX, ModelType.GROK),
+    }
+)
+
+response = await router.generate(prompt, role="acting")
+```
+
+`RoutingConfig.roles` defaults to `{}` (empty) — no personal model choices in the shared engine.
 
 ## 6 Cost Techniques (RoutingConfig fields)
 

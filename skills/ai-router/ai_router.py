@@ -29,8 +29,10 @@ class ModelType(Enum):
     CLAUDE_SONNET = "claude-sonnet-4-6"
     CLAUDE_HAIKU = "claude-haiku-4-5"
     MINIMAX = "MiniMax-M3"                 # minimax.io current model (set prefer_models to try it first)
-    DEEPSEEK_FLASH = "deepseek-v4-flash"   # deepseek-chat/-reasoner deprecate 2026-07-24 → use v4 names
+    DEEPSEEK_FLASH = "deepseek-v4-flash"   # deepseek-chat/-reasoner are deprecated — use v4 names (active now)
     DEEPSEEK_PRO = "deepseek-v4-pro"       # complex tasks ($0.435 in / $0.87 out per 1M)
+    GROK = "grok-3"                        # xAI Grok — VERIFY: check https://docs.x.ai/docs for current model ID
+    OPENAI = "gpt-4.1"                     # OpenAI — VERIFY: check https://platform.openai.com/docs/models
 
 
 class TaskComplexity(Enum):
@@ -73,6 +75,24 @@ class RoutingConfig:
     # e.g. to spend prepaid credit on one provider before cheaper pay-as-you-go models.
     # Leave empty in shared/example configs; set it in your PERSONAL config only.
     prefer_models: tuple = ()
+
+    # ── Plan/Act role routing ───────────────────────────────────────────────
+    # Generic role → ordered model priority list.  Empty = fall back to
+    # complexity routing.  Supported role names (convention, not enforced):
+    # "planning" and "acting".  Personal configs may add more roles.
+    # NEUTRAL DEFAULTS — do NOT put personal model choices here.
+    #
+    # Example personal config:
+    #   roles = {
+    #       "planning": (ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET),
+    #       "acting":   (ModelType.DEEPSEEK_PRO, ModelType.MINIMAX, ModelType.GROK),
+    #   }
+    #
+    # On every generate() call pass role="planning" or role="acting" (via kwargs
+    # or context["role"]) to activate role-based selection.  If the primary role
+    # model is unavailable / circuit-open the next in the tuple is tried before
+    # complexity routing kicks in as the final fallback.
+    roles: dict = field(default_factory=dict)
 
     # Fallback strategy
     enable_fallback: bool = True
@@ -469,7 +489,67 @@ class DeepSeekClient(ModelClient):
     
     async def __aenter__(self):
         return self
-    
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.client.aclose()
+
+
+class OpenAICompatibleClient(ModelClient):
+    """Generic client for any OpenAI-compatible /chat/completions endpoint.
+
+    Covers:
+    - Grok    (base_url="https://api.x.ai/v1",       model=ModelType.GROK.value)
+    - OpenAI  (base_url="https://api.openai.com/v1",  model=ModelType.OPENAI.value)
+    - MiniMax (base_url="https://api.minimax.io/v1",  model=ModelType.MINIMAX.value)
+
+    Wire new providers by creating a ModelConfig with the appropriate base_url and
+    api_key — no new client class needed.
+    """
+
+    def __init__(self, config: ModelConfig):
+        super().__init__(config)
+        base_url = config.base_url or "https://api.openai.com/v1"
+        self.client = httpx.AsyncClient(
+            base_url=base_url,
+            timeout=config.timeout,
+            headers={
+                "Authorization": f"Bearer {config.api_key}",
+                "Content-Type": "application/json",
+            },
+        )
+
+    async def generate(self, prompt: str, **kwargs) -> Tuple[str, int, int]:
+        """Send a chat completion request to the configured endpoint."""
+        max_tokens = kwargs.get("max_tokens", self.config.max_tokens)
+        temperature = kwargs.get("temperature", 1.0)
+
+        payload: Dict[str, Any] = {
+            "model": self.config.name,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": max_tokens,
+        }
+        # Some providers reject temperature=1.0 — only send if explicitly set.
+        if "temperature" in kwargs:
+            payload["temperature"] = temperature
+
+        system = kwargs.get("system")
+        if system:
+            payload["messages"].insert(0, {"role": "system", "content": system})
+
+        response = await self.client.post("/chat/completions", json=payload)
+        response.raise_for_status()
+        data = response.json()
+
+        response_text = data["choices"][0]["message"]["content"]
+        usage = data.get("usage", {})
+        input_tokens = usage.get("prompt_tokens", 0)
+        output_tokens = usage.get("completion_tokens", 0)
+
+        return response_text, input_tokens, output_tokens
+
+    async def __aenter__(self):
+        return self
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.client.aclose()
 
@@ -556,13 +636,23 @@ class AIRouter:
         # Technique 5: emit local-timezone peak warning on startup
         self._log_peak_warning()
     
+    # ModelTypes handled by OpenAICompatibleClient (base_url from ModelConfig.base_url)
+    _OPENAI_COMPAT_TYPES = frozenset([
+        ModelType.GROK,
+        ModelType.OPENAI,
+        ModelType.MINIMAX,
+    ])
+
     def _initialize_clients(self):
-        """Initialize model clients based on configuration"""
+        """Initialize model clients based on configuration."""
         for model_type, config in self.model_configs.items():
-            if model_type in [ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET, ModelType.CLAUDE_HAIKU]:
+            if model_type in (ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET, ModelType.CLAUDE_HAIKU):
                 self.clients[model_type] = ClaudeClient(config)
-            elif model_type in [ModelType.DEEPSEEK_FLASH, ModelType.DEEPSEEK_PRO]:
+            elif model_type in (ModelType.DEEPSEEK_FLASH, ModelType.DEEPSEEK_PRO):
                 self.clients[model_type] = DeepSeekClient(config)
+            elif model_type in self._OPENAI_COMPAT_TYPES:
+                # Generic OpenAI-compatible endpoint (Grok, OpenAI, MiniMax, …)
+                self.clients[model_type] = OpenAICompatibleClient(config)
     
     def _setup_logging(self):
         """Setup logging configuration"""
@@ -613,28 +703,48 @@ class AIRouter:
         self,
         prompt: str,
         context: Optional[Dict[str, Any]] = None,
-        force_model: Optional[ModelType] = None
+        force_model: Optional[ModelType] = None,
+        role: Optional[str] = None,
     ) -> ModelType:
         """
-        Select appropriate model based on task complexity
-        
+        Select appropriate model based on task complexity (or role if provided).
+
         Args:
             prompt: The user's prompt
             context: Additional context for complexity analysis
             force_model: Override automatic selection
-        
+            role: Optional role name ("planning", "acting", or any custom key).
+                  If set and present in routing_config.roles, the role's ordered
+                  model list is tried before complexity routing.
+
         Returns:
             Selected ModelType
         """
         if force_model:
             return force_model
-        
+
+        # ── Role-based routing (highest priority after force_model) ─────────
+        # Resolve role from explicit arg or from context dict.
+        resolved_role = role or (context or {}).get("role")
+        if resolved_role and resolved_role in self.routing_config.roles:
+            for m in self.routing_config.roles[resolved_role]:
+                if m in self.clients and self.circuit_breakers[m].can_request():
+                    self.logger.info(
+                        f"Role '{resolved_role}' → {m.value}"
+                    )
+                    return m
+            # All role models unavailable → fall through to complexity routing.
+            self.logger.warning(
+                f"Role '{resolved_role}': no available model in role list, "
+                "falling back to complexity routing."
+            )
+
         complexity, confidence = self.complexity_analyzer.analyze(prompt, context)
-        
+
         self.logger.info(
             f"Complexity analysis: {complexity.name} (confidence: {confidence:.2f})"
         )
-        
+
         # Honor configured provider preference for non-critical tasks (generic — a user
         # might prefer a provider to spend prepaid credit). Critical tasks ignore it.
         if complexity.value <= self.routing_config.sonnet_max_complexity:
@@ -649,19 +759,19 @@ class AIRouter:
                 return ModelType.DEEPSEEK_FLASH
             elif ModelType.DEEPSEEK_PRO in self.clients:
                 return ModelType.DEEPSEEK_PRO
-        
+
         if complexity.value <= self.routing_config.haiku_max_complexity:
             if ModelType.CLAUDE_HAIKU in self.clients:
                 return ModelType.CLAUDE_HAIKU
-        
+
         if complexity.value <= self.routing_config.sonnet_max_complexity:
             if ModelType.CLAUDE_SONNET in self.clients:
                 return ModelType.CLAUDE_SONNET
-        
+
         # Default to most powerful model for critical tasks
         if ModelType.CLAUDE_OPUS in self.clients:
             return ModelType.CLAUDE_OPUS
-        
+
         # Fallback to any available model
         return next(iter(self.clients.keys()))
     
@@ -681,12 +791,18 @@ class AIRouter:
           max_tokens          — override max tokens
           is_urgent           — bool; non-urgent DeepSeek jobs may be deferred off-peak
           output_config       — dict, e.g. {"effort": "high"} (passed through to Claude)
+          role                — "planning" | "acting" | any key in routing_config.roles;
+                                activates role-based model selection (tried before
+                                complexity routing).
         """
         async with self.semaphore:
             start_time = time.time()
 
+            # Extract role (consumed here, not forwarded to the model client)
+            role = kwargs.pop("role", None)
+
             # Determine selected model
-            selected_model = self.select_model(prompt, context, force_model)
+            selected_model = self.select_model(prompt, context, force_model, role=role)
 
             # Check cache first
             if self.cache:
@@ -726,7 +842,7 @@ class AIRouter:
 
             # Try primary model with circuit breaker (applies peak_multiplier in cost)
             response_data = await self._generate_with_fallback(
-                prompt, selected_model, start_time, **kwargs
+                prompt, selected_model, start_time, role=role, **kwargs
             )
 
             # Cache the response
@@ -740,22 +856,36 @@ class AIRouter:
         prompt: str,
         primary_model: ModelType,
         start_time: float,
+        role: Optional[str] = None,
         **kwargs
     ) -> Dict[str, Any]:
-        """Generate with automatic fallback on failure"""
+        """Generate with automatic fallback on failure."""
         models_to_try = [primary_model]
-        
+
         # Add fallback models if enabled
         if self.routing_config.enable_fallback:
+            # Role fallbacks: remaining models in the role list (after the primary),
+            # so the user's explicit priority order is honoured on error too.
+            role_fallbacks: List[ModelType] = []
+            if role and role in self.routing_config.roles:
+                role_fallbacks = [
+                    m for m in self.routing_config.roles[role]
+                    if m != primary_model and m in self.clients
+                ]
+
             # Preferred providers first (honors prefer_models, e.g. prepaid credit),
             # then cheapest-first pay-as-you-go so a primary error degrades cost-safely.
-            fallback_order = list(self.routing_config.prefer_models) + [
+            generic_fallbacks = list(self.routing_config.prefer_models) + [
                 ModelType.DEEPSEEK_FLASH,
                 ModelType.DEEPSEEK_PRO,
                 ModelType.CLAUDE_SONNET,
                 ModelType.CLAUDE_HAIKU,
             ]
-            models_to_try.extend([m for m in fallback_order if m != primary_model and m in self.clients])
+            # Role fallbacks take priority over generic fallbacks.
+            combined = role_fallbacks + [
+                m for m in generic_fallbacks if m not in role_fallbacks
+            ]
+            models_to_try.extend([m for m in combined if m != primary_model and m in self.clients])
         
         last_error = None
         
@@ -899,14 +1029,33 @@ async def main():
         ModelType.DEEPSEEK_FLASH: ModelConfig(
             # DeepSeek official price (api-docs.deepseek.com/quick_start/pricing):
             # input $0.14 cache-miss / $0.0028 cache-hit, output $0.28 per 1M.
-            # ⚠️ Peak/valley from mid-July 2026: peak = 2× (UTC 01-04 & 06-10).
+            # ⚠️ DeepSeek peak/valley is active now: peak = 2× (UTC 01-04 & 06-10).
             name="deepseek-v4-flash",
             api_key="your-deepseek-api-key",
             base_url="https://api.deepseek.com/v1",
             input_cost_per_1m=0.14,
             output_cost_per_1m=0.28,
             max_tokens=16384
-        )
+        ),
+        # ── OpenAI-compatible providers (optional, add any subset) ──────────
+        ModelType.GROK: ModelConfig(
+            # xAI Grok — VERIFY model ID at https://docs.x.ai/docs/models
+            name="grok-3",
+            api_key="your-xai-api-key",
+            base_url="https://api.x.ai/v1",
+            input_cost_per_1m=3.0,   # VERIFY current pricing at docs.x.ai
+            output_cost_per_1m=15.0,
+            max_tokens=131072,
+        ),
+        ModelType.OPENAI: ModelConfig(
+            # OpenAI — VERIFY model ID at https://platform.openai.com/docs/models
+            name="gpt-4.1",
+            api_key="your-openai-api-key",
+            base_url="https://api.openai.com/v1",
+            input_cost_per_1m=2.0,   # VERIFY current pricing at platform.openai.com
+            output_cost_per_1m=8.0,
+            max_tokens=32768,
+        ),
     }
     
     # Configure routing
