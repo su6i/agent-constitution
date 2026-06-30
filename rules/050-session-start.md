@@ -21,7 +21,11 @@ Then continue with the steps below.
 
 **At the start of every session — before any action — these steps are mandatory:**
 
-1. Look for `TODO.md` in the project root
+1. Look for `TODO.md` in the project's **vault workspace** —
+   `<vault>/workspace/TODO.md` (resolve `<vault>` per `035-data-vault.md`).
+   `TODO.md`/`SESSION.md` no longer live in the repo root; they are personal
+   workspace files and would otherwise get committed by accident (e.g. through a
+   merge, which the pre-commit hook does not scan).
 2. If it exists: read it and announce all open items grouped by priority level
 3. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
 4. Ask: "Where do we start?"
@@ -77,9 +81,9 @@ Follow this full lifecycle for every task — keep it in mind throughout, not on
 
 ## Notes
 
-- If `TODO.md` does not exist: inform the user and offer to create it
-- `TODO.md` should be in `.gitignore` — it is a local workspace file, not tracked
-- If the project has no `TODO.md`, check for `ROADMAP.md` or `TASKS.md` as alternatives
+- If `TODO.md` does not exist in the vault workspace: inform the user and offer to create it there
+- `TODO.md`/`SESSION.md` live in `<vault>/workspace/`, never in the repo (see `035-data-vault.md`) — so they cannot be committed by accident
+- If the project has no `TODO.md`, check for `ROADMAP.md` or `TASKS.md` in the same workspace
 
 ## Why This Rule Exists
 
