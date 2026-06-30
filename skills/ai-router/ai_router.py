@@ -31,8 +31,8 @@ class ModelType(Enum):
     MINIMAX = "MiniMax-M3"                 # minimax.io current model (set prefer_models to try it first)
     DEEPSEEK_FLASH = "deepseek-v4-flash"   # deepseek-chat/-reasoner are deprecated — use v4 names (active now)
     DEEPSEEK_PRO = "deepseek-v4-pro"       # complex tasks ($0.435 in / $0.87 out per 1M)
-    GROK = "grok-3"                        # xAI Grok — VERIFY: check https://docs.x.ai/docs for current model ID
-    OPENAI = "gpt-4.1"                     # OpenAI — VERIFY: check https://platform.openai.com/docs/models
+    GROK = "grok-4.3"                      # xAI Grok flagship ($1.25/$2.50 per 1M; fast: grok-build-0.1)
+    OPENAI = "gpt-5.4"                     # OpenAI ($2.50/$15 per 1M; cheaper: gpt-5.4-mini $0.75/$4.50)
 
 
 class TaskComplexity(Enum):
@@ -1039,21 +1039,21 @@ async def main():
         ),
         # ── OpenAI-compatible providers (optional, add any subset) ──────────
         ModelType.GROK: ModelConfig(
-            # xAI Grok — VERIFY model ID at https://docs.x.ai/docs/models
-            name="grok-3",
+            # xAI Grok flagship (https://docs.x.ai/developers/pricing)
+            name="grok-4.3",
             api_key="your-xai-api-key",
             base_url="https://api.x.ai/v1",
-            input_cost_per_1m=3.0,   # VERIFY current pricing at docs.x.ai
-            output_cost_per_1m=15.0,
+            input_cost_per_1m=1.25,
+            output_cost_per_1m=2.5,
             max_tokens=131072,
         ),
         ModelType.OPENAI: ModelConfig(
-            # OpenAI — VERIFY model ID at https://platform.openai.com/docs/models
-            name="gpt-4.1",
+            # OpenAI (https://developers.openai.com/api/docs/pricing)
+            name="gpt-5.4",
             api_key="your-openai-api-key",
             base_url="https://api.openai.com/v1",
-            input_cost_per_1m=2.0,   # VERIFY current pricing at platform.openai.com
-            output_cost_per_1m=8.0,
+            input_cost_per_1m=2.5,
+            output_cost_per_1m=15.0,
             max_tokens=32768,
         ),
     }
