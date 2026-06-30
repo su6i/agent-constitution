@@ -106,6 +106,57 @@ Shell equivalent: `${<PROJECT>_DATA_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/ag
   no code depends on the old in-repo path (grep `src/`), then move and repoint.
 - **Never delete personal data to "clean" a repo** — relocate it to the vault.
 
+## Layered Secrets Model
+
+Secrets are structured in two layers that are resolved at runtime:
+
+```
+~/.local/share/agent-projects/
+├── _shared/
+│   └── secrets/
+│       └── .env        ← shared LLM API keys (ANTHROPIC_API_KEY, DEEPSEEK_API_KEY, …)
+└── <project>/
+    └── secrets/
+        └── .env        ← per-project overrides + project-specific keys
+```
+
+**Resolution order** (lowest wins — more specific overrides more general):
+
+1. `_shared/secrets/.env` — loaded first; provides shared LLM keys available to all projects.
+2. `<project>/secrets/.env` — loaded second; project-specific keys and any overrides of shared values.
+
+This means a project can override a shared key (e.g. use a different `ANTHROPIC_API_KEY`
+for billing isolation) without touching the shared file.
+
+**Multiple Telegram bots / separate channels:** Each bot is a separate project vault:
+
+```
+~/.local/share/agent-projects/
+├── bot-housing/secrets/.env    # TELEGRAM_BOT_TOKEN=xxx  (housing bot)
+└── bot-alerts/secrets/.env     # TELEGRAM_BOT_TOKEN=yyy  (alerts bot)
+```
+
+Never put multiple Telegram tokens in a single `.env` — they belong in their own
+project vaults so each project's secret is independently rotatable.
+
+**Loading in Python (load both layers in order):**
+
+```python
+from dotenv import load_dotenv
+
+def load_secrets(vault: Path) -> None:
+    shared_env = vault.parent / "_shared" / "secrets" / ".env"
+    project_env = vault / "secrets" / ".env"
+    if shared_env.exists():
+        load_dotenv(shared_env, override=False)   # shared first, no override
+    if project_env.exists():
+        load_dotenv(project_env, override=True)   # project second, overrides shared
+```
+
+> **Rule:** never hardcode keys or merge them into a single flat file. Keep shared
+> and per-project secrets in their respective vaults so rotation affects only the
+> intended scope.
+
 ## Why
 
 A single, predictable location per project means: zero personal data in any repo,

@@ -27,6 +27,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   CLI, Act = proxy `http://localhost:8787/v1`). Separate from install.sh (zero-touch
   unchanged). Skill version bumped 1.4.0 → 1.5.0.
 
+- `rules/035-data-vault.md`: added **Layered Secrets Model** section documenting
+  the two-layer `_shared/secrets/.env` + `<project>/secrets/.env` resolution
+  order, the multiple-Telegram-bots pattern (separate project vaults), and a
+  Python `load_secrets()` reference snippet.
+
 ### Fixed
 
 - `templates/hooks/pre-commit`:
