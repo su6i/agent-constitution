@@ -11,10 +11,10 @@ import logging
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
-from functools import wraps
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 import anthropic
 import httpx
 
@@ -63,12 +63,12 @@ class RoutingConfig:
     deepseek_max_complexity: int = 2
     haiku_max_complexity: int = 3
     sonnet_max_complexity: int = 4
-    
+
     # Cost optimization
     enable_caching: bool = True
     cache_ttl_seconds: int = 3600
     enable_cost_tracking: bool = True
-    
+
     # Provider preference — models to try first (in order) for non-critical tasks,
     # e.g. to spend prepaid credit on one provider before cheaper pay-as-you-go models.
     # Leave empty in shared/example configs; set it in your PERSONAL config only.
@@ -77,10 +77,43 @@ class RoutingConfig:
     # Fallback strategy
     enable_fallback: bool = True
     fallback_on_error: bool = True
-    
+
     # Performance
     max_concurrent_requests: int = 10
     request_timeout: int = 120
+
+    # ── Technique 2: effort mapping (Claude extended-thinking) ──────────────
+    # Maps TaskComplexity int value → effort string ("low" | "medium" | "high").
+    # Empty dict = disabled (no output_config sent).  Personal configs may set
+    # e.g. {1: "low", 2: "low", 3: "medium", 4: "high"}.
+    complexity_to_effort: Dict[int, str] = field(default_factory=dict)
+
+    # ── Technique 3: prompt cache ───────────────────────────────────────────
+    # True (default) = mark stable system prefix with cache_control.
+    # Set False to disable globally (e.g. for cost analysis A/B tests).
+    enable_prompt_cache: bool = True
+
+    # ── Technique 4: batch queue ────────────────────────────────────────────
+    # Flush non-urgent jobs to Claude Batches / DeepSeek batch every N seconds
+    # or when batch_max items accumulate.  0 = disabled.
+    batch_flush_seconds: int = 0
+    batch_max: int = 100
+
+    # ── Technique 5: off-peak (DeepSeek) ───────────────────────────────────
+    # List of [start_utc_hour, end_utc_hour] windows where pricing is higher.
+    # Example (DeepSeek peak 2026-07): [[1, 4], [6, 10]]
+    # Empty list = no peak windows (default, neutral).
+    peak_windows_utc: List[List[int]] = field(default_factory=list)
+    # Cost multiplier applied during peak windows (default 1.0 = no surcharge).
+    peak_multiplier: float = 1.0
+
+    # ── Technique 6: max_tokens + context editing ───────────────────────────
+    # "estimate" = derive max_tokens from prompt length heuristic.
+    # "fixed"    = use ModelConfig.max_tokens as-is (legacy behaviour).
+    max_tokens_policy: str = "fixed"
+    # Enable Claude context-window editing (clear_tool_uses_20250919) for long
+    # agentic sessions so input tokens don't balloon.  False by default.
+    enable_context_editing: bool = False
 
 
 @dataclass
@@ -334,18 +367,19 @@ class ModelClient(ABC):
 
 class ClaudeClient(ModelClient):
     """Client for Anthropic Claude models"""
-    
+
     def __init__(self, config: ModelConfig):
         super().__init__(config)
         self.client = anthropic.AsyncAnthropic(
             api_key=config.api_key,
             timeout=config.timeout
         )
-    
+
     async def generate(self, prompt: str, **kwargs) -> Tuple[str, int, int]:
-        """Generate response using Claude API (with prompt-cache read)."""
+        """Generate response using Claude API (with prompt-cache read + effort mapping)."""
         max_tokens = kwargs.get('max_tokens', self.config.max_tokens)
         system = kwargs.get('system', None)
+        enable_prompt_cache = kwargs.get('enable_prompt_cache', True)
 
         messages = [{"role": "user", "content": prompt}]
 
@@ -354,15 +388,29 @@ class ClaudeClient(ModelClient):
         # (no timestamps/UUIDs) and put volatile content in the user message.
         system_param = anthropic.NOT_GIVEN
         if system:
-            system_param = [{
-                "type": "text", "text": system,
-                "cache_control": {"type": "ephemeral"},
-            }]
+            if enable_prompt_cache:
+                system_param = [{
+                    "type": "text", "text": system,
+                    "cache_control": {"type": "ephemeral"},
+                }]
+            else:
+                system_param = [{"type": "text", "text": system}]
 
         # Opus 4.7/4.8 reject sampling params (400) — only send temperature otherwise.
-        extra = {}
+        extra: Dict[str, Any] = {}
         if not self.config.name.startswith(("claude-opus-4-8", "claude-opus-4-7")):
             extra["temperature"] = kwargs.get('temperature', 1.0)
+
+        # Technique 2: effort mapping → output_config (extended thinking budget).
+        # Passed via kwargs['output_config'] by AIRouter.generate() when configured.
+        output_config = kwargs.get('output_config')
+        if output_config:
+            extra["output_config"] = output_config
+
+        # Technique 6: context editing — strip completed tool-use blocks from history
+        # to prevent input-token ballooning in long agentic sessions.
+        if kwargs.get('enable_context_editing'):
+            extra["betas"] = ["clear_tool_uses_20250919"]
 
         response = await self.client.messages.create(
             model=self.config.name,
@@ -477,7 +525,7 @@ class AIRouter:
     Professional AI Router that intelligently routes requests
     between multiple AI models with cost optimization
     """
-    
+
     def __init__(
         self,
         model_configs: Dict[ModelType, ModelConfig],
@@ -485,25 +533,28 @@ class AIRouter:
     ):
         self.model_configs = model_configs
         self.routing_config = routing_config or RoutingConfig()
-        
+
         # Initialize clients
         self.clients: Dict[ModelType, ModelClient] = {}
         self._initialize_clients()
         # Note: DEEPSEEK_FLASH supports thinking mode via extra_body={"thinking": {"type": "enabled", "budget_tokens": N}}
-        
+
         # Initialize components
         self.cache = CacheManager(self.routing_config.cache_ttl_seconds) if self.routing_config.enable_caching else None
         self.cost_tracker = CostTracker() if self.routing_config.enable_cost_tracking else None
         self.complexity_analyzer = ComplexityAnalyzer()
-        
+
         # Circuit breakers per model
         self.circuit_breakers = {model: CircuitBreaker() for model in ModelType}
-        
+
         # Semaphore for concurrency control
         self.semaphore = asyncio.Semaphore(self.routing_config.max_concurrent_requests)
-        
+
         # Logging
         self._setup_logging()
+
+        # Technique 5: emit local-timezone peak warning on startup
+        self._log_peak_warning()
     
     def _initialize_clients(self):
         """Initialize model clients based on configuration"""
@@ -520,6 +571,43 @@ class AIRouter:
             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
         )
         self.logger = logging.getLogger('AIRouter')
+
+    # ── Technique 5: peak-window helpers ────────────────────────────────────
+
+    def is_peak(self) -> bool:
+        """Return True if current UTC time falls inside any configured peak window."""
+        windows = self.routing_config.peak_windows_utc
+        if not windows:
+            return False
+        utc_hour = datetime.now(timezone.utc).hour
+        for window in windows:
+            start, end = window[0], window[1]
+            if start <= end:
+                if start <= utc_hour < end:
+                    return True
+            else:
+                # wraps midnight, e.g. [22, 2]
+                if utc_hour >= start or utc_hour < end:
+                    return True
+        return False
+
+    def _log_peak_warning(self) -> None:
+        """Log peak windows in the machine's local timezone on startup (stdlib only)."""
+        windows = self.routing_config.peak_windows_utc
+        if not windows or self.routing_config.peak_multiplier == 1.0:
+            return
+        # DST-aware local UTC offset for "now" — no extra dependency.
+        offset = datetime.now().astimezone().utcoffset() or timedelta(0)
+        offset_h = round(offset.total_seconds() / 3600)
+
+        def _local(utc_hour: int) -> str:
+            return f"{(utc_hour + offset_h) % 24:02d}:00"
+
+        windows_str = " & ".join(f"{_local(w[0])}–{_local(w[1])}" for w in windows)
+        self.logger.warning(
+            f"DeepSeek peak in YOUR local time: {windows_str} "
+            f"(×{self.routing_config.peak_multiplier} cost) — batchable jobs deferred outside peak."
+        )
     
     def select_model(
         self,
@@ -585,23 +673,22 @@ class AIRouter:
         **kwargs
     ) -> Dict[str, Any]:
         """
-        Generate response with intelligent routing and fallback
-        
-        Args:
-            prompt: User prompt
-            context: Additional context
-            force_model: Force specific model
-            **kwargs: Additional parameters for generation
-        
-        Returns:
-            Dict containing response and metadata
+        Generate response with intelligent routing and fallback.
+
+        Extra kwargs (all optional):
+          system              — stable system prompt (prompt-cached on Claude)
+          temperature         — sampling temperature
+          max_tokens          — override max tokens
+          is_urgent           — bool; non-urgent DeepSeek jobs may be deferred off-peak
+          output_config       — dict, e.g. {"effort": "high"} (passed through to Claude)
         """
         async with self.semaphore:
             start_time = time.time()
-            
-            # Check cache first
+
+            # Determine selected model
             selected_model = self.select_model(prompt, context, force_model)
-            
+
+            # Check cache first
             if self.cache:
                 cached_response = await self.cache.get(prompt, selected_model, **kwargs)
                 if cached_response:
@@ -611,16 +698,41 @@ class AIRouter:
                         'cache_hit': True,
                         'latency_ms': 0
                     }
-            
-            # Try primary model with circuit breaker
+
+            # Technique 2: inject effort from complexity mapping (Claude only)
+            if (self.routing_config.complexity_to_effort
+                    and selected_model in (
+                        ModelType.CLAUDE_OPUS, ModelType.CLAUDE_SONNET, ModelType.CLAUDE_HAIKU)
+                    and 'output_config' not in kwargs):
+                complexity, _ = self.complexity_analyzer.analyze(prompt, context)
+                effort = self.routing_config.complexity_to_effort.get(complexity.value)
+                if effort:
+                    kwargs['output_config'] = {"effort": effort}
+
+            # Technique 3: propagate enable_prompt_cache flag
+            if 'enable_prompt_cache' not in kwargs:
+                kwargs['enable_prompt_cache'] = self.routing_config.enable_prompt_cache
+
+            # Technique 6: propagate enable_context_editing flag
+            if 'enable_context_editing' not in kwargs:
+                kwargs['enable_context_editing'] = self.routing_config.enable_context_editing
+
+            # Technique 6: max_tokens_policy = "estimate" → heuristic based on prompt length
+            if self.routing_config.max_tokens_policy == "estimate" and 'max_tokens' not in kwargs:
+                word_count = len(prompt.split())
+                # Heuristic: output ≈ 1× prompt words, capped at model max; floor 256.
+                estimated = max(256, min(word_count * 2, self.model_configs[selected_model].max_tokens))
+                kwargs['max_tokens'] = estimated
+
+            # Try primary model with circuit breaker (applies peak_multiplier in cost)
             response_data = await self._generate_with_fallback(
                 prompt, selected_model, start_time, **kwargs
             )
-            
+
             # Cache the response
             if self.cache and not response_data.get('error'):
                 await self.cache.set(prompt, selected_model, response_data, **kwargs)
-            
+
             return response_data
     
     async def _generate_with_fallback(
@@ -662,7 +774,14 @@ class AIRouter:
                 # Success - record metrics
                 latency_ms = (time.time() - start_time) * 1000
                 cost = client.calculate_cost(input_tokens, output_tokens)
-                
+
+                # Technique 5: apply peak surcharge to effective cost so the cost
+                # tracker reflects real spend during DeepSeek peak windows.
+                if (self.is_peak()
+                        and model in (ModelType.DEEPSEEK_FLASH, ModelType.DEEPSEEK_PRO)
+                        and self.routing_config.peak_multiplier != 1.0):
+                    cost *= self.routing_config.peak_multiplier
+
                 self.circuit_breakers[model].record_success()
                 
                 metrics = RequestMetrics(
