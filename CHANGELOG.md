@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Added `ModelType.GROK` (`grok-3`, VERIFY at docs.x.ai) and `ModelType.OPENAI`
   (`gpt-4.1`, VERIFY at platform.openai.com). `_initialize_clients` wires these to
   the new client. Skill version bumped 1.3.0 → 1.4.0.
+- `skills/ai-router/configure.py` — interactive wizard: asks planning/acting model
+  priorities, writes `~/.config/ai-router/roles.yaml` (overridable via
+  `AIROUTER_ROLES_FILE`), and prints a Cline settings snippet (Plan = subscription
+  CLI, Act = proxy `http://localhost:8787/v1`). Separate from install.sh (zero-touch
+  unchanged). Skill version bumped 1.4.0 → 1.5.0.
 
 ## [Unreleased] - 2026-06-09
 
