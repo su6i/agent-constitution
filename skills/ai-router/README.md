@@ -23,6 +23,11 @@ updated: 2026-06-30
 
 ### Quick start (proxy)
 
+> **`anthropic` is optional.** Only the Claude client needs it; the grunt-work
+> providers (DeepSeek / MiniMax / Grok) use an OpenAI-compatible httpx client. A
+> subscription-only setup with **no Anthropic API key** can run the router
+> without installing `anthropic` — just omit Claude models from the config.
+
 ```bash
 # Install deps
 pip install -r requirements.txt
