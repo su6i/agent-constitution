@@ -11,8 +11,8 @@ updated: 2026-06-30
 > any agent) instead of hand-creating per-project folders. It derives the slug the
 > same way as the `035-data-vault` resolver (git remote → repo name).
 
-> Also symlink `.clinerules` → `.agent/constitution/templates/.clinerules` (and
-> gitignore it) so Cline in every project reads the same source-of-truth pointer.
+> Also seed a committed `.clinerules` per repo (copy from
+> `templates/.clinerules`) so Cline in every project reads the source-of-truth pointer.
 
 # Bootstrap Installer
 
