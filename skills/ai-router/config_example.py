@@ -10,9 +10,9 @@ from ai_router import ModelConfig, ModelType, RoutingConfig
 # =============================================================================
 
 MODEL_CONFIGS = {
-    # Claude Opus 4.6 - Most powerful, most expensive
+    # Claude Opus 4.8 - Most powerful, most expensive
     ModelType.CLAUDE_OPUS: ModelConfig(
-        name="claude-opus-4-6",
+        name="claude-opus-4-8",
         api_key="YOUR_CLAUDE_API_KEY_HERE",  # Get from https://console.anthropic.com
         input_cost_per_1m=5.0,    # $5 per 1M input tokens
         output_cost_per_1m=25.0,  # $25 per 1M output tokens
@@ -22,12 +22,12 @@ MODEL_CONFIGS = {
         rate_limit_per_minute=50
     ),
     
-    # Claude Sonnet 4.5 - Balanced performance/cost
+    # Claude Sonnet 4.6 - Balanced performance/cost
     ModelType.CLAUDE_SONNET: ModelConfig(
-        name="claude-sonnet-4-5-20250929",
+        name="claude-sonnet-4-6",
         api_key="YOUR_CLAUDE_API_KEY_HERE",
-        input_cost_per_1m=1.0,    # $1 per 1M input tokens
-        output_cost_per_1m=5.0,   # $5 per 1M output tokens
+        input_cost_per_1m=3.0,    # $3 per 1M input tokens
+        output_cost_per_1m=15.0,  # $15 per 1M output tokens
         max_tokens=8192,
         timeout=120,
         max_retries=3,
@@ -46,22 +46,22 @@ MODEL_CONFIGS = {
         rate_limit_per_minute=100
     ),
     
-    # DeepSeek Coder - Best for coding, very cheap
-    ModelType.DEEPSEEK_CODER: ModelConfig(
-        name="deepseek-coder",
+    # DeepSeek Pro - Best for coding, affordable
+    ModelType.DEEPSEEK_PRO: ModelConfig(
+        name="deepseek-v4-pro",
         api_key="YOUR_DEEPSEEK_API_KEY_HERE",  # Get from https://platform.deepseek.com
         base_url="https://api.deepseek.com/v1",
-        input_cost_per_1m=0.14,   # $0.14 per 1M input tokens
-        output_cost_per_1m=0.28,  # $0.28 per 1M output tokens
+        input_cost_per_1m=0.435,  # $0.435 per 1M input tokens
+        output_cost_per_1m=0.87,  # $0.87 per 1M output tokens
         max_tokens=4096,
         timeout=90,
         max_retries=3,
         rate_limit_per_minute=60
     ),
     
-    # DeepSeek Chat - General purpose, very cheap
-    ModelType.DEEPSEEK_CHAT: ModelConfig(
-        name="deepseek-chat",
+    # DeepSeek Flash - General purpose, very cheap
+    ModelType.DEEPSEEK_FLASH: ModelConfig(
+        name="deepseek-v4-flash",
         api_key="YOUR_DEEPSEEK_API_KEY_HERE",
         base_url="https://api.deepseek.com/v1",
         input_cost_per_1m=0.14,
