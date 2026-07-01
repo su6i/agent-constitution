@@ -28,3 +28,8 @@ last_updated: 2026-02-21
 - memory-bank/activeContext.md آپدیت کن
 - ruff + pytest اجرا کن
 - نتیجه را در یک خط خلاصه کن
+
+## Source of truth (2026-07-01)
+- **Tasks:** `~/.local/share/agent-projects/_memory/TODO.md` — read section `## <project>` (repo name, lowercased) + `## 🌐 Cross-project`. Never a per-repo `TODO.md`.
+- **Personal data** (keys, CVs, `SESSION.md`): vault `~/.local/share/agent-projects/<project>/`, never the repo. Shared LLM keys: `_shared/secrets/.env`.
+- **Git:** branch first; no AI attribution in commits (rule `040-git`); get approval before merge.
