@@ -11,6 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `templates/.clinerules` — generic Cline source-of-truth pointer, seeded per repo by
+  `install.sh` so Cline in every project reads the central TODO + vault + git rules.
+
+### Fixed
+
+- `skills/ai-router`: `import anthropic` is now optional (lazy import + guard in
+  `ClaudeClient`). Grunt-work providers use `OpenAICompatibleClient` (httpx only), so a
+  subscription-only setup with no Anthropic API key can run the router. Documented in
+  the router README.
+- `skills/ai-router/config_example.py`: corrected DeepSeek model IDs to the v4 names
+  (`deepseek-v4-flash` / `deepseek-v4-pro`) and Sonnet 4.6 pricing.
+
 - `skills/ai-router`: `RoutingConfig.roles` dict — maps role names ("planning", "acting"
   or any custom key) to ordered `ModelType` tuples; `generate(role=...)` activates
   role-based model selection (tried before complexity routing, circuit-open models
