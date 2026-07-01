@@ -15,8 +15,16 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
-import anthropic
 import httpx
+
+# anthropic is OPTIONAL: only ClaudeClient needs it. The grunt-work providers
+# (DeepSeek/MiniMax/Grok) go through OpenAICompatibleClient (httpx only), so a
+# subscription-only setup with no Anthropic API key can run the router without
+# installing anthropic. Import lazily and guard at use.
+try:
+    import anthropic
+except ModuleNotFoundError:
+    anthropic = None
 
 
 # ============================================================================
@@ -390,6 +398,13 @@ class ClaudeClient(ModelClient):
 
     def __init__(self, config: ModelConfig):
         super().__init__(config)
+        if anthropic is None:
+            raise ImportError(
+                "The 'anthropic' package is required for Claude models but is not "
+                "installed. Either `uv pip install anthropic`, or route only to "
+                "OpenAI-compatible providers (DeepSeek/MiniMax/Grok) and remove "
+                "Claude models from your config."
+            )
         self.client = anthropic.AsyncAnthropic(
             api_key=config.api_key,
             timeout=config.timeout
