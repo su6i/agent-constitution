@@ -30,6 +30,20 @@ last_updated: 2026-06-30
 - Config: ONLY use `config.yaml` or `.env` (no hardcoding)
 - All variables in `config.yaml` — never leave hardcoded values in code
 
+## Commands Given to the User (Non-Negotiable)
+
+Any command the agent asks the human to run must be runnable **as-is in a
+brand-new terminal**:
+
+- **Absolute paths only** — never assume a working directory, never use
+  relative paths.
+- **One complete command per line** — no `&&`/`;` chains, no multi-step
+  one-liners. Readability beats cleverness.
+- Nothing left for the human to fill in, unless a placeholder is explicitly
+  marked (e.g. `<PASTE-TOKEN-HERE>`).
+- If a step needs more than one command, give a numbered list — one
+  copy-pasteable line per step.
+
 ## On Error
 
 - First read the error, then diagnose
@@ -39,12 +53,13 @@ last_updated: 2026-06-30
 ## No Silent Errors (Non-Negotiable)
 
 Every error you observe — lint, type, test, build, LaTeX, runtime, deprecation
-warning — must be either **fixed now** or **recorded in `TODO.md`** for later.
+warning — must be either **fixed now** or **recorded in the central
+`_memory/TODO.md`** (the project's `## <project>` section — rule 050) for later.
 Seeing an error and moving on without doing one of those two is forbidden.
 
 - "It was already there" / "not caused by my change" is **not** a reason to
   ignore it — record it.
 - When you defer a fix (e.g. to keep a commit's scope clean), immediately add an
-  item under a bugs/lint section in the project `TODO.md` with the exact
-  `file:line` and the error message.
+  item under the project's section in the central `_memory/TODO.md` with the
+  exact `file:line` and the error message.
 - Applies to errors surfaced by any tool you run, not only the files you edited.
