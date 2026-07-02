@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-02 — pre-commit: PII scan operates on clean added lines
+
+- The staged-diff PII scan now strips the leading `+` diff marker before any
+  pattern matching. Fixes a false positive where decorators at added-line
+  starts (`@pytest.fixture`, `@app.route`) were flagged as email addresses
+  (the marker was being consumed as the email local-part). Real emails in
+  added code are still caught.
+
 ## [Unreleased] - 2026-06-30
 
 ### Added

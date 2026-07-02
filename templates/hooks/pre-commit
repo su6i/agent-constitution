@@ -149,7 +149,7 @@ EOF
 pii=0
 if [ -n "$scan_files" ]; then
     added="$(git diff --cached --diff-filter=ACMR -U0 -- $scan_files 2>/dev/null \
-             | grep '^+' | grep -v '^+++')"
+             | grep '^+' | grep -v '^+++' | sed 's/^+//')"
 
     flag() { echo "🚨 pre-commit: possible $1 in staged additions (value hidden)."; pii=1; }
 
