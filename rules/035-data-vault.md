@@ -27,7 +27,7 @@ One vault per project, outside any repository:
 ├── shared/      # injected fragments (e.g. personal_data.tex)
 ├── references/  # private documents (diplomas, notes, plans)
 ├── secrets/     # tokens, .env, credentials
-└── workspace/   # TODO.md, SESSION.md (per-project work log)
+└── workspace/   # SESSION.md (per-project work log), NEXT-SESSION.md (work orders) — NO TODO.md
 ```
 
 Central, cross-project memory lives alongside the project vaults:
@@ -35,7 +35,8 @@ Central, cross-project memory lives alongside the project vaults:
 ```
 ~/.local/share/agent-projects/_memory/
 ├── MEMORY.md    # index only — one line per entry
-├── sessions/    # cross-repo session summaries
+├── TODO.md      # THE one task file — every project has a `## <project>` section
+├── sessions/    # cross-repo session summaries (1-2 lines per session)
 └── archive/     # entries older than ~6 months
 ```
 
@@ -100,8 +101,12 @@ Shell equivalent: `${<PROJECT>_DATA_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/ag
 - **Code never hardcodes in-repo personal paths.** Resolve `data/`, `shared/`,
   `secrets/` through the resolver above — never `REPO_ROOT/"data"`.
 - **`.env` lives in `secrets/`.** Point `load_dotenv` at `<vault>/secrets/.env`.
-- **`TODO.md` / `SESSION.md` live in `workspace/`** and are read from there — see
-  `050-session-start.md`. They are no longer kept in the repo root.
+- **`SESSION.md` lives in `workspace/`** (per-project detail log) and is read
+  from there. **Tasks have exactly ONE home: the central `_memory/TODO.md`**,
+  one `## <project>` section per project — never a per-repo file, never a
+  per-project vault file (see `050-session-start.md`). Cross-project session
+  summaries (1-2 lines each) go to `_memory/sessions/` so an agent hopping
+  between projects knows what happened elsewhere.
 - **Moving a file to the vault is a filesystem move**, not a commit. First confirm
   no code depends on the old in-repo path (grep `src/`), then move and repoint.
 - **Never delete personal data to "clean" a repo** — relocate it to the vault.
