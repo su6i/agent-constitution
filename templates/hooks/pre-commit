@@ -3,7 +3,7 @@
 # Canonical source: agent-constitution/templates/hooks/pre-commit
 # Installed into .git/hooks/pre-commit (this repo + every `amir init-project`).
 #
-# Enforces four NON-NEGOTIABLE constitution rules deterministically, so they
+# Enforces five NON-NEGOTIABLE constitution rules deterministically, so they
 # cannot be "forgotten" by any agent or human:
 #
 #   1. No direct commits to main/master — use a feature branch.
@@ -22,13 +22,22 @@
 #   4. Secrets / personal data in newly ADDED lines (keys, tokens, phone
 #      numbers, or values from the gitignored personal_data file) block the
 #      commit. Reports file + type only — never the matched value.
-#   5. (Warning, non-blocking) Untracked throwaway files (scratch*, *_mock.py,
+#   5. Skill versioning (rules/036-skill-versioning.md) — a staged change to a
+#      skills/**.md file must carry `version:` + `updated:` frontmatter, and a
+#      modified skill's `version:` must differ from HEAD (bump on every edit).
+#   6. (Warning, non-blocking) Untracked throwaway files (scratch*, *_mock.py,
 #      *_draft.*, *.tmp, …) are listed as a cleanliness reminder.
 #
-# Merge commits: git does NOT run pre-commit on merge commits (fast-forward or
-# --no-ff). Rules 1–4 are therefore not enforced on merges. Ensure your CI
-# pipeline runs equivalent secret-scan and branch-protection checks on PRs so
-# merges into main are gated at the server side too.
+# Merge commits: git does not run pre-commit on automatic merge commits — the
+# companion pre-merge-commit hook (same templates dir) execs this script with
+# CONSTITUTION_MERGE_GATE=1, and a conflicted merge finished with `git commit`
+# runs pre-commit directly (detected via MERGE_HEAD). In both merge cases
+# Rule 1 is skipped (merging an
+# approved branch into main IS the sanctioned protocol step) and Rule 2 is
+# skipped (docs were enforced per-commit on the branch); the privacy gates
+# (Rules 3–4) and the skill-version gate (Rule 5) still scan the incoming
+# changes. Fast-forward merges create no commit, so no hook runs — their
+# content was already gated commit-by-commit on the source branch.
 #
 # Deliberate bypass (discouraged, leaves a trace in your shell history):
 #     git commit --no-verify
@@ -39,8 +48,18 @@
 # yet), where rev-parse --abbrev-ref would return "HEAD" and miss the guard.
 branch="$(git symbolic-ref --short -q HEAD 2>/dev/null || git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 
+# A merge in progress skips Rules 1–2 but keeps Rules 3–5 — see the header
+# note. Two signals: the pre-merge-commit hook sets CONSTITUTION_MERGE_GATE=1
+# (git has NOT written MERGE_HEAD yet when that hook runs for an automatic
+# merge), and MERGE_HEAD covers `git commit` after a conflicted merge.
+is_merge=0
+if [ "${CONSTITUTION_MERGE_GATE:-0}" = "1" ] \
+   || git rev-parse -q --verify MERGE_HEAD >/dev/null 2>&1; then
+    is_merge=1
+fi
+
 # ── Rule 1: protect main/master ─────────────────────────────────────────────
-if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+if [ "$is_merge" = "0" ] && { [ "$branch" = "main" ] || [ "$branch" = "master" ]; }; then
     echo ""
     echo "🚨 pre-commit: DIRECT COMMITS TO '$branch' ARE FORBIDDEN."
     echo "   Agents and humans must use a feature branch:"
@@ -59,8 +78,10 @@ staged="$(git diff --cached --name-only --diff-filter=ACMR)"
 
 # If ALL staged changes are deletions (ACMR list is empty but something is staged),
 # skip the docs check — deletions are always allowed without a matching doc change.
-if [ -z "$staged" ] && [ -n "$all_staged" ]; then
-    : # deletion-only commit — skip Rule 2 and proceed to Rules 3-5
+if [ "$is_merge" = "1" ]; then
+    : # merge commit — docs were enforced per-commit on the branch; skip Rule 2
+elif [ -z "$staged" ] && [ -n "$all_staged" ]; then
+    : # deletion-only commit — skip Rule 2 and proceed to Rules 3-6
 elif [ -z "$staged" ]; then
     exit 0  # nothing staged at all — nothing to check
 else
@@ -100,6 +121,9 @@ fi
 # by name. CLAUDE.md is blocked ONLY when it is gitignored — i.e. a force-added
 # personal CLAUDE.md (with user context/local paths). A repo's own *tracked*
 # CLAUDE.md (the shared template, a project's intentional agent doc) is allowed.
+# Only Added/Copied/Modified/Renamed files are checked ($staged, not
+# $all_staged): DELETING a tracked personal file (`git rm TODO.md`) is the
+# rule-035 remediation for a past leak and must never be blocked.
 blocked=0
 while IFS= read -r f; do
     [ -z "$f" ] && continue
@@ -117,7 +141,7 @@ while IFS= read -r f; do
             ;;
     esac
 done <<EOF
-$all_staged
+$staged
 EOF
 
 if [ "$blocked" = "1" ]; then
@@ -197,7 +221,45 @@ if [ "$pii" = "1" ]; then
     exit 1
 fi
 
-# ── Rule 5: warn (non-blocking) about untracked throwaway files ─────────────
+# ── Rule 5: skill edits must bump version (rules/036-skill-versioning.md) ───
+# Skills are shared across projects via version-aware installers, so `version:`
+# is the only portable change signal. Any staged skills/**.md file must carry
+# `version:` and `updated:` in its frontmatter, and a file that already exists
+# in HEAD must have a DIFFERENT `version:` line (bump on every edit). Compares
+# staged content (git show :file), not the worktree. Deletions are exempt.
+skill_bad=0
+skill_files="$(printf '%s\n' "$staged" | grep -E '(^|/)skills/[^/]+\.md$')"
+while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    fm="$(git show ":$f" 2>/dev/null | head -30)"
+    new_ver="$(printf '%s\n' "$fm" | grep -m1 '^version:')"
+    new_upd="$(printf '%s\n' "$fm" | grep -m1 '^updated:')"
+    if [ -z "$new_ver" ] || [ -z "$new_upd" ]; then
+        echo "🚨 pre-commit: skill '$f' is missing 'version:' and/or 'updated:' frontmatter (rule 036)."
+        skill_bad=1
+        continue
+    fi
+    if git cat-file -e "HEAD:$f" 2>/dev/null; then
+        old_ver="$(git show "HEAD:$f" 2>/dev/null | head -30 | grep -m1 '^version:')"
+        if [ -n "$old_ver" ] && [ "$old_ver" = "$new_ver" ]; then
+            echo "🚨 pre-commit: skill '$f' changed but 'version:' was not bumped (rule 036)."
+            skill_bad=1
+        fi
+    fi
+done <<EOF
+$skill_files
+EOF
+
+if [ "$skill_bad" = "1" ]; then
+    echo ""
+    echo "   Every skill edit must bump 'version:' (semver) and set 'updated:'"
+    echo "   to today's date — see rules/036-skill-versioning.md. Fix the"
+    echo "   frontmatter, re-stage, and commit again."
+    echo ""
+    exit 1
+fi
+
+# ── Rule 6: warn (non-blocking) about untracked throwaway files ─────────────
 # Agent scratch files left in the tree clutter `git status`. This is a nudge,
 # not a block — untracked files are never committed anyway (see 040-git.md
 # "Before Commit" step 5).

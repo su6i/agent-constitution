@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-03 — git hooks: merge gate, deletion fix, rule-036 enforcement
+
+### Added
+
+- `templates/hooks/pre-merge-commit` — git never runs pre-commit on automatic
+  merge commits, so blocked personal files and secrets could enter main via a
+  merge. The new hook execs the pre-commit gate with `CONSTITUTION_MERGE_GATE=1`;
+  on merges (also detected via `MERGE_HEAD` for conflicted merges finished with
+  `git commit`) Rule 1 (branch protection) and Rule 2 (docs checklist) are
+  skipped — merging an approved branch into main is the sanctioned protocol
+  step — while the privacy gates still scan the incoming changes.
+- pre-commit Rule 5 — skill versioning (`rules/036-skill-versioning.md`) is now
+  actually enforced: a staged `skills/**.md` file without `version:`/`updated:`
+  frontmatter, or a modified skill whose `version:` is unchanged from HEAD,
+  blocks the commit. The untracked-throwaway reminder is now Rule 6.
+
+### Fixed
+
+- pre-commit Rule 3 now checks only Added/Copied/Modified/Renamed files:
+  deleting a tracked personal file (`git rm TODO.md`) is the rule-035
+  remediation for a past leak and is no longer blocked.
+
 ## 2026-07-02 — pre-commit: PII scan operates on clean added lines
 
 - The staged-diff PII scan now strips the leading `+` diff marker before any

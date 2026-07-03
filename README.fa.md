@@ -450,11 +450,19 @@ curl http://localhost:8765/health  # → {"status":"ok","skills":367}
 
 ## 🪝 هوک‌های گیت (اعمالِ خودکار)
 
-دو هوک، قوانینِ غیرقابل‌مذاکرهٔ گیت (`rules/040-git.md`) را به دروازه‌هایی قطعی تبدیل می‌کنند که هیچ اجنت یا انسانی نتواند «فراموش»‌شان کند. منبعِ canonicalشان در `templates/hooks/` است و با `amir init-project` (مخزنِ جدید) و `amir update-projects` (مخزنِ موجود) در `.git/hooks/` نصب می‌شوند.
+سه هوک، قوانینِ غیرقابل‌مذاکرهٔ گیت (`rules/040-git.md`) را به دروازه‌هایی قطعی تبدیل می‌کنند که هیچ اجنت یا انسانی نتواند «فراموش»‌شان کند. منبعِ canonicalشان در `templates/hooks/` است و نصبشان هیچ ابزاری نمی‌خواهد — یک کپی ساده به `.git/hooks/` مخزنِ خودت کافی است:
+
+```bash
+cp templates/hooks/pre-commit templates/hooks/pre-merge-commit templates/hooks/commit-msg /path/to/your-repo/.git/hooks/
+chmod +x /path/to/your-repo/.git/hooks/pre-commit /path/to/your-repo/.git/hooks/pre-merge-commit /path/to/your-repo/.git/hooks/commit-msg
+```
+
+اگر از اتوماسیونِ اختیاریِ [amir-cli](https://github.com/su6i/amir-cli) استفاده می‌کنی، `amir init-project` (مخزنِ جدید) و `amir update-projects` (مخزنِ موجود) خودشان نصبشان می‌کنند.
 
 | هوک | چه چیزی را بلاک می‌کند |
 | ------ | ------------------------ |
-| `pre-commit` | commitِ مستقیم روی `main`/`master` (باید feature branch بزنی)؛ و **چک‌لیستِ مستندات** — تغییرِ کد باید یک سند را هم به‌روز کند. |
+| `pre-commit` | commitِ مستقیم روی `main`/`master` (باید feature branch بزنی)؛ **چک‌لیستِ مستندات** — تغییرِ کد باید یک سند را هم به‌روز کند؛ فایل‌های شخصی/حافظه (TODO.md، SESSION.md، CLAUDE.mdِ force-add شده، …) — حذفشان مجاز است، حذف همان درمانِ نشت است؛ secret/PII در خطوطِ اضافه‌شده؛ و ویرایشِ `skills/**.md` بدونِ bumpِ `version:` (قانونِ `036-skill-versioning`). |
+| `pre-merge-commit` | همان دروازه‌های حریم‌خصوصی و نسخهٔ skill را روی **merge commit** اعمال می‌کند (گیت روی mergeهای خودکار هرگز pre-commit را اجرا نمی‌کند). چکِ برنچ و مستندات روی merge اجرا نمی‌شوند — mergeِ برنچِ تأییدشده به main همان قدمِ مجازِ پروتکل است. |
 | `commit-msg` | **هم‌نویسندگیِ هوش مصنوعی — هرگز.** هر تریلرِ `Co-Authored-By: <AI>`، خطِ «Generated with `<AI>`»، یا نشانهٔ 🤖. |
 
 ### دوستشان نداری؟ نحوهٔ غیرفعال‌سازی
@@ -463,6 +471,7 @@ curl http://localhost:8765/health  # → {"status":"ok","skills":367}
 git commit --no-verify             # دور زدن برای فقط یک commit (ردّش در history می‌ماند)
 rm .git/hooks/commit-msg           # حذفِ یک هوک از این clone
 rm .git/hooks/pre-commit
+rm .git/hooks/pre-merge-commit
 amir update-projects --no-hook     # sync constitution بدونِ نصبِ دوبارهٔ هوک‌ها
 ```
 

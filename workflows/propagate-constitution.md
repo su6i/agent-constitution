@@ -75,7 +75,9 @@ Run inside a single project:
 ```bash
 git submodule update --remote .agent/constitution
 cp .agent/constitution/templates/hooks/pre-commit .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
+cp .agent/constitution/templates/hooks/pre-merge-commit .git/hooks/pre-merge-commit
+cp .agent/constitution/templates/hooks/commit-msg .git/hooks/commit-msg
+chmod +x .git/hooks/pre-commit .git/hooks/pre-merge-commit .git/hooks/commit-msg
 ```
 
 ---

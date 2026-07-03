@@ -144,14 +144,24 @@ git config --global user.name  "Your Name"
 
 ## 🪝 Git Hooks (automatic enforcement)
 
-Two hooks turn the non-negotiable git rules (`rules/040-git.md`) into deterministic
+Three hooks turn the non-negotiable git rules (`rules/040-git.md`) into deterministic
 gates that no agent or human can "forget". Their canonical sources live in
-`templates/hooks/`, and they are installed into each repo's `.git/hooks/` by
-`amir init-project` (new repos) and `amir update-projects` (existing repos).
+`templates/hooks/` — installing them needs nothing but a copy into your repo's
+`.git/hooks/`:
+
+```bash
+cp templates/hooks/pre-commit templates/hooks/pre-merge-commit templates/hooks/commit-msg /path/to/your-repo/.git/hooks/
+chmod +x /path/to/your-repo/.git/hooks/pre-commit /path/to/your-repo/.git/hooks/pre-merge-commit /path/to/your-repo/.git/hooks/commit-msg
+```
+
+If you use the optional [amir-cli](https://github.com/su6i/amir-cli) automation,
+`amir init-project` (new repos) and `amir update-projects` (existing repos)
+install them for you.
 
 | Hook | What it blocks |
 |------|----------------|
-| `pre-commit` | Direct commits to `main`/`master` (use a feature branch); and the **Docs Checklist** — a code change must also touch a doc (README / CHANGELOG / docs/ / `*.md`). |
+| `pre-commit` | Direct commits to `main`/`master` (use a feature branch); the **Docs Checklist** — a code change must also touch a doc (README / CHANGELOG / docs/ / `*.md`); personal/memory files (TODO.md, SESSION.md, force-added CLAUDE.md, …) — deleting one is allowed, that's the remediation; secrets/PII in added lines; and a `skills/**.md` edit without a `version:` bump (`rules/036-skill-versioning.md`). |
+| `pre-merge-commit` | The same privacy and skill-version gates applied to **merge commits** (git never runs pre-commit on automatic merges). Branch-protection and docs checks are skipped on merges — merging an approved branch into main is the sanctioned protocol step. |
 | `commit-msg` | **AI co-authorship — ever.** Any `Co-Authored-By: <AI>` trailer, a "Generated with `<AI>`" line, or a 🤖 marker in the message. |
 
 ### Don't want them? How to opt out
@@ -160,6 +170,7 @@ gates that no agent or human can "forget". Their canonical sources live in
 git commit --no-verify             # bypass for ONE commit (leaves a shell-history trace)
 rm .git/hooks/commit-msg           # remove a single hook from this clone
 rm .git/hooks/pre-commit
+rm .git/hooks/pre-merge-commit
 amir update-projects --no-hook     # sync the constitution WITHOUT (re)installing hooks
 ```
 
