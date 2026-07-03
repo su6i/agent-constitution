@@ -35,6 +35,9 @@
     },
     {
       "pattern": "^https://rentry.co"
+    },
+    {
+      "pattern": "^https://x402.org"
     }
   ],
   "replacementPatterns": [
