@@ -1,0 +1,28 @@
+#!/bin/bash
+# ─── Agent Constitution · pre-merge-commit gate ──────────────────────────────
+# Canonical source: agent-constitution/templates/hooks/pre-merge-commit
+# Installed into .git/hooks/pre-merge-commit alongside pre-commit/commit-msg.
+#
+# git does NOT run pre-commit when it creates an automatic (non-conflicted)
+# merge commit — without this hook, blocked personal files and secrets can
+# enter main through a merge even though every branch commit was gated.
+#
+# This hook execs the pre-commit gate with CONSTITUTION_MERGE_GATE=1 (git has
+# not written MERGE_HEAD yet at pre-merge-commit time for automatic merges);
+# pre-commit detects the merge and skips Rule 1 (merging an approved branch
+# into main IS the sanctioned protocol step) and Rule 2 (docs were enforced
+# per-commit on the branch), while still enforcing the privacy gates
+# (Rules 3–4) and the skill-version gate (Rule 5) on the incoming changes.
+#
+# Conflicted merges finished with `git commit` run pre-commit directly (same
+# MERGE_HEAD detection). Fast-forward merges create no commit and run no hook —
+# their content was already gated commit-by-commit on the source branch.
+#
+# Deliberate bypass (discouraged, leaves a trace in your shell history):
+#     git merge --no-verify <branch>
+
+hooks_dir="$(cd "$(dirname "$0")" && pwd)"
+if [ -x "$hooks_dir/pre-commit" ]; then
+    CONSTITUTION_MERGE_GATE=1 exec "$hooks_dir/pre-commit"
+fi
+exit 0
