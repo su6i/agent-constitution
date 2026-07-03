@@ -10,6 +10,7 @@ is lost across `/compact`, `/clear`, and exit.
 | `session-resume.sh`| SessionStart | Injects a continuity pointer (central TODO section + latest backup) so the agent resumes per rule 050 |
 
 ## Install
+
 1. `cp templates/claude-code-hooks/*.sh ~/.claude/hooks/ && chmod +x ~/.claude/hooks/*.sh`
 2. Merge `settings.snippet.json` into `~/.claude/settings.json` (merge the `hooks` arrays — do not replace existing hooks). `autoCompactWindow: 200000` opts into automatic trimming (safe, because PreCompact backs up first).
 3. Open `/hooks` once (or restart) so Claude Code reloads config.
