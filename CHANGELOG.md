@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-09 — universal agent bootloaders
+
+### Added
+
+- Thin bootloader files for every major non-Claude harness — `GEMINI.md`,
+  `GROK.md`, `QWEN.md`, `MINIMAX.md`, `.cursorrules`, `.windsurfrules`,
+  `.github/copilot-instructions.md`. Each contains no rules, only a mandatory
+  redirect to `AGENTS.md` → `rules/` (single source of truth, rule 045).
+
+### Changed
+
+- `AGENTS.md` promoted to the canonical agent entry point: mandatory reading
+  list (`000-core`, `global`, `040-git` + on-demand rules), the non-negotiables
+  summary, and explicit obligations for architects/planners writing work
+  orders (WOs must cite the rules they were written against).
+- `.clinerules` rewritten in English (repo content is English-only;
+  translations live under `fa/`) and now routes through `AGENTS.md` like the
+  other bootloaders.
+
 ## 2026-07-03 — git hooks: merge gate, deletion fix, rule-036 enforcement
 
 ### Added

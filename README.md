@@ -75,7 +75,8 @@ In practice, the repository now has a clear center of gravity:
 
 - [AGENTIC-CODING-SETUP.md](AGENTIC-CODING-SETUP.md) is the flagship guide and canonical technical reference.
 - [README.md](README.md) is the onboarding and navigation layer.
-- [AGENTS.md](AGENTS.md) is the execution contract for agents.
+- [AGENTS.md](AGENTS.md) is the execution contract and the canonical entry point for every agent harness.
+- `GEMINI.md`, `GROK.md`, `QWEN.md`, `MINIMAX.md`, `.cursorrules`, `.windsurfrules`, `.clinerules`, and `.github/copilot-instructions.md` are thin bootloaders: whichever config file a tool reads natively, it lands there and is routed to [AGENTS.md](AGENTS.md) → `rules/`. No rules are duplicated in them (rule 045).
 - `.agent/`, `templates/`, `bin/`, and `docs/` are the implementation and support layers around that core guidance.
 
 ### Core Features
