@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-11 — language policy: English-only repo content
+
+### Added
+
+- `rules/000-core.md` §Language Policy — all repository content is English
+  only, in every project. Translations live exclusively under `docs/fa/` (or a
+  legacy root `fa/`) and in `*.fa.md` files; the only exception outside those
+  paths is the single linking word in `README.md` pointing to the Persian
+  docs. Mechanical enforcement (pre-commit + CI scan for Arabic-script
+  characters outside allowed paths) ships separately.
+- `AGENTS.md` — English-only added to the Non-Negotiables summary.
+
 ## 2026-07-09 — universal agent bootloaders
 
 ### Added

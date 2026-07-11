@@ -42,6 +42,8 @@ Read on demand, when the task touches the domain:
 - No hardcoded values or secrets; config in `config.yaml` / `.env`.
 - Never delete a file without explicit owner approval.
 - Never claim "done" without proof (`ls`, test output).
+- **English only** in all repo content; translations only under `docs/fa/`
+  (or a legacy root `fa/`) and `*.fa.md` files (rule 000 §Language Policy).
 - Update `README.md` / `CHANGELOG.md` / affected `docs/` **before** staging.
 
 ## Writing Work Orders (architects & planners)

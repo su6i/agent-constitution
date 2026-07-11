@@ -44,6 +44,27 @@ brand-new terminal**:
 - If a step needs more than one command, give a numbered list — one
   copy-pasteable line per step.
 
+## Language Policy (Non-Negotiable)
+
+All repository content is English only — code, comments, identifiers,
+print/log strings, commit messages, documentation, and config files. The whole
+world reads this code. This applies to **every** project, not just this repo.
+
+Persian (or any other language) is allowed ONLY as project documentation
+translations, in exactly these forms:
+
+- files under a dedicated translation folder — `docs/fa/` (canonical) or a
+  root `fa/` folder in repos that already have one;
+- translation files suffixed `*.fa.md` (e.g. `README.fa.md`).
+
+The single allowed exception outside those paths: one linking word/phrase in
+`README.md` pointing to the Persian docs.
+
+Enforcement is mechanical, not prose: the pre-commit hook and CI scan staged
+added lines for Arabic-script characters (U+0600–U+06FF) outside the allowed
+paths and block the commit; a periodic sweep tool cleans up pre-existing
+content.
+
 ## On Error
 
 - First read the error, then diagnose
