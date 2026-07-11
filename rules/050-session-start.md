@@ -10,15 +10,18 @@ last_updated: 2026-06-30
 
 ## Step 0 — Read Rules & Affirm (Non-Negotiable)
 
+<!-- digest:start -->
 Before ANY action in a new session:
 
 1. Read `rules/000-core.md` and `rules/040-git.md` (plus any rule relevant to the task).
 2. Post a short, free-form acknowledgement that you have read them and will comply — covering at least: branch-first (never `main`), no AI co-authorship, the pre-commit security scan, `--amend` for minor follow-ups, readable commands (no long `&&` chains), and the merge gate.
+<!-- digest:end -->
 
 Then continue with the steps below.
 
 ## Rule (Non-Negotiable)
 
+<!-- digest:start -->
 **At the start of every session — before any action — these steps are mandatory:**
 
 1. Read the **single central TODO** at
@@ -31,6 +34,7 @@ Then continue with the steps below.
 2. If it exists: read it and announce all open items grouped by priority level
 3. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
 4. Ask: "Where do we start?"
+<!-- digest:end -->
 
 ## Announcement Format
 
@@ -62,6 +66,7 @@ across every git repo under `~/@-github`.
 
 ## TODO Update Rule (Non-Negotiable)
 
+<!-- digest:start -->
 **All tasks — for every project — go in the one central TODO**
 (`_memory/TODO.md`), under that project's `## <project>` section. Never create a
 per-repo `TODO.md`. New task → add it under the right project section. This is how a
@@ -73,6 +78,7 @@ solo operator sees every project's work in one place and nothing is forgotten.
 - Update the status if present
 
 A task is not done until the central TODO reflects it.
+<!-- digest:end -->
 
 ## Task Execution Pipeline (Every Task)
 

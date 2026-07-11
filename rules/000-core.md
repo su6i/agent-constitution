@@ -32,6 +32,7 @@ last_updated: 2026-06-30
 
 ## Commands Given to the User (Non-Negotiable)
 
+<!-- digest:start -->
 Any command the agent asks the human to run must be runnable **as-is in a
 brand-new terminal**:
 
@@ -43,9 +44,11 @@ brand-new terminal**:
   marked (e.g. `<PASTE-TOKEN-HERE>`).
 - If a step needs more than one command, give a numbered list — one
   copy-pasteable line per step.
+<!-- digest:end -->
 
 ## Language Policy (Non-Negotiable)
 
+<!-- digest:start -->
 All repository content is English only — code, comments, identifiers,
 print/log strings, commit messages, documentation, and config files. The whole
 world reads this code. This applies to **every** project, not just this repo.
@@ -64,6 +67,7 @@ Enforcement is mechanical, not prose: the pre-commit hook and CI scan staged
 added lines for Arabic-script characters (U+0600–U+06FF) outside the allowed
 paths and block the commit; a periodic sweep tool cleans up pre-existing
 content.
+<!-- digest:end -->
 
 ## On Error
 
@@ -73,6 +77,7 @@ content.
 
 ## No Silent Errors (Non-Negotiable)
 
+<!-- digest:start -->
 Every error you observe — lint, type, test, build, LaTeX, runtime, deprecation
 warning — must be either **fixed now** or **recorded in the central
 `_memory/TODO.md`** (the project's `## <project>` section — rule 050) for later.
@@ -84,3 +89,4 @@ Seeing an error and moving on without doing one of those two is forbidden.
   item under the project's section in the central `_memory/TODO.md` with the
   exact `file:line` and the error message.
 - Applies to errors surfaced by any tool you run, not only the files you edited.
+<!-- digest:end -->

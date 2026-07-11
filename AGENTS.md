@@ -14,9 +14,12 @@ config — those files are thin bootloaders. **This file is the gate; the consti
 
 ## Mandatory Reading (before ANY task — no exceptions)
 
-Read these three files first. Do not skip them to save tokens — a work order,
-plan, or commit produced without them is invalid and will be rejected by the
-git hooks and by review:
+**Read `rules/DIGEST.md` FIRST** — it is the short auto-generated list of
+non-negotiables every agent must follow. Skim it once, refer back when unsure.
+
+Then read these three files before any task. Do not skip them to save tokens —
+a work order, plan, or commit produced without them is invalid and will be
+rejected by the git hooks and by review:
 
 1. `rules/000-core.md` — cost control, response format, commands-to-user, No Silent Errors
 2. `rules/global.md` — Senior Architect identity and professional standards

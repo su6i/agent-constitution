@@ -7,6 +7,15 @@ on:
     branches: [main]
 
 jobs:
+  digest-freshness:
+    name: Check Rules Digest Freshness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Run bin/generate-digest.sh --check
+        run: bash bin/generate-digest.sh --check
+
   validate-links:
     name: Check Internal Links
     runs-on: ubuntu-latest
@@ -37,7 +46,12 @@ jobs:
         run: npm install -g markdownlint-cli
 
       - name: Lint Markdown
-        run: markdownlint '**/*.md' --ignore node_modules --ignore .storage
+        # rules/DIGEST.md is excluded on purpose: it is an auto-generated
+        # artifact whose source blocks already passed lint inside their
+        # own rule files. Re-linting it is redundant, and MD029 (ordered
+        # list renumbering) is unfixable without rewriting the source
+        # rules. Regenerate, don't hand-edit, the digest.
+        run: markdownlint '**/*.md' --ignore node_modules --ignore .storage --ignore rules/DIGEST.md
 
   validate-structure:
     name: Verify File Structure
