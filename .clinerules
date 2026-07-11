@@ -7,7 +7,10 @@ last_updated: 2026-07-09
 
 # Cline Rules — VS Code Bootloader
 
-**Read AGENTS.md first** — it is the canonical agent entry point and routes you
+**Read `rules/DIGEST.md` first** — it is the short auto-generated list of
+non-negotiables every agent must follow.
+
+**Then read AGENTS.md** — it is the canonical agent entry point and routes you
 to the constitution in `rules/` (mandatory: `rules/000-core.md`,
 `rules/global.md`, `rules/040-git.md`). Everything below is Cline-specific
 routing only; on any conflict, `rules/` wins.

@@ -10,12 +10,14 @@ last_updated: 2026-06-30
 
 ## Golden Rule (Non-Negotiable)
 
+<!-- digest:start -->
 **If a file must never be committed, it must not live inside the repo.**
 
 `.gitignore` alone is not enough — a personal file inside the working tree is one
 accident away from a commit (e.g. it can enter through a **merge**, which the
 `pre-commit` hook does not run on). The only safe place for uncommittable data is
 **outside the repo**, in the central vault.
+<!-- digest:end -->
 
 ## The Vault
 

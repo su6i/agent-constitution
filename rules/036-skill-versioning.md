@@ -18,6 +18,7 @@ bump is invisible to the installer: other projects keep their stale copy.
 
 ## Rule (Non-Negotiable)
 
+<!-- digest:start -->
 **Every skill file must carry `version:` and `updated:` in its frontmatter:**
 
 ```yaml
@@ -39,6 +40,7 @@ updated: 2026-06-30 # ISO date of the last change
 
 A skill edit without a version+date bump is an **incomplete change** — the same
 status as code changed without updating docs (`040-git`). Do not commit it.
+<!-- digest:end -->
 
 ## New Skills
 
