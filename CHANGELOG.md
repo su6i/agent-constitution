@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-12 — rule 070: work order standard
+
+### Added
+
+- `rules/070-work-orders.md` — mandatory WO structure: named **Executor**
+  model (cheapest-first ladder, `Why premium:` justification required for
+  premium models), explicit base-rule references + read-before-coding order,
+  script-first bodies, absolute-path Definition-of-Done commands with
+  expected results, architect **handoff protocol** (every architect turn ends
+  with the paste-ready next command — round-trips to a premium model re-send
+  full context), and a **post-execution review gate** (mechanical
+  `review-gate.sh` checks + reviewer verdict recorded in the WO) before any
+  merge.
+- `AGENTS.md` — WO section now points to rule 070; 070 added to the
+  on-demand reading list.
+
 ## 2026-07-11 — language policy: English-only repo content
 
 ### Added

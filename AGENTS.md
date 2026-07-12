@@ -27,7 +27,8 @@ Read on demand, when the task touches the domain:
 - `rules/010-python.md`, `rules/020-tdd.md`, `rules/025-research-first.md`
 - `rules/030-security.md`, `rules/035-data-vault.md`, `rules/036-skill-versioning.md`
 - `rules/045-single-source-docs.md`, `rules/050-session-start.md`,
-  `rules/055-cross-project-memory.md`, `rules/060-multi-interface.md`
+  `rules/055-cross-project-memory.md`, `rules/060-multi-interface.md`,
+  `rules/070-work-orders.md` (mandatory when writing or executing a WO)
 - `rules/lang/<language>/` for language-specific standards
 
 ## Non-Negotiables (reminder only — full text is in `rules/`)
@@ -48,14 +49,17 @@ Read on demand, when the task touches the domain:
 
 ## Writing Work Orders (architects & planners)
 
-If you are writing a WO for another agent, the Mandatory Reading above applies
-to **you first** — a WO that contradicts `rules/` poisons every downstream agent.
-Every WO must:
+The full WO standard is `rules/070-work-orders.md` — read it before writing
+any WO. Non-negotiable minimum:
 
-- name the rule files it was written against (at minimum 000, 040);
-- give test commands as absolute-path, one-per-line, copy-pasteable lines
+- **Executor named** (exact model; ladder cheapest-first; `Why premium:`
+  line required for premium models);
+- rule files the WO was written against (at minimum 000, 040) + an order to
+  read them/`rules/DIGEST.md` before coding;
+- test commands as absolute-path, one-per-line, copy-pasteable lines
   **with the expected result of each** (rule 040 §Review→Amend→Merge→Push);
-- never instruct the executor to merge or push without owner approval.
+- never instruct the executor to merge or push without owner approval;
+- executor output passes the post-execution review gate (070) before merge.
 
 ## Structure
 
