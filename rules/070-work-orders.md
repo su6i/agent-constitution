@@ -18,6 +18,7 @@ WOs live in the project vault (`<vault>/workspace/wo/`), never in the repo
 
 ## Mandatory Header (every WO — no exceptions)
 
+<!-- digest:start -->
 1. **Executor** — the exact agent/model that will run it, e.g. `gemini`
    (free), `deepseek-flash`, `deepseek-pro`, `minimax-3 (CodeWhale)`,
    `sonnet`, `fable/opus`. Routing ladder, cheapest first:
@@ -30,9 +31,11 @@ WOs live in the project vault (`<vault>/workspace/wo/`), never in the repo
    order to the executor: read `rules/DIGEST.md` (or the listed files)
    **before writing anything**. A WO without rule references is invalid.
 3. **Complexity** — TRIVIAL / MODERATE / CRITICAL (rule 000).
+<!-- digest:end -->
 
 ## Mandatory Body
 
+<!-- digest:start -->
 - Phases sized for one branch + one commit each (rule 040); executor stops
   for review between phases.
 - **Script-first:** anything bash/python can do must be specified as a
@@ -41,18 +44,22 @@ WOs live in the project vault (`<vault>/workspace/wo/`), never in the repo
 - **Definition of Done** with copy-pasteable absolute-path commands, one per
   line, each with its expected result (rule 000 §Commands).
 - Never an instruction to merge or push without explicit owner approval.
+<!-- digest:end -->
 
 ## Handoff Protocol (architect side)
 
+<!-- digest:start -->
 Every round-trip to the architect re-sends the full premium context — so the
 architect never leaves the owner without the next move. Every architect turn
 that finishes a task, a review, or a WO **must end with the exact paste-ready
 command or message for the next step** (e.g. the text the owner pastes into
 the executor's session, or the single command to run). No "ask me when
 ready" — the next action ships with the current answer.
+<!-- digest:end -->
 
 ## Post-Execution Review Gate (before any merge)
 
+<!-- digest:start -->
 Executor output is never merged on trust. In order:
 
 1. **Mechanical** (script — `bin/review-gate.sh`): working tree clean;
@@ -69,3 +76,4 @@ Executor output is never merged on trust. In order:
 An execution report without the review verdict is not mergeable. The
 executor's "ready to test" message must itself follow rule 040 §Review —
 test commands with expected results, never just merge/push commands.
+<!-- digest:end -->

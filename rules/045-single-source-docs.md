@@ -23,6 +23,7 @@ of knowledge**, and **history purge** when a private file was committed anyway.
 
 ## Rule (Non-Negotiable)
 
+<!-- digest:start -->
 Every piece of project knowledge has exactly one home:
 
 | Content | Single home | Everything else holds |
@@ -41,9 +42,11 @@ Every piece of project knowledge has exactly one home:
   session you notice the conflict; do not "interpret around" it.
 - **When a decision changes, edit its single home first**, then update
   pointers. A change that only lands in a log or a TODO is not a decision.
+<!-- digest:end -->
 
 ## History Purge (Non-Negotiable)
 
+<!-- digest:start -->
 If a vault-class file (private doc, TODO/SESSION-class file per `040`) is
 found **committed** in any repo:
 
@@ -54,9 +57,38 @@ found **committed** in any repo:
    in history forever.
 3. If the repo has a remote that already received it, treat it as a leak:
    force-push the rewrite and note it in the central TODO.
+<!-- digest:end -->
 
 ## Litmus Test
 
 If deleting a file would lose information that exists nowhere else, it is a
 source of truth — it must have exactly one such role. If deleting it loses
 nothing, it is a pointer — it must contain no design content.
+
+## Digest Mechanism
+
+The full rules tree is long; cheap models skip it and produce work/code that
+violates it. To keep the rules short enough to actually read, every non-negotiable
+section in `rules/*.md` is wrapped with HTML comments (start/end markers named
+`digest-start` / `digest-end`, separated by a colon).
+
+`bin/generate-digest.sh` extracts those marked sections (in alphabetical file
+order), prepends a generated header, and appends a SHA-256 hash of `rules/*.md`
+as a freshness signal:
+
+```bash
+bin/generate-digest.sh           # write rules/DIGEST.md
+bin/generate-digest.sh --check   # exit 1 if committed digest is stale
+bin/generate-digest.sh --print   # print to stdout
+```
+
+The generated `rules/DIGEST.md` is the canonical short-form constitution that
+every bootloader (`AGENTS.md`, `GEMINI.md`, ...) directs the agent to read
+FIRST before the full rules. CI runs `bin/generate-digest.sh --check` and fails
+if the committed digest is stale.
+
+**Marker convention:** when editing a non-negotiable section, keep the marked
+block exactly as-is — markers are annotations only; do not compress or rewrite
+the surrounding text. The digest includes the full original text of every
+marked block. (Phase 1 of `wo-constitution-0002` was rejected for compressing
+this text — see the round-trip amendment.)
