@@ -104,6 +104,7 @@ EOF
         echo "🚨 pre-commit: code changed but NO documentation was updated."
         echo "   The Pre-Commit Docs Checklist is non-negotiable. Update one of:"
         echo "     • README        — if usage / features / structure changed"
+        echo "     • TECHNICAL.md   — if internals / architecture changed (repos that have one)"
         echo "     • CHANGELOG.md   — if the project has one"
         echo "     • docs/**        — if documented behaviour changed"
         echo "   …then re-stage and commit again."

@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-13 — session hygiene, retroactive scan, TECHNICAL hook
+
+### Added
+
+- `rules/050-session-start.md §Session Lifecycle & Context Hygiene` — codifies
+  the session policy: never `/clear` mid-task; externalise state to
+  `SESSION.md`/`TODO.md`/memory then clear (raw jsonl backup is automatic, the
+  curated `SESSION.md` is the agent's job); architect = one task/session, never
+  a fat >150k context; worker = `/clear` freely.
+- `rules/040-git.md §Retroactive (Full-Tree) Security Scan` — the per-commit
+  scan only sees added lines, so pre-existing leaks are invisible; a full-tree
+  scan (`bin/security-audit.sh`) must run before every merge to `main` and
+  periodically.
+
+### Changed
+
+- `templates/hooks/pre-commit` Rule 2 reminder now names `TECHNICAL.md`, so
+  agents are prompted to update it alongside README.
+
 ## 2026-07-13 — generic CLAUDE.md rule + TECHNICAL.md in docs checklist
 
 ### Added
