@@ -23,6 +23,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `AGENTS.md` — WO section now points to rule 070; 070 added to the
   on-demand reading list.
 
+## 2026-07-11/12 — auto-generated rules digest (wo-constitution-0002 phase 1)
+
+### Added
+
+- `rules/DIGEST.md` — auto-generated digest of every non-negotiable section
+  in `rules/*.md`. Every bootloader (`AGENTS.md`, `GEMINI.md`, `GROK.md`,
+  `QWEN.md`, `MINIMAX.md`, `.cursorrules`, `.windsurfrules`, `.clinerules`,
+  `.github/copilot-instructions.md`) directs the agent to read
+  `rules/DIGEST.md` FIRST before the full rules — cheap models can actually
+  finish reading it.
+- `bin/generate-digest.sh` — extracts the marked non-negotiable sections from
+  `rules/*.md` (HTML-comment markers `<!-- digest:start --> ... <!-- digest:end -->`,
+  see `rules/045 §Digest Mechanism`) and produces `rules/DIGEST.md`. Flags:
+  `--check` exits 1 if the committed digest is stale; `--print` writes to stdout.
+- `rules/045-single-source-docs.md §Digest Mechanism` — documents the marker
+  convention and the freshness signal (SHA-256 of `rules/*.md` appended as
+  `<!-- digest-hash: ... -->`).
+- CI: `.github/workflows/validate.yml` — new `digest-freshness` job runs
+  `bin/generate-digest.sh --check` on every push/PR; fails if the committed
+  digest does not match `rules/*.md`. This is the cross-check that survives
+  `--no-verify` (Phase 5 will mirror the rest of the local hooks here).
+
+### Changed
+
+- `rules/000-core.md`, `rules/035-data-vault.md`, `rules/036-skill-versioning.md`,
+  `rules/040-git.md`, `rules/045-single-source-docs.md`,
+  `rules/050-session-start.md`, `rules/070-work-orders.md` — wrapped
+  every non-negotiable (or "Mandatory") section with
+  `<!-- digest:start/end -->` markers. Markers are annotation only — the
+  full original text of each section is preserved unchanged. Digest size is
+  not capped; it grows with the rules.
+- All bootloaders — added the "Read `rules/DIGEST.md` first" line before the
+  AGENTS.md redirect.
+
+### Reverted (after owner review)
+
+- 2026-07-12 amendment (this commit): the initial 2026-07-11 phase-1 commit
+  had compressed rules text before adding markers, dropping prose and
+  examples. Owner rejected that compression — markers must wrap full text.
+  This amend restores every rule file from `main` and re-adds the markers
+  as pure annotations (`git diff main -- rules/` shows additions only,
+  zero deletions).
+
 ## 2026-07-11 — language policy: English-only repo content
 
 ### Added
