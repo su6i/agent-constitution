@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `bin/validate-wo.sh` — pure-bash script that mechanically validates a work order file against rule 070 (mandatory sections, executor specification, test blocks) and rule 000 (no relative paths or `&&` chains in test commands) before execution.
 - `rules/050-session-start.md §Session Lifecycle & Context Hygiene` — codifies
   the session policy: never `/clear` mid-task; externalise state to
   `SESSION.md`/`TODO.md`/memory then clear (raw jsonl backup is automatic, the
@@ -353,3 +354,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 [Back to README](README.md)
+
