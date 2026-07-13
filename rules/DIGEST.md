@@ -51,7 +51,25 @@ Seeing an error and moving on without doing one of those two is forbidden.
 `.gitignore` alone is not enough — a personal file inside the working tree is one
 accident away from a commit (e.g. it can enter through a **merge**, which the
 `pre-commit` hook does not run on). The only safe place for uncommittable data is
-**outside the repo**, in the central vault.## From 036-skill-versioning.md
+**outside the repo**, in the central vault.
+A committed `CLAUDE.md` (and every harness bootloader — `GEMINI.md`, `GROK.md`,
+`QWEN.md`, `MINIMAX.md`, `.cursorrules`, `.windsurfrules`,
+`.github/copilot-instructions.md`) is **public**. It must be **generic, English,
+security-vetted, and byte-identical to the canonical `templates/CLAUDE.md`** — a
+thin bootloader that only routes the agent to `rules/DIGEST.md` → `AGENTS.md` →
+`rules/`. It must contain **zero** project-specific, personal, or session data:
+no names, emails, personal paths (`$HOME/@-...`), session decision logs, other
+projects' details, or third-party contact info.
+
+Project-specific agent guidance goes in **`CLAUDE.local.md`** — gitignored, never
+committed (rule 040 blocks `*.local.md`) — which may symlink to
+`<vault>/workspace/CLAUDE.local.md`. Claude Code auto-loads it locally without it
+ever entering git.
+
+Enforcement is mechanical: the pre-commit hook blocks a `CLAUDE.md` whose content
+does not match `templates/CLAUDE.md` (hash), and the PII scan blocks personal
+data in any bootloader. History that already leaked such data is a
+rule-035/040 incident — scrub it (`git filter-repo`) and force-push.## From 036-skill-versioning.md
 
 **Every skill file must carry `version:` and `updated:` in its frontmatter:**
 
@@ -246,4 +264,4 @@ Executor output is never merged on trust. In order:
 An execution report without the review verdict is not mergeable. The
 executor's "ready to test" message must itself follow rule 040 §Review —
 test commands with expected results, never just merge/push commands.
-<!-- digest-hash: 79ceece1e172e80e49a16805e76768f5511d73d8c04d77edce6b33111eb39afb -->
+<!-- digest-hash: 69df73d0c6f19b7de18692d620329c3fb157edf09f2b5cbc353392eebdcf40ad -->

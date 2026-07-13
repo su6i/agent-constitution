@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-13 — generic CLAUDE.md rule + TECHNICAL.md in docs checklist
+
+### Added
+
+- `templates/CLAUDE.md` — the canonical generic agent bootloader. Every repo's
+  committed `CLAUDE.md` must be byte-identical to it: a thin, English,
+  security-vetted router to `rules/DIGEST.md` → `AGENTS.md` → `rules/`, with
+  zero project/personal/session data.
+- `rules/035-data-vault.md §Agent-Config Files Must Be Generic` — a committed
+  `CLAUDE.md` (and every harness bootloader) is public and must be generic;
+  project-specific guidance moves to gitignored `CLAUDE.local.md` (may symlink
+  to `<vault>/workspace/`). Mechanical enforcement via pre-commit hash check +
+  PII scan; leaked history must be scrubbed and force-pushed.
+
+### Changed
+
+- `rules/040-git.md` — the before-commit docs checklist now names `TECHNICAL.md`
+  alongside `README.md`, so agents stop forgetting to update it before merge.
+
 ## 2026-07-12 — rule 070: work order standard
 
 ### Added
