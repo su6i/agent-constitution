@@ -93,6 +93,14 @@ updated: 2026-06-30 # ISO date of the last change
 A skill edit without a version+date bump is an **incomplete change** — the same
 status as code changed without updating docs (`040-git`). Do not commit it.## From 040-git.md
 
+The per-commit scan only sees **added** lines — a leak already sitting in a
+tracked file is never re-flagged (this is how a public `CLAUDE.md` leaked names,
+personal paths, and a third party's email for weeks). Therefore, **before merging
+any branch into `main`, and on a periodic audit, scan the entire tracked tree —
+not just the diff** — for secrets / personal data (`bin/security-audit.sh`). A
+finding blocks the merge until the file is scrubbed (moved to the vault per 035)
+or explicitly allow-listed. A leak found in history is a rule-035/040 incident:
+purge with `git filter-repo` and force-push (owner only).
 When a commit fixes or touches a security/privacy issue, the commit message must
 **never describe the issue or reveal the sensitive data**. Forbidden examples:
 
@@ -220,7 +228,26 @@ solo operator sees every project's work in one place and nothing is forgotten.
 - Mark the item as done: `- [x]` and add completion date
 - Update the status if present
 
-A task is not done until the central TODO reflects it.## From 070-work-orders.md
+A task is not done until the central TODO reflects it.
+State that must survive a session lives in **durable files** — `SESSION.md`
+(vault `workspace/`), the central `_memory/TODO.md`, and memory — never only in a
+long live context window. A raw transcript backup is written **automatically** on
+session end (`_memory/handoffs/*.jsonl`), so nothing is ever truly lost; but the
+curated, readable `SESSION.md` is the **agent's** job — update it proactively when
+the owner signals wrap-up, before any `/clear`.
+
+- **Never `/clear` mid-task.** Finish the step, update `SESSION.md`, then clear.
+- **Between tasks:** write `SESSION.md`, then `/clear` (or `/compact` above
+  ~100k context). The state is externalised, so clearing loses nothing.
+- **Architect sessions** (design/review, premium model): one task per session;
+  reference earlier work by re-reading `SESSION.md`/`TODO.md`, **not** by keeping
+  a fat context alive — >150k context is where subscription quota burns.
+- **Worker sessions** (cheap models): `/clear` freely; their state is the WO file
+  plus the git branch, both external.
+
+The rule is: **externalise the useful part, then context is cheap to reload and
+`/clear` costs nothing.** Preserving raw context in the window instead is the
+expensive anti-pattern.## From 070-work-orders.md
 
 1. **Executor** — the exact agent/model that will run it, e.g. `gemini`
    (free), `deepseek-flash`, `deepseek-pro`, `minimax-3 (CodeWhale)`,
@@ -264,4 +291,4 @@ Executor output is never merged on trust. In order:
 An execution report without the review verdict is not mergeable. The
 executor's "ready to test" message must itself follow rule 040 §Review —
 test commands with expected results, never just merge/push commands.
-<!-- digest-hash: 69df73d0c6f19b7de18692d620329c3fb157edf09f2b5cbc353392eebdcf40ad -->
+<!-- digest-hash: 7147a243d6d15bd9971b7d2997b2060ac85e69de961eb06e8fe8a3502686e017 -->

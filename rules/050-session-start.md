@@ -91,6 +91,30 @@ Follow this full lifecycle for every task — keep it in mind throughout, not on
 5. **Commit** with a conventional message. A minor follow-up to the previous commit is a `git commit --amend` (while unpushed), NOT a new commit.
 6. **Merge gate** — stop after committing and get explicit user approval before merging to `main`.
 
+## Session Lifecycle & Context Hygiene (Non-Negotiable)
+
+<!-- digest:start -->
+State that must survive a session lives in **durable files** — `SESSION.md`
+(vault `workspace/`), the central `_memory/TODO.md`, and memory — never only in a
+long live context window. A raw transcript backup is written **automatically** on
+session end (`_memory/handoffs/*.jsonl`), so nothing is ever truly lost; but the
+curated, readable `SESSION.md` is the **agent's** job — update it proactively when
+the owner signals wrap-up, before any `/clear`.
+
+- **Never `/clear` mid-task.** Finish the step, update `SESSION.md`, then clear.
+- **Between tasks:** write `SESSION.md`, then `/clear` (or `/compact` above
+  ~100k context). The state is externalised, so clearing loses nothing.
+- **Architect sessions** (design/review, premium model): one task per session;
+  reference earlier work by re-reading `SESSION.md`/`TODO.md`, **not** by keeping
+  a fat context alive — >150k context is where subscription quota burns.
+- **Worker sessions** (cheap models): `/clear` freely; their state is the WO file
+  plus the git branch, both external.
+
+The rule is: **externalise the useful part, then context is cheap to reload and
+`/clear` costs nothing.** Preserving raw context in the window instead is the
+expensive anti-pattern.
+<!-- digest:end -->
+
 ## Notes
 
 - If the central `_memory/TODO.md` has no section for this project yet: create one (`## <project>`)
