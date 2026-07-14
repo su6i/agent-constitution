@@ -85,17 +85,16 @@ extract() {
 }
 
 # ── Compose body ──────────────────────────────────────────────────────────
-# Date-only timestamp (UTC). The freshness signal is the digest-hash line, so
-# sub-day precision is not useful and would make --check fail between two
-# calls a minute apart.
-today="$(date -u +%Y-%m-%d)"
+# No timestamp in the digest: the freshness signal is the content-based
+# digest-hash line, and any date would make `--check` fail on every day after
+# the commit day (date drift) even with no rule change. Git records when the
+# file was generated.
 # Header ends with a single newline — no trailing blank line, otherwise
 # markdownlint MD012 fires on the gap before the first `## From X.md`.
 header="# Rules Digest — Non-Negotiables (auto-generated)
 
 <!-- DO NOT EDIT. Re-run \`bin/generate-digest.sh\` to regenerate. -->
 <!-- Source: rules/*.md  ·  Mechanism: rules/045 §Digest Mechanism  -->
-<!-- Generated: $today -->
 "
 
 # Body starts with `## From X.md` directly — no leading blank line. Each
