@@ -2,7 +2,6 @@
 
 <!-- DO NOT EDIT. Re-run `bin/generate-digest.sh` to regenerate. -->
 <!-- Source: rules/*.md  ·  Mechanism: rules/045 §Digest Mechanism  -->
-<!-- Generated: 2026-07-13 -->
 ## From 000-core.md
 
 Any command the agent asks the human to run must be runnable **as-is in a
