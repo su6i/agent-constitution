@@ -57,7 +57,7 @@ for f in "$RULES_DIR"/*.md; do
 done
 # Sort (bash 3.2-safe).
 IFS=$'\n'
-files=( $(printf '%s\n' "${files[@]}" | sort) )
+files=( $(printf '%s\n' ${files[@]+"${files[@]}"} | sort) )
 unset IFS
 
 # ── SHA-256 of concatenated rules/*.md content ────────────────────────────
@@ -65,7 +65,7 @@ unset IFS
 # rename a rule file should not invalidate the digest; renames do not change
 # what the rules say.
 hash_input=""
-for f in "${files[@]}"; do
+for f in ${files[@]+"${files[@]}"}; do
     hash_input+="$(cat "$f")"
     hash_input+=$'\n'
 done
@@ -101,7 +101,7 @@ header="# Rules Digest — Non-Negotiables (auto-generated)
 # section contributes `## From X\n\n<content>`; the previous section's
 # last newline gives exactly one blank line between sections.
 body=""
-for f in "${files[@]}"; do
+for f in ${files[@]+"${files[@]}"}; do
     bn="$(basename "$f")"
     block="$(extract "$f")"
     if [ -n "$block" ]; then
