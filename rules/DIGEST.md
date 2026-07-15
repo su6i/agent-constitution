@@ -4,6 +4,15 @@
 <!-- Source: rules/*.md  ·  Mechanism: rules/045 §Digest Mechanism  -->
 ## From 000-core.md
 
+Agents SHOULD route **all** worker-model calls (Gemini/agy, DeepSeek, MiniMax)
+through the ai-router door — `delegate_worker` / `delegate_agent` — and never
+launch a worker CLI directly. The router provides the cost ledger, budget caps,
+and the context-discipline pack; a direct CLI call bypasses all three. The
+architect calls the worker channel itself (one tool-call + a short summary),
+rather than asking the owner to run it and paste the output back — relaying
+costs the same tokens twice plus a round-trip. **Exception:** hours-long
+interactive tasks (training/benchmark grids) go to a separate owner-started
+session. This becomes a MUST once ai-router `wo-0014`'s enforcement hook lands.
 Any command the agent asks the human to run must be runnable **as-is in a
 brand-new terminal**:
 
@@ -20,14 +29,12 @@ print/log strings, commit messages, documentation, and config files. The whole
 world reads this code. This applies to **every** project, not just this repo.
 
 Persian (or any other language) is allowed ONLY as project documentation
-translations, in exactly these forms:
+translations, and ONLY under **`docs/fa/`** (sub-folders under it are fine when
+a document needs them). The repo root must stay clean: **no Persian file at the
+root** — not even `README.fa.md` (put it at `docs/fa/README.md`).
 
-- files under a dedicated translation folder — `docs/fa/` (canonical) or a
-  root `fa/` folder in repos that already have one;
-- translation files suffixed `*.fa.md` (e.g. `README.fa.md`).
-
-The single allowed exception outside those paths: one linking word/phrase in
-`README.md` pointing to the Persian docs.
+The single allowed exception outside `docs/fa/`: one linking word/phrase inside
+the English `README.md` pointing to the Persian docs.
 
 Enforcement is mechanical, not prose: the pre-commit hook and CI scan staged
 added lines for Arabic-script characters (U+0600–U+06FF) outside the allowed
@@ -138,14 +145,20 @@ The full lifecycle of every change, in order:
 
 1. **Agent commits** on the feature branch (one task = one commit).
 2. **Agent informs** the user — and a bare "Ready to test" is **forbidden**.
-   The message MUST contain, per `000-core` "Commands Given to the User":
-   - the exact verification command(s) — copy-pasteable, absolute paths,
-     one per line;
-   - the **expected result of each command** (what PASS looks like, what
-     output means FAIL);
+   With that same message the executor hands the **full command block** (owner
+   decision 2026-07-14 — this removes the round-trip where the owner relays the
+   result to an architect just to get commands). All three, per `000-core`
+   "Commands Given to the User" (absolute path, one command per line, runnable
+   from any directory in a fresh terminal):
+   - **(1) the test command(s)** with the expected result of each (what PASS
+     looks like, what means FAIL). Test commands must be cwd-independent — for
+     `uv` repos use `uv run --directory <abs-repo> pytest -q`, never a bare
+     `--project` (pytest collects from the CWD);
+   - **(2) the merge + branch-delete commands**, to run after approval;
+   - **(3) the push command**;
    - any cleanup command if the test creates artifacts.
-   The user has no way to know how to test what the agent just built —
-   telling them *how* is part of delivering the work.
+   The owner runs merge/push themselves, or tells the executor to merge — but
+   **the agent never pushes** (`Remote Repo Access`, `global`).
 3. **User reviews** and reports any issue.
 4. **Agent amends** — fixes belonging to the same task go in with
    `git commit --amend`, **never** as a new commit. The branch keeps exactly
@@ -176,7 +189,7 @@ Every piece of project knowledge has exactly one home:
 
 | Content | Single home | Everything else holds |
 | --- | --- | --- |
-| Public design / architecture / ADRs | Repo docs (`ARCHITECTURE.md`, `docs/`) | a pointer |
+| Public design / architecture / ADRs | Repo docs — the single technical doc is exactly `docs/ARCHITECTURE.md` (English), no `TECHNICAL.md`/`DESIGN.md` variants (see `workflows/documentation.md`) | a pointer |
 | Private design, playbooks, internal reviews, work orders / handoff (`NEXT-SESSION.md`) | Vault: `<vault>/workspace/` (see `035-data-vault`) | a pointer |
 | Tasks / status | The ONE central `_memory/TODO.md`, `## <project>` section (`050`) — never a repo file (`040`), never a per-project file | one-line pointers + dates |
 | What happened when | `workspace/SESSION.md` (append-only log) | nothing — logs are not truth |
@@ -290,4 +303,4 @@ Executor output is never merged on trust. In order:
 An execution report without the review verdict is not mergeable. The
 executor's "ready to test" message must itself follow rule 040 §Review —
 test commands with expected results, never just merge/push commands.
-<!-- digest-hash: 7147a243d6d15bd9971b7d2997b2060ac85e69de961eb06e8fe8a3502686e017 -->
+<!-- digest-hash: c89c5b5e910b451541d7d1c2375e2ebd812c0bb9add06c6ec59f1bcca9e2496b -->
