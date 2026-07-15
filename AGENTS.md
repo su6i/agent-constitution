@@ -83,3 +83,12 @@ uv run pytest --cov=src
 ```bash
 uv run ruff check --fix . && uv run mypy src/
 ```
+
+## Context Discipline (token economy — ai-router wo-0012)
+
+- Read a file ONCE, whole; never re-read an unchanged file (you have it in context — scroll, don't re-fetch).
+- Prefer `grep -n` to locate, then read ONLY the needed section.
+- Batch related reads into one command, not N small ones.
+- One WO phase per session; end the session between phases (fresh context beats fat cached context).
+- Never paste large file bodies into your own replies/summaries.
+- At task end, report tokens/cost if the harness exposes them.

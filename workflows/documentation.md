@@ -23,7 +23,7 @@ last_updated: 2026-02-22
   <p>
     <a href="https://github.com/su6i/agent-constitution/releases"><img src="https://img.shields.io/badge/Version-1.0.0-blue.svg" alt="Version"></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
-    <a href="docs/TECHNICAL.md"><img src="https://img.shields.io/badge/Docs-Technical-orange.svg" alt="Docs"></a>
+    <a href="docs/ARCHITECTURE.md"><img src="https://img.shields.io/badge/Docs-Architecture-orange.svg" alt="Docs"></a>
     <a href="https://linkedin.com/in/su6i"><img src="assets/linkedin_su6i.svg" height="20" alt="LinkedIn"></a>
   </p>
   <br><strong>Slogan</strong>
@@ -41,7 +41,12 @@ last_updated: 2026-02-22
 - **Usage:** Demo screenshots/GIFs + Command Table.
 - **Tone:** Simple, emoji-friendly.
 
-### B. `docs/TECHNICAL.md` (for Developers)
+### B. `docs/ARCHITECTURE.md` (for Developers)
+
+**MUST:** the single technical/design document of every repo is exactly
+`docs/ARCHITECTURE.md` (English). No `TECHNICAL.md`, no `DESIGN.md`, no other
+variant. A repo that has a differently-named technical doc renames it to
+`docs/ARCHITECTURE.md` in its next WO and updates every link.
 
 - **Architecture:** Tree view + Logic explanation.
 - **Real-World Extension Guide (Zero-to-Hero):**
@@ -65,7 +70,7 @@ last_updated: 2026-02-22
 **Trigger:** User says "Good job", "Damet garm", "Nice", or any positive feedback.
 **Action (Mandatory):**
 
-1. **Auto-Docs:** IMMEDIATELY update all relevant documentation (`README.md`, `TECHNICAL.md`, `task.md`, `requirements.txt`, `pyproject.toml`) to reflect the latest changes.
+1. **Auto-Docs:** IMMEDIATELY update all relevant documentation (`README.md`, `docs/ARCHITECTURE.md`, `task.md`, `requirements.txt`, `pyproject.toml`) to reflect the latest changes.
 2. **Auto-Commit:** Commit these documentation changes along with the code.
 3. **Finish:** Only then consider the task truly complete.
 

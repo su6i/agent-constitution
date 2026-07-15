@@ -16,6 +16,20 @@ last_updated: 2026-06-30
 - Never edit more than 20 files in a single session without approval
 - One task = one commit. Get approval before moving to the next task
 
+## Worker Delegation (route through the ai-router door)
+
+<!-- digest:start -->
+Agents SHOULD route **all** worker-model calls (Gemini/agy, DeepSeek, MiniMax)
+through the ai-router door — `delegate_worker` / `delegate_agent` — and never
+launch a worker CLI directly. The router provides the cost ledger, budget caps,
+and the context-discipline pack; a direct CLI call bypasses all three. The
+architect calls the worker channel itself (one tool-call + a short summary),
+rather than asking the owner to run it and paste the output back — relaying
+costs the same tokens twice plus a round-trip. **Exception:** hours-long
+interactive tasks (training/benchmark grids) go to a separate owner-started
+session. This becomes a MUST once ai-router `wo-0014`'s enforcement hook lands.
+<!-- digest:end -->
+
 ## Response Structure (Token Efficiency)
 
 - Start your responses with code, do not give extra explanation
@@ -54,14 +68,12 @@ print/log strings, commit messages, documentation, and config files. The whole
 world reads this code. This applies to **every** project, not just this repo.
 
 Persian (or any other language) is allowed ONLY as project documentation
-translations, in exactly these forms:
+translations, and ONLY under **`docs/fa/`** (sub-folders under it are fine when
+a document needs them). The repo root must stay clean: **no Persian file at the
+root** — not even `README.fa.md` (put it at `docs/fa/README.md`).
 
-- files under a dedicated translation folder — `docs/fa/` (canonical) or a
-  root `fa/` folder in repos that already have one;
-- translation files suffixed `*.fa.md` (e.g. `README.fa.md`).
-
-The single allowed exception outside those paths: one linking word/phrase in
-`README.md` pointing to the Persian docs.
+The single allowed exception outside `docs/fa/`: one linking word/phrase inside
+the English `README.md` pointing to the Persian docs.
 
 Enforcement is mechanical, not prose: the pre-commit hook and CI scan staged
 added lines for Arabic-script characters (U+0600–U+06FF) outside the allowed

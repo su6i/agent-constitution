@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-15 — rule corrections: docs/ARCHITECTURE.md, Persian-in-docs/fa, command block, router door
+
+### Changed
+
+- **Single technical doc name standardised to `docs/ARCHITECTURE.md`** (English)
+  across `workflows/documentation.md`, `rules/045`, `rules/040` docs checklist,
+  and the pre-commit reminder — replacing the `TECHNICAL.md` naming introduced
+  on 2026-07-13. No `TECHNICAL.md`/`DESIGN.md` variants; repos rename in their
+  next WO.
+- `rules/000-core.md §Language Policy` — Persian docs live ONLY under
+  `docs/fa/` (sub-folders allowed there); no Persian file at the repo root, not
+  even `README.fa.md` (→ `docs/fa/README.md`). Root stays clean; the one root
+  exception is a single Persian link word inside the English `README.md`.
+- `rules/040-git.md §Review` — at "Ready to test" the executor now hands the
+  full command block: (1) cwd-independent test command(s) + expected result,
+  (2) merge + branch-delete, (3) push — so the owner never round-trips through
+  an architect just to get commands. Agent still never pushes.
+
+### Added
+
+- `rules/000-core.md §Worker Delegation` — route all worker-model calls through
+  the ai-router door (`delegate_worker`/`delegate_agent`), never a direct
+  worker CLI; call it yourself rather than relaying via the owner.
+
+### Fixed
+
+- `CHANGELOG.md` trailing blank lines (markdownlint MD012 was failing CI on main).
+
 ## 2026-07-13 — session hygiene, retroactive scan, TECHNICAL hook
 
 ### Added
@@ -354,4 +382,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 [Back to README](README.md)
-
