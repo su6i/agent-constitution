@@ -28,7 +28,7 @@ Every piece of project knowledge has exactly one home:
 
 | Content | Single home | Everything else holds |
 | --- | --- | --- |
-| Public design / architecture / ADRs | Repo docs (`ARCHITECTURE.md`, `docs/`) | a pointer |
+| Public design / architecture / ADRs | Repo docs — the single technical doc is exactly `docs/ARCHITECTURE.md` (English), no `TECHNICAL.md`/`DESIGN.md` variants (see `workflows/documentation.md`) | a pointer |
 | Private design, playbooks, internal reviews, work orders / handoff (`NEXT-SESSION.md`) | Vault: `<vault>/workspace/` (see `035-data-vault`) | a pointer |
 | Tasks / status | The ONE central `_memory/TODO.md`, `## <project>` section (`050`) — never a repo file (`040`), never a per-project file | one-line pointers + dates |
 | What happened when | `workspace/SESSION.md` (append-only log) | nothing — logs are not truth |
