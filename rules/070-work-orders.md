@@ -67,10 +67,12 @@ Executor output is never merged on trust. In order:
    (`*.tmp`, `.DS_Store`, `__pycache__/`, `node_modules/`, build output,
    scratch/debug files); lint passes; staged/committed-diff secret & PII
    scan; commit count and message format per rule 040.
-2. **Reviewer** (architect or reviewer agent): read the diff against the WO —
-   scope creep, content deleted without being ordered, tests faked or
-   skipped, docs not updated. Verdict recorded in the WO file under a
-   `## Review` appendix (date, verdict, findings).
+2. **Reviewer** (architect or reviewer agent — **never the author**; who
+   may review, the reviewer ladder, and the review-and-repair pipeline are
+   defined in rule 075): read the diff against the WO — scope creep,
+   content deleted without being ordered, tests faked or skipped, docs not
+   updated. Verdict recorded in the WO file under a `## Review` appendix
+   (date, reviewing agent, verdict, findings).
 3. Only then does the owner approve, and the merge happens (rule 040).
 
 An execution report without the review verdict is not mergeable. The

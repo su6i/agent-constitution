@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-16 — rule 075: independent review & repair
+
+### Added
+
+- **`rules/075-independent-review.md`** — no agent approves its own work
+  (recursively: a reviewer's repairs need a third-party verifier); reviewer
+  ladder proportional to task difficulty; review-and-repair as the default
+  economical pipeline (reviewer amends fixes on the branch, mechanical gate
+  re-runs, architect signs off cheaply without re-reading verified diffs);
+  DoD is unmet without a named reviewer verdict. Evidence base: Arix Sense
+  wo-sense-0004/0005 pilot (13 blocking defects behind a green test suite).
+
+### Changed
+
+- `rules/070-work-orders.md` §Post-Execution Review Gate — reviewer is
+  never the author; cross-reference to rule 075; verdict must name the
+  reviewing agent.
+
 ## 2026-07-15 — rule corrections: docs/ARCHITECTURE.md, Persian-in-docs/fa, command block, router door
 
 ### Changed
