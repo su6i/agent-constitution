@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-16 — fix: generate-digest.sh cwd independence
+
+### Fixed
+
+- `bin/generate-digest.sh` resolved the repo root from the **caller's cwd**
+  (`git rev-parse --show-toplevel`), so running it from inside any other
+  repo checked that repo's nonexistent `rules/DIGEST.md` and failed. It now
+  resolves from the script's own location — runnable from any directory,
+  as rule 000 demands of every handed command. (Found live: owner ran the
+  handed test block from the Arix repo.)
 ## 2026-07-16 — rule 075: independent review & repair
 
 ### Added
