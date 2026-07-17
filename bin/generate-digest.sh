@@ -34,7 +34,11 @@
 
 set -u
 
-REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+# Resolve from the script's own location, never the caller's cwd — this
+# script always targets the constitution repo it lives in (rule 000:
+# commands must be runnable from any directory).
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || dirname "$SCRIPT_DIR")"
 RULES_DIR="$REPO_ROOT/rules"
 DIGEST="$RULES_DIR/DIGEST.md"
 
