@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   resolves from the script's own location — runnable from any directory,
   as rule 000 demands of every handed command. (Found live: owner ran the
   handed test block from the Arix repo.)
+
 ## 2026-07-16 — rule 075: independent review & repair
 
 ### Added
