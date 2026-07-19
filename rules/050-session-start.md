@@ -31,9 +31,10 @@ Then continue with the steps below.
    `## 🌐 Cross-project` section. There is no per-repo `TODO.md` any more — repo-root
    `TODO.md` is personal and would get committed by accident (e.g. through a merge,
    which the pre-commit hook does not scan).
-2. If it exists: read it and announce all open items grouped by priority level
-3. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
-4. Ask: "Where do we start?"
+2. Read the Mailbox (`<vault>/workspace/inbox/`) and announce any unread inbox items (e.g., manager↔architect notes).
+3. If the central TODO exists: read it and announce all open items grouped by priority level.
+4. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
+5. Ask: "Where do we start?"
 <!-- digest:end -->
 
 ## Announcement Format
@@ -113,6 +114,19 @@ the owner signals wrap-up, before any `/clear`.
 The rule is: **externalise the useful part, then context is cheap to reload and
 `/clear` costs nothing.** Preserving raw context in the window instead is the
 expensive anti-pattern.
+<!-- digest:end -->
+
+## DRAFT: Closeout-Agent (Architecture Proposal 2)
+
+<!-- digest:start -->
+> **DRAFT.** Proposed architecture for cheap session closeouts (2026-07-19).
+> Awaiting implementation via WO.
+
+**Problem:** Saving the session by the architect in a fat context is the most expensive state.
+**Solution:**
+- The architect makes all decisions but leaves only a short "closeout note" (decisions/open status, a few lines) at the end of the task.
+- A cheap sub-agent (e.g., `Haiku`, `Sonnet`, or `agy $0`) is invoked (via `SessionEnd` hook or manually) to do the mechanical writing: update `SESSION.md`, `README`, `CHANGELOG`, `docs`, stage the changes, and run `git commit --amend` per rule 040.
+- **Merge is always done by the architect/owner** (to avoid branch-rename incidents).
 <!-- digest:end -->
 
 ## Notes

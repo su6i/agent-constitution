@@ -13,8 +13,9 @@ agent. A WO that violates the rules poisons every downstream agent — so the
 Mandatory Reading (rule 000, `AGENTS.md`) applies to the WO **author** first.
 
 WOs live in the project vault (`<vault>/workspace/wo/`), never in the repo
-(rules 035/040). Naming: `wo-<project>-NNNN.md`; finished WOs move to
-`wo/done/`. Cross-project WOs live in `_memory/wo/`.
+(rules 035/040). Naming: `wo-<project>-NNNN[-slug].md`; finished WOs move to
+`wo/done/`. Cross-project WOs live in `_memory/wo/` (manager WOs are named
+`wo-manager-NNNN[-slug].md`). The executor is NEVER in the filename, only in the header.
 
 ## Mandatory Header (every WO — no exceptions)
 
@@ -41,6 +42,7 @@ WOs live in the project vault (`<vault>/workspace/wo/`), never in the repo
 - **Script-first:** anything bash/python can do must be specified as a
   script, not as LLM work — scripts can be automated or handed to the
   cheapest executor.
+- **Cross-project impact:** Mandatory section in every WO. Source of truth is the ripple column of `_memory/REGISTRY.md`. Even if no impact, explicitly state "None".
 - **Definition of Done** with copy-pasteable absolute-path commands, one per
   line, each with its expected result (rule 000 §Commands).
 - Never an instruction to merge or push without explicit owner approval.
