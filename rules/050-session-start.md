@@ -116,16 +116,16 @@ The rule is: **externalise the useful part, then context is cheap to reload and
 expensive anti-pattern.
 <!-- digest:end -->
 
-## DRAFT: Closeout-Agent (Architecture Proposal 2)
+## Closeout-Agent Architecture
 
 <!-- digest:start -->
-> **DRAFT.** Proposed architecture for cheap session closeouts (2026-07-19).
-> Awaiting implementation via WO.
-
 **Problem:** Saving the session by the architect in a fat context is the most expensive state.
 **Solution:**
 - The architect makes all decisions but leaves only a short "closeout note" (decisions/open status, a few lines) at the end of the task.
-- A cheap sub-agent (e.g., `Haiku`, `Sonnet`, or `agy $0`) is invoked (via `SessionEnd` hook or manually) to do the mechanical writing: update `SESSION.md`, `README`, `CHANGELOG`, `docs`, stage the changes, and run `git commit --amend` per rule 040.
+- A cheap sub-agent (e.g., `Haiku`, `Sonnet`, or `agy $0`) is invoked to do the mechanical writing: update `SESSION.md`, `README`, `CHANGELOG`, `docs`, stage the changes, and run `git commit --amend` per rule 040.
+- **Hybrid Timing (Main + Fallback):**
+  - **Main Path:** A `SessionEnd` hook invokes the cheap agent with the architect's closeout note to write the digest immediately at the end of the session.
+  - **Safety Net:** `SessionStart` checks if a digest was created for the previous session's `jsonl`. If not (e.g., due to a crash where the hook didn't fire), it runs the cheap agent on the raw backup before proceeding.
 - **Merge is always done by the architect/owner** (to avoid branch-rename incidents).
 <!-- digest:end -->
 

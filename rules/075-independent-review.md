@@ -42,14 +42,14 @@ recursively:
 ## Reviewer ladder (proportional to task difficulty)
 
 <!-- digest:start -->
-Match the verifier to the stakes — accuracy without waste:
+Match the verifier to the stakes — accuracy without waste (capability-based, not cost-based):
 
 | Work under review | Minimum independent reviewer |
 |---|---|
-| TRIVIAL (docs, config, mechanical edits) | any cheap agent ≠ author (gemini/deepseek-flash/haiku) |
-| MODERATE (features, refactors) | sonnet-class ≠ author |
+| TRIVIAL (docs, config, mechanical edits) | any basic agent ≠ author (e.g. deepseek-flash/haiku) |
+| MODERATE (features, refactors) | sonnet-class or Gemini 3.1 Pro ≠ author. **Gemini 3.1 Pro is the preferred reviewer here** because it is $0 for the owner while possessing frontier-class reasoning and an agentic harness that can run tests/shell during review (it verifies, not just reads). |
 | CRITICAL (security, money, algorithms, protocol) | opus-class or architect line-by-line ≠ author |
-| Repairs made BY a reviewer | one tier may drop (repairs are narrower than the original diff), but never below "cheap agent ≠ repairer" |
+| Repairs made BY a reviewer | one tier may drop (repairs are narrower than the original diff), but never below "basic agent ≠ repairer" |
 
 The reviewer's model/agent name and verdict date are recorded in the WO
 `## Review` appendix — "reviewed" without *who* is not reviewed.
@@ -80,17 +80,6 @@ post-merge cost a bug hunt, a new WO, and a re-review — always route the
 tokens to the pre-merge side.
 <!-- digest:end -->
 
-## DRAFT: Headless Architect Review (Architecture Proposal 1)
-
-<!-- digest:start -->
-> **DRAFT.** Proposed architecture based on the portfolio pilot (2026-07-19).
-
-To preserve premium context for review without context bloat:
-- The cheap worker ($0) executes the implementation.
-- **The repo architect is spawned headlessly** with a fresh context to perform the review. Premium quality is spent strictly on reviewing, not maintaining context.
-- The headless architect ONLY returns the verdict (PASS/FAIL + report) to the manager. It NEVER reads diffs for context, and it is strictly read-only + report (no commit/merge).
-- Git merge remains gated behind the owner/architect.
-<!-- digest:end -->
 
 ## Forbidden
 
