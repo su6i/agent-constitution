@@ -80,6 +80,18 @@ post-merge cost a bug hunt, a new WO, and a re-review — always route the
 tokens to the pre-merge side.
 <!-- digest:end -->
 
+## DRAFT: Headless Architect Review (Architecture Proposal 1)
+
+<!-- digest:start -->
+> **DRAFT.** Proposed architecture based on the portfolio pilot (2026-07-19).
+
+To preserve premium context for review without context bloat:
+- The cheap worker ($0) executes the implementation.
+- **The repo architect is spawned headlessly** with a fresh context to perform the review. Premium quality is spent strictly on reviewing, not maintaining context.
+- The headless architect ONLY returns the verdict (PASS/FAIL + report) to the manager. It NEVER reads diffs for context, and it is strictly read-only + report (no commit/merge).
+- Git merge remains gated behind the owner/architect.
+<!-- digest:end -->
+
 ## Forbidden
 
 - Merging on the author's own "tests are green" (green tests proved

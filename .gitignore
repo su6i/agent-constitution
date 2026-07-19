@@ -92,3 +92,7 @@ TASKS.md
 ROADMAP.md
 *.session.md
 *.local.md
+
+# --- Vault-only workspace: WOs, reports, sessions live in the vault, NEVER in
+# the repo (rules 035/040/070). Belt-and-suspenders with workdir-guard hook. ---
+workspace/
