@@ -102,3 +102,11 @@ Seeing an error and moving on without doing one of those two is forbidden.
   exact `file:line` and the error message.
 - Applies to errors surfaced by any tool you run, not only the files you edited.
 <!-- digest:end -->
+
+## No Knowledge Lost (Non-Negotiable)
+
+<!-- digest:start -->
+Every piece of knowledge acquired by any agent (architect or worker) during any task must be **recorded** — we pay for every token.
+- **Mandatory Extraction:** Before archiving, deleting, or closing any repository or session, extracting and recording its knowledge is mandatory and obvious (do not ask for permission).
+- This requirement underscores the necessity of a knowledge-service (RAG) in the AI router to ensure all acquired knowledge is properly logged and centrally maintained instead of being scattered or lost.
+<!-- digest:end -->

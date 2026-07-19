@@ -42,14 +42,14 @@ recursively:
 ## Reviewer ladder (proportional to task difficulty)
 
 <!-- digest:start -->
-Match the verifier to the stakes — accuracy without waste:
+Match the verifier to the stakes — accuracy without waste (capability-based, not cost-based):
 
 | Work under review | Minimum independent reviewer |
 |---|---|
-| TRIVIAL (docs, config, mechanical edits) | any cheap agent ≠ author (gemini/deepseek-flash/haiku) |
-| MODERATE (features, refactors) | sonnet-class ≠ author |
+| TRIVIAL (docs, config, mechanical edits) | any basic agent ≠ author (e.g. deepseek-flash/haiku) |
+| MODERATE (features, refactors) | sonnet-class or Gemini 3.1 Pro ≠ author. **Gemini 3.1 Pro is the preferred reviewer here** because it is $0 for the owner while possessing frontier-class reasoning and an agentic harness that can run tests/shell during review (it verifies, not just reads). |
 | CRITICAL (security, money, algorithms, protocol) | opus-class or architect line-by-line ≠ author |
-| Repairs made BY a reviewer | one tier may drop (repairs are narrower than the original diff), but never below "cheap agent ≠ repairer" |
+| Repairs made BY a reviewer | one tier may drop (repairs are narrower than the original diff), but never below "basic agent ≠ repairer" |
 
 The reviewer's model/agent name and verdict date are recorded in the WO
 `## Review` appendix — "reviewed" without *who* is not reviewed.
@@ -79,6 +79,7 @@ Why this shape: defects caught pre-merge cost one amend; defects caught
 post-merge cost a bug hunt, a new WO, and a re-review — always route the
 tokens to the pre-merge side.
 <!-- digest:end -->
+
 
 ## Forbidden
 

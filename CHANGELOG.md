@@ -7,7 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## 2026-07-16 — fix: generate-digest.sh cwd independence
+## 2026-07-19 — docs: codify manager governance, closeout, and review rules
+
+### Added
+- Rule 085: Orchestration topology (Manager / Architect / Worker) codified from draft.
+- Rule 000: "No Knowledge Lost" section added, mandating knowledge extraction before archival.
+
+### Changed
+- Rule 050: Upgraded closeout-agent draft to rule with a hybrid timing approach (main path on SessionEnd, fallback on SessionStart).
+- Rule 070: Fixed markdownlint MD013 and MD025 errors.
+- Rule 075: Changed reviewer ladder to be capability-based instead of cost-based, prioritizing Gemini 3.1 Pro as MODERATE. Rejected the Headless Architect Review draft as it contradicts the core principle of cheap reviews.
+- Reconciled conflicting WO numbering and emptied quarantine.
 
 ### Fixed
 
@@ -17,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   resolves from the script's own location — runnable from any directory,
   as rule 000 demands of every handed command. (Found live: owner ran the
   handed test block from the Arix repo.)
+
 ## 2026-07-16 — rule 075: independent review & repair
 
 ### Added
