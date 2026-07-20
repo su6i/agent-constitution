@@ -266,11 +266,20 @@ The rule is: **externalise the useful part, then context is cheap to reload and
 expensive anti-pattern.
 **Problem:** Saving the session by the architect in a fat context is the most expensive state.
 **Solution:**
+
 - The architect makes all decisions but leaves only a short "closeout note" (decisions/open status, a few lines) at the end of the task.
 - A cheap sub-agent (e.g., `Haiku`, `Sonnet`, or `agy $0`) is invoked to do the mechanical writing: update `SESSION.md`, `README`, `CHANGELOG`, `docs`, stage the changes, and run `git commit --amend` per rule 040.
 - **Hybrid Timing (Main + Fallback):**
   - **Main Path:** A `SessionEnd` hook invokes the cheap agent with the architect's closeout note to write the digest immediately at the end of the session.
   - **Safety Net:** `SessionStart` checks if a digest was created for the previous session's `jsonl`. If not (e.g., due to a crash where the hook didn't fire), it runs the cheap agent on the raw backup before proceeding.
+- **Prune step (last, after the digest is written):** the closeout agent runs
+  `bin/rotate-sessions.sh --keep 4` on the project's `SESSION.md`. The raw
+  `.jsonl` handoff (`_memory/handoffs/`) is the append-only backup — nothing
+  is ever truly lost — so `SESSION.md` only needs to stay a **curated, living
+  doc**: current state, live decisions, open work. Sessions beyond the last 4
+  are replaced in place by a one-line pointer and their full text is moved to
+  `<workspace>/archive/SESSION-<YYYY>.md`. Idempotent — safe to run every
+  closeout even if nothing is due for archiving.
 - **Merge is always done by the architect/owner** (to avoid branch-rename incidents).## From 070-work-orders.md
 
 1. **Executor** — the exact agent/model that will run it, e.g. `gemini`
@@ -467,4 +476,4 @@ owner ── talks to ──▶ MANAGER (watches @-github, cross-repo only)
 Every session that commits must leave a SESSION.md summary before the owner
 is told "safe to /clear" — enforced fail-closed by
 `~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).
-<!-- digest-hash: 973d3d96c5ff149db3984969e046f415ee845b91bbdf47a7971a52da356b9d27 -->
+<!-- digest-hash: 305aa4bba3052454decf141d8dcfb04791b4ff2d2a257fb49ad1527697768548 -->

@@ -13,8 +13,8 @@ last_updated: 2026-03-12
 
 برای مطالعه کامل نسخه فارسی، از این ترتیب استفاده کنید:
 
-1. [../AGENTIC-CODING-SETUP.fa.md](../AGENTIC-CODING-SETUP.fa.md)
-2. [../README.fa.md](../README.fa.md)
+1. [../docs/fa/AGENTIC-CODING-SETUP.fa.md](../docs/fa/AGENTIC-CODING-SETUP.fa.md)
+2. [../docs/fa/README.fa.md](../docs/fa/README.fa.md)
 3. [./AGENTS.md](./AGENTS.md)
 
 ## نقش این پوشه
@@ -26,4 +26,4 @@ last_updated: 2026-03-12
 
 ## نسبت با معماری کلی مخزن
 
-سند شاخص فنی در ریشه مخزن قرار دارد، اما این پوشه لایه بومی‌سازی و پشتیبانی فارسی را نگه می‌دارد. بنابراین هرجا بین نسخه خلاصه و نسخه فنی تعارضی دیدید، سند canonical فارسی یعنی [../AGENTIC-CODING-SETUP.fa.md](../AGENTIC-CODING-SETUP.fa.md) مرجع اصلی است.
+سند شاخص فنی در `docs/fa/` مخزن قرار دارد، اما این پوشه لایه بومی‌سازی و پشتیبانی فارسی را نگه می‌دارد. بنابراین هرجا بین نسخه خلاصه و نسخه فنی تعارضی دیدید، سند canonical فارسی یعنی [../docs/fa/AGENTIC-CODING-SETUP.fa.md](../docs/fa/AGENTIC-CODING-SETUP.fa.md) مرجع اصلی است.

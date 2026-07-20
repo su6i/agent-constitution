@@ -48,6 +48,8 @@ last_updated: 2026-02-22
 variant. A repo that has a differently-named technical doc renames it to
 `docs/ARCHITECTURE.md` in its next WO and updates every link.
 
+**MUST:** `*.fa.md` lives under `docs/fa/`, never at repo root.
+
 - **Architecture:** Tree view + Logic explanation.
 - **Real-World Extension Guide (Zero-to-Hero):**
   - **Step 1:** Create Script/Component.

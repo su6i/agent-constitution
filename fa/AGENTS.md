@@ -13,8 +13,8 @@ last_updated: 2026-03-12
 
 ## اسناد مرجع
 
-- سند فنی شاخص فارسی: `../AGENTIC-CODING-SETUP.fa.md`
-- ورودی فارسی مخزن: `../README.fa.md`
+- سند فنی شاخص فارسی: `../docs/fa/AGENTIC-CODING-SETUP.fa.md`
+- ورودی فارسی مخزن: `../docs/fa/README.fa.md`
 - قرارداد اجرایی عمومی: `../AGENTS.md`
 
 ## ساختار فارسی

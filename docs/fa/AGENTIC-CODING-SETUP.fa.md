@@ -1,7 +1,7 @@
 ---
 title: "کدنویسی ایجنتیک ۲۰۲۶"
 description: راهنمای پیشرفته تنظیمات، بنچمارک‌ها و تحلیل بازگشت سرمایه برای توسعه مبتنی بر هوش مصنوعی.
-location: AGENTIC-CODING-SETUP.fa.md
+location: docs/fa/AGENTIC-CODING-SETUP.fa.md
 document_role: flagship-guide
 last_updated: 2026-02-21
 ---
@@ -668,10 +668,10 @@ cp config_example.py config.py
 
 | فایل | توضیحات |
 | --- | --- |
-| [**CODE_0**](skills/ai-router/ai_router.py) | موتور اصلی: `AIRouter`، `ComplexityAnalyzer`، `CacheManager`، `CostTracker`، `CircuitBreaker`، `ClaudeClient`، `DeepSeekClient` |
-| [**CODE_0**](skills/ai-router/config_example.py) | هر چهار استراتژی مسیریابی با جداول قیمت گذاری کامل `ModelConfig` |
-| [**CODE_0**](skills/ai-router/router_cli.py) | CLI کامل با حالت های تعاملی، تک اعلان، دسته ای، آمار و برآورد هزینه |
-| [**CODE_0**](skills/ai-router/requirements.txt) | لیست وابستگی پایتون |
+| [**CODE_0**](../../skills/ai-router/ai_router.py) | موتور اصلی: `AIRouter`، `ComplexityAnalyzer`، `CacheManager`، `CostTracker`، `CircuitBreaker`، `ClaudeClient`، `DeepSeekClient` |
+| [**CODE_0**](../../skills/ai-router/config_example.py) | هر چهار استراتژی مسیریابی با جداول قیمت گذاری کامل `ModelConfig` |
+| [**CODE_0**](../../skills/ai-router/router_cli.py) | CLI کامل با حالت های تعاملی، تک اعلان، دسته ای، آمار و برآورد هزینه |
+| [**CODE_0**](../../skills/ai-router/requirements.txt) | لیست وابستگی پایتون |
 
 **مروری بر معماری:**
 
