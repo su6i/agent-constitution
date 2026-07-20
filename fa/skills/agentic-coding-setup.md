@@ -9,7 +9,7 @@ last_updated: 2026-03-12
 
 این فایل دیگر نسخه canonical نیست و فقط برای سازگاری با لینک‌ها و ارجاع‌های قدیمی نگه داشته می‌شود.
 
-- سند canonical فارسی: [../../AGENTIC-CODING-SETUP.fa.md](../../AGENTIC-CODING-SETUP.fa.md)
-- README فارسی: [../../README.fa.md](../../README.fa.md)
+- سند canonical فارسی: [../../docs/fa/AGENTIC-CODING-SETUP.fa.md](../../docs/fa/AGENTIC-CODING-SETUP.fa.md)
+- README فارسی: [../../docs/fa/README.fa.md](../../docs/fa/README.fa.md)
 
 اگر به دنبال نسخه به‌روز و کامل فارسی هستید، از فایل ریشه استفاده کنید.

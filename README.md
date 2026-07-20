@@ -28,7 +28,7 @@ last_updated: 2026-06-23
 bash <(curl -fsSL https://raw.githubusercontent.com/su6i/agent-constitution/main/install.sh)
 ```
 
-[🇮🇷 نسخه فارسی](README.fa.md) • [Contributing](CONTRIBUTING.md) • [Changelog](CHANGELOG.md)
+[🇮🇷 نسخه فارسی](docs/fa/README.fa.md) • [Contributing](CONTRIBUTING.md) • [Changelog](CHANGELOG.md)
 
 </div>
 

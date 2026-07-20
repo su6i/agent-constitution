@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-20 — docs: relocate Persian docs to docs/fa/, fix and wire session rotation
+
+### Changed
+
+- **`README.fa.md`, `AGENTIC-CODING-SETUP.fa.md`, `docs/INFORMATION-ARCHITECTURE.fa.md`
+  moved to `docs/fa/`** — enforces the root-clean Persian-docs rule (rule 000
+  §Language Policy, already in force since 2026-07-15) that this repo itself
+  was violating. Every cross-reference repointed both directions, including
+  the pre-existing `fa/` localization tree and the English `README.md` /
+  `docs/INFORMATION-ARCHITECTURE.md`. English `README.md` keeps its one-line
+  «فارسی» pointer, now targeting `docs/fa/README.fa.md`. `.agent/`
+  cross-references still point to English files only.
+- **`workflows/documentation.md` §B** — codified: "`*.fa.md` lives under
+  `docs/fa/`, never at repo root."
+
+### Fixed
+
+- **`bin/rotate-sessions.sh`** — was an empty stub (header comment only, no
+  logic), so `--dry-run --keep 4` on a real multi-session `SESSION.md`
+  silently printed nothing and exited 0. Rewritten: session boundaries are
+  any `##` heading (not just the literal `## Session digest —` prefix most
+  real `SESSION.md` files never use), sessions are ranked by parsed date
+  (robust to files that are not strictly append-only), archiving is
+  idempotent by construction (an archived session becomes a single pointer
+  line, never a heading, so it can't be re-selected), and the default keep
+  is now N=4 (owner decision, was N=2). Wired into rule 050's closeout-agent
+  architecture as the final prune step, after the digest write.
+- **`.rules-ack`** — gitignored (local attestation artifact) instead of
+  being left untracked with no policy.
+
 ## 2026-07-20 — docs: add rule 080 knowledge capture
 
 ### Added
