@@ -52,6 +52,7 @@ Seeing an error and moving on without doing one of those two is forbidden.
   exact `file:line` and the error message.
 - Applies to errors surfaced by any tool you run, not only the files you edited.
 Every piece of knowledge acquired by any agent (architect or worker) during any task must be **recorded** — we pay for every token.
+
 - **Mandatory Extraction:** Before archiving, deleting, or closing any repository or session, extracting and recording its knowledge is mandatory and obvious (do not ask for permission).
 - This requirement underscores the necessity of a knowledge-service (RAG) in the AI router to ensure all acquired knowledge is properly logged and centrally maintained instead of being scattered or lost.## From 035-data-vault.md
 
@@ -437,6 +438,34 @@ owner ── talks to ──▶ MANAGER (watches @-github, cross-repo only)
              owner gets test / merge / push command block
 ```
 
+## Message addresses
+
+- `<agent inbox> = /Users/su6i/.local/share/agent-projects/<project>/workspace/inbox/`
+- Manager inbox: `/Users/su6i/.local/share/agent-projects/@-github/workspace/inbox/`
+
+Inboxes live in the vault, never inside a git repo. No agent may invent a mailbox path.
+
+## Manager Charter: The Queue
+
+The manager maintains ONE cross-project queue (`_memory/QUEUE.md`) that sequences every task across every repo. Every WO must appear in the queue with a tier + gate; a WO not in the queue is invisible and won't run.
+
+## End-to-End Management Workflow
+
+1. **owner** → manager (message)
+2. **manager** → writes task-note to repo architect's inbox (metadata + pointers only)
+3. **architect** → writes WO in `<repo>/workspace/wo/` (rule 070 format)
+4. **architect** → calls worker (agy $0 default) to implement
+5. **worker** → implements on a feature branch
+6. **reviewer** (headless architect, fresh context) → code review, verdict only
+   - Max 2 review rounds. Reviewer must label each finding **blocking** vs **cosmetic**; a round is triggered only by blocking findings.
+   - If still failing after 2 rounds, escalate to owner with the option to "authorize one more round", do not silently merge.
+7. **architect** → commit/amend on branch
+8. **owner** → approves merge (owner-only per rule 040)
+9. **architect** → reports ONE status line to manager
+10. **manager** → reports outcome to owner
+
+*Data flow constraint*: Metadata up, never code/diffs to manager.
+
 ## Boundaries (blast radius)
 
 - **A repo agent stays in its own repo.** It must NOT read, diagnose, or fix
@@ -460,20 +489,21 @@ owner ── talks to ──▶ MANAGER (watches @-github, cross-repo only)
   `~/.local/share/agent-projects/_memory/`; the manager re-reads them each
   turn. Architects report back ONE status line, not their work.
 - **Lightweight / on-demand.** All premium sessions share one quota and run
-  serially — the manager is not a heavy always-on session.
+  serially — the manager is not a heavy always-on session. Resting footprint is zero tokens.
+- **Not a hard bottleneck**: For deep single-repo work, the owner may talk to that repo's architect directly. If the work has cross-repo impact, the architect drops a one-line note in the manager's inbox.
 
-## Four corrections (owner, 2026-07-19)
+## No Submodules & Knowledge Service
 
-1. Manager context stays metadata-only (above) — the top risk.
-2. The manager is not a hard bottleneck: for deep single-repo work the owner
-   may talk to that repo's architect directly. No "always only the manager".
-3. Review loop is bounded: max 2 review rounds, then escalate to the owner —
-   not an infinite reviewer-1 → fix → reviewer-2 chain.
-4. Manager is light/metadata; heavy premium work stays with architects.
+- **No submodules**: The ONLY way a repo consumes the constitution is a symlink: `.agent/constitution -> /Users/su6i/@-github/agent-constitution`. No git submodule (no `.gitmodules`, no gitlink). Repo-local skills/rules are forbidden unless extracted upstream first.
+- **RAG Knowledge Service**: Rules, skills, and sessions are served via the knowledge service once live. Agents query rather than fork.
+
+## No Unauthorized Folder Creation
+
+Agents may NOT create a new directory — in a repo OR the vault — without manager permission. Standard folders (`workspace/`, `workspace/inbox/`, `workspace/wo/`) are pre-authorized.
 
 ## Session accounting
 
 Every session that commits must leave a SESSION.md summary before the owner
 is told "safe to /clear" — enforced fail-closed by
 `~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).
-<!-- digest-hash: 305aa4bba3052454decf141d8dcfb04791b4ff2d2a257fb49ad1527697768548 -->
+<!-- digest-hash: 018df4edadcd4dc309416004ac706ec274846396e94c4bf9f48e110727ce30b5 -->
