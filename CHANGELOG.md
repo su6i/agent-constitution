@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-21 — docs: reconcile manager governance topology into main
+
+### Added
+
+- **`rules/085-orchestration-topology.md`** — forward-ported five governance
+  sections that were stranded on the diverged branch
+  `docs/manager-governance-2026-07-19` and absent from `main`: `## Message
+  addresses`, `## Manager Charter: The Queue`, `## End-to-End Management
+  Workflow`, `## No Submodules & Knowledge Service`, `## No Unauthorized Folder
+  Creation`. The superseded `## Four corrections (owner, 2026-07-19)` section was
+  replaced (nothing lost: corrections #1/#2/#4 are the "Metadata only" /
+  "Not a hard bottleneck" / "Lightweight" bullets; #3's "max 2 review rounds"
+  bound is preserved verbatim in the new e2e-workflow step 6). Regenerated
+  `rules/DIGEST.md`.
+
+---
+
 ## 2026-07-20 — docs: add rule 080 knowledge capture
 
 ### Added
