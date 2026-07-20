@@ -50,7 +50,10 @@ Seeing an error and moving on without doing one of those two is forbidden.
 - When you defer a fix (e.g. to keep a commit's scope clean), immediately add an
   item under the project's section in the central `_memory/TODO.md` with the
   exact `file:line` and the error message.
-- Applies to errors surfaced by any tool you run, not only the files you edited.## From 035-data-vault.md
+- Applies to errors surfaced by any tool you run, not only the files you edited.
+Every piece of knowledge acquired by any agent (architect or worker) during any task must be **recorded** — we pay for every token.
+- **Mandatory Extraction:** Before archiving, deleting, or closing any repository or session, extracting and recording its knowledge is mandatory and obvious (do not ask for permission).
+- This requirement underscores the necessity of a knowledge-service (RAG) in the AI router to ensure all acquired knowledge is properly logged and centrally maintained instead of being scattered or lost.## From 035-data-vault.md
 
 **If a file must never be committed, it must not live inside the repo.**
 
@@ -227,9 +230,10 @@ Before ANY action in a new session:
    `## 🌐 Cross-project` section. There is no per-repo `TODO.md` any more — repo-root
    `TODO.md` is personal and would get committed by accident (e.g. through a merge,
    which the pre-commit hook does not scan).
-2. If it exists: read it and announce all open items grouped by priority level
-3. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
-4. Ask: "Where do we start?"
+2. Read the Mailbox (`<vault>/workspace/inbox/`) and announce any unread inbox items (e.g., manager↔architect notes).
+3. If the central TODO exists: read it and announce all open items grouped by priority level.
+4. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
+5. Ask: "Where do we start?"
 **All tasks — for every project — go in the one central TODO**
 (`_memory/TODO.md`), under that project's `## <project>` section. Never create a
 per-repo `TODO.md`. New task → add it under the right project section. This is how a
@@ -259,7 +263,15 @@ the owner signals wrap-up, before any `/clear`.
 
 The rule is: **externalise the useful part, then context is cheap to reload and
 `/clear` costs nothing.** Preserving raw context in the window instead is the
-expensive anti-pattern.## From 070-work-orders.md
+expensive anti-pattern.
+**Problem:** Saving the session by the architect in a fat context is the most expensive state.
+**Solution:**
+- The architect makes all decisions but leaves only a short "closeout note" (decisions/open status, a few lines) at the end of the task.
+- A cheap sub-agent (e.g., `Haiku`, `Sonnet`, or `agy $0`) is invoked to do the mechanical writing: update `SESSION.md`, `README`, `CHANGELOG`, `docs`, stage the changes, and run `git commit --amend` per rule 040.
+- **Hybrid Timing (Main + Fallback):**
+  - **Main Path:** A `SessionEnd` hook invokes the cheap agent with the architect's closeout note to write the digest immediately at the end of the session.
+  - **Safety Net:** `SessionStart` checks if a digest was created for the previous session's `jsonl`. If not (e.g., due to a crash where the hook didn't fire), it runs the cheap agent on the raw backup before proceeding.
+- **Merge is always done by the architect/owner** (to avoid branch-rename incidents).## From 070-work-orders.md
 
 1. **Executor** — the exact agent/model that will run it, e.g. `gemini`
    (free), `deepseek-flash`, `deepseek-pro`, `minimax-3 (CodeWhale)`,
@@ -278,6 +290,9 @@ expensive anti-pattern.## From 070-work-orders.md
 - **Script-first:** anything bash/python can do must be specified as a
   script, not as LLM work — scripts can be automated or handed to the
   cheapest executor.
+- **Cross-project impact:** Mandatory section in every WO. Source of truth is the
+  ripple column of `_memory/REGISTRY.md`. Even if no impact, explicitly state
+  "None".
 - **Definition of Done** with copy-pasteable absolute-path commands, one per
   line, each with its expected result (rule 000 §Commands).
 - Never an instruction to merge or push without explicit owner approval.
@@ -325,14 +340,14 @@ recursively:
    flagged, run the DoD proof commands. The architect does NOT re-read the
    whole diff — burning premium context on work two agents already
    verified is the anti-pattern this rule exists to prevent.
-Match the verifier to the stakes — accuracy without waste:
+Match the verifier to the stakes — accuracy without waste (capability-based, not cost-based):
 
 | Work under review | Minimum independent reviewer |
 |---|---|
-| TRIVIAL (docs, config, mechanical edits) | any cheap agent ≠ author (gemini/deepseek-flash/haiku) |
-| MODERATE (features, refactors) | sonnet-class ≠ author |
+| TRIVIAL (docs, config, mechanical edits) | any basic agent ≠ author (e.g. deepseek-flash/haiku) |
+| MODERATE (features, refactors) | sonnet-class or Gemini 3.1 Pro ≠ author. **Gemini 3.1 Pro is the preferred reviewer here** because it is $0 for the owner while possessing frontier-class reasoning and an agentic harness that can run tests/shell during review (it verifies, not just reads). |
 | CRITICAL (security, money, algorithms, protocol) | opus-class or architect line-by-line ≠ author |
-| Repairs made BY a reviewer | one tier may drop (repairs are narrower than the original diff), but never below "cheap agent ≠ repairer" |
+| Repairs made BY a reviewer | one tier may drop (repairs are narrower than the original diff), but never below "basic agent ≠ repairer" |
 
 The reviewer's model/agent name and verdict date are recorded in the WO
 `## Review` appendix — "reviewed" without *who* is not reviewed.
@@ -355,5 +370,101 @@ executor (each bounce costs a full context reload + a re-review anyway):
 
 Why this shape: defects caught pre-merge cost one amend; defects caught
 post-merge cost a bug hunt, a new WO, and a re-review — always route the
-tokens to the pre-merge side.
-<!-- digest-hash: 64cd193e95c5f1a310cf672a5d32f88324d32f61a4214e1ba11abb199105be63 -->
+tokens to the pre-merge side.## From 080-knowledge-capture.md
+
+
+## 1. When to Capture
+
+Knowledge capture is mandatory **before `SessionEnd`** for any session involving MODERATE or CRITICAL complexity tasks, or whenever a new, non-trivial problem-solving approach or strategic decision is developed. TRIVIAL tasks only require capture if a novel reusable pattern emerges.
+
+## 2. What to Capture
+
+Capture transferable judgment, decision trees, and a menu of approaches with their trade-offs, including a recommended default for our project profile. Focus on patterns related to:
+
+- **Financial Data Analysis:** Strategies for market analysis, risk assessment, portfolio optimization, and data integration.
+- **Content Automation:** Effective pipelines for generating and distributing content across platforms like YouTube, Telegram, and LinkedIn.
+- **Multi-Agent Analytical Pipelines:** Architectures and coordination mechanisms for complex problem-solving involving multiple agents.
+- **Reinforcement Learning (RL) for Finance:** Best practices, model selection, and deployment strategies for RL applications in financial contexts.
+- **Dev/ML/LLM/AIOps Workflows:** Reusable patterns for development, machine learning, large language model integration, and AI-driven operations.
+
+The capture should explain *why* certain approaches were chosen over others, detailing the decision criteria and observed outcomes.
+
+## 3. Where to Capture (Skill Discovery Order)
+
+Knowledge must be captured in the most reusable and discoverable format possible, following this order:
+
+- **Existing Skill Enhancement:** If an existing skill (in `skills/`) partially addresses the knowledge, update and refine that skill.
+- **Upstream Catalogs:** If no local skill fits, consult `.claude/skill-sources.md` for an upstream skill to adopt before authoring anything new.
+- **New Skill Creation:** If the knowledge represents a novel, self-contained, and reusable capability, create a new skill file (`skills/<skill-name>.md`, flat layout) adhering to `rules/036-skill-versioning.md`.
+- **Architecture Docs:** For broader strategic insights, architectural patterns, or complex decision flows that don't fit a single skill, document them in `docs/INFORMATION-ARCHITECTURE.md` or a new, appropriately named document under `docs/`.
+
+## 4. Fail-Closed Gate: Knowledge Capture Report
+
+TRIVIAL sessions are exempt from this field. For MODERATE and CRITICAL sessions, the `SessionEnd` digest **MUST** include a `knowledge-capture:` field detailing:
+
+- `status`: `COMPLETED` / `PARTIAL` / `N/A` (no reusable knowledge emerged).
+- `summary`: A concise description of the captured knowledge.
+- `artifacts`: A list of paths to updated or newly created skill files or documentation.
+- `reason_for_partial/NA`: If status is `PARTIAL` or `N/A`.
+
+Failure to include this field, or an incomplete report for MODERATE/CRITICAL sessions, will trigger a review gate failure and require remediation.## From 085-orchestration-topology.md
+
+
+## The Topology Law
+
+```
+owner ── talks to ──▶ MANAGER (watches @-github, cross-repo only)
+                         │ assigns a task (a note / pointer, not code)
+                         ▼
+                     ARCHITECT (one per repo) ── writes the WO
+                         │ delegates
+                         ▼
+                     WORKER (Gemini 3.1 Pro; $0-first) ── implements
+                         │ delivers back
+                         ▼
+   REVIEWER-1 (independent) ─▶ fix+amend ─▶ REVIEWER-2 ─▶ architect sign-off
+                         │
+                         ▼
+             owner gets test / merge / push command block
+```
+
+## Boundaries (blast radius)
+
+- **A repo agent stays in its own repo.** It must NOT read, diagnose, or fix
+  problems in another repo — even *noticing* another repo's bug burns tokens,
+  pollutes its context, and it cannot fix it anyway (the fix re-delegates to
+  that repo's agent, who re-derives everything). If it spots a cross-repo
+  issue, it writes ONE pointer for the manager and stops.
+- **Only the manager crosses repos**, and only by writing notes/pointers —
+  never by implementing. But its hand is free: it may write in any repo.
+- Enforced by `~/.claude/hooks/workdir-guard.sh` (PreToolUse Write|Edit):
+  a write into a *different* `@-github/<repo>` is denied unless
+  `CLAUDE_AGENT_ROLE=manager` (or cwd is the `@-github` root). Writes outside
+  `@-github` (vault/SESSION.md, scratchpad, `~/.claude`) are always allowed.
+  Kill-switch: `WORKDIR_GUARD=off`.
+
+## The Manager (keep its context clean)
+
+- **Metadata only.** The manager holds *which repo, which WO, what status* —
+  never code, never transcripts. Content never enters its context.
+- **State lives in files, not context.** Queue/status live in
+  `~/.local/share/agent-projects/_memory/`; the manager re-reads them each
+  turn. Architects report back ONE status line, not their work.
+- **Lightweight / on-demand.** All premium sessions share one quota and run
+  serially — the manager is not a heavy always-on session.
+
+## Four corrections (owner, 2026-07-19)
+
+1. Manager context stays metadata-only (above) — the top risk.
+2. The manager is not a hard bottleneck: for deep single-repo work the owner
+   may talk to that repo's architect directly. No "always only the manager".
+3. Review loop is bounded: max 2 review rounds, then escalate to the owner —
+   not an infinite reviewer-1 → fix → reviewer-2 chain.
+4. Manager is light/metadata; heavy premium work stays with architects.
+
+## Session accounting
+
+Every session that commits must leave a SESSION.md summary before the owner
+is told "safe to /clear" — enforced fail-closed by
+`~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).
+<!-- digest-hash: 973d3d96c5ff149db3984969e046f415ee845b91bbdf47a7971a52da356b9d27 -->
