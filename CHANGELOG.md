@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-21 — fix: stop link check failing on exa.ai rate-limit (429)
+
+### Fixed
+
+- **`.github/mlc_config.json`** — added `^https://exa.ai` to `ignorePatterns`.
+  The link checker's CI IP is rate-limited by exa.ai (HTTP 429) even after the
+  configured `retryOn429`/`retryCount: 5`, producing a false "dead link" and a
+  red `Check Internal Links` job. The URL is live; this matches how other
+  bot-blocking / rate-limiting hosts (`linkedin.com`, `npmjs.com`, `rentry.co`,
+  `x402.org`) are already handled.
+
+---
+
 ## 2026-07-21 — docs: reconcile manager governance topology into main
 
 ### Added

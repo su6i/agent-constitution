@@ -38,6 +38,9 @@
     },
     {
       "pattern": "^https://x402.org"
+    },
+    {
+      "pattern": "^https://exa.ai"
     }
   ],
   "replacementPatterns": [
