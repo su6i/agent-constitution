@@ -7,13 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-20 — docs: add rule 080 knowledge capture
+
+### Added
+
+- **`rules/080-knowledge-capture.md`** — mandates capturing transferable
+  judgment (a menu of approaches with trade-offs + the recommended default for
+  our project profile) into reusable skills or docs before SessionEnd, with a
+  fail-closed `knowledge-capture:` digest field required for MODERATE/CRITICAL
+  sessions. Defines the *how/when/where*; complements rule 000
+  §"No Knowledge Lost".
+
 ## 2026-07-19 — docs: codify manager governance, closeout, and review rules
 
 ### Added
+
 - Rule 085: Orchestration topology (Manager / Architect / Worker) codified from draft.
 - Rule 000: "No Knowledge Lost" section added, mandating knowledge extraction before archival.
 
 ### Changed
+
 - Rule 050: Upgraded closeout-agent draft to rule with a hybrid timing approach (main path on SessionEnd, fallback on SessionStart).
 - Rule 070: Fixed markdownlint MD013 and MD025 errors.
 - Rule 075: Changed reviewer ladder to be capability-based instead of cost-based, prioritizing Gemini 3.1 Pro as MODERATE. Rejected the Headless Architect Review draft as it contradicts the core principle of cheap reviews.
