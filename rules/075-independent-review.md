@@ -80,7 +80,6 @@ post-merge cost a bug hunt, a new WO, and a re-review — always route the
 tokens to the pre-merge side.
 <!-- digest:end -->
 
-
 ## Forbidden
 
 - Merging on the author's own "tests are green" (green tests proved

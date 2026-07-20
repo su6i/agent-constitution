@@ -6,6 +6,7 @@
 **Cross-project impact:**
 
 **Target Branch / SHA (Mandatory):**
+
 - Branch: `feature/...`
 - SHA: `<commit-sha>`
 
