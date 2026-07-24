@@ -105,6 +105,7 @@ the owner signals wrap-up, before any `/clear`.
 - **Never `/clear` mid-task.** Finish the step, update `SESSION.md`, then clear.
 - **Between tasks:** write `SESSION.md`, then `/clear` (or `/compact` above
   ~100k context). The state is externalised, so clearing loses nothing.
+- **Task Done / Ready to test:** The update-`SESSION.md` gate is **"Ready to test" and "task done"**, NOT "session end". Any merge-ready delivery must have `SESSION.md` updated (branch tip, change summary, waiting status) **before/with** the message announcing it — the loss window is precisely between "Ready to test" and the owner's `/clear`.
 - **Architect sessions** (design/review, premium model): one task per session;
   reference earlier work by re-reading `SESSION.md`/`TODO.md`, **not** by keeping
   a fat context alive — >150k context is where subscription quota burns.

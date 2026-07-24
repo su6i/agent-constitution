@@ -154,10 +154,18 @@ The full lifecycle of every change, in order:
    result to an architect just to get commands). All three, per `000-core`
    "Commands Given to the User" (absolute path, one command per line, runnable
    from any directory in a fresh terminal):
+   - **SESSION.md is updated before the command block is handed** (branch tip + change summary + waiting status).
    - **(1) the test command(s)** with the expected result of each (what PASS
-     looks like, what means FAIL). Test commands must be cwd-independent — for
-     `uv` repos use `uv run --directory <abs-repo> pytest -q`, never a bare
-     `--project` (pytest collects from the CWD);
+     looks like, what means FAIL). **The executor MUST have run each command
+     itself — from a fresh CWD (e.g. `$HOME`), not the repo root — and seen it
+     pass with no error, before handing it over.** A command the agent has not
+     personally run to a clean result must not be given. Test commands must be
+     cwd-independent — for `uv` repos use `uv run --directory <abs-repo> pytest
+     -q`, never a bare `--project` (pytest collects from the CWD); and when a
+     tool resolves its config from the CWD (e.g. `markdownlint` reads
+     `.markdownlint.json` from `.`), pass that config explicitly by absolute
+     path (`--config <abs>/.markdownlint.json`) or the command silently lints
+     against defaults and floods false errors from any other directory;
    - **(2) the merge + branch-delete commands**, to run after approval;
    - **(3) the push command**;
    - any cleanup command if the test creates artifacts.
@@ -256,6 +264,7 @@ the owner signals wrap-up, before any `/clear`.
 - **Never `/clear` mid-task.** Finish the step, update `SESSION.md`, then clear.
 - **Between tasks:** write `SESSION.md`, then `/clear` (or `/compact` above
   ~100k context). The state is externalised, so clearing loses nothing.
+- **Task Done / Ready to test:** The update-`SESSION.md` gate is **"Ready to test" and "task done"**, NOT "session end". Any merge-ready delivery must have `SESSION.md` updated (branch tip, change summary, waiting status) **before/with** the message announcing it — the loss window is precisely between "Ready to test" and the owner's `/clear`.
 - **Architect sessions** (design/review, premium model): one task per session;
   reference earlier work by re-reading `SESSION.md`/`TODO.md`, **not** by keeping
   a fat context alive — >150k context is where subscription quota burns.
@@ -506,4 +515,4 @@ Agents may NOT create a new directory — in a repo OR the vault — without man
 Every session that commits must leave a SESSION.md summary before the owner
 is told "safe to /clear" — enforced fail-closed by
 `~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).
-<!-- digest-hash: 018df4edadcd4dc309416004ac706ec274846396e94c4bf9f48e110727ce30b5 -->
+<!-- digest-hash: 4f0db6cc2b2f75e3b8a9e8661ca6d1bf770aa499bb1607762538498e641e917e -->

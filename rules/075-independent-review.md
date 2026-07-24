@@ -80,6 +80,12 @@ post-merge cost a bug hunt, a new WO, and a re-review — always route the
 tokens to the pre-merge side.
 <!-- digest:end -->
 
+## DRAFT Rule Scrutiny
+
+- Before any DRAFT rule is promoted, the architect must **scrutinize it against all existing rules** and explicitly flag to the **owner** any contradiction or regression in rule quality.
+- The architect may request a **pilot plan** from the owner (in the relevant repo) for a DRAFT before promotion.
+- Promotion to a numbered rule requires either a clean scrutiny report or owner sign-off.
+
 ## Forbidden
 
 - Merging on the author's own "tests are green" (green tests proved
