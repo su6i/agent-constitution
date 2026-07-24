@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-24 — docs: codify 3 residual inbox rulings (session.md gate, DRAFT scrutiny, written-request proposal)
+
+### Added
+
+- `rules/075-independent-review.md` — added `## DRAFT Rule Scrutiny` clause requiring architect scrutiny against existing rules before promotion.
+
+### Changed
+
+- `rules/050-session-start.md` — updated the `SESSION.md` gate from "session end" to "Ready to test" and "task done".
+- `rules/040-git.md` — added sub-bullet to git step 2 requiring `SESSION.md` update before handing the command block.
+- `rules/040-git.md` — Review step 2, test-command bullet: the executor must have run each test command itself (from a fresh CWD) to a clean result before handing it over, and must pass CWD-resolved configs (e.g. `markdownlint --config <abs>`) explicitly.
+
+---
+
 ## 2026-07-21 — fix: stop link check failing on exa.ai rate-limit (429)
 
 ### Fixed
