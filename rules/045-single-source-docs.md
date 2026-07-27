@@ -3,7 +3,7 @@ title: "045: Single Source of Truth for Design Docs"
 description: Design content lives in exactly one file; everything else points to it. Committable design docs live in the repo; private working docs live in the vault (035) and never enter git (040) — if one was committed, purge it from history.
 location: rules/045-single-source-docs.md
 agent_priority: High
-last_updated: 2026-07-02
+last_updated: 2026-07-27
 ---
 
 # Single Source of Truth for Design Docs
@@ -86,6 +86,15 @@ The generated `rules/DIGEST.md` is the canonical short-form constitution that
 every bootloader (`AGENTS.md`, `GEMINI.md`, ...) directs the agent to read
 FIRST before the full rules. CI runs `bin/generate-digest.sh --check` and fails
 if the committed digest is stale.
+
+**Rules acknowledgment:** an agent attests that it has read the rules by
+running `bin/ack-rules.sh`, which prints the digest to stdout (so it enters
+the agent's context) and writes a `.rules-ack` file holding the digest hash.
+The pre-commit hook blocks a commit when `.rules-ack` is missing or its hash
+does not match the current digest; it skips merges and no-ops where
+`bin/ack-rules.sh` is not installed. This layer removes the incentive to skip
+the rules, not the capability — the hard guarantee is the CI mirror and
+`bin/review-gate.sh`.
 
 **Marker convention:** when editing a non-negotiable section, keep the marked
 block exactly as-is — markers are annotations only; do not compress or rewrite

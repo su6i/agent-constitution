@@ -3,7 +3,7 @@
 # Canonical source: agent-constitution/templates/hooks/pre-commit
 # Installed into .git/hooks/pre-commit (this repo + every `amir init-project`).
 #
-# Enforces five NON-NEGOTIABLE constitution rules deterministically, so they
+# Enforces the NON-NEGOTIABLE constitution rules deterministically, so they
 # cannot be "forgotten" by any agent or human:
 #
 #   1. No direct commits to main/master — use a feature branch.
@@ -27,6 +27,11 @@
 #      modified skill's `version:` must differ from HEAD (bump on every edit).
 #   6. (Warning, non-blocking) Untracked throwaway files (scratch*, *_mock.py,
 #      *_draft.*, *.tmp, …) are listed as a cleanliness reminder.
+#   7. Rules attestation (rules/045-single-source-docs.md) — .rules-ack must
+#      exist and carry the CURRENT rules/DIGEST.md hash, proving the agent had
+#      the rules in context. Hash-based only: a new branch needs no fresh ack.
+#      Skipped on merges, and a silent no-op in any repo where
+#      bin/ack-rules.sh is not installed.
 #
 # Merge commits: git does not run pre-commit on automatic merge commits — the
 # companion pre-merge-commit hook (same templates dir) execs this script with
@@ -258,6 +263,29 @@ if [ "$skill_bad" = "1" ]; then
     echo "   frontmatter, re-stage, and commit again."
     echo ""
     exit 1
+fi
+
+# ── Rule 7: hash-based rules attestation (.rules-ack) ───────────────────────
+# The rules must be acknowledged: .rules-ack must exist and carry the current
+# DIGEST hash. HASH-based only — a new branch does NOT need a fresh ack
+# (wo-constitution-0002 Phase-3 rework, 2026-07-15). Skipped on merges, and a
+# silent no-op wherever bin/ack-rules.sh is not installed, so a fresh clone or
+# a repo that never adopted the mechanism can still commit.
+digest_file="rules/DIGEST.md"
+ack_file=".rules-ack"
+if [ "$is_merge" = "0" ] && [ -f "$digest_file" ] && [ -x "bin/ack-rules.sh" ]; then
+    current_hash="$(awk '/<!-- digest-hash:/ {print $3}' "$digest_file")"
+    if [ ! -f "$ack_file" ]; then
+        echo "🚨 pre-commit: .rules-ack not found."
+        echo "   run bin/ack-rules.sh and read its output, then commit again"
+        exit 1
+    fi
+    read -r ack_hash _ack_rest < "$ack_file"
+    if [ "$ack_hash" != "$current_hash" ]; then
+        echo "🚨 pre-commit: .rules-ack does not match the current rules/DIGEST.md hash."
+        echo "   run bin/ack-rules.sh and read its output, then commit again"
+        exit 1
+    fi
 fi
 
 # ── Rule 6: warn (non-blocking) about untracked throwaway files ─────────────

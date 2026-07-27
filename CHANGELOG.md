@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-27 — feat: add hash-based rules attestation
+
+### Added
+
+- `bin/ack-rules.sh` — prints `rules/DIGEST.md` to stdout (so the rules enter the
+  agent's context) and writes a gitignored `.rules-ack` holding the digest hash.
+  The repo root is resolved from the script's own location, so it behaves
+  identically when invoked from any working directory.
+- `templates/hooks/pre-commit` — new **Rule 7**: blocks a commit when `.rules-ack`
+  is missing or its hash does not match the current digest. Hash-based only (a new
+  branch needs no fresh ack), skipped on merge commits, and a silent no-op wherever
+  `bin/ack-rules.sh` is not installed.
+- `templates/gitignore.template` — `.rules-ack` in the personal/local block.
+- `rules/045-single-source-docs.md` — `**Rules acknowledgment:**` paragraph in
+  `## Digest Mechanism` documenting the attestation layer and its limits.
+- `README.md` — `### Short-Form Digest` now documents the attestation step.
+
+### Notes
+
+- The hook ships only through the sanctioned install path (`templates/hooks/`);
+  no executor copies it into `.git/hooks` by hand.
+- This layer removes the *incentive* to skip the rules, not the capability — the
+  hard guarantee remains the CI mirror and `bin/review-gate.sh`.
+
+---
+
 ## 2026-07-27 — docs: fold rule 065 executor routing into 070
 
 ### Added
