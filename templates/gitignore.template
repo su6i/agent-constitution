@@ -28,6 +28,7 @@ config.local.yml
 # committing them leaks local context to the remote (see rules/040-git.md).
 SESSION.md
 TODO.md
+.rules-ack
 
 # ── Python ──────────────────────────────────────────────────────────────────
 __pycache__/

@@ -539,4 +539,4 @@ Agents may NOT create a new directory — in a repo OR the vault — without man
 Every session that commits must leave a SESSION.md summary before the owner
 is told "safe to /clear" — enforced fail-closed by
 `~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).
-<!-- digest-hash: 2caae058834fc7c534d279ae8609a7536551cfeed00d425ea5a1ba8d9c358c4e -->
+<!-- digest-hash: 074bccda2b70f2c6e5becedcdd57d62ca6ac5e07fddd1b0372e35c10156c07b1 -->

@@ -90,6 +90,14 @@ CI runs `bin/generate-digest.sh --check` on every push/PR and fails if the
 digest drifts from the source rules (see
 [`rules/045 §Digest Mechanism`](rules/045-single-source-docs.md)).
 
+Reading the digest is attested with [`bin/ack-rules.sh`](bin/ack-rules.sh): it
+prints the digest to stdout (so it enters the agent's context) and writes a
+gitignored `.rules-ack` holding the digest hash. Where
+[`templates/hooks/pre-commit`](templates/hooks/pre-commit) is installed, Rule 7
+blocks a commit whose `.rules-ack` is missing or stale. It is hash-based only —
+a new branch needs no fresh ack — it skips merge commits, and it is a silent
+no-op in any repo that has not installed `bin/ack-rules.sh`.
+
 ### Core Features
 
 - **⚖️ The Neural Gavel:** A strict `.cursorrules` router that prevents the Agent from guessing.
@@ -172,7 +180,7 @@ install them for you.
 
 | Hook | What it blocks |
 |------|----------------|
-| `pre-commit` | Direct commits to `main`/`master` (use a feature branch); the **Docs Checklist** — a code change must also touch a doc (README / CHANGELOG / docs/ / `*.md`); personal/memory files (TODO.md, SESSION.md, force-added CLAUDE.md, …) — deleting one is allowed, that's the remediation; secrets/PII in added lines; and a `skills/**.md` edit without a `version:` bump (`rules/036-skill-versioning.md`). |
+| `pre-commit` | Direct commits to `main`/`master` (use a feature branch); the **Docs Checklist** — a code change must also touch a doc (README / CHANGELOG / docs/ / `*.md`); personal/memory files (TODO.md, SESSION.md, force-added CLAUDE.md, …) — deleting one is allowed, that's the remediation; secrets/PII in added lines; and a `skills/**.md` edit without a `version:` bump (`rules/036-skill-versioning.md`); plus **rules attestation** — a missing or stale `.rules-ack` (run `bin/ack-rules.sh`), hash-based, skipped on merges, and a no-op where `bin/ack-rules.sh` is not installed. |
 | `pre-merge-commit` | The same privacy and skill-version gates applied to **merge commits** (git never runs pre-commit on automatic merges). Branch-protection and docs checks are skipped on merges — merging an approved branch into main is the sanctioned protocol step. |
 | `commit-msg` | **AI co-authorship — ever.** Any `Co-Authored-By: <AI>` trailer, a "Generated with `<AI>`" line, or a 🤖 marker in the message. |
 
