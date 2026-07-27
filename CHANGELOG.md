@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-27 — docs: add rule 090 written request protocol
+
+### Added
+
+- `rules/090-written-requests.md` — new rule: any complex or lengthy request for
+  owner approval is written in full to a file in `<vault>/workspace/inbox/` (or
+  the WO file), while the chat carries only a one-line title plus the absolute
+  path. `send_to_owner` is used where the harness provides it, with an explicit
+  fallback where it does not. Copy-pasteable command blocks are exempt and stay
+  in the chat in full (rule 000 §Commands, rule 040 §Review).
+
+### Changed
+
+- `rules/050-session-start.md` — mailbox step upgraded from "announce" to
+  **triage**: every unread inbox item must be answered, turned into a WO, or
+  closed with a written verdict. Closes the gap where announced-but-unanswered
+  notes piled up.
+
+---
+
 ## 2026-07-27 — feat: add hash-based rules attestation
 
 ### Added
