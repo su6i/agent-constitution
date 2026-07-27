@@ -295,7 +295,8 @@ expensive anti-pattern.
 1. **Executor** — the exact agent/model that will run it, e.g. `gemini`
    (free), `deepseek-flash`, `deepseek-pro`, `minimax-3 (CodeWhale)`,
    `sonnet`, `fable/opus`. Routing ladder, cheapest first:
-   gemini → deepseek-flash → deepseek-pro/minimax-3 → premium.
+   gemini → deepseek-flash → deepseek-pro/minimax-3 → premium; which class of
+   work goes to which executor is fixed by **§Executor Routing** below.
    If the executor is a premium model, a **`Why premium:`** line is
    mandatory — implementation work defaults to cheap models; premium is for
    design-critical logic only.
@@ -304,6 +305,29 @@ expensive anti-pattern.
    order to the executor: read `rules/DIGEST.md` (or the listed files)
    **before writing anything**. A WO without rule references is invalid.
 3. **Complexity** — TRIVIAL / MODERATE / CRITICAL (rule 000).
+**$0 first (owner ruling 2026-07-13).** The default channel for implementation
+is a zero-cost one — agy Gemini 3.1 Pro (subscription, agentic) or the free
+Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
+**paid fallback only**, used when a $0 channel fails review or hits quota.
+
+| Class of work | Executor | Why / evidence |
+|---|---|---|
+| Audio/video, installing a TTS or model engine, anything environment-sensitive (disk, GPU, mounts) | **Gemini** ($0), else Sonnet | Owner ruling: you do not hand songwriting to a deaf man. On such a task DeepSeek filled the disk and reported the environment error as "no Metal / exFAT denies permission", never finding the reference already on disk. Gemini has a record of successful installs and listening evaluation. |
+| Self-contained mechanical text/code work — patterned refactor, file moves, boilerplate, tests | **$0 worker first** (agy / gemini via `delegate_worker`); deepseek-flash or minimax-3 only as paid fallback | wo-polycast-0002 finished on the paid channel for $0.51 but still needed a review pass; the same class now runs at $0. The review pass (rule 075) is mandatory either way. |
+| Live facts: does X exist, version / licence / API behaviour checks | **`delegate_research`** (grok) | A ~$0.003 call settles it — never answer from model memory, never spend premium context on it. A negative from one search model is not proof of non-existence (two real models were once reported "nonexistent"), so a negative needs a second channel. |
+| Deep debugging, multi-system glue, quality-sensitive documents | **Sonnet** | flash-class models lose the thread in layered debugging (wo-0003); on Arix Sense 0005 a flash execution came back with 13 blocking defects that only independent review caught. |
+| Constitution rule text, architecture, WO authoring, review and synthesis, path decisions | **the architect's premium model** (Opus/Fable) | Expensive — reserved for what the others cannot do. Cheap workers never edit rule text. |
+1. **Gemini creates files sloppily** (owner ruling): every Gemini task brief
+   must spell out the exact absolute path of every input and every output, and
+   repeat the permitted write scope (`experiments/<agent>/` plus the named
+   allowed paths) — otherwise it scatters files across the repo.
+2. A disk- or environment-heavy task carries a **sanity checklist as step 0 of
+   the WO itself**: free disk space, mount present, destination writable.
+3. **An executor report is a claim, not evidence.** The review gate below and
+   rule 075 apply before any merge, and a claim of the form "the tool is
+   broken" never enters the docs without independent verification.
+4. **No conclusion from n=1.** This table changes only through a reproducible
+   benchmark (the `ai-router` delegation ledger) or an explicit owner ruling.
 - Phases sized for one branch + one commit each (rule 040); executor stops
   for review between phases.
 - **Script-first:** anything bash/python can do must be specified as a
@@ -515,4 +539,4 @@ Agents may NOT create a new directory — in a repo OR the vault — without man
 Every session that commits must leave a SESSION.md summary before the owner
 is told "safe to /clear" — enforced fail-closed by
 `~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).
-<!-- digest-hash: 4f0db6cc2b2f75e3b8a9e8661ca6d1bf770aa499bb1607762538498e641e917e -->
+<!-- digest-hash: 2caae058834fc7c534d279ae8609a7536551cfeed00d425ea5a1ba8d9c358c4e -->

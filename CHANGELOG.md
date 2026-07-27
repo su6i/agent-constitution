@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-27 — docs: fold rule 065 executor routing into 070
+
+### Added
+
+- `rules/070-work-orders.md` — new `## Executor Routing (which agent gets which work)`
+  section plus `### Routing companion rules`, folding the content of the unmerged
+  rule-065 draft (`feat/executor-routing-rule` @ `99d2a3f`) into 070. No clause was
+  dropped: the table is refreshed to the `$0`-first ladder (owner ruling 2026-07-13),
+  internet/fact checks route through `delegate_research`, and the two review-pass
+  clauses now cross-reference rule 075 and `## Post-Execution Review Gate` instead of
+  restating them.
+
+### Changed
+
+- `rules/070-work-orders.md` — `## Mandatory Header` item 1 now cross-references
+  `§Executor Routing` for which class of work goes to which executor.
+
+---
+
 ## 2026-07-24 — docs: codify 3 residual inbox rulings (session.md gate, DRAFT scrutiny, written-request proposal)
 
 ### Added
