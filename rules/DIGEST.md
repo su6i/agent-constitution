@@ -239,7 +239,11 @@ Before ANY action in a new session:
    `## 🌐 Cross-project` section. There is no per-repo `TODO.md` any more — repo-root
    `TODO.md` is personal and would get committed by accident (e.g. through a merge,
    which the pre-commit hook does not scan).
-2. Read the Mailbox (`<vault>/workspace/inbox/`) and announce any unread inbox items (e.g., manager↔architect notes).
+2. Read the Mailbox (`<vault>/workspace/inbox/`): list **every** unread item
+   (manager↔architect notes, owner decisions) and **triage each one** — answer
+   it, turn it into a WO, or close it with a written verdict. An inbox note
+   left merely "announced" is an unanswered request; requests arriving here
+   follow rule 090.
 3. If the central TODO exists: read it and announce all open items grouped by priority level.
 4. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
 5. Ask: "Where do we start?"
@@ -538,5 +542,22 @@ Agents may NOT create a new directory — in a repo OR the vault — without man
 
 Every session that commits must leave a SESSION.md summary before the owner
 is told "safe to /clear" — enforced fail-closed by
-`~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).
-<!-- digest-hash: 074bccda2b70f2c6e5becedcdd57d62ca6ac5e07fddd1b0372e35c10156c07b1 -->
+`~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).## From 090-written-requests.md
+
+1. **Write it down first.** Any complex or lengthy request for owner approval —
+   a rule review, a WO sign-off, a choice between detailed options — is written
+   in full to a markdown file in that project's `<vault>/workspace/inbox/` (or
+   into the WO file itself when it is a WO).
+2. **Terse pointer in chat.** The live chat carries only a one-line title, the
+   absolute path of the file, and a request to reply after reading. The detail
+   is never repeated in chat.
+3. **Notify.** Where the harness provides `send_to_owner` (ai-router), send the
+   file to the owner with it. When a rule review is requested, the message must
+   carry the path of the rule file itself. Where the tool is unavailable
+   (Cursor, Windsurf, the web UI), the vault file plus the chat pointer is
+   sufficient — this rule never requires a tool the agent does not have.
+4. **Exceptions.** A short, single-context question may be asked directly in
+   chat. And this rule does **not** override rule 000 §Commands or rule 040
+   §Review: copy-pasteable command blocks are always printed in the chat, in
+   full, with absolute paths.
+<!-- digest-hash: 531f020c4f1df822abbc4e974f4d7ba9dc6290ba74dd3ef124291af5ce519ac0 -->

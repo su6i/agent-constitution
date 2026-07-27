@@ -1,9 +1,9 @@
 ---
 title: "050: Session Start Protocol"
-description: At the start of every session, read TODO.md and announce pending items before taking any action.
+description: At the start of every session, read TODO.md, triage the mailbox, and announce pending items before taking any action.
 location: rules/050-session-start.md
 agent_priority: High
-last_updated: 2026-06-30
+last_updated: 2026-07-27
 ---
 
 # Session Start Protocol
@@ -31,7 +31,11 @@ Then continue with the steps below.
    `## 🌐 Cross-project` section. There is no per-repo `TODO.md` any more — repo-root
    `TODO.md` is personal and would get committed by accident (e.g. through a merge,
    which the pre-commit hook does not scan).
-2. Read the Mailbox (`<vault>/workspace/inbox/`) and announce any unread inbox items (e.g., manager↔architect notes).
+2. Read the Mailbox (`<vault>/workspace/inbox/`): list **every** unread item
+   (manager↔architect notes, owner decisions) and **triage each one** — answer
+   it, turn it into a WO, or close it with a written verdict. An inbox note
+   left merely "announced" is an unanswered request; requests arriving here
+   follow rule 090.
 3. If the central TODO exists: read it and announce all open items grouped by priority level.
 4. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
 5. Ask: "Where do we start?"
