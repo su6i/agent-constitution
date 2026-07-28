@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-28 — fix: ignore fal.ai in link check
+
+### Fixed
+
+- **CI red on `main` since `76b14ed`** — the Check Internal Links job failed with
+  `1 dead links found` on `https://fal.ai` and
+  `https://fal.ai/models/fal-ai/pika/v2.2/text-to-video`. Both return **HTTP 429
+  to any non-browser client** (verified from a normal desktop connection, not
+  just the CI runner), so `retryOn429` cannot get past it. The URLs are live;
+  the checker is being bot-blocked. Added `^https://fal.ai` to
+  `.github/mlc_config.json` `ignorePatterns`, same treatment as `exa.ai`
+  (`dd14000`).
+
+---
+
 ## 2026-07-28 — docs: architect memory, session recovery, inbox lifecycle
 
 ### Added
