@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-28 — fix: treat HTTP 429 as alive in link check
+
+### Changed
+
+- **`.github/mlc_config.json`** — `429` added to `aliveStatusCodes`. A rate-limit
+  response proves the host is up; it says nothing about the link being dead.
+  This replaces the per-host workaround with a general rule, so the next
+  bot-blocking host does not turn `main` red again (owner ruling 2026-07-28).
+- `retryOn429` set to `false`. With `429` counted as alive, retrying only made
+  the job wait out `Retry-After` before reaching the same verdict — the
+  link-check job had grown to 14–15 minutes.
+
+### Removed
+
+- `^https://fal.ai` from `ignorePatterns` — no longer needed, and an ignore
+  entry also hides genuinely dead fal.ai links. Verified locally with
+  `markdown-link-check`: `skills/fal-ai-media.md` (1/1) and
+  `skills/ai-video-generation.md` (9/9) pass with the pattern gone.
+
+---
+
 ## 2026-07-28 — fix: ignore fal.ai in link check
 
 ### Fixed

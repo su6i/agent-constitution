@@ -41,9 +41,6 @@
     },
     {
       "pattern": "^https://exa.ai"
-    },
-    {
-      "pattern": "^https://fal.ai"
     }
   ],
   "replacementPatterns": [
@@ -61,7 +58,7 @@
     }
   ],
   "timeout": "20s",
-  "retryOn429": true,
+  "retryOn429": false,
   "retryCount": 5,
-  "aliveStatusCodes": [200, 206, 301, 302, 307, 308]
+  "aliveStatusCodes": [200, 206, 301, 302, 307, 308, 429]
 }
