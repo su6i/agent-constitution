@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-28 — docs: architect memory, session recovery, inbox lifecycle
+
+### Added
+
+- **`rules/050-session-start.md` §Architect Memory** — new non-negotiable
+  section. `<vault>/workspace/architect-memory.md` is now part of the
+  end-of-task pipeline (also added to §Task Execution Pipeline step 3 and to the
+  closeout agent's write list). Defines what belongs in it (decisions and their
+  reasons, gates established, open-WO status, "where I stopped") versus what
+  belongs in `SESSION.md` (the chronological log), and fixes the scope: it
+  exists for a **fast cold restart**, not to simulate an always-live session —
+  cross-day warmth is explicitly not a goal. The `Stop` hook
+  `check-session-saved.sh` is named as the backstop, not the obligation.
+
+### Changed
+
+- **`rules/050-session-start.md` §Session Lifecycle** — the raw
+  `_memory/handoffs/*.jsonl` backups were mentioned only as a safety net; the
+  **recovery direction** is now explicit: an agent reconstructing a session
+  starts from the newest raw `.jsonl` and writes the curated result into that
+  project's `SESSION.md`. Raw is the source, `SESSION.md` is the product.
+- **`rules/050-session-start.md` §Rule step 2** — inbox lifecycle: a triaged
+  note is **moved** to `<vault>/workspace/inbox/done/`, never deleted, so that
+  whatever remains in `inbox/` is by definition open work.
+- **`rules/035-data-vault.md`** — vault trees now show `architect-memory.md`,
+  `workspace/inbox/`, `workspace/inbox/done/`, and `_memory/handoffs/`, matching
+  the paths the rules above depend on.
+- Regenerated `rules/DIGEST.md`.
+
+---
+
 ## 2026-07-28 — fix: remove duplicate standalone rule 065
 
 ### Removed
