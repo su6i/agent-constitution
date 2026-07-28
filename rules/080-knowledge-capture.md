@@ -35,6 +35,24 @@ Knowledge must be captured in the most reusable and discoverable format possible
 - **New Skill Creation:** If the knowledge represents a novel, self-contained, and reusable capability, create a new skill file (`skills/<skill-name>.md`, flat layout) adhering to `rules/036-skill-versioning.md`.
 - **Architecture Docs:** For broader strategic insights, architectural patterns, or complex decision flows that don't fit a single skill, document them in `docs/INFORMATION-ARCHITECTURE.md` or a new, appropriately named document under `docs/`.
 
+## 3b. Teaching Notes to the Owner (`agent-notes`)
+
+Owner ruling 2026-07-23. Sections 1–3 capture knowledge for *agents*; this one
+captures it for the *owner*. Whenever an agent explains something instructive
+in chat — how a mechanism works, why an approach was chosen, a diagnosis worth
+keeping — that explanation is also written to `~/Documents/agent-notes/`.
+
+- Filename `YYYY-MM-DD-topic.md`, **English/ASCII** (the note body may be in
+  any language).
+- Header names the author agent, the repo, and the session id, so a note can
+  be traced back to the work that produced it.
+- The authoritative format lives in that folder's own `README.md`; follow it
+  rather than re-inventing a layout here (rule 045: one home per piece of
+  knowledge).
+
+Chat scrolls away and sessions are cleared. An explanation that existed only
+in a transcript will be asked for — and re-derived — a second time.
+
 ## 4. Fail-Closed Gate: Knowledge Capture Report
 
 TRIVIAL sessions are exempt from this field. For MODERATE and CRITICAL sessions, the `SessionEnd` digest **MUST** include a `knowledge-capture:` field detailing:

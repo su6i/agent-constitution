@@ -28,6 +28,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-28 — docs: three-layer delegation, rule-change broadcast, agent-notes
+
+Group B of the 2026-07-24 owner directives (`NOTE-2026-07-24-rule-batch-owner-directives.md`,
+items 1, 3 and 6), WO-0013.
+
+### Added
+
+- **`rules/085-orchestration-topology.md` §Three-Layer Delegation** — the
+  delegation chain approved by the owner on 2026-07-21 had remained a proposal
+  in an inbox, which is why sessions kept bypassing it. Now a rule: architect →
+  Sonnet dispatcher/reviewer → `$0` worker, with the layer boundaries stated as
+  "must not" columns. Binding clauses: the default code channel is agy rather
+  than flash; the worker stays warm and the **first** verify failure returns to
+  the same worker session (the reviewer enters from the second); the
+  architect's short final check is not removable; per-run usage goes to the
+  manager. Exemptions written out — under ~40 lines, secrets/config wiring,
+  design-critical logic, and constitution rule text stay with the architect.
+- **`rules/095-rule-change-broadcast.md`** — new rule. Every merge touching
+  `rules/` triggers a CHANGELOG entry, a broadcast note to every active
+  architect's inbox, and an RAG re-index. States the underlying asymmetry: a
+  new session reads the rules from disk and is current by construction, while
+  an open session and the RAG index are not — the broadcast exists for those
+  two. Ownership fixed: the merging architect sends and triggers, the ai-router
+  architect owns the index, the manager audits weekly.
+- **`rules/080-knowledge-capture.md` §3b** — teaching notes given to the owner
+  in chat are also written to `~/Documents/agent-notes/`
+  (`YYYY-MM-DD-topic.md`, English filename, author/repo/session header; the
+  format itself lives in that folder's README).
+- **`rules/075-independent-review.md` §The defect→prompt loop** — the
+  delegating architect must ask whether its own WO made a reviewed defect
+  likely, and fix the WO template/brief/routing table in the same session.
+  Tone is fixed by owner ruling: better management, not catching the agent out.
+
+### Changed
+
+- **`rules/070-work-orders.md` §Routing companion rules** — new clause 5: this
+  table picks the executor, rule 085 picks the chain.
+- **`AGENTS.md`** — the on-demand rule list stopped at 070 and never mentioned
+  075/080/085/090; extended, with 085 flagged as mandatory when delegating and
+  095 as mandatory when merging a rule change.
+- Regenerated `rules/DIGEST.md`.
+
+---
+
 ## 2026-07-28 — fix: ignore fal.ai in link check
 
 ### Fixed

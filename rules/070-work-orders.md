@@ -74,6 +74,10 @@ Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
    broken" never enters the docs without independent verification.
 4. **No conclusion from n=1.** This table changes only through a reproducible
    benchmark (the `ai-router` delegation ledger) or an explicit owner ruling.
+5. **Who dispatches whom** is fixed by rule 085 §Three-Layer Delegation
+   (architect → Sonnet dispatcher/reviewer → `$0` worker), including the
+   exemptions that keep a task in the architect's own hands. This table picks
+   the executor; 085 picks the chain.
 <!-- digest:end -->
 
 ## Mandatory Body
