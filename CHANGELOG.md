@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-28 — fix: remove duplicate standalone rule 065
+
+### Removed
+
+- **`rules/065-executor-routing.md`** — deleted. Its executor-routing content was
+  already folded into `rules/070-work-orders.md` §Executor Routing (commit
+  `d34c87b`, English, refreshed to the `$0`-first ladder). The standalone file
+  was accidentally re-introduced when `feat/executor-routing-rule` was merged
+  (`76b14ed`) after the fold, leaving a Persian-language duplicate (also a
+  root-language-policy violation). 070's section is a superset; nothing lost.
+  Regenerated `rules/DIGEST.md`.
+
+---
+
 ## 2026-07-27 — docs: add rule 090 written request protocol
 
 ### Added
