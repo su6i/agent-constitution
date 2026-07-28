@@ -32,6 +32,10 @@
 #      the rules in context. Hash-based only: a new branch needs no fresh ack.
 #      Skipped on merges, and a silent no-op in any repo where
 #      bin/ack-rules.sh is not installed.
+#   8. File and directory NAMES must be ASCII (rules/000-core.md §Language
+#      Policy) — the content language of those files is unaffected. Only newly
+#      added/copied/renamed paths are checked, so enforcement is
+#      forward-looking; merges are checked too.
 #
 # Merge commits: git does not run pre-commit on automatic merge commits — the
 # companion pre-merge-commit hook (same templates dir) execs this script with
@@ -40,8 +44,8 @@
 # Rule 1 is skipped (merging an
 # approved branch into main IS the sanctioned protocol step) and Rule 2 is
 # skipped (docs were enforced per-commit on the branch); the privacy gates
-# (Rules 3–4) and the skill-version gate (Rule 5) still scan the incoming
-# changes. Fast-forward merges create no commit, so no hook runs — their
+# (Rules 3–4), the skill-version gate (Rule 5) and the ASCII-name gate
+# (Rule 8) still scan the incoming changes. Fast-forward merges create no commit, so no hook runs — their
 # content was already gated commit-by-commit on the source branch.
 #
 # Deliberate bypass (discouraged, leaves a trace in your shell history):
@@ -286,6 +290,29 @@ if [ "$is_merge" = "0" ] && [ -f "$digest_file" ] && [ -x "bin/ack-rules.sh" ]; 
         echo "   run bin/ack-rules.sh and read its output, then commit again"
         exit 1
     fi
+fi
+
+# ── Rule 8: file and directory names must be ASCII ──────────────────────────
+# rules/000-core.md §Language Policy: names are indexed, greppable, URL-encoded
+# and carried across filesystems, so every path is English/ASCII even where the
+# file's CONTENT is not. Only newly added/copied/renamed paths are checked
+# (--diff-filter=ACR): enforcement is forward-looking, so a pre-existing
+# non-ASCII path does not block every later commit that touches it. Runs on
+# merges too — a merge is exactly how such a path slips in unreviewed.
+# LC_ALL=C makes the byte range mean bytes, not locale-defined characters.
+bad_names="$(git diff --cached --name-only --diff-filter=ACR -z 2>/dev/null \
+             | tr '\0' '\n' | LC_ALL=C grep -E '[^ -~]')"
+if [ -n "$bad_names" ]; then
+    echo ""
+    echo "🚨 pre-commit: non-ASCII characters in staged path name(s):"
+    printf '%s\n' "$bad_names" | head -20 | sed 's/^/     /'
+    echo ""
+    echo "   File and directory NAMES are English/ASCII everywhere — the file's"
+    echo "   content language is unaffected (rules/000-core.md §Language Policy)."
+    echo "   Rename and re-stage:"
+    echo "       git mv '<old name>' '<new-ascii-name>'"
+    echo ""
+    exit 1
 fi
 
 # ── Rule 6: warn (non-blocking) about untracked throwaway files ─────────────

@@ -8,6 +8,9 @@ is lost across `/compact`, `/clear`, and exit.
 | `save-handoff.sh`  | PreCompact, SessionEnd | Backs up the full raw transcript → `_memory/handoffs/<ts>_<event>_<sid>.jsonl` (keeps 40) |
 | `save-summary.sh`  | PostCompact | Appends the compaction summary → `<vault>/workspace/SESSION.md` (readable digest) |
 | `session-resume.sh`| SessionStart | Injects a continuity pointer (central TODO section + latest backup) so the agent resumes per rule 050 |
+| `session-snapshot.sh` | SessionEnd | Appends a mechanical repo snapshot (branch, last commit, dirty count, ahead/behind) to the dated global file, and to `<vault>/workspace/SESSION.md` only for registered projects. |
+
+The vault write is gated on `_memory/REGISTRY.md` or a repo under `$HOME/@-github/`, so benchmark and throwaway directories never create a vault.
 
 ## Install
 

@@ -79,6 +79,37 @@ Enforcement is mechanical, not prose: the pre-commit hook and CI scan staged
 added lines for Arabic-script characters (U+0600–U+06FF) outside the allowed
 paths and block the commit; a periodic sweep tool cleans up pre-existing
 content.
+
+### Names are ASCII, content is not the same question
+
+Everything above governs what a file **says**. This governs what a file is
+**called**, and it is stricter, because the two are read by different things.
+
+Every file and directory **name** — in any repository and in the vault, and
+including `NOTE-`, `WO-`, `BRIEF-` and any other generated artefact — is
+English and ASCII-only. The working charset is `[A-Za-z0-9._-]` plus `/`; the
+hard, enforced boundary is ASCII (bytes `0x20`–`0x7E`).
+
+The **content** of those files is unaffected: repo content follows the English
+rule above, and a vault note may be written in any language its reader prefers.
+A note written in Persian is fine; a note whose *filename* carries those
+Persian words is not — rename it to `NOTE-2026-07-24-owner-directives.md` and
+leave the text inside exactly as it was. (This paragraph deliberately shows no
+counter-example verbatim: a committed rule file is repo content and is bound by
+the English-only rule above, including when the subject is that very rule.)
+
+Why names are held to a stricter standard than content: names are what tooling
+greps and globs, what URLs percent-encode, what shells word-split, and what
+changes shape when a path crosses filesystems, archives, or a `rsync`. Content
+is read by people, who cope. `docs/fa/` is already ASCII and stays exactly as
+it is — a Persian *path* was never the exception, only Persian *text*.
+
+Enforcement: pre-commit Rule 8 blocks any newly added, copied or renamed path
+containing a non-ASCII byte, and runs on merges too. It is deliberately
+forward-looking — it does not fire on existing paths — so adopting the rule
+never blocks unrelated work. Renaming what already exists is a separate,
+owner-approved operation — a rename is a delete plus an add to every consumer
+of that path (`rules/global.md` §5 Code Preservation).
 <!-- digest:end -->
 
 ## On Error
