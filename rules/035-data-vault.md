@@ -3,7 +3,7 @@ title: "035: Personal-Data Vault (Single Source of Truth)"
 description: Where personal/uncommittable data lives — a central vault outside every repo, with one resolver.
 location: rules/035-data-vault.md
 agent_priority: High
-last_updated: 2026-06-30
+last_updated: 2026-07-28
 ---
 
 # Personal-Data Vault
@@ -52,7 +52,9 @@ One vault per project, outside any repository:
 ├── shared/      # injected fragments (e.g. personal_data.tex)
 ├── references/  # private documents (diplomas, notes, plans)
 ├── secrets/     # tokens, .env, credentials
-└── workspace/   # SESSION.md (per-project work log), NEXT-SESSION.md (work orders) — NO TODO.md
+└── workspace/   # SESSION.md, architect-memory.md, NEXT-SESSION.md — NO TODO.md
+    └── inbox/       # manager↔architect notes, owner decisions
+        └── done/    # processed notes — whatever stays in inbox/ is open work
 ```
 
 Central, cross-project memory lives alongside the project vaults:
@@ -61,6 +63,7 @@ Central, cross-project memory lives alongside the project vaults:
 ~/.local/share/agent-projects/_memory/
 ├── MEMORY.md    # index only — one line per entry
 ├── TODO.md      # THE one task file — every project has a `## <project>` section
+├── handoffs/    # raw session transcripts, append-only backup
 ├── sessions/    # cross-repo session summaries (1-2 lines per session)
 └── archive/     # entries older than ~6 months
 ```
