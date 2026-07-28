@@ -3,7 +3,7 @@ title: "050: Session Start Protocol"
 description: At the start of every session, read TODO.md, triage the mailbox, and announce pending items before taking any action.
 location: rules/050-session-start.md
 agent_priority: High
-last_updated: 2026-07-27
+last_updated: 2026-07-28
 ---
 
 # Session Start Protocol
@@ -33,9 +33,10 @@ Then continue with the steps below.
    which the pre-commit hook does not scan).
 2. Read the Mailbox (`<vault>/workspace/inbox/`): list **every** unread item
    (manager↔architect notes, owner decisions) and **triage each one** — answer
-   it, turn it into a WO, or close it with a written verdict. An inbox note
-   left merely "announced" is an unanswered request; requests arriving here
-   follow rule 090.
+   it, turn it into a WO, or close it with a written verdict. After processing,
+   **move** the note to `<vault>/workspace/inbox/done/` — never delete it.
+   **Whatever remains in `inbox/` is open work.** An inbox note left merely
+   "announced" is an unanswered request; requests arriving here follow rule 090.
 3. If the central TODO exists: read it and announce all open items grouped by priority level.
 4. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
 5. Ask: "Where do we start?"
@@ -91,7 +92,7 @@ Follow this full lifecycle for every task — keep it in mind throughout, not on
 
 1. **Branch first** — `git checkout -b feature/<task>`; never edit or commit on `main`/`master`.
 2. **Work in small, reviewable steps.** Keep shell commands readable (no long `&&` chains) so the user can supervise each one.
-3. **Update docs before staging** — `README.md` (usage / features / structure), technical docs under `docs/`, `CHANGELOG.md`, the local `SESSION.md` work log, and `TODO.md` (per the rule above).
+3. **Update docs before staging** — `README.md` (usage / features / structure), technical docs under `docs/`, `CHANGELOG.md`, the local `SESSION.md` work log, `<vault>/workspace/architect-memory.md`, and `TODO.md` (per the rule above).
 4. **Security-scan** the staged diff (`git diff --cached`): no names, emails, phones, keys, or personal paths — and never describe the sensitive value in the commit message.
 5. **Commit** with a conventional message. A minor follow-up to the previous commit is a `git commit --amend` (while unpushed), NOT a new commit.
 6. **Merge gate** — stop after committing and get explicit user approval before merging to `main`.
@@ -102,9 +103,12 @@ Follow this full lifecycle for every task — keep it in mind throughout, not on
 State that must survive a session lives in **durable files** — `SESSION.md`
 (vault `workspace/`), the central `_memory/TODO.md`, and memory — never only in a
 long live context window. A raw transcript backup is written **automatically** on
-session end (`_memory/handoffs/*.jsonl`), so nothing is ever truly lost; but the
-curated, readable `SESSION.md` is the **agent's** job — update it proactively when
-the owner signals wrap-up, before any `/clear`.
+session end (`_memory/handoffs/*.jsonl`), so nothing is ever truly lost. To
+reconstruct a previous session, an agent starts from the raw `.jsonl` in
+`${XDG_DATA_HOME:-~/.local/share}/agent-projects/_memory/handoffs/` (newest
+first) and writes the curated result into that project's `SESSION.md`. Raw is
+the source, `SESSION.md` is the product — and keeping it current, proactively,
+when the owner signals wrap-up and before any `/clear`, is the **agent's** job.
 
 - **Never `/clear` mid-task.** Finish the step, update `SESSION.md`, then clear.
 - **Between tasks:** write `SESSION.md`, then `/clear` (or `/compact` above
@@ -121,6 +125,27 @@ The rule is: **externalise the useful part, then context is cheap to reload and
 expensive anti-pattern.
 <!-- digest:end -->
 
+## Architect Memory (Non-Negotiable)
+
+<!-- digest:start -->
+**Architect memory** — the warm-start file every architect writes at the end of
+a task, alongside `SESSION.md`:
+
+- **Location:** `<vault>/workspace/architect-memory.md` — one per project, never
+  in the repo.
+- **Content:** decisions taken and *why*; gates/guardrails established; status of
+  open WOs; and "where I stopped / what is next". It is **not** a work log — the
+  chronological log is `SESSION.md`. This is the memory that survives *between
+  dispatches*.
+- **Scope of warmth:** the goal is a **fast cold restart** of an architect, **not**
+  simulating an always-live session. Cross-day warmth is not needed, because
+  context is `/clear`ed every time it passes ~150k; in-session warmth is enough.
+- **Backstop, not substitute:** the `Stop` hook `check-session-saved.sh` already
+  blocks the closing message of a heavy session when `SESSION.md` **or**
+  `architect-memory.md` was not updated. The hook is the backstop; this rule is
+  the obligation.
+<!-- digest:end -->
+
 ## Closeout-Agent Architecture
 
 <!-- digest:start -->
@@ -128,7 +153,7 @@ expensive anti-pattern.
 **Solution:**
 
 - The architect makes all decisions but leaves only a short "closeout note" (decisions/open status, a few lines) at the end of the task.
-- A cheap sub-agent (e.g., `Haiku`, `Sonnet`, or `agy $0`) is invoked to do the mechanical writing: update `SESSION.md`, `README`, `CHANGELOG`, `docs`, stage the changes, and run `git commit --amend` per rule 040.
+- A cheap sub-agent (e.g., `Haiku`, `Sonnet`, or `agy $0`) is invoked to do the mechanical writing: update `SESSION.md`, `<vault>/workspace/architect-memory.md`, `README`, `CHANGELOG`, `docs`, stage the changes, and run `git commit --amend` per rule 040.
 - **Hybrid Timing (Main + Fallback):**
   - **Main Path:** A `SessionEnd` hook invokes the cheap agent with the architect's closeout note to write the digest immediately at the end of the session.
   - **Safety Net:** `SessionStart` checks if a digest was created for the previous session's `jsonl`. If not (e.g., due to a crash where the hook didn't fire), it runs the cheap agent on the raw backup before proceeding.
