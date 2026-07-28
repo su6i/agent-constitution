@@ -41,6 +41,9 @@
     },
     {
       "pattern": "^https://exa.ai"
+    },
+    {
+      "pattern": "^https://fal.ai"
     }
   ],
   "replacementPatterns": [
