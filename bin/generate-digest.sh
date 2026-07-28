@@ -82,7 +82,11 @@ digest_hash="$(printf '%s' "$hash_input" | shasum -a 256 | awk '{print $1}')"
 extract() {
     awk '
         /<!-- digest:start -->/ { in_block = 1; next }
-        /<!-- digest:end -->/   { in_block = 0; next }
+        # Close with a blank line: one file may contribute several disjoint
+        # blocks, and without this the last line of one block is glued to the
+        # first line of the next. The blank-line collapse below turns any
+        # resulting double blank into a single one.
+        /<!-- digest:end -->/   { in_block = 0; print ""; next }
         /<!-- digest -->/        { sub(/<!-- digest -->/, ""); if (NF > 0) print; next }
         in_block                { print }
     ' "$1"
@@ -102,8 +106,10 @@ header="# Rules Digest — Non-Negotiables (auto-generated)
 "
 
 # Body starts with `## From X.md` directly — no leading blank line. Each
-# section contributes `## From X\n\n<content>`; the previous section's
-# last newline gives exactly one blank line between sections.
+# section contributes `## From X\n\n<content>\n\n` and must terminate itself:
+# `$(...)` strips the trailing newlines off `$block`/`$joined`, so a section
+# that does not append its own separator glues its last line onto the next
+# `## From` header — which stops being a heading at all.
 body=""
 for f in ${files[@]+"${files[@]}"}; do
     bn="$(basename "$f")"
@@ -117,11 +123,12 @@ for f in ${files[@]+"${files[@]}"}; do
             NF==0 && prev_blank        { next }
             { print; prev_blank = (NF==0) }
         ')"
-        body+="## From $bn"$'\n\n'"$joined"
+        body+="## From $bn"$'\n\n'"$joined"$'\n\n'
     fi
 done
 
-footer=$'\n<!-- digest-hash: '"$digest_hash"' -->'
+# Body already ends with a blank line, so the footer must not add another.
+footer='<!-- digest-hash: '"$digest_hash"' -->'
 content="$header$body$footer"
 
 # ── --check: exit 1 if committed digest would differ ──────────────────────

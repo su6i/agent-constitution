@@ -13,6 +13,7 @@ rather than asking the owner to run it and paste the output back — relaying
 costs the same tokens twice plus a round-trip. **Exception:** hours-long
 interactive tasks (training/benchmark grids) go to a separate owner-started
 session. This becomes a MUST once ai-router `wo-0014`'s enforcement hook lands.
+
 Any command the agent asks the human to run must be runnable **as-is in a
 brand-new terminal**:
 
@@ -24,6 +25,7 @@ brand-new terminal**:
   marked (e.g. `<PASTE-TOKEN-HERE>`).
 - If a step needs more than one command, give a numbered list — one
   copy-pasteable line per step.
+
 All repository content is English only — code, comments, identifiers,
 print/log strings, commit messages, documentation, and config files. The whole
 world reads this code. This applies to **every** project, not just this repo.
@@ -40,6 +42,38 @@ Enforcement is mechanical, not prose: the pre-commit hook and CI scan staged
 added lines for Arabic-script characters (U+0600–U+06FF) outside the allowed
 paths and block the commit; a periodic sweep tool cleans up pre-existing
 content.
+
+### Names are ASCII, content is not the same question
+
+Everything above governs what a file **says**. This governs what a file is
+**called**, and it is stricter, because the two are read by different things.
+
+Every file and directory **name** — in any repository and in the vault, and
+including `NOTE-`, `WO-`, `BRIEF-` and any other generated artefact — is
+English and ASCII-only. The working charset is `[A-Za-z0-9._-]` plus `/`; the
+hard, enforced boundary is ASCII (bytes `0x20`–`0x7E`).
+
+The **content** of those files is unaffected: repo content follows the English
+rule above, and a vault note may be written in any language its reader prefers.
+A note written in Persian is fine; a note whose *filename* carries those
+Persian words is not — rename it to `NOTE-2026-07-24-owner-directives.md` and
+leave the text inside exactly as it was. (This paragraph deliberately shows no
+counter-example verbatim: a committed rule file is repo content and is bound by
+the English-only rule above, including when the subject is that very rule.)
+
+Why names are held to a stricter standard than content: names are what tooling
+greps and globs, what URLs percent-encode, what shells word-split, and what
+changes shape when a path crosses filesystems, archives, or a `rsync`. Content
+is read by people, who cope. `docs/fa/` is already ASCII and stays exactly as
+it is — a Persian *path* was never the exception, only Persian *text*.
+
+Enforcement: pre-commit Rule 8 blocks any newly added, copied or renamed path
+containing a non-ASCII byte, and runs on merges too. It is deliberately
+forward-looking — it does not fire on existing paths — so adopting the rule
+never blocks unrelated work. Renaming what already exists is a separate,
+owner-approved operation — a rename is a delete plus an add to every consumer
+of that path (`rules/global.md` §5 Code Preservation).
+
 Every error you observe — lint, type, test, build, LaTeX, runtime, deprecation
 warning — must be either **fixed now** or **recorded in the central
 `_memory/TODO.md`** (the project's `## <project>` section — rule 050) for later.
@@ -51,10 +85,13 @@ Seeing an error and moving on without doing one of those two is forbidden.
   item under the project's section in the central `_memory/TODO.md` with the
   exact `file:line` and the error message.
 - Applies to errors surfaced by any tool you run, not only the files you edited.
+
 Every piece of knowledge acquired by any agent (architect or worker) during any task must be **recorded** — we pay for every token.
 
 - **Mandatory Extraction:** Before archiving, deleting, or closing any repository or session, extracting and recording its knowledge is mandatory and obvious (do not ask for permission).
-- This requirement underscores the necessity of a knowledge-service (RAG) in the AI router to ensure all acquired knowledge is properly logged and centrally maintained instead of being scattered or lost.## From 035-data-vault.md
+- This requirement underscores the necessity of a knowledge-service (RAG) in the AI router to ensure all acquired knowledge is properly logged and centrally maintained instead of being scattered or lost.
+
+## From 035-data-vault.md
 
 **If a file must never be committed, it must not live inside the repo.**
 
@@ -62,6 +99,7 @@ Every piece of knowledge acquired by any agent (architect or worker) during any 
 accident away from a commit (e.g. it can enter through a **merge**, which the
 `pre-commit` hook does not run on). The only safe place for uncommittable data is
 **outside the repo**, in the central vault.
+
 A committed `CLAUDE.md` (and every harness bootloader — `GEMINI.md`, `GROK.md`,
 `QWEN.md`, `MINIMAX.md`, `.cursorrules`, `.windsurfrules`,
 `.github/copilot-instructions.md`) is **public**. It must be **generic, English,
@@ -79,7 +117,31 @@ ever entering git.
 Enforcement is mechanical: the pre-commit hook blocks a `CLAUDE.md` whose content
 does not match `templates/CLAUDE.md` (hash), and the PII scan blocks personal
 data in any bootloader. History that already leaked such data is a
-rule-035/040 incident — scrub it (`git filter-repo`) and force-push.## From 036-skill-versioning.md
+rule-035/040 incident — scrub it (`git filter-repo`) and force-push.
+
+The first level of `$XDG_DATA_HOME/agent-projects/` contains **exactly** two
+kinds of entry and nothing else:
+
+1. one directory per **repository**, named by the slug resolved below;
+2. `_memory` — the shared cross-project space.
+
+The owner is not a repository, so the owner's mailbox is **`_memory/inbox-owner/`**,
+never a directory sitting beside the repo vaults.
+
+Any tool or hook that creates a vault directory must first establish that the
+slug belongs to a real repository — the slug appears in `_memory/REGISTRY.md`,
+or the repository root is inside the owner's repository directory. If neither
+holds, it writes to its global/append-only log and stops. A hook that calls
+`mkdir -p` on whatever cwd it happens to see manufactures vaults for benchmark
+runs and scratch clones, and a fabricated vault is indistinguishable from a
+real one a week later — every consumer that enumerates the top level then
+treats the noise as authoritative. Never create `REGISTRY.md` from a hook: a
+missing registry means "unverified", not "empty".
+
+Vault directory and file names follow rule 000 §Language Policy — ASCII, like
+everywhere else.
+
+## From 036-skill-versioning.md
 
 **Every skill file must carry `version:` and `updated:` in its frontmatter:**
 
@@ -101,7 +163,9 @@ updated: 2026-06-30 # ISO date of the last change
 2. Set `updated:` to today's date.
 
 A skill edit without a version+date bump is an **incomplete change** — the same
-status as code changed without updating docs (`040-git`). Do not commit it.## From 040-git.md
+status as code changed without updating docs (`040-git`). Do not commit it.
+
+## From 040-git.md
 
 The per-commit scan only sees **added** lines — a leak already sitting in a
 tracked file is never re-flagged (this is how a public `CLAUDE.md` leaked names,
@@ -111,6 +175,7 @@ not just the diff** — for secrets / personal data (`bin/security-audit.sh`). A
 finding blocks the merge until the file is scrubbed (moved to the vault per 035)
 or explicitly allow-listed. A leak found in history is a rule-035/040 incident:
 purge with `git filter-repo` and force-push (owner only).
+
 When a commit fixes or touches a security/privacy issue, the commit message must
 **never describe the issue or reveal the sensitive data**. Forbidden examples:
 
@@ -130,6 +195,7 @@ Rules:
 - Applies to the subject, body, and any trailer.
 - The same principle applies to hook/CI output: report the file and the *type*
   of finding, never the matched value.
+
 **Author email:** Every commit must be signed with `<your-git-email>`.
 Before committing, verify: `git config user.email` returns `<your-git-email>`.
 If not, set it: `git config user.email "<your-git-email>"`.
@@ -145,6 +211,7 @@ Forbidden in all forms:
 
 Commit messages document the *change*, not *who or what* produced it.
 The human author is the sole credited contributor.
+
 The full lifecycle of every change, in order:
 
 1. **Agent commits** on the feature branch (one task = one commit).
@@ -187,6 +254,7 @@ The full lifecycle of every change, in order:
 Merging before approval removes the user's ability to reject broken changes
 without a revert. Pushing by the agent removes the user's last checkpoint
 before anything becomes public — both are forbidden.
+
 Files used only for our own notes and session memory — `TODO.md`, `SESSION.md`,
 `TASKS.md`, `ROADMAP.md`, `*.session.md`, `*.local.md` — must **never** be
 committed or pushed to GitHub, in this repo or any project repo.
@@ -195,7 +263,9 @@ committed or pushed to GitHub, in this repo or any project repo.
 - The pre-commit hook (`templates/hooks/pre-commit`, Rule 3) blocks them at
   the git level even if someone force-adds with `git add -f`.
 - If one of these files is already tracked in a repo, remove it with
-  `git rm --cached <file>` and add it to `.gitignore` — do not just edit it.## From 045-single-source-docs.md
+  `git rm --cached <file>` and add it to `.gitignore` — do not just edit it.
+
+## From 045-single-source-docs.md
 
 Every piece of project knowledge has exactly one home:
 
@@ -215,6 +285,7 @@ Every piece of project knowledge has exactly one home:
   session you notice the conflict; do not "interpret around" it.
 - **When a decision changes, edit its single home first**, then update
   pointers. A change that only lands in a log or a TODO is not a decision.
+
 If a vault-class file (private doc, TODO/SESSION-class file per `040`) is
 found **committed** in any repo:
 
@@ -224,12 +295,15 @@ found **committed** in any repo:
    `git filter-repo` + reflog expire + gc). `git rm --cached` alone leaves it
    in history forever.
 3. If the repo has a remote that already received it, treat it as a leak:
-   force-push the rewrite and note it in the central TODO.## From 050-session-start.md
+   force-push the rewrite and note it in the central TODO.
+
+## From 050-session-start.md
 
 Before ANY action in a new session:
 
 1. Read `rules/000-core.md` and `rules/040-git.md` (plus any rule relevant to the task).
 2. Post a short, free-form acknowledgement that you have read them and will comply — covering at least: branch-first (never `main`), no AI co-authorship, the pre-commit security scan, `--amend` for minor follow-ups, readable commands (no long `&&` chains), and the merge gate.
+
 **At the start of every session — before any action — these steps are mandatory:**
 
 1. Read the **single central TODO** at
@@ -248,6 +322,7 @@ Before ANY action in a new session:
 3. If the central TODO exists: read it and announce all open items grouped by priority level.
 4. Announce **open branches**: run `bin/open-branches.sh --here` (or `git branch --no-merged main`) and list any unmerged / stale (>14 days) branches so they get finished, merged, or deleted — half-done branches must not be forgotten.
 5. Ask: "Where do we start?"
+
 **All tasks — for every project — go in the one central TODO**
 (`_memory/TODO.md`), under that project's `## <project>` section. Never create a
 per-repo `TODO.md`. New task → add it under the right project section. This is how a
@@ -259,6 +334,7 @@ solo operator sees every project's work in one place and nothing is forgotten.
 - Update the status if present
 
 A task is not done until the central TODO reflects it.
+
 State that must survive a session lives in **durable files** — `SESSION.md`
 (vault `workspace/`), the central `_memory/TODO.md`, and memory — never only in a
 long live context window. A raw transcript backup is written **automatically** on
@@ -282,6 +358,7 @@ when the owner signals wrap-up and before any `/clear`, is the **agent's** job.
 The rule is: **externalise the useful part, then context is cheap to reload and
 `/clear` costs nothing.** Preserving raw context in the window instead is the
 expensive anti-pattern.
+
 **Architect memory** — the warm-start file every architect writes at the end of
 a task, alongside `SESSION.md`:
 
@@ -298,6 +375,7 @@ a task, alongside `SESSION.md`:
   blocks the closing message of a heavy session when `SESSION.md` **or**
   `architect-memory.md` was not updated. The hook is the backstop; this rule is
   the obligation.
+
 **Problem:** Saving the session by the architect in a fat context is the most expensive state.
 **Solution:**
 
@@ -314,7 +392,9 @@ a task, alongside `SESSION.md`:
   are replaced in place by a one-line pointer and their full text is moved to
   `<workspace>/archive/SESSION-<YYYY>.md`. Idempotent — safe to run every
   closeout even if nothing is due for archiving.
-- **Merge is always done by the architect/owner** (to avoid branch-rename incidents).## From 070-work-orders.md
+- **Merge is always done by the architect/owner** (to avoid branch-rename incidents).
+
+## From 070-work-orders.md
 
 1. **Executor** — the exact agent/model that will run it, e.g. `gemini`
    (free), `deepseek-flash`, `deepseek-pro`, `minimax-3 (CodeWhale)`,
@@ -329,6 +409,7 @@ a task, alongside `SESSION.md`:
    order to the executor: read `rules/DIGEST.md` (or the listed files)
    **before writing anything**. A WO without rule references is invalid.
 3. **Complexity** — TRIVIAL / MODERATE / CRITICAL (rule 000).
+
 **$0 first (owner ruling 2026-07-13).** The default channel for implementation
 is a zero-cost one — agy Gemini 3.1 Pro (subscription, agentic) or the free
 Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
@@ -341,6 +422,7 @@ Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
 | Live facts: does X exist, version / licence / API behaviour checks | **`delegate_research`** (grok) | A ~$0.003 call settles it — never answer from model memory, never spend premium context on it. A negative from one search model is not proof of non-existence (two real models were once reported "nonexistent"), so a negative needs a second channel. |
 | Deep debugging, multi-system glue, quality-sensitive documents | **Sonnet** | flash-class models lose the thread in layered debugging (wo-0003); on Arix Sense 0005 a flash execution came back with 13 blocking defects that only independent review caught. |
 | Constitution rule text, architecture, WO authoring, review and synthesis, path decisions | **the architect's premium model** (Opus/Fable) | Expensive — reserved for what the others cannot do. Cheap workers never edit rule text. |
+
 1. **Gemini creates files sloppily** (owner ruling): every Gemini task brief
    must spell out the exact absolute path of every input and every output, and
    repeat the permitted write scope (`experiments/<agent>/` plus the named
@@ -356,6 +438,7 @@ Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
    (architect → Sonnet dispatcher/reviewer → `$0` worker), including the
    exemptions that keep a task in the architect's own hands. This table picks
    the executor; 085 picks the chain.
+
 - Phases sized for one branch + one commit each (rule 040); executor stops
   for review between phases.
 - **Script-first:** anything bash/python can do must be specified as a
@@ -367,12 +450,14 @@ Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
 - **Definition of Done** with copy-pasteable absolute-path commands, one per
   line, each with its expected result (rule 000 §Commands).
 - Never an instruction to merge or push without explicit owner approval.
+
 Every round-trip to the architect re-sends the full premium context — so the
 architect never leaves the owner without the next move. Every architect turn
 that finishes a task, a review, or a WO **must end with the exact paste-ready
 command or message for the next step** (e.g. the text the owner pastes into
 the executor's session, or the single command to run). No "ask me when
 ready" — the next action ships with the current answer.
+
 Executor output is never merged on trust. In order:
 
 1. **Mechanical** (script — `bin/review-gate.sh`): working tree clean;
@@ -390,7 +475,9 @@ Executor output is never merged on trust. In order:
 
 An execution report without the review verdict is not mergeable. The
 executor's "ready to test" message must itself follow rule 040 §Review —
-test commands with expected results, never just merge/push commands.## From 075-independent-review.md
+test commands with expected results, never just merge/push commands.
+
+## From 075-independent-review.md
 
 **Whoever writes or modifies code never approves it.** This applies
 recursively:
@@ -411,6 +498,7 @@ recursively:
    flagged, run the DoD proof commands. The architect does NOT re-read the
    whole diff — burning premium context on work two agents already
    verified is the anti-pattern this rule exists to prevent.
+
 Match the verifier to the stakes — accuracy without waste (capability-based, not cost-based):
 
 | Work under review | Minimum independent reviewer |
@@ -422,6 +510,7 @@ Match the verifier to the stakes — accuracy without waste (capability-based, n
 
 The reviewer's model/agent name and verdict date are recorded in the WO
 `## Review` appendix — "reviewed" without *who* is not reviewed.
+
 For WO execution, the default pipeline is **review-and-repair** — the
 reviewer fixes what it finds instead of bouncing rounds back to the
 executor (each bounce costs a full context reload + a re-review anyway):
@@ -442,6 +531,7 @@ executor (each bounce costs a full context reload + a re-review anyway):
 Why this shape: defects caught pre-merge cost one amend; defects caught
 post-merge cost a bug hunt, a new WO, and a re-review — always route the
 tokens to the pre-merge side.
+
 Fixing a worker's defect on the branch repairs one delivery. Fixing the
 instruction that produced it repairs every future one. **The loop is the duty
 of the architect who delegated**, not of the reviewer and not of the worker:
@@ -461,7 +551,9 @@ Tone, explicitly (owner ruling 2026-07-23): this is **better management, not
 catching the agent out**. The runlog exists to improve dispatch, and a defect
 traced to a vague WO is the architect's finding about itself.
 
-Evidence base: `ai-router/workspace/EXECUTOR-RUNLOG.md`.## From 080-knowledge-capture.md
+Evidence base: `ai-router/workspace/EXECUTOR-RUNLOG.md`.
+
+## From 080-knowledge-capture.md
 
 
 ## 1. When to Capture
@@ -516,7 +608,9 @@ TRIVIAL sessions are exempt from this field. For MODERATE and CRITICAL sessions,
 - `artifacts`: A list of paths to updated or newly created skill files or documentation.
 - `reason_for_partial/NA`: If status is `PARTIAL` or `N/A`.
 
-Failure to include this field, or an incomplete report for MODERATE/CRITICAL sessions, will trigger a review gate failure and require remediation.## From 085-orchestration-topology.md
+Failure to include this field, or an incomplete report for MODERATE/CRITICAL sessions, will trigger a review gate failure and require remediation.
+
+## From 085-orchestration-topology.md
 
 
 ## The Topology Law
@@ -649,7 +743,9 @@ Agents may NOT create a new directory — in a repo OR the vault — without man
 
 Every session that commits must leave a SESSION.md summary before the owner
 is told "safe to /clear" — enforced fail-closed by
-`~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).## From 090-written-requests.md
+`~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).
+
+## From 090-written-requests.md
 
 1. **Write it down first.** Any complex or lengthy request for owner approval —
    a rule review, a WO sign-off, a choice between detailed options — is written
@@ -666,7 +762,9 @@ is told "safe to /clear" — enforced fail-closed by
 4. **Exceptions.** A short, single-context question may be asked directly in
    chat. And this rule does **not** override rule 000 §Commands or rule 040
    §Review: copy-pasteable command blocks are always printed in the chat, in
-   full, with absolute paths.## From 095-rule-change-broadcast.md
+   full, with absolute paths.
+
+## From 095-rule-change-broadcast.md
 
 Any merge into `main` that adds, deletes, or edits a file under `rules/` is a
 **rule change** and triggers all three of the following. Partial compliance is
@@ -698,4 +796,5 @@ Ownership, so that none of the three is nobody's job:
 **Constitution-side changes ripple by symlink** (`.agent/constitution ->`
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
-<!-- digest-hash: acf87c0c4235d3f993176849e7251afe334a9d7e710c1a231be0a2b740d58516 -->
+
+<!-- digest-hash: c348b0c3299259f8cb14e61015fe1cdcc0196a9bb8455bdc7ca1eb263fdf5aa4 -->

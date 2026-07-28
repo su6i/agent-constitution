@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-29 — docs: ASCII path names, vault top level, two script defects
+
+### Added
+
+- **`rules/000-core.md` §Language Policy** — new subsection "Names are ASCII,
+  content is not the same question". Every file and directory **name**, in any
+  repo and in the vault (including `NOTE-`/`WO-`/`BRIEF-` artefacts), is
+  English and ASCII-only; the file's content language is governed separately
+  and is unchanged. Names are what tooling globs and what URLs encode; content
+  is read by people (owner directive 2026-07-24, item 2).
+- **`rules/035-data-vault.md` §Vault Top Level** — the first level of
+  `agent-projects/` holds exactly one directory per repository plus `_memory`.
+  The owner is not a repository, so the owner's mailbox is
+  `_memory/inbox-owner/`. Any tool creating a vault directory must first prove
+  the slug is a real project (a `REGISTRY.md` row, or a repo under the owner's
+  repository directory); a missing registry means "unverified", not "empty"
+  (owner directive 2026-07-24, item 7).
+- **`templates/hooks/pre-commit` Rule 8** — blocks a newly added, copied or
+  renamed path containing a non-ASCII byte. Runs on merges (a merge is how such
+  a path enters unreviewed) but only on new paths, so it never fires on files
+  that predate the rule.
+- **`templates/claude-code-hooks/session-snapshot.sh`** — the live SessionEnd
+  hook now has a reviewable copy in the repo, which it never had.
+
+### Fixed
+
+- **`bin/generate-digest.sh`** — each section's last line was glued onto the
+  next `## From <file>.md` header, because `$(...)` strips the trailing newline
+  the composition assumed was there. 11 of the 12 section headers in
+  `rules/DIGEST.md` were consequently not headers at all — in the one file
+  cheap models read instead of the full rules tree. Sections now terminate
+  themselves; `rules/DIGEST.md` regenerated.
+- **`session-snapshot.sh` vault write** — the hook ran `mkdir -p` on whatever
+  cwd it saw, manufacturing top-level vault directories for benchmark runs and
+  scratch clones. Now gated on `_memory/REGISTRY.md` or the owner's repository
+  directory. The unconditional global snapshot file is untouched: nothing is
+  lost, only fake vaults are not created. The registry match is anchored to the
+  row's first table cell and is case-insensitive — the vault slug is lowercased
+  while the registry keeps the repo's own casing (`ApplyForge`, `Arix`,
+  `LinguaFlash`), so a case-sensitive match would silently miss real projects.
+
+---
+
 ## 2026-07-28 — fix: treat HTTP 429 as alive in link check
 
 ### Changed

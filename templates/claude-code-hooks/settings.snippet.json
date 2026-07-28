@@ -3,7 +3,8 @@
     "PreCompact":  [{ "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/save-handoff.sh",   "timeout": 15 }] }],
     "PostCompact": [{ "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/save-summary.sh",    "timeout": 15 }] }],
     "SessionStart":[{ "matcher": "*", "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/session-resume.sh", "timeout": 10 }] }],
-    "SessionEnd":  [{ "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/save-handoff.sh",   "timeout": 15 }] }]
+    "SessionEnd":  [{ "hooks": [{ "type": "command", "command": "bash ~/.claude/hooks/save-handoff.sh",   "timeout": 15 },
+                                { "type": "command", "command": "bash ~/.claude/hooks/session-snapshot.sh", "timeout": 15 }] }]
   },
   "autoCompactWindow": 200000
 }

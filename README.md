@@ -98,6 +98,11 @@ blocks a commit whose `.rules-ack` is missing or stale. It is hash-based only �
 a new branch needs no fresh ack — it skips merge commits, and it is a silent
 no-op in any repo that has not installed `bin/ack-rules.sh`.
 
+The same hook's Rule 8 blocks a newly added or renamed path whose **name**
+contains a non-ASCII byte ([`rules/000 §Language Policy`](rules/000-core.md)).
+Only new paths are checked, so it never fires on files that predate the rule,
+and the file's content language is a separate question.
+
 ### Core Features
 
 - **⚖️ The Neural Gavel:** A strict `.cursorrules` router that prevents the Agent from guessing.

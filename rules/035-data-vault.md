@@ -61,12 +61,40 @@ Central, cross-project memory lives alongside the project vaults:
 
 ```
 ~/.local/share/agent-projects/_memory/
-├── MEMORY.md    # index only — one line per entry
-├── TODO.md      # THE one task file — every project has a `## <project>` section
-├── handoffs/    # raw session transcripts, append-only backup
-├── sessions/    # cross-repo session summaries (1-2 lines per session)
-└── archive/     # entries older than ~6 months
+├── MEMORY.md      # index only — one line per entry
+├── TODO.md        # THE one task file — every project has a `## <project>` section
+├── REGISTRY.md    # every real repository slug and its status
+├── handoffs/      # raw session transcripts, append-only backup
+├── sessions/      # cross-repo session summaries (1-2 lines per session)
+├── inbox-owner/   # the OWNER's mailbox — the owner is not a repo (see below)
+└── archive/       # entries older than ~6 months
 ```
+
+## Vault Top Level
+
+<!-- digest:start -->
+The first level of `$XDG_DATA_HOME/agent-projects/` contains **exactly** two
+kinds of entry and nothing else:
+
+1. one directory per **repository**, named by the slug resolved below;
+2. `_memory` — the shared cross-project space.
+
+The owner is not a repository, so the owner's mailbox is **`_memory/inbox-owner/`**,
+never a directory sitting beside the repo vaults.
+
+Any tool or hook that creates a vault directory must first establish that the
+slug belongs to a real repository — the slug appears in `_memory/REGISTRY.md`,
+or the repository root is inside the owner's repository directory. If neither
+holds, it writes to its global/append-only log and stops. A hook that calls
+`mkdir -p` on whatever cwd it happens to see manufactures vaults for benchmark
+runs and scratch clones, and a fabricated vault is indistinguishable from a
+real one a week later — every consumer that enumerates the top level then
+treats the noise as authoritative. Never create `REGISTRY.md` from a hook: a
+missing registry means "unverified", not "empty".
+
+Vault directory and file names follow rule 000 §Language Policy — ASCII, like
+everywhere else.
+<!-- digest:end -->
 
 ## Resolver (one resolution order everywhere)
 
