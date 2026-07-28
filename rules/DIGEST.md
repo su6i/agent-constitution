@@ -352,6 +352,10 @@ Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
    broken" never enters the docs without independent verification.
 4. **No conclusion from n=1.** This table changes only through a reproducible
    benchmark (the `ai-router` delegation ledger) or an explicit owner ruling.
+5. **Who dispatches whom** is fixed by rule 085 §Three-Layer Delegation
+   (architect → Sonnet dispatcher/reviewer → `$0` worker), including the
+   exemptions that keep a task in the architect's own hands. This table picks
+   the executor; 085 picks the chain.
 - Phases sized for one branch + one commit each (rule 040); executor stops
   for review between phases.
 - **Script-first:** anything bash/python can do must be specified as a
@@ -437,7 +441,27 @@ executor (each bounce costs a full context reload + a re-review anyway):
 
 Why this shape: defects caught pre-merge cost one amend; defects caught
 post-merge cost a bug hunt, a new WO, and a re-review — always route the
-tokens to the pre-merge side.## From 080-knowledge-capture.md
+tokens to the pre-merge side.
+Fixing a worker's defect on the branch repairs one delivery. Fixing the
+instruction that produced it repairs every future one. **The loop is the duty
+of the architect who delegated**, not of the reviewer and not of the worker:
+
+1. A defect found in review is repaired on the branch (pipeline above).
+2. The architect asks the one question that matters: *did my WO or brief make
+   this defect likely?* Ambiguous scope, a missing absolute path, an unstated
+   expected result, a gate the executor could not have known about.
+3. If yes, the fix goes back into the **WO template, the brief, or the routing
+   table** in the same session — not onto a wishlist.
+4. A defect that recurs across executors is evidence about the *instruction*;
+   a defect that recurs with one executor is evidence about the routing table
+   (rule 070 §Executor Routing, which changes only on reproducible evidence or
+   an owner ruling).
+
+Tone, explicitly (owner ruling 2026-07-23): this is **better management, not
+catching the agent out**. The runlog exists to improve dispatch, and a defect
+traced to a vague WO is the architect's finding about itself.
+
+Evidence base: `ai-router/workspace/EXECUTOR-RUNLOG.md`.## From 080-knowledge-capture.md
 
 
 ## 1. When to Capture
@@ -464,6 +488,24 @@ Knowledge must be captured in the most reusable and discoverable format possible
 - **Upstream Catalogs:** If no local skill fits, consult `.claude/skill-sources.md` for an upstream skill to adopt before authoring anything new.
 - **New Skill Creation:** If the knowledge represents a novel, self-contained, and reusable capability, create a new skill file (`skills/<skill-name>.md`, flat layout) adhering to `rules/036-skill-versioning.md`.
 - **Architecture Docs:** For broader strategic insights, architectural patterns, or complex decision flows that don't fit a single skill, document them in `docs/INFORMATION-ARCHITECTURE.md` or a new, appropriately named document under `docs/`.
+
+## 3b. Teaching Notes to the Owner (`agent-notes`)
+
+Owner ruling 2026-07-23. Sections 1–3 capture knowledge for *agents*; this one
+captures it for the *owner*. Whenever an agent explains something instructive
+in chat — how a mechanism works, why an approach was chosen, a diagnosis worth
+keeping — that explanation is also written to `~/Documents/agent-notes/`.
+
+- Filename `YYYY-MM-DD-topic.md`, **English/ASCII** (the note body may be in
+  any language).
+- Header names the author agent, the repo, and the session id, so a note can
+  be traced back to the work that produced it.
+- The authoritative format lives in that folder's own `README.md`; follow it
+  rather than re-inventing a layout here (rule 045: one home per piece of
+  knowledge).
+
+Chat scrolls away and sessions are cleared. An explanation that existed only
+in a transcript will be asked for — and re-derived — a second time.
 
 ## 4. Fail-Closed Gate: Knowledge Capture Report
 
@@ -523,6 +565,51 @@ The manager maintains ONE cross-project queue (`_memory/QUEUE.md`) that sequence
 
 *Data flow constraint*: Metadata up, never code/diffs to manager.
 
+## Three-Layer Delegation
+
+Steps 4–7 above have a fixed shape for implementation WOs. The owner approved
+it on 2026-07-21; it stayed a proposal and sessions therefore ignored it. It is
+a rule from 2026-07-28.
+
+Default for an implementation WO of roughly 200–500 lines (code + tests +
+docs). Each layer does only what the layer below cannot:
+
+| Layer | Agent | Does | Must not |
+|---|---|---|---|
+| 3 — architect | premium (Opus/Fable) | writes the WO, dispatches layer 2, runs a short independent final check (git log + tests + lint) | read the full diff, implement |
+| 2 — dispatcher/reviewer | Sonnet subagent | dispatches the WO to the worker, reviews architect-style (tests from a neutral CWD, DoD checked live, executor claims distrusted), repairs and amends on the branch, hands up **only with green tests** | author the WO it reviews |
+| 1 — worker | agy / Gemini 3.1 Pro (`$0`) | executes the whole WO on the branch under the injected runlog gates | merge, push, decide scope |
+
+Binding clauses:
+
+1. **The default code channel is agy, not flash** — the `$0` ladder of rule 070
+   §Executor Routing decides the executor; the layers decide who talks to whom.
+2. **The worker stays warm.** The first verify failure goes back to the *same*
+   worker session, which still holds the context. The reviewer layer enters
+   from the second failure onward — a cold reviewer re-deriving what the worker
+   already knows is the expensive path.
+3. **The architect's final check is not removable.** Layer 2 can overclaim as
+   easily as layer 1; the check is a few commands, not a re-read of the diff.
+4. **Usage per run goes to the manager** (which layer, how long, what it cost)
+   so the executor benchmark accumulates evidence instead of anecdote.
+
+Exempt from the three layers — the architect writes directly:
+
+- a change under ~40 lines, or a small fix to worker output after a failed verify;
+- secrets and config wiring;
+- design-critical logic where correctness *is* the task (algorithm, security,
+  protocol);
+- **constitution rule text** (rule 070 §Executor Routing: cheap workers never
+  edit rule text).
+
+Delegating is still not optional outside those exemptions: an architect that
+implements a routine 300-line WO itself has burned premium quota on `$0` work.
+
+Evidence base: `_memory`-side note `NOTE-2026-07-21-three-layer-delegation-proposal.md`
+— three consecutive merge-ready deliveries (`wo-0021`, `wo-0017`, `wo-0018`),
+worker cost `$0`, real blocking defects caught in layer 2, premium involvement
+compressed to "write the WO, dispatch, final check".
+
 ## Boundaries (blast radius)
 
 - **A repo agent stays in its own repo.** It must NOT read, diagnose, or fix
@@ -579,5 +666,36 @@ is told "safe to /clear" — enforced fail-closed by
 4. **Exceptions.** A short, single-context question may be asked directly in
    chat. And this rule does **not** override rule 000 §Commands or rule 040
    §Review: copy-pasteable command blocks are always printed in the chat, in
-   full, with absolute paths.
-<!-- digest-hash: 13d8544dcb1de37a2e4050dd567b01004df1d597ce066c2dddde8010406e0589 -->
+   full, with absolute paths.## From 095-rule-change-broadcast.md
+
+Any merge into `main` that adds, deletes, or edits a file under `rules/` is a
+**rule change** and triggers all three of the following. Partial compliance is
+non-compliance — an un-re-indexed change is invisible to every agent that asks
+the knowledge service instead of reading the file.
+
+1. **CHANGELOG entry** in the constitution repo, naming the rule file and what
+   changed in it — not "updated rules". This is the durable record; the other
+   two steps are delivery.
+2. **Broadcast note** to the inbox of every active architect, sent through the
+   ai-router note channel (`send_note`), addressed per rule 085 §Message
+   addresses. Content: rule number, one line on what changed, the absolute path
+   of the file — pointer only, never the rule text (rule 045: one home per
+   piece of knowledge). Open sessions are reached by the note landing in the
+   inbox they triage at their next task boundary (rule 050).
+3. **RAG re-index** triggered for the rules corpus.
+
+Ownership, so that none of the three is nobody's job:
+
+- The **architect who merged the change** sends the note and triggers the
+  re-index. It is part of the merge, not a follow-up task.
+- The **ai-router architect owns the RAG index** — its build, its freshness,
+  and the trigger endpoint. Other architects call the trigger; they never
+  reach into the index.
+- The **manager audits weekly**: for each rule-touching CHANGELOG entry of the
+  past week, was a note sent and was the index re-indexed after it. A miss is
+  reported to the owner, not silently repaired.
+
+**Constitution-side changes ripple by symlink** (`.agent/constitution ->`
+the repo, rule 085): consuming repos need no pull, which is exactly why the
+change is silent and needs announcing.
+<!-- digest-hash: acf87c0c4235d3f993176849e7251afe334a9d7e710c1a231be0a2b740d58516 -->

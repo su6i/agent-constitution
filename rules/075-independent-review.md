@@ -80,6 +80,31 @@ post-merge cost a bug hunt, a new WO, and a re-review — always route the
 tokens to the pre-merge side.
 <!-- digest:end -->
 
+## The defect→prompt loop
+
+<!-- digest:start -->
+Fixing a worker's defect on the branch repairs one delivery. Fixing the
+instruction that produced it repairs every future one. **The loop is the duty
+of the architect who delegated**, not of the reviewer and not of the worker:
+
+1. A defect found in review is repaired on the branch (pipeline above).
+2. The architect asks the one question that matters: *did my WO or brief make
+   this defect likely?* Ambiguous scope, a missing absolute path, an unstated
+   expected result, a gate the executor could not have known about.
+3. If yes, the fix goes back into the **WO template, the brief, or the routing
+   table** in the same session — not onto a wishlist.
+4. A defect that recurs across executors is evidence about the *instruction*;
+   a defect that recurs with one executor is evidence about the routing table
+   (rule 070 §Executor Routing, which changes only on reproducible evidence or
+   an owner ruling).
+
+Tone, explicitly (owner ruling 2026-07-23): this is **better management, not
+catching the agent out**. The runlog exists to improve dispatch, and a defect
+traced to a vague WO is the architect's finding about itself.
+
+Evidence base: `ai-router/workspace/EXECUTOR-RUNLOG.md`.
+<!-- digest:end -->
+
 ## DRAFT Rule Scrutiny
 
 - Before any DRAFT rule is promoted, the architect must **scrutinize it against all existing rules** and explicitly flag to the **owner** any contradiction or regression in rule quality.
