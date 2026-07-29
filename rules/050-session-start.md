@@ -3,7 +3,7 @@ title: "050: Session Start Protocol"
 description: At the start of every session, read TODO.md, triage the mailbox, and announce pending items before taking any action.
 location: rules/050-session-start.md
 agent_priority: High
-last_updated: 2026-07-28
+last_updated: 2026-07-29
 ---
 
 # Session Start Protocol
@@ -106,7 +106,9 @@ long live context window. A raw transcript backup is written **automatically** o
 session end (`_memory/handoffs/*.jsonl`), so nothing is ever truly lost. To
 reconstruct a previous session, an agent starts from the raw `.jsonl` in
 `${XDG_DATA_HOME:-~/.local/share}/agent-projects/_memory/handoffs/` (newest
-first) and writes the curated result into that project's `SESSION.md`. Raw is
+first — see **Where Transcripts Live** below for the exact paths, naming and
+retention of both transcript stores) and writes the curated result into that
+project's `SESSION.md`. Raw is
 the source, `SESSION.md` is the product — and keeping it current, proactively,
 when the owner signals wrap-up and before any `/clear`, is the **agent's** job.
 
@@ -123,6 +125,45 @@ when the owner signals wrap-up and before any `/clear`, is the **agent's** job.
 The rule is: **externalise the useful part, then context is cheap to reload and
 `/clear` costs nothing.** Preserving raw context in the window instead is the
 expensive anti-pattern.
+<!-- digest:end -->
+
+## Where Transcripts Live (Non-Negotiable)
+
+<!-- digest:start -->
+There are **two** transcript locations and they are not interchangeable. An agent
+asked to reconstruct a past session must know which one to open.
+
+| | Live store | Vault backup |
+|---|---|---|
+| Path | `~/.claude/projects/<cwd-slug>/<session-uuid>.jsonl` | `${XDG_DATA_HOME:-~/.local/share}/agent-projects/_memory/handoffs/<YYYYMMDD-HHMMSS>_<event>_<sid8>.jsonl` |
+| Written by | Claude Code itself, continuously, while the session runs | the `save-handoff` hook, on `PreCompact` and `SessionEnd` |
+| Named by | session UUID | timestamp + hook event + first 8 chars of the session id |
+| Owner | the tool — subject to its own retention (`cleanupPeriodDays`) | us |
+| Retention | tool-controlled; assume it can be pruned | **last 40 files only**, oldest deleted on every save |
+
+`<cwd-slug>` is the working directory with `/` and non-alphanumerics replaced by `-`
+— e.g. `/Users/su6i/@-github` becomes `-Users-su6i---github`. There is one such
+directory per working directory, so a repo you have not opened in months still has
+its transcripts there.
+
+**Which one to open:**
+
+1. **Recovering a session that has already ended** → the vault copy in `handoffs/`.
+   It is ours, its filename carries the date, and it survives tool-side cleanup.
+   Sort newest-first and match on the timestamp.
+2. **Recovering the session currently running** (it crashed, or you need the live
+   window) → only the live store has it; the hook has not fired yet.
+3. **Older than the last 40 sessions** → only the live store may still have it. The
+   vault prunes; Claude Code's own store often keeps more.
+
+**Both survive `/clear`.** Clearing empties the context window, not the disk — no
+transcript is ever lost by clearing. This is precisely why `/clear` is cheap and
+keeping a fat context alive is not.
+
+**Cheapest recovery path** (owner decree 2026-07-29): never ask a fat architect to
+summarise itself — that is a round-trip at maximum context price. `/clear` first,
+then have a `$0` worker read the raw `.jsonl` and write the curated result into
+`SESSION.md`. Raw is the source, `SESSION.md` is the product.
 <!-- digest:end -->
 
 ## Architect Memory (Non-Negotiable)
