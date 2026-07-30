@@ -50,6 +50,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-07-29 — docs: document both transcript locations in rule 050
+
+### Added
+
+- **`rules/050-session-start.md`** — new non-negotiable section **Where Transcripts
+  Live**. Agents were told to "start from the raw `.jsonl`" without ever being told
+  that two separate stores exist, so the recovery path was ambiguous every time.
+  The section names both exactly: the live store Claude Code writes continuously
+  (`~/.claude/projects/<cwd-slug>/<session-uuid>.jsonl`, tool-controlled retention)
+  and the vault backup our `save-handoff` hook writes on `PreCompact`/`SessionEnd`
+  (`_memory/handoffs/<timestamp>_<event>_<sid8>.jsonl`, **last 40 kept**), plus how
+  `<cwd-slug>` is derived and which store to open in which situation.
+
+### Changed
+
+- The Session Lifecycle section now cross-references the new section instead of
+  mentioning the handoff path in passing.
+
+---
+
 ## 2026-07-28 — fix: treat HTTP 429 as alive in link check
 
 ### Changed
