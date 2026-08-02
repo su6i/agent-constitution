@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-02 — docs: stable identifiers registry rule (075-identifiers.md)
+
+### Added
+
+- **`rules/075-identifiers.md`** — new rule establishing `_memory/REGISTRY-IDS.md` as the single source of truth for stable identifiers across tasks (`T-`), branches (`B-`), owner decisions (`D-`), and inbox notes (`N-`). Mandates permanent ID locking, 3-digit zero-padded numbers with 4-digit overflow above 900, forbidding ad-hoc per-message local numbering, and session-end registration.
+- Broadcast notification notes added to all active project inboxes.
+
+---
+
 ## 2026-07-29 — docs: ASCII path names, vault top level, two script defects
 
 ### Added

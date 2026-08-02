@@ -32,7 +32,7 @@ Read on demand, when the task touches the domain:
 - `rules/045-single-source-docs.md`, `rules/050-session-start.md`,
   `rules/055-cross-project-memory.md`, `rules/060-multi-interface.md`,
   `rules/070-work-orders.md` (mandatory when writing or executing a WO)
-- `rules/075-independent-review.md`, `rules/080-knowledge-capture.md`,
+- `rules/075-independent-review.md`, `rules/075-identifiers.md`, `rules/080-knowledge-capture.md`,
   `rules/085-orchestration-topology.md` (mandatory when delegating work),
   `rules/090-written-requests.md`, `rules/095-rule-change-broadcast.md`
   (mandatory when merging a change under `rules/`)
