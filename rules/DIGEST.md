@@ -514,6 +514,32 @@ An execution report without the review verdict is not mergeable. The
 executor's "ready to test" message must itself follow rule 040 §Review —
 test commands with expected results, never just merge/push commands.
 
+## From 075-identifiers.md
+
+**`_memory/REGISTRY-IDS.md` is the single source of truth for all system identifiers.**
+
+Identifiers must live outside session context so they remain valid across `/clear` resets and cross-session handoffs.
+
+Only the following official prefixes are permitted:
+
+- **`B-`**: Branch (`B-001`)
+- **`T-`**: Task (`T-001`)
+- **`D-`**: Owner Decision (`D-001`)
+- **`N-`**: Inbox Note (`N-001`)
+
+A new prefix may be introduced **only** by an explicit owner decision. Ad-hoc or per-message local numbering (e.g. referencing items as "1", "2", "3" in chat) is strictly forbidden.
+
+**Permanent Lock:** Every assigned ID is permanently bound to its single topic.
+Once assigned, an ID is never freed, reassigned, or reused — even after the item is completed, closed, or cancelled. Closed items must be moved to the "Closed" section of `_memory/REGISTRY-IDS.md`.
+
+1. **Sequential Allocation:** Next ID number = `max(existing numbers for prefix) + 1`.
+2. **Standard Format:** 3-digit zero-padded string (e.g., `T-007`, `B-012`).
+3. **Overflow Rule:** When a prefix reaches `900`, that prefix transitions to 4-digit formatting for subsequent allocations (e.g., `T-0900`, `T-0901`).
+4. **No Historical Rewriting:** Existing 3-digit IDs (e.g., `T-007`) are never retroactively rewritten when overflow occurs; they remain permanently valid.
+
+1. **Communication Requirement:** Any response or report to the owner that references numbered items must draw its numbers directly from `_memory/REGISTRY-IDS.md`. Local in-message numbering is prohibited.
+2. **Session End Registration:** Every architect is obligated to register any newly generated items in `_memory/REGISTRY-IDS.md` before session end (enforced mechanically via the `SessionEnd` hook backstop).
+
 ## From 075-independent-review.md
 
 **Whoever writes or modifies code never approves it.** This applies
@@ -834,4 +860,4 @@ Ownership, so that none of the three is nobody's job:
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
 
-<!-- digest-hash: a8bd5add2e5197df53145f34df2a3b9c7a2bd02804eaba8cedf8a13017c29dd9 -->
+<!-- digest-hash: 8533726570fb007551989d968f4159e3fdaba3d4b4bdf9b6f7421e9952646f9d -->
