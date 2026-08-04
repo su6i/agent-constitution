@@ -125,21 +125,31 @@ when the owner signals wrap-up and before any `/clear`, is the **agent's** job.
 The rule is: **externalise the useful part, then context is cheap to reload and
 `/clear` costs nothing.** Preserving raw context in the window instead is the
 expensive anti-pattern.
+
+### Mandatory Stepped Checkpoints (Owner Decree 2026-08-04)
+
+<!-- digest:start -->
+**ذخیره‌ی اجباریِ پله‌ای.** ذخیره‌ی وضعیت به یادآوریِ مدل بسته نیست؛ به رویدادِ ابزار بسته است (`PreToolUse`). چک‌پوینتِ اجباری در **هر ۵۰ هزار توکنِ کانتکست** (۵۰k، ۱۰۰k، ۱۵۰k، …) و **یک‌بار بلافاصله پیش از هر `git commit`**. هر چک‌پوینت رونوشتِ کاملِ transcript است، پس بیشترین چیزی که یک قطعیِ ناگهانی می‌بَرد کارِ بینِ دو پله است.
+
+**اعلام اجباری است:** بعد از هر ذخیره یک پیامِ کوتاه — «💾 سشن ذخیره شد در N هزار توکن» / «💾 سشن ذخیره شد — چک‌پوینتِ پیش از کامیت». ذخیره‌ی بی‌اعلام = ذخیره‌نکردن.
+پیاده‌سازیِ مرجع: `templates/claude-code-hooks/context-checkpoint.py`.
+
+*توجه مهم:* چک‌پوینتِ پله‌ای **پشتیبان (backstop)** ِ سشن است و هرگز **جایگزینِ** curate کردنِ `SESSION.md` نمی‌شود.
 <!-- digest:end -->
 
 ## Where Transcripts Live (Non-Negotiable)
 
 <!-- digest:start -->
-There are **two** transcript locations and they are not interchangeable. An agent
+There are **three** transcript locations and they are not interchangeable. An agent
 asked to reconstruct a past session must know which one to open.
 
-| | Live store | Vault backup |
-|---|---|---|
-| Path | `~/.claude/projects/<cwd-slug>/<session-uuid>.jsonl` | `${XDG_DATA_HOME:-~/.local/share}/agent-projects/_memory/handoffs/<YYYYMMDD-HHMMSS>_<event>_<sid8>.jsonl` |
-| Written by | Claude Code itself, continuously, while the session runs | the `save-handoff` hook, on `PreCompact` and `SessionEnd` |
-| Named by | session UUID | timestamp + hook event + first 8 chars of the session id |
-| Owner | the tool — subject to its own retention (`cleanupPeriodDays`) | us |
-| Retention | tool-controlled; assume it can be pruned | **last 40 files only**, oldest deleted on every save |
+| | Live store | Stepped Checkpoints | Vault backup |
+|---|---|---|---|
+| Path | `~/.claude/projects/<cwd-slug>/<session-uuid>.jsonl` | `${XDG_DATA_HOME:-~/.local/share}/agent-projects/_memory/handoffs/checkpoints/<ts>_<label>_<sid8>.jsonl` | `${XDG_DATA_HOME:-~/.local/share}/agent-projects/_memory/handoffs/<YYYYMMDD-HHMMSS>_<event>_<sid8>.jsonl` |
+| Written by | Claude Code itself, continuously, while the session runs | `context-checkpoint.py` hook, on `PreToolUse` (every 50k tokens & pre-commit) | the `save-handoff` hook, on `PreCompact` and `SessionEnd` |
+| Named by | session UUID | timestamp + step/precommit + first 8 chars of session id | timestamp + hook event + first 8 chars of the session id |
+| Owner | the tool — subject to its own retention (`cleanupPeriodDays`) | us | us |
+| Retention | tool-controlled; assume it can be pruned | **last 60 files only**, oldest deleted on every checkpoint | **last 40 files only**, oldest deleted on every save |
 
 `<cwd-slug>` is the working directory with `/` and non-alphanumerics replaced by `-`
 — e.g. `/Users/su6i/@-github` becomes `-Users-su6i---github`. There is one such
@@ -152,7 +162,7 @@ its transcripts there.
    It is ours, its filename carries the date, and it survives tool-side cleanup.
    Sort newest-first and match on the timestamp.
 2. **Recovering the session currently running** (it crashed, or you need the live
-   window) → only the live store has it; the hook has not fired yet.
+   window) → check `handoffs/checkpoints/` first (fast stepped checkpoint) or the live store.
 3. **Older than the last 40 sessions** → only the live store may still have it. The
    vault prunes; Claude Code's own store often keeps more.
 
