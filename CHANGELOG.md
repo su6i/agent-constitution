@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-05 — feat: version orphan hooks, update install.sh, and add stepped checkpoint rule (WO-T-031 / T-032)
+
+### Added
+
+- **`templates/claude-code-hooks/`** — versioned 9 orphan hooks (`workdir-guard.sh`, `check-session-saved.sh`, `stop-session-save.sh`, `session-narrative-end.sh`, `session-narrative-end.py`, `block-ai-attribution.py`, `context-warn.py`, `herdr-agent-state.sh`, `context-checkpoint.py`).
+- **`templates/claude-code-hooks/README.md`** — added hook inventory table covering all 13 hooks with event triggers, descriptions, and mandatory/optional classifications.
+- **`templates/claude-code-hooks/settings.snippet.json`** — updated to include hook registrations for all 13 constitution hooks.
+- **`rules/050-session-start.md`** — codified mandatory stepped context checkpoints (every 50k tokens & pre-commit) per owner decree 2026-08-04, and updated transcript stores table with `checkpoints/` location.
+
+### Changed
+
+- **`templates/claude-code-hooks/`** — updated `save-handoff.sh`, `save-summary.sh`, and `session-resume.sh` with latest local improvements, parameterized for zero hardcoded personal paths.
+- **`install.sh`** — added `--dry-run` flag support, automatic hook installation into `~/.claude/hooks/` with `.bak-<date>` backups on file differences, and idempotent `settings.snippet.json` merge into `~/.claude/settings.json` with settings backups to `<vault>/_memory/backups/`.
+- Regenerated `rules/DIGEST.md`.
+
+---
+
 ## 2026-08-02 — docs: stable identifiers registry rule (075-identifiers.md)
 
 ### Added

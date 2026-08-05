@@ -1,21 +1,40 @@
 # Claude Code session-protection hooks
 
-Claude Code hooks (settings.json — NOT git hooks) that guarantee no session data
+Claude Code hooks (`settings.json` — NOT git hooks) that guarantee no session data
 is lost across `/compact`, `/clear`, and exit.
 
-| Script | Event | What it does |
-|---|---|---|
-| `save-handoff.sh`  | PreCompact, SessionEnd | Backs up the full raw transcript → `_memory/handoffs/<ts>_<event>_<sid>.jsonl` (keeps 40) |
-| `save-summary.sh`  | PostCompact | Appends the compaction summary → `<vault>/workspace/SESSION.md` (readable digest) |
-| `session-resume.sh`| SessionStart | Injects a continuity pointer (central TODO section + latest backup) so the agent resumes per rule 050 |
-| `session-snapshot.sh` | SessionEnd | Appends a mechanical repo snapshot (branch, last commit, dirty count, ahead/behind) to the dated global file, and to `<vault>/workspace/SESSION.md` only for registered projects. |
+| Hook | Event | What it does | Mandatory / Optional |
+|---|---|---|---|
+| `save-handoff.sh` | `PreCompact`, `SessionEnd` | Backs up the full raw transcript → `_memory/handoffs/<ts>_<event>_<sid>.jsonl` (keeps 40) | Mandatory (اجباری) |
+| `save-summary.sh` | `PostCompact` | Appends the compaction summary → `<vault>/workspace/SESSION.md` (readable digest) | Mandatory (اجباری) |
+| `session-resume.sh` | `SessionStart` | Injects a continuity pointer (central TODO section + latest backup) & inbox notes per rule 050 | Mandatory (اجباری) |
+| `session-snapshot.sh` | `SessionEnd` | Appends a mechanical repo snapshot (branch, last commit, dirty count, ahead/behind) to SESSION.md and global log | Mandatory (اجباری) |
+| `workdir-guard.sh` | `PreToolUse` (Write\|Edit) | Enforces blast-radius gate: prevents cross-repo edits & WO/workspace leakage into working trees | Mandatory (اجباری) |
+| `check-session-saved.sh` | `SessionEnd`, `PostToolUse` (git commit/push), `Stop` | Fail-closed gate preventing clear/exit if SESSION.md is older than recent commits | Mandatory (اجباری) |
+| `stop-session-save.sh` | `Stop` | Systemic safety net: triggers background digest if commit was made but SESSION.md skipped | Mandatory (اجباری) |
+| `session-narrative-end.sh` | `SessionEnd` | Background wrapper for AI narrative summary generator | Optional (اختیاری) |
+| `session-narrative-end.py` | Background | Generates AI narrative summary of transcript span and appends to SESSION.md | Optional (اختیاری) |
+| `block-ai-attribution.py` | `PreToolUse` (Bash) | Pre-commit check blocking commit messages containing AI attribution trailers/emojis | Mandatory (اجباری) |
+| `context-warn.py` | `PostToolUse` (*) | Emits context warning at 100k and 150k token thresholds | Optional (اختیاری) |
+| `herdr-agent-state.sh` | `SessionStart` | Reports Claude session state to Herdr pane manager (if active) | Optional (اختیاری) |
+| `context-checkpoint.py` | `PreToolUse` (*) | Forced live checkpoint every 50k context tokens & before `git commit` → `_memory/handoffs/checkpoints/` | Mandatory (اجباری) |
 
 The vault write is gated on `_memory/REGISTRY.md` or a repo under `$HOME/@-github/`, so benchmark and throwaway directories never create a vault.
 
 ## Install
 
-1. `cp templates/claude-code-hooks/*.sh ~/.claude/hooks/ && chmod +x ~/.claude/hooks/*.sh`
-2. Merge `settings.snippet.json` into `~/.claude/settings.json` (merge the `hooks` arrays — do not replace existing hooks). `autoCompactWindow: 200000` opts into automatic trimming (safe, because PreCompact backs up first).
-3. Open `/hooks` once (or restart) so Claude Code reloads config.
+Run `install.sh` from the repository root:
+
+```bash
+bash install.sh
+```
+
+Or for a dry-run check:
+
+```bash
+bash install.sh --dry-run
+```
+
+`install.sh` automatically installs all hooks into `~/.claude/hooks/` with automatic backups (`.bak-<date>`) if destination files differ, and idempotently merges `settings.snippet.json` into `~/.claude/settings.json` (backing up settings to `<vault>/_memory/backups/`).
 
 Slug resolution matches `035-data-vault` (git remote basename, lowercased). Requires `jq`.
