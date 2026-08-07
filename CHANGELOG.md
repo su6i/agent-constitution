@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-07 — fix: serialise the session-digest hook so one session end writes one digest
+
+### Fixed
+
+- **`templates/claude-code-hooks/session-narrative-end.py`** — SESSION.md was
+  collecting byte-identical digests minutes apart under the same session id.
+  The cause was a missing lock, not a missing id check: `SessionEnd` fires once
+  per end reason, the `.sh` wrapper detaches each run with `nohup`, and the
+  transcript offset is only advanced *after* the 1–3 minute model call — so two
+  overlapping runs both read the same stale offset and both appended. An
+  exclusive `flock` now spans read-offset → summarise → append → write-offset,
+  which makes the second run re-read an advanced offset and exit at the
+  existing "nothing meaningful since the last digest" check. Deduplicating on
+  the session id remains wrong: one id legitimately spans many digests across
+  `/clear` and resume.
+
+---
+
 ## 2026-08-05 — feat: version orphan hooks, update install.sh, and add stepped checkpoint rule (WO-T-031 / T-032)
 
 ### Added
