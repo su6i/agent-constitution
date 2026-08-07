@@ -9,6 +9,7 @@ workspace/SESSION.md. Designed to be a no-op on any failure: never raises out
 to the caller, never blocks session end (the .sh wrapper already backgrounds
 this whole script).
 """
+import fcntl
 import json
 import os
 import re
@@ -212,7 +213,6 @@ def main():
     slug = project_slug(first_transcript_cwd(transcript_path) or cwd)
     ws = Path.home() / ".local" / "share" / "agent-projects" / slug / "workspace"
     session_md = ws / "SESSION.md"
-    marker = f"<!-- wo6-session:{session_id} -->"
 
     # Resume from where the previous digest stopped, NOT from the file start.
     #
@@ -227,6 +227,31 @@ def main():
     # A byte offset per transcript is format-independent: it does not care
     # whether the boundary was /clear, a resume, or a crash.
     offsets_path = Path.home() / ".claude" / "hooks" / ".digest-offsets.json"
+
+    # SessionEnd fires once per end reason (clear, logout, prompt_input_exit,
+    # other), and the .sh wrapper detaches each run with nohup. Two runs could
+    # therefore overlap: both read the same offset, both spent 1-3 minutes in
+    # the model call, and both appended — which is how SESSION.md got two
+    # byte-identical digests two minutes apart carrying the same session id.
+    # The marker was never the guard (a session id legitimately spans several
+    # digests, see above); the missing piece was mutual exclusion. Holding an
+    # exclusive lock across read-offset -> summarise -> append -> write-offset
+    # makes the second run re-read an advanced offset and fall out at the
+    # "nothing meaningful since the last digest" check below. Blocking is safe:
+    # the process is already detached, so nothing waits on it.
+    lock_path = Path.home() / ".claude" / "hooks" / ".digest.lock"
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(lock_path, "w") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        _write_digest(transcript_path, offsets_path, session_id, ws, session_md)
+
+
+def _write_digest(transcript_path, offsets_path, session_id, ws, session_md):
+    """Summarise the un-digested span of the transcript and append it.
+
+    Caller holds the digest lock; every offset read and write happens inside it.
+    """
+    marker = f"<!-- wo6-session:{session_id} -->"
     try:
         offsets = json.loads(offsets_path.read_text())
     except Exception:
