@@ -9,7 +9,7 @@ last_updated: 2026-07-20
 # Manager / Architect / Worker Topology
 
 Orchestrator-worker topology. One human, one manager, per-repo architects,
-per-repo workers, and independent reviewers ([[075-independent-review]]).
+per-repo workers, and independent reviewers ([[076-independent-review]]).
 
 <!-- digest:start -->
 
