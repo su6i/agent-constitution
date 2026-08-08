@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-08 — enforce rule 075 identifiers & rule 075/076 renumbering
+
+### Added
+
+- **`templates/claude-code-hooks/enforce-identifiers.py`** — Stop hook that enforces rule 075 by blocking sessions if the assistant presents a bare numbered decision/action list (without stable ID patterns).
+- Registered the new hook in `templates/claude-code-hooks/settings.snippet.json`.
+
+### Changed
+
+- **`rules/076-independent-review.md`** — Renumbered from 075 to 076 to resolve collision with `075-identifiers.md`.
+- Updated references to `075-independent-review` across `AGENTS.md`, `CHANGELOG.md`, `070-work-orders.md`, and `085-orchestration-topology.md`.
+- Regenerated `rules/DIGEST.md`.
+
 ## 2026-08-07 — fix: serialise the session-digest hook so one session end writes one digest
 
 ### Fixed
