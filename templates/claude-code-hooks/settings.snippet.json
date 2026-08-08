@@ -124,6 +124,11 @@
         "hooks": [
           {
             "type": "command",
+            "command": "python3 ~/.claude/hooks/enforce-identifiers.py",
+            "statusMessage": "⛔ checking for ad-hoc numbering"
+          },
+          {
+            "type": "command",
             "command": "bash ~/.claude/hooks/stop-session-save.sh"
           },
           {
