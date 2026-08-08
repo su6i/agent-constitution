@@ -1,7 +1,7 @@
 ---
-title: "075IndependentReview: Independent Review & Repair"
+title: "076IndependentReview: Independent Review & Repair"
 description: No agent approves its own work; review-and-repair pipeline with proportional verification and a cheap architect sign-off.
-location: rules/075-independent-review.md
+location: rules/076-independent-review.md
 agent_priority: High
 last_updated: 2026-07-16
 ---
