@@ -21,7 +21,7 @@ is lost across `/compact`, `/clear`, and exit.
 
 The vault write is gated on `_memory/REGISTRY.md` or a repo under `$HOME/@-github/`, so benchmark and throwaway directories never create a vault.
 
-### Why `session-narrative-end.py` takes a lock
+## Why `session-narrative-end.py` takes a lock
 
 `SessionEnd` fires once per end reason (`clear`, `logout`, `prompt_input_exit`,
 `other`) and the `.sh` wrapper detaches each run with `nohup`, so two runs can
