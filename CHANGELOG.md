@@ -163,7 +163,7 @@ items 1, 3 and 6), WO-0013.
   in chat are also written to `~/Documents/agent-notes/`
   (`YYYY-MM-DD-topic.md`, English filename, author/repo/session header; the
   format itself lives in that folder's README).
-- **`rules/075-independent-review.md` §The defect→prompt loop** — the
+- **`rules/076-independent-review.md` §The defect→prompt loop** — the
   delegating architect must ask whether its own WO made a reviewed defect
   likely, and fix the WO template/brief/routing table in the same session.
   Tone is fixed by owner ruling: better management, not catching the agent out.
@@ -173,7 +173,7 @@ items 1, 3 and 6), WO-0013.
 - **`rules/070-work-orders.md` §Routing companion rules** — new clause 5: this
   table picks the executor, rule 085 picks the chain.
 - **`AGENTS.md`** — the on-demand rule list stopped at 070 and never mentioned
-  075/080/085/090; extended, with 085 flagged as mandatory when delegating and
+  075/076/080/085/090; extended, with 085 flagged as mandatory when delegating and
   095 as mandatory when merging a rule change.
 - Regenerated `rules/DIGEST.md`.
 
@@ -294,7 +294,7 @@ items 1, 3 and 6), WO-0013.
   rule-065 draft (`feat/executor-routing-rule` @ `99d2a3f`) into 070. No clause was
   dropped: the table is refreshed to the `$0`-first ladder (owner ruling 2026-07-13),
   internet/fact checks route through `delegate_research`, and the two review-pass
-  clauses now cross-reference rule 075 and `## Post-Execution Review Gate` instead of
+  clauses now cross-reference rule 076 and `## Post-Execution Review Gate` instead of
   restating them.
 
 ### Changed
@@ -308,7 +308,7 @@ items 1, 3 and 6), WO-0013.
 
 ### Added
 
-- `rules/075-independent-review.md` — added `## DRAFT Rule Scrutiny` clause requiring architect scrutiny against existing rules before promotion.
+- `rules/076-independent-review.md` — added `## DRAFT Rule Scrutiny` clause requiring architect scrutiny against existing rules before promotion.
 
 ### Changed
 
@@ -402,7 +402,7 @@ items 1, 3 and 6), WO-0013.
 
 - Rule 050: Upgraded closeout-agent draft to rule with a hybrid timing approach (main path on SessionEnd, fallback on SessionStart).
 - Rule 070: Fixed markdownlint MD013 and MD025 errors.
-- Rule 075: Changed reviewer ladder to be capability-based instead of cost-based, prioritizing Gemini 3.1 Pro as MODERATE. Rejected the Headless Architect Review draft as it contradicts the core principle of cheap reviews.
+- Rule 076: Changed reviewer ladder to be capability-based instead of cost-based, prioritizing Gemini 3.1 Pro as MODERATE. Rejected the Headless Architect Review draft as it contradicts the core principle of cheap reviews.
 - Reconciled conflicting WO numbering and emptied quarantine.
 
 ### Fixed
@@ -414,11 +414,11 @@ items 1, 3 and 6), WO-0013.
   as rule 000 demands of every handed command. (Found live: owner ran the
   handed test block from the Arix repo.)
 
-## 2026-07-16 — rule 075: independent review & repair
+## 2026-07-16 — rule 076: independent review & repair
 
 ### Added
 
-- **`rules/075-independent-review.md`** — no agent approves its own work
+- **`rules/076-independent-review.md`** — no agent approves its own work
   (recursively: a reviewer's repairs need a third-party verifier); reviewer
   ladder proportional to task difficulty; review-and-repair as the default
   economical pipeline (reviewer amends fixes on the branch, mechanical gate
@@ -429,7 +429,7 @@ items 1, 3 and 6), WO-0013.
 ### Changed
 
 - `rules/070-work-orders.md` §Post-Execution Review Gate — reviewer is
-  never the author; cross-reference to rule 075; verdict must name the
+  never the author; cross-reference to rule 076; verdict must name the
   reviewing agent.
 
 ## 2026-07-15 — rule corrections: docs/ARCHITECTURE.md, Persian-in-docs/fa, command block, router door
