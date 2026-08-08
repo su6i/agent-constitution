@@ -464,7 +464,7 @@ Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
 | Class of work | Executor | Why / evidence |
 |---|---|---|
 | Audio/video, installing a TTS or model engine, anything environment-sensitive (disk, GPU, mounts) | **Gemini** ($0), else Sonnet | Owner ruling: you do not hand songwriting to a deaf man. On such a task DeepSeek filled the disk and reported the environment error as "no Metal / exFAT denies permission", never finding the reference already on disk. Gemini has a record of successful installs and listening evaluation. |
-| Self-contained mechanical text/code work — patterned refactor, file moves, boilerplate, tests | **$0 worker first** (agy / gemini via `delegate_worker`); deepseek-flash or minimax-3 only as paid fallback | wo-polycast-0002 finished on the paid channel for $0.51 but still needed a review pass; the same class now runs at $0. The review pass (rule 075) is mandatory either way. |
+| Self-contained mechanical text/code work — patterned refactor, file moves, boilerplate, tests | **$0 worker first** (agy / gemini via `delegate_worker`); deepseek-flash or minimax-3 only as paid fallback | wo-polycast-0002 finished on the paid channel for $0.51 but still needed a review pass; the same class now runs at $0. The review pass (rule 076) is mandatory either way. |
 | Live facts: does X exist, version / licence / API behaviour checks | **`delegate_research`** (grok) | A ~$0.003 call settles it — never answer from model memory, never spend premium context on it. A negative from one search model is not proof of non-existence (two real models were once reported "nonexistent"), so a negative needs a second channel. |
 | Deep debugging, multi-system glue, quality-sensitive documents | **Sonnet** | flash-class models lose the thread in layered debugging (wo-0003); on Arix Sense 0005 a flash execution came back with 13 blocking defects that only independent review caught. |
 | Constitution rule text, architecture, WO authoring, review and synthesis, path decisions | **the architect's premium model** (Opus/Fable) | Expensive — reserved for what the others cannot do. Cheap workers never edit rule text. |
@@ -476,7 +476,7 @@ Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
 2. A disk- or environment-heavy task carries a **sanity checklist as step 0 of
    the WO itself**: free disk space, mount present, destination writable.
 3. **An executor report is a claim, not evidence.** The review gate below and
-   rule 075 apply before any merge, and a claim of the form "the tool is
+   rule 076 apply before any merge, and a claim of the form "the tool is
    broken" never enters the docs without independent verification.
 4. **No conclusion from n=1.** This table changes only through a reproducible
    benchmark (the `ai-router` delegation ledger) or an explicit owner ruling.
@@ -513,7 +513,7 @@ Executor output is never merged on trust. In order:
    scan; commit count and message format per rule 040.
 2. **Reviewer** (architect or reviewer agent — **never the author**; who
    may review, the reviewer ladder, and the review-and-repair pipeline are
-   defined in rule 075): read the diff against the WO — scope creep,
+   defined in rule 076): read the diff against the WO — scope creep,
    content deleted without being ordered, tests faked or skipped, docs not
    updated. Verdict recorded in the WO file under a `## Review` appendix
    (date, reviewing agent, verdict, findings).
@@ -549,7 +549,7 @@ Once assigned, an ID is never freed, reassigned, or reused — even after the it
 1. **Communication Requirement:** Any response or report to the owner that references numbered items must draw its numbers directly from `_memory/REGISTRY-IDS.md`. Local in-message numbering is prohibited.
 2. **Session End Registration:** Every architect is obligated to register any newly generated items in `_memory/REGISTRY-IDS.md` before session end (enforced mechanically via the `SessionEnd` hook backstop).
 
-## From 075-independent-review.md
+## From 076-independent-review.md
 
 **Whoever writes or modifies code never approves it.** This applies
 recursively:
@@ -869,4 +869,4 @@ Ownership, so that none of the three is nobody's job:
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
 
-<!-- digest-hash: 5b0973ef0421bd51cb5ac44a3eccaf37f132d3b7936c418f4e1c2e90dbfa9ff1 -->
+<!-- digest-hash: 14e9cff09cf3d436d174f4518179b0b8f92ac3b420bcc287485a7828b2f7b347 -->
