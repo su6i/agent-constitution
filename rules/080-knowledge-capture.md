@@ -3,7 +3,7 @@ title: Rule 080: Knowledge Capture & Transfer
 description: Mandates the capture and structured transfer of agent judgment, strategies, and solutions into reusable skills or knowledge artifacts.
 location: rules/080-knowledge-capture.md
 agent_priority: CRITICAL
-last_updated: 2026-07-20
+last_updated: 2026-08-09
 ---
 
 Every session (especially MODERATE and CRITICAL complexity tasks) generates valuable judgment, problem-solving approaches, and strategic choices. This ephemeral knowledge must be captured and structured for reusability and transfer to other agents or future tasks. This rule complements `rules/000-core.md` §"No Knowledge Lost", defining the *how* and *when* of knowledge extraction.
@@ -52,6 +52,32 @@ keeping — that explanation is also written to `~/Documents/agent-notes/`.
 
 Chat scrolls away and sessions are cleared. An explanation that existed only
 in a transcript will be asked for — and re-derived — a second time.
+
+## 3c. Content Strategy Register (Owner Decree 2026-08-09)
+
+Owner ruling 2026-08-09. Content-production strategy — broken down **by
+platform** — is a standing knowledge asset, not a one-off chat answer: it
+must be captured as a durable reference in the Obsidian vault so it can be
+found again, reused across projects, and refined over time instead of being
+re-derived from scratch each time the topic comes up.
+
+- **Location:** `<vault>/idea/35-Content-Strategy/`, with one note per
+  platform category (e.g. YouTube, LinkedIn) plus an index MOC —
+  `35-Content-Strategy-MOC.md` — following the vault's existing `NN-Area/`
+  convention (see `00-Home.md`).
+- **What goes in:** validated strategies, not raw ideas — a rule of thumb
+  with the reasoning behind it, e.g. *"test demand with several short-form
+  videos in a topic before committing to a long-form one; this caps the
+  cost/time sunk into a long video nobody watches."* Each entry names the
+  platform, the rule, and the reasoning; a rule without its reasoning is not
+  reusable when circumstances change.
+- **Growth model:** append-only and refined over time — a new validated
+  strategy is a new entry or an edit to an existing one, never a rewrite that
+  drops prior reasoning. One note = one platform's strategy set, per the
+  vault's own "one note = one idea" rule (`00-Home.md`).
+- This is the vault-side complement to §3b: 3b captures explanations for the
+  owner, this captures **operational content strategy** so it compounds
+  instead of being re-explained on demand.
 
 ## 4. Fail-Closed Gate: Knowledge Capture Report
 

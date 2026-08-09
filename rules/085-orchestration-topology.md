@@ -3,7 +3,7 @@ title: "085OrchestrationTopology: Manager / Architect / Worker Topology"
 description: Hub-and-spoke agent topology; repo agents stay in their own repo, only the manager crosses repos, enforced by the working-dir guard.
 location: rules/085-orchestration-topology.md
 agent_priority: High
-last_updated: 2026-07-20
+last_updated: 2026-08-09
 ---
 
 # Manager / Architect / Worker Topology
@@ -42,11 +42,41 @@ Inboxes live in the vault, never inside a git repo. No agent may invent a mailbo
 
 The manager maintains ONE cross-project queue (`_memory/QUEUE.md`) that sequences every task across every repo. Every WO must appear in the queue with a tier + gate; a WO not in the queue is invisible and won't run.
 
+**The manager's own WOs live in `_memory/wo/`, never in
+`agent-projects/@-github/workspace/wo/`.** `@-github` is the manager's
+umbrella, not a repo with its own code — any WO the manager writes is
+cross-project by construction, so rule 070's single-repo path
+(`agent-projects/<repo>/workspace/wo/`) never applies to it, no matter how
+natural that path looks by analogy with the manager's own inbox
+(`agent-projects/@-github/workspace/inbox/`, above). See rule 070 §WO
+location for the full split and D-029 (2026-08-09) for the incident this
+closes; a PreToolUse guard (`templates/claude-code-hooks/workdir-guard.sh`)
+denies the wrong path mechanically.
+
+## Idea-to-WO Immediacy (Owner Decree 2026-08-09)
+
+**Every topic or idea handed to the manager immediately calls a warm
+architect to write a WO and place it in the queue — no exceptions, nothing
+deferred.** An idea that is only "noted" in a chat reply is a lost idea: chat
+scrolls away, sessions get `/clear`ed, and a note that never became a WO
+never enters `_memory/QUEUE.md`, so it is invisible to every future session
+(§Manager Charter above). Taking a note in the chat response is not a
+substitute for writing the WO — it is, at most, the raw material for one.
+
+Concretely: the owner names a topic → the manager spawns (or resumes) that
+repo's architect in the same turn → the architect writes the WO (rule 070
+format, in the correct location per §Manager Charter above) → the WO is
+added to `_memory/QUEUE.md` with a tier and gate, even if the gate is "needs
+owner decision" or "blocked on X". A topic without a WO-in-the-queue does not
+count as handled, regardless of how much was said about it in chat.
+
 ## End-to-End Management Workflow
 
 1. **owner** → manager (message)
 2. **manager** → writes task-note to repo architect's inbox (metadata + pointers only)
-3. **architect** → writes WO in `<repo>/workspace/wo/` (rule 070 format)
+3. **architect** → writes WO in `<repo>/workspace/wo/` (rule 070 format) —
+   this step is for a repo architect's own repo only; the manager's own
+   cross-project WOs follow §Manager Charter above, never this path
 4. **architect** → calls worker (agy $0 default) to implement
 5. **worker** → implements on a feature branch
 6. **reviewer** (headless architect, fresh context) → code review, verdict only

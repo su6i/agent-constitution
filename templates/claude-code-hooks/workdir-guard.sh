@@ -33,7 +33,22 @@ fi
 # Checked before the manager bypass on purpose — a repo must never hold a WO.
 case "$target" in
   "$GH_ROOT"/*/workspace/* | "$GH_ROOT"/*/wo/wo-*.md | "$GH_ROOT"/wo/wo-*.md)
-    reason="⛔ نشت WO/workspace: «$target» داخل working-tree ِ مخزن است. WOها، گزارش‌ها و فایل‌های workspace فقط در vault نوشته می‌شوند: $HOME/.local/share/agent-projects/<repo>/workspace/ (WO در …/workspace/wo/، task-note معمار در …/workspace/inbox/). این گیت برای همه فعال است — حتی مدیر و معمارِ همان مخزن. (کنارگذاشتن اضطراری: WORKDIR_GUARD=off)"
+    reason="⛔ نشت WO/workspace: «${target}» داخل working-tree ِ مخزن است. WOها، گزارش‌ها و فایل‌های workspace فقط در vault نوشته می‌شوند: $HOME/.local/share/agent-projects/<repo>/workspace/ (WO در …/workspace/wo/، task-note معمار در …/workspace/inbox/). این گیت برای همه فعال است — حتی مدیر و معمارِ همان مخزن. (کنارگذاشتن اضطراری: WORKDIR_GUARD=off)"
+    jq -cn --arg r "$reason" '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"deny",permissionDecisionReason:$r}}'
+    exit 0 ;;
+esac
+
+# ── Manager WO misplacement guard (D-029, 2026-08-09; applies to EVERYONE,
+# ── incl. manager — checked before the manager bypass on purpose) ──
+# `@-github` is the manager's umbrella, not a repo with its own code (rule
+# 070 §WO location / rule 085 §Manager Charter). A WO written under its vault
+# workspace is cross-project/managerial by definition and must live in
+# `_memory/wo/` as `wo-manager-NNNN[-slug].md`, never here. Incident this
+# closes: `wo-hooks-0001`, `wo-vault-0002/3/4` were found under
+# agent-projects/@-github/workspace/wo/ and had to be relocated.
+case "$target" in
+  "$HOME"/.local/share/agent-projects/@-github/workspace/wo/wo-*.md)
+    reason="⛔ مسیرِ غلطِ WO (D-029): «${target}» زیرِ agent-projects/@-github/workspace/wo/ است. @-github چترِ مدیر است نه یک مخزنِ کد، پس هر WO ای که این‌جا نوشته شود فرا-مخزنی/مدیریتی است. مقصدِ درست طبقِ قانونِ ۰۷۰: $HOME/.local/share/agent-projects/_memory/wo/wo-manager-NNNN-slug.md (شماره‌ی بعدی = max موجود + 1). اگر این WO واقعاً مختصِ یک مخزنِ خاص است، در agent-projects/<repo>/workspace/wo/ زیرِ همان مخزن بنویس، نه زیرِ @-github. (کنارگذاشتن اضطراری: WORKDIR_GUARD=off)"
     jq -cn --arg r "$reason" '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"deny",permissionDecisionReason:$r}}'
     exit 0 ;;
 esac
