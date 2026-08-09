@@ -91,6 +91,64 @@ Every piece of knowledge acquired by any agent (architect or worker) during any 
 - **Mandatory Extraction:** Before archiving, deleting, or closing any repository or session, extracting and recording its knowledge is mandatory and obvious (do not ask for permission).
 - This requirement underscores the necessity of a knowledge-service (RAG) in the AI router to ensure all acquired knowledge is properly logged and centrally maintained instead of being scattered or lost.
 
+## From 015-language-selection.md
+
+
+## Default Language: Python
+
+Python is the default for every project — ML/inference, CLI glue, orchestration,
+services, scripts, the entire application "glue". No project starts in Rust or
+Go on the strength of a general performance belief; Python is the baseline
+until a specific module is measured and found wanting.
+
+## Mandatory Gate: Profile First, Rewrite Second
+
+**No module moves to Rust or Go without a profiling number that justifies it.**
+
+1. Ship the module in Python first.
+2. Profile it under a realistic load (`cProfile`/`py-spy` for CPU,
+   `memory_profiler` for RAM, wall-clock for latency-sensitive paths).
+3. Only if the profile shows the module is the actual bottleneck — not a
+   guess, not "Rust is faster in general" — does a rewrite proposal go in a WO.
+4. The WO that proposes the rewrite **must carry the profiling numbers** (rule
+   070 §Mandatory Body — a WO without evidence is incomplete) and must justify
+   the ongoing cost of maintaining two languages in one codebase (build
+   tooling, CI matrix, the pool of people who can review both, FFI surface
+   area). No profiling number, no rewrite — this is non-negotiable, not a
+   style preference.
+
+Guessing which module is "obviously" slow and rewriting it anyway violates
+`rules/025-research-first.md` in the same way as guessing an API flag: find
+the number before writing the fix.
+
+## Which Language for Which Job
+
+| Language | When | Examples |
+|---|---|---|
+| **Python** | Default. ML/inference, glue, orchestration, CLIs, services where the bottleneck is I/O or an external call, not CPU. | Almost everything |
+| **Rust** | Low-latency / real-time paths where the profiled bottleneck is CPU-bound Python and the workload tolerates a compiled, memory-safe core. | Cueprompt's live-latency path, real-time audio processing |
+| **Go** | Network-facing services or concurrent CLIs where the bottleneck is concurrency/throughput, not raw numerical CPU work. | DevOps tooling, concurrent network utilities |
+
+This table is a starting classification, not a substitute for the profiling
+gate above — a candidate module still needs its own number before a rewrite
+is approved, even when it matches a row here by description.
+
+## FFI Boundary (Mandatory When a Rewrite Is Approved)
+
+A rewritten module is a *hot core* wrapped by the existing Python system, not
+a wholesale language migration:
+
+- **Rust →Python:** `PyO3` + `maturin`. The Rust crate exposes a narrow,
+  typed Python-callable surface; Python remains the caller and the glue.
+- **Go → Python:** `cgo` bindings, or — when `cgo`'s build complexity isn't
+  worth it — a separate Go binary invoked as a subprocess/service with a
+  defined I/O contract (stdin/stdout, HTTP, or a small RPC). Prefer the
+  separate-binary route unless the call frequency makes process/RPC overhead
+  the new bottleneck.
+
+The Python side keeps ownership of orchestration, tests, and CI entry points.
+A hot core does not get to redefine the project's primary language.
+
 ## From 035-data-vault.md
 
 **If a file must never be committed, it must not live inside the repo.**
@@ -233,7 +291,12 @@ The full lifecycle of every change, in order:
      `.markdownlint.json` from `.`), pass that config explicitly by absolute
      path (`--config <abs>/.markdownlint.json`) or the command silently lints
      against defaults and floods false errors from any other directory;
-   - **(2) the merge + branch-delete commands**, to run after approval;
+   - **(2) the merge + branch-delete commands**, to run after approval. The
+     `git merge` line **always carries a pre-written `-m "..."`** — composing
+     the merge message is never left to the owner (owner decision 2026-07-14 /
+     reaffirmed 2026-08-09: a bare `git merge --no-ff <branch>` handed over
+     without `-m` is itself a rule violation — incident:
+     `chore/vault-gitignore-scope` handed with no message drafted);
    - **(3) the push command**;
    - any cleanup command if the test creates artifacts.
    The owner runs merge/push themselves, or tells the executor to merge — but
@@ -242,7 +305,9 @@ The full lifecycle of every change, in order:
 4. **Agent amends** — fixes belonging to the same task go in with
    `git commit --amend`, **never** as a new commit. The branch keeps exactly
    one commit per task.
-5. **Only after explicit approval:** agent runs `git merge` + `git branch -d`.
+5. **Only after explicit approval:** agent runs `git merge` (with the `-m`
+   message already drafted at step 2 — never composed on the spot) +
+   `git branch -d`.
 6. **The user pushes — never the agent.** After merging, the agent hands over
    the push command per `000-core` "Commands Given to the User": complete,
    absolute path, one line, copy-pasteable into any fresh terminal, e.g.:
@@ -671,6 +736,32 @@ keeping — that explanation is also written to `~/Documents/agent-notes/`.
 Chat scrolls away and sessions are cleared. An explanation that existed only
 in a transcript will be asked for — and re-derived — a second time.
 
+## 3c. Content Strategy Register (Owner Decree 2026-08-09)
+
+Owner ruling 2026-08-09. Content-production strategy — broken down **by
+platform** — is a standing knowledge asset, not a one-off chat answer: it
+must be captured as a durable reference in the Obsidian vault so it can be
+found again, reused across projects, and refined over time instead of being
+re-derived from scratch each time the topic comes up.
+
+- **Location:** `<vault>/idea/35-Content-Strategy/`, with one note per
+  platform category (e.g. YouTube, LinkedIn) plus an index MOC —
+  `35-Content-Strategy-MOC.md` — following the vault's existing `NN-Area/`
+  convention (see `00-Home.md`).
+- **What goes in:** validated strategies, not raw ideas — a rule of thumb
+  with the reasoning behind it, e.g. *"test demand with several short-form
+  videos in a topic before committing to a long-form one; this caps the
+  cost/time sunk into a long video nobody watches."* Each entry names the
+  platform, the rule, and the reasoning; a rule without its reasoning is not
+  reusable when circumstances change.
+- **Growth model:** append-only and refined over time — a new validated
+  strategy is a new entry or an edit to an existing one, never a rewrite that
+  drops prior reasoning. One note = one platform's strategy set, per the
+  vault's own "one note = one idea" rule (`00-Home.md`).
+- This is the vault-side complement to §3b: 3b captures explanations for the
+  owner, this captures **operational content strategy** so it compounds
+  instead of being re-explained on demand.
+
 ## 4. Fail-Closed Gate: Knowledge Capture Report
 
 TRIVIAL sessions are exempt from this field. For MODERATE and CRITICAL sessions, the `SessionEnd` digest **MUST** include a `knowledge-capture:` field detailing:
@@ -714,11 +805,41 @@ Inboxes live in the vault, never inside a git repo. No agent may invent a mailbo
 
 The manager maintains ONE cross-project queue (`_memory/QUEUE.md`) that sequences every task across every repo. Every WO must appear in the queue with a tier + gate; a WO not in the queue is invisible and won't run.
 
+**The manager's own WOs live in `_memory/wo/`, never in
+`agent-projects/@-github/workspace/wo/`.** `@-github` is the manager's
+umbrella, not a repo with its own code — any WO the manager writes is
+cross-project by construction, so rule 070's single-repo path
+(`agent-projects/<repo>/workspace/wo/`) never applies to it, no matter how
+natural that path looks by analogy with the manager's own inbox
+(`agent-projects/@-github/workspace/inbox/`, above). See rule 070 §WO
+location for the full split and D-029 (2026-08-09) for the incident this
+closes; a PreToolUse guard (`templates/claude-code-hooks/workdir-guard.sh`)
+denies the wrong path mechanically.
+
+## Idea-to-WO Immediacy (Owner Decree 2026-08-09)
+
+**Every topic or idea handed to the manager immediately calls a warm
+architect to write a WO and place it in the queue — no exceptions, nothing
+deferred.** An idea that is only "noted" in a chat reply is a lost idea: chat
+scrolls away, sessions get `/clear`ed, and a note that never became a WO
+never enters `_memory/QUEUE.md`, so it is invisible to every future session
+(§Manager Charter above). Taking a note in the chat response is not a
+substitute for writing the WO — it is, at most, the raw material for one.
+
+Concretely: the owner names a topic → the manager spawns (or resumes) that
+repo's architect in the same turn → the architect writes the WO (rule 070
+format, in the correct location per §Manager Charter above) → the WO is
+added to `_memory/QUEUE.md` with a tier and gate, even if the gate is "needs
+owner decision" or "blocked on X". A topic without a WO-in-the-queue does not
+count as handled, regardless of how much was said about it in chat.
+
 ## End-to-End Management Workflow
 
 1. **owner** → manager (message)
 2. **manager** → writes task-note to repo architect's inbox (metadata + pointers only)
-3. **architect** → writes WO in `<repo>/workspace/wo/` (rule 070 format)
+3. **architect** → writes WO in `<repo>/workspace/wo/` (rule 070 format) —
+   this step is for a repo architect's own repo only; the manager's own
+   cross-project WOs follow §Manager Charter above, never this path
 4. **architect** → calls worker (agy $0 default) to implement
 5. **worker** → implements on a feature branch
 6. **reviewer** (headless architect, fresh context) → code review, verdict only
@@ -869,4 +990,4 @@ Ownership, so that none of the three is nobody's job:
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
 
-<!-- digest-hash: 14e9cff09cf3d436d174f4518179b0b8f92ac3b420bcc287485a7828b2f7b347 -->
+<!-- digest-hash: a57a2847ec7da370a65f57436820483a429d20e9b17990bf03a7c776f6d27557 -->

@@ -27,7 +27,7 @@ rejected by the git hooks and by review:
 
 Read on demand, when the task touches the domain:
 
-- `rules/010-python.md`, `rules/020-tdd.md`, `rules/025-research-first.md`
+- `rules/010-python.md`, `rules/015-language-selection.md`, `rules/020-tdd.md`, `rules/025-research-first.md`
 - `rules/030-security.md`, `rules/035-data-vault.md`, `rules/036-skill-versioning.md`
 - `rules/045-single-source-docs.md`, `rules/050-session-start.md`,
   `rules/055-cross-project-memory.md`, `rules/060-multi-interface.md`,

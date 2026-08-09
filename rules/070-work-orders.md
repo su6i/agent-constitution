@@ -3,7 +3,7 @@ title: "070WorkOrders: Work Order Standard"
 description: Mandatory structure, executor routing, handoff protocol, and post-execution review gate for work orders.
 location: rules/070-work-orders.md
 agent_priority: High
-last_updated: 2026-07-27
+last_updated: 2026-08-09
 ---
 
 # Work Order (WO) Rules
@@ -12,11 +12,28 @@ A work order is the contract between the architect (planner) and an executor
 agent. A WO that violates the rules poisons every downstream agent — so the
 Mandatory Reading (rule 000, `AGENTS.md`) applies to the WO **author** first.
 
-WOs live in the project vault (`<vault>/workspace/wo/`), never in the repo
-(rules 035/040). Naming: `wo-<project>-NNNN[-slug].md`; finished WOs move to
-`wo/done/`. Cross-project WOs live in `_memory/wo/` (manager WOs are named
-`wo-manager-NNNN[-slug].md`). The executor is NEVER in the filename, only in
-the header.
+**First question, before any WO is written: does this WO touch exactly one
+repo, or more than one?**
+
+- **Single-repo WO** (the work is scoped to one repo's own code): it lives in
+  that repo's own vault workspace, `agent-projects/<repo>/workspace/wo/`,
+  named `wo-<repo>-NNNN[-slug].md` — `<repo>` here is the **repo's own name**
+  (e.g. `agent-constitution`, `ai-router`), never the WO's topic.
+- **Cross-project / managerial WO** (touches more than one repo, or is
+  authored by the manager/`@-github` session, or targets something that is
+  not a repo at all — e.g. the Obsidian vault): it lives in **`_memory/wo/`**,
+  named `wo-manager-NNNN[-slug].md`. **`@-github` is never `<repo>` in the
+  single-repo path above** — it is the manager's umbrella, not a codebase, so
+  a WO placed under `agent-projects/@-github/workspace/wo/` is, by
+  definition, misfiled (D-029, 2026-08-09: `wo-hooks-0001`,
+  `wo-vault-0002/3/4` were found there and had to be relocated — see
+  `rules/085-orchestration-topology.md` §Manager Charter for the mechanical
+  guard that now blocks a repeat). A mechanical guard denies this at write
+  time (`templates/claude-code-hooks/workdir-guard.sh`).
+
+Either way: never in the repo's git working tree (rules 035/040). Finished WOs
+move to `wo/done/` in whichever of the two locations they were filed. The
+executor is NEVER in the filename, only in the header.
 
 ## Mandatory Header (every WO — no exceptions)
 
