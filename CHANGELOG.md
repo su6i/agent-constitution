@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-09 — codify five owner rulings (D-028, D-029, D-030 + two new)
+
+### Added
+
+- **`rules/015-language-selection.md`** (new) — Python is the default
+  language for every project; Rust/Go are permitted only for a profiled hot
+  path (Rust: low-latency/real-time, Go: network services/concurrent CLIs),
+  gated on a mandatory profile-first rule and a documented FFI boundary
+  (PyO3/maturin for Rust, cgo or a separate binary for Go). Codifies D-028.
+- **`rules/085-orchestration-topology.md`** — new §Idea-to-WO Immediacy: any
+  topic/idea handed to the manager immediately spawns a warm architect to
+  write a WO and place it in `_memory/QUEUE.md`; a chat note is never a
+  substitute for a WO. New owner decree, registered as D-037.
+- **`rules/080-knowledge-capture.md`** — new §3c Content Strategy Register:
+  content-production strategy, broken down per platform, is logged as a
+  durable reference under `<vault>/idea/35-Content-Strategy/`. New owner
+  decree, registered as D-038.
+
+### Changed
+
+- **`rules/040-git.md`** §Review→Amend→Merge→Push Protocol — the merge
+  command handed to the owner must always carry a pre-written `-m "..."`;
+  composing the merge message is never the owner's job (D-030).
+- **`rules/070-work-orders.md`** — reworded the WO-location split so the
+  cross-project/manager carve-out (`_memory/wo/`, `wo-manager-NNNN`) is
+  stated before the single-repo pattern, closing the ambiguity that let
+  cross-project WOs get filed under `agent-projects/@-github/workspace/wo/`
+  (D-029 root cause).
+- **`rules/085-orchestration-topology.md`** §Manager Charter — added an
+  explicit statement that the manager's own WOs never use the
+  `<repo>/workspace/wo/` pattern with `@-github` as `<repo>`; clarified step 3
+  of the End-to-End Workflow accordingly (D-029).
+- **`templates/claude-code-hooks/workdir-guard.sh`** (and the deployed
+  `~/.claude/hooks/workdir-guard.sh`) — added a PreToolUse guard that denies
+  writing `wo-*.md` under `agent-projects/@-github/workspace/wo/` and states
+  the correct `_memory/wo/` destination in the denial message (D-029
+  mechanical enforcement). While adding it, found and fixed a pre-existing
+  bug in the same script: bash 3.2 (macOS's system `/bin/bash`) corrupts a
+  bare `$var` expansion when it is immediately followed by a multi-byte UTF-8
+  character with no separator — every prior denial message's `«$target»`
+  silently dropped the file path (replaced with U+FFFD) instead of showing
+  it. Fixed by switching to the braced `${target}` form, which is unaffected.
+- Moved the 4 misfiled WOs from `agent-projects/@-github/workspace/wo/` to
+  `_memory/wo/` as `wo-manager-0010`..`0013`, and updated the references in
+  `_memory/QUEUE.md`, `@-github/workspace/architect-memory.md`, and
+  `@-github/workspace/SESSION.md` (D-029, vault-side — not part of this repo's
+  git history).
+- Regenerated `rules/DIGEST.md`.
+
 ## 2026-08-08 — enforce rule 075 identifiers & rule 075/076 renumbering
 
 ### Added
