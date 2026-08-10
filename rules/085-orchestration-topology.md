@@ -3,7 +3,7 @@ title: "085OrchestrationTopology: Manager / Architect / Worker Topology"
 description: Hub-and-spoke agent topology; repo agents stay in their own repo, only the manager crosses repos, enforced by the working-dir guard.
 location: rules/085-orchestration-topology.md
 agent_priority: High
-last_updated: 2026-08-09
+last_updated: 2026-08-10
 ---
 
 # Manager / Architect / Worker Topology
@@ -111,7 +111,11 @@ Binding clauses:
 2. **The worker stays warm.** The first verify failure goes back to the *same*
    worker session, which still holds the context. The reviewer layer enters
    from the second failure onward — a cold reviewer re-deriving what the worker
-   already knows is the expensive path.
+   already knows is the expensive path. See rule 076 §The defect→prompt loop
+   items 5–6 (owner ruling 2026-08-10) for the same discipline applied to a
+   report that is merely thin rather than gate-failing, the screenshot-evidence
+   extension for browsing/verification tasks, and the "suspect your prompt
+   first" corollary.
 3. **The architect's final check is not removable.** Layer 2 can overclaim as
    easily as layer 1; the check is a few commands, not a re-read of the diff.
 4. **Usage per run goes to the manager** (which layer, how long, what it cost)
@@ -133,6 +137,38 @@ Evidence base: `_memory`-side note `NOTE-2026-07-21-three-layer-delegation-propo
 — three consecutive merge-ready deliveries (`wo-0021`, `wo-0017`, `wo-0018`),
 worker cost `$0`, real blocking defects caught in layer 2, premium involvement
 compressed to "write the WO, dispatch, final check".
+
+<!-- digest:start -->
+
+## Maximum Low-Risk Parallelization (Owner Mandate 2026-08-10)
+
+Owner ruling 2026-08-10 — a **mandate, not permission**:
+
+> برای موازی‌سازی همیشه حداکثر موازی‌سازی کم‌ریسک رو انجام بده بدون پرسش
+
+If a hundred tasks could run in parallel with low risk and zero interference,
+the agent is **authorized to run all hundred without asking** — this
+explicitly covers dispatching WOs across different repos, and several WOs
+within the same repo when they do not touch the same files. Asking "should I
+parallelize these?" when the test below already answers yes is itself the
+failure mode this rule forbids.
+
+**The operative test:** parallelize whenever the tasks touch disjoint
+files/branches/repos AND none of them is a gate/blocker for another.
+Serialize only on a genuine conflict — the same file, the same branch, or a
+real dependency edge where one task's output is another's input.
+
+**Reconciling with context hygiene** (rule 050 §Session Lifecycle: "premium
+sessions run serially... all Claude sessions share one quota"): the two rules
+are not in tension once the layer is named. **Parallelism belongs to the
+workers** — agy/Gemini/DeepSeek run outside the shared premium quota, so
+fanning out a hundred worker dispatches costs nothing to run side by side.
+Premium architect/manager sessions still queue serially, one task each,
+because they share one metered quota. So: fan out worker dispatches
+aggressively and by default (this section); keep premium sessions to one
+active task at a time (§The Manager below).
+
+<!-- digest:end -->
 
 ## Boundaries (blast radius)
 
@@ -157,7 +193,10 @@ compressed to "write the WO, dispatch, final check".
   `~/.local/share/agent-projects/_memory/`; the manager re-reads them each
   turn. Architects report back ONE status line, not their work.
 - **Lightweight / on-demand.** All premium sessions share one quota and run
-  serially — the manager is not a heavy always-on session. Resting footprint is zero tokens.
+  serially — the manager is not a heavy always-on session. Resting footprint
+  is zero tokens. (This is about premium sessions specifically, not about
+  worker dispatch — see §Maximum Low-Risk Parallelization above, which fans
+  workers out aggressively.)
 - **Not a hard bottleneck**: For deep single-repo work, the owner may talk to that repo's architect directly. If the work has cross-repo impact, the architect drops a one-line note in the manager's inbox.
 
 ## No Submodules & Knowledge Service

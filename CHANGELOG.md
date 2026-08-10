@@ -7,6 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-10 — five owner rulings: parallelization, licenses, language, ids, worker feedback
+
+### Added
+
+- **`rules/085-orchestration-topology.md`** — new §Maximum Low-Risk
+  Parallelization: when tasks touch disjoint files, branches or repos and
+  none gates another, they are dispatched in parallel without asking; asking
+  permission when the test already answers yes is itself the error. Reconciles
+  the apparent conflict with serial premium sessions by naming the layer —
+  parallelism belongs to the $0 worker layer, not to premium architect
+  sessions.
+- **`rules/025-research-first.md`** — new §License Default for Third-Party
+  Code: absence of a LICENSE file or license field is read as absence of a
+  restriction, so the code is treated as usable; a license whose text
+  explicitly forbids the intended use blocks adoption. Supersedes two earlier
+  decisions that had blocked code purely for carrying no license.
+
+### Changed
+
+- **`rules/015-language-selection.md`** — the adoption gate is no longer
+  CPU/RAM only. Smaller binaries, genuine cross-platform distribution, higher
+  reliability and faster installation now count as qualifying benefits in
+  their own right, each requiring a written module-specific argument rather
+  than a general preference. Python remains the default and the bulk of every
+  codebase; the gate changes from "profile first" to "justify first".
+- **`rules/075-identifiers.md`** — a reply's closing owner-decision list must
+  carry the stable `REGISTRY-IDS` identifiers, so the owner can approve by
+  number; a list without them is incomplete, not merely terser.
+- **`rules/076-independent-review.md`** — when a worker returns incomplete
+  output, the reviewer re-prompts the *same warm* worker session with the
+  specific defect instead of redoing the work in premium context, records the
+  lesson in the executor runlog, and demands evidence the worker cannot
+  fabricate (a screenshot) for verification tasks.
+- **`templates/claude-code-hooks/enforce-identifiers.py`** — also catches the
+  "decision heading present but no identifier under it" failure mode.
+
+---
+
 ## 2026-08-09 — codify five owner rulings (D-028, D-029, D-030 + two new)
 
 ### Added
