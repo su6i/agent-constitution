@@ -1,9 +1,9 @@
 ---
 title: "075Identifiers: Stable Identifiers Registry (REGISTRY-IDS)"
-description: Canonical rule for stable, persistent IDs across branches, tasks, owner decisions, and inbox notes.
+description: Canonical rule for stable, persistent IDs across branches, tasks, owner decisions, and inbox notes. Every reply with pending owner items must close with an id-keyed decision list.
 location: rules/075-identifiers.md
 agent_priority: High
-last_updated: 2026-08-02
+last_updated: 2026-08-10
 ---
 
 # Stable Identifiers Registry (REGISTRY-IDS)
@@ -50,6 +50,23 @@ Once assigned, an ID is never freed, reassigned, or reused — even after the it
 ## Agent Obligations
 
 <!-- digest:start -->
-1. **Communication Requirement:** Any response or report to the owner that references numbered items must draw its numbers directly from `_memory/REGISTRY-IDS.md`. Local in-message numbering is prohibited.
+1. **Communication Requirement (tightened 2026-08-10):** Any response or
+   report to the owner that references numbered items must draw its numbers
+   directly from `_memory/REGISTRY-IDS.md`. Local in-message numbering is
+   prohibited. **Every reply that leaves anything pending on the owner's
+   side must end with a numbered decision/action list, and every line of
+   that list carries the item's stable id** (`B-`/`T-`/`D-`/`N-`). The owner
+   has flagged the gap twice — "چرا بازم منتظر تصمیم/اقدام مالک رو با
+   registry-ids ندادی؟" — a closing list without ids is not a lesser
+   violation than bare `1/2/3` numbering, it is the *same* violation moved to
+   the end of the message, and a reply missing it is incomplete.
 2. **Session End Registration:** Every architect is obligated to register any newly generated items in `_memory/REGISTRY-IDS.md` before session end (enforced mechanically via the `SessionEnd` hook backstop).
 <!-- digest:end -->
+
+Enforced mechanically by the `Stop` hook
+`templates/claude-code-hooks/enforce-identifiers.py`: it blocks bare numbered
+lists lacking an id (original check) **and**, per the 2026-08-10 tightening
+above, also blocks a message that contains an "awaiting owner decision/action"
+heading with no id anywhere after it — the exact failure mode the owner
+reported, where the heading exists but the ids under it don't. See the hook's
+own header comment for the literal patterns it matches.
