@@ -3,7 +3,7 @@ title: "076IndependentReview: Independent Review & Repair"
 description: No agent approves its own work; review-and-repair pipeline with proportional verification and a cheap architect sign-off.
 location: rules/076-independent-review.md
 agent_priority: High
-last_updated: 2026-07-16
+last_updated: 2026-08-10
 ---
 
 # Independent Review & Repair
@@ -97,6 +97,27 @@ of the architect who delegated**, not of the reviewer and not of the worker:
    a defect that recurs with one executor is evidence about the routing table
    (rule 070 §Executor Routing, which changes only on reproducible evidence or
    an owner ruling).
+5. **Re-prompt the same warm session first (owner ruling 2026-08-10).** When
+   a worker's report is incomplete or shallow, the architect's first move is
+   to re-prompt the *same* warm worker session with the specific defect — not
+   to silently redo the work itself in premium context. This is the same
+   discipline rule 085 §Three-Layer Delegation's "the worker stays warm"
+   clause already requires for a failed verify; it applies just as much to a
+   report that is merely thin as to one that fails a gate outright. For a
+   browsing/verification task specifically: demand the worker produce
+   **evidence it cannot fabricate** — e.g. a screenshot — as proof before
+   trusting the claim. Only if a second attempt with the defect named still
+   fails does the architect open a real browser (or otherwise do the check)
+   itself.
+6. **The corollary (owner ruling 2026-08-10): if the worker failed, suspect
+   your own prompt first.** Owner's stated reason is cost: "اگه بخوای همیشه
+   به جای بالابردن کیفیت پرومپت‌هات ... بخوای خودت انجام بدی، هزینه‌مون زیاد
+   میشه." A better prompt plus a recorded lesson — item 3 above (WO
+   template/brief/routing table) and, for a defect class rather than a
+   one-off, an appended entry in `WORKER-RULES.md` §Recorded defect patterns
+   (`_memory/WORKER-RULES.md`, in the same Symptom/Root cause/Rule shape) —
+   is the durable fix. Architect labour spent quietly redoing the task is not
+   a rescue; it is the expensive failure mode this loop exists to close off.
 
 Tone, explicitly (owner ruling 2026-07-23): this is **better management, not
 catching the agent out**. The runlog exists to improve dispatch, and a defect
