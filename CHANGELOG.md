@@ -121,6 +121,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-11 — forbid git stash/checkout --, close two hook enforcement gaps
+
+### Added
+
+- **`rules/040-git.md`** — new §Forbidden Working-Tree Commands: `git
+  checkout -- <file>` and `git stash` are now forbidden outright, since both
+  discard uncommitted work with no recovery path. `git restore --staged` is
+  explicitly carved out as unaffected (it never touches the working tree).
+- **`rules/070-work-orders.md`** — new Definition-of-Done bullet: a WO that
+  writes or edits any hook must prove it fires — registration in the
+  relevant `settings.json`/`.git/hooks`, plus a live trigger of both the
+  deny path and the allow path. A written-but-inert hook is not "done".
+
+### Fixed
+
+- **`templates/claude-code-hooks/enforce-identifiers.py`** — the canonical
+  template had drifted from the live, already-fixed copy: it still read the
+  Stop event's non-existent `message` field and was a guaranteed silent
+  no-op. Synced to the live version, which reads the last assistant turn
+  from the transcript instead and guards against `stop_hook_active` loops.
+- **`templates/claude-code-hooks/settings.snippet.json`** — aligned the
+  `Stop` hook entry's timeout/status message with the live installed hook.
+- **`templates/hooks/pre-commit`** — Rule 2 (docs-required check) no longer
+  blocks a commit that touches only `.gitignore`/`.gitattributes`; those
+  files change git's tracking behaviour, not the program's, so there is
+  nothing to document. Only applies when no other file is staged alongside
+  them.
+
 ## 2026-08-10 — five owner rulings: parallelization, licenses, language, ids, worker feedback
 
 ### Added

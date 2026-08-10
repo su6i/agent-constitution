@@ -11,8 +11,10 @@
 #      documentation (README / CHANGELOG / docs/ / any *.md). A minor change
 #      that is really a continuation of the previous commit must be folded in
 #      with `git commit --amend`, not landed as a new doc-less commit.
-#      Exception: commits that ONLY delete files do not require a doc update
-#      (deletions cannot introduce new behaviour that needs documenting).
+#      Exception: commits that ONLY delete files, or that touch ONLY
+#      .gitignore/.gitattributes, do not require a doc update (deletions
+#      cannot introduce new behaviour that needs documenting; those two
+#      files change git's tracking behaviour, not the program's).
 #   3. Personal/memory workspace files (TODO.md, SESSION.md, TASKS.md,
 #      ROADMAP.md, CLAUDE.md, *.session.md, *.local.md) must never reach a
 #      commit, even if force-added with `git add -f` past .gitignore.
@@ -85,10 +87,32 @@ fi
 all_staged="$(git diff --cached --name-only)"
 staged="$(git diff --cached --name-only --diff-filter=ACMR)"
 
+# A commit touching ONLY .gitignore/.gitattributes changes git's tracking
+# behaviour, not the program's — there is nothing for it to document. Only
+# fires when NO other file is staged alongside them (owner incident
+# 2026-08-10: resolving a .gitignore merge conflict in two repos was forced
+# through `--no-verify` by this exact false positive — the worst outcome for
+# a guard, since it teaches the user to bypass it).
+gitignore_only=0
+if [ -n "$all_staged" ]; then
+    gitignore_only=1
+    while IFS= read -r f; do
+        [ -z "$f" ] && continue
+        case "$(basename "$f")" in
+            .gitignore|.gitattributes) : ;;
+            *) gitignore_only=0 ;;
+        esac
+    done <<EOF
+$all_staged
+EOF
+fi
+
 # If ALL staged changes are deletions (ACMR list is empty but something is staged),
 # skip the docs check — deletions are always allowed without a matching doc change.
 if [ "$is_merge" = "1" ]; then
     : # merge commit — docs were enforced per-commit on the branch; skip Rule 2
+elif [ "$gitignore_only" = "1" ]; then
+    : # .gitignore/.gitattributes-only commit — skip Rule 2, see note above
 elif [ -z "$staged" ] && [ -n "$all_staged" ]; then
     : # deletion-only commit — skip Rule 2 and proceed to Rules 3-6
 elif [ -z "$staged" ]; then
