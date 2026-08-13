@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-13 — rule 075 enforcement: the hook was disabling itself
+
+### Fixed
+
+- **`templates/claude-code-hooks/enforce-identifiers.py`** — the anti-loop
+  guard was `if payload.get("stop_hook_active"): return 0`, which trips on
+  *any* Stop hook blocking the turn. Once an unrelated gate blocked a message,
+  the rewritten message reached the owner with the identifier check never
+  running — the rule-075 violation the owner has now reported three times. The
+  guard is now keyed on a fingerprint of the message this hook itself last
+  blocked, so an unrelated hook's block no longer grants a free pass, while
+  re-blocking the same text still cannot loop.
+- **`templates/claude-code-hooks/enforce-identifiers.py`** — the template had
+  also drifted two fixes behind the installed copy: it still read the
+  non-existent `payload["message"]` field and lacked `last_assistant_text()`
+  entirely, so the template version was a guaranteed silent no-op. Anyone who
+  installed the hook from this repo got a hook that could never fire. The
+  template is now the working version.
+
+### Changed
+
+- **`rules/075-identifiers.md`** — §Agent Obligations records the loop-guard
+  narrowing and the general lesson: when a rule is violated repeatedly despite
+  being mechanically enforced, suspect the enforcement path before rewriting
+  the rule.
+
+---
+
 ## 2026-08-10 — five owner rulings: parallelization, licenses, language, ids, worker feedback
 
 ### Added

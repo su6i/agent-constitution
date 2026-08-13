@@ -70,3 +70,15 @@ above, also blocks a message that contains an "awaiting owner decision/action"
 heading with no id anywhere after it — the exact failure mode the owner
 reported, where the heading exists but the ids under it don't. See the hook's
 own header comment for the literal patterns it matches.
+
+**Loop-guard narrowing (2026-08-13).** The owner reported the violation a
+third time. The rule and the hook were both correct; the hook was disabling
+itself. Its anti-loop guard was `if payload.get("stop_hook_active"): return 0`,
+which trips on *any* Stop hook blocking the turn — so once an unrelated gate
+(for example the session-save gate of rule 050) blocked a message, the rewritten
+message reached the owner with the id check never running at all. The guard is
+now keyed on a fingerprint of the message **this** hook itself last blocked, so
+an unrelated hook's block no longer grants a free pass. A hook that suppresses
+itself as a side effect of another hook's success is indistinguishable from a
+hook that was never installed — when a rule is violated repeatedly despite
+being enforced, suspect the enforcement path before rewriting the rule.
