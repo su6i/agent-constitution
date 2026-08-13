@@ -17,10 +17,47 @@ Two checks, both from rule 075 §Agent Obligations item 1:
    blocked the same way. Only the first matching heading in the message is
    used as the scan start; everything from there to the end of the message
    must contain at least one id.
+
+Payload note (fix 2026-08-10, T-072): the Stop event does NOT carry a
+"message" field — it carries {session_id, transcript_path, cwd,
+stop_hook_active}. The original version read payload["message"] and was
+therefore a guaranteed silent no-op: it never once fired, which is exactly
+what the owner reported ("the hook was supposed to be on this"). The final
+assistant text is now read from the tail of the JSONL transcript instead.
 """
 import sys
 import json
 import re
+
+
+def last_assistant_text(transcript_path):
+    """Return the text of the most recent assistant turn in the transcript."""
+    try:
+        with open(transcript_path, "r", errors="ignore") as f:
+            lines = f.readlines()
+    except Exception:
+        return ""
+    # Walk backwards: the last assistant record is the message about to be shown.
+    for raw in reversed(lines[-400:]):
+        try:
+            obj = json.loads(raw)
+        except Exception:
+            continue
+        if obj.get("type") != "assistant":
+            continue
+        content = (obj.get("message") or {}).get("content")
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts = [b.get("text", "") for b in content
+                     if isinstance(b, dict) and b.get("type") == "text"]
+            text = "\n".join(p for p in parts if p)
+            if text.strip():
+                return text
+            # tool-only turn: keep walking back to the last turn with prose
+            continue
+    return ""
+
 
 def main():
     try:
@@ -28,9 +65,40 @@ def main():
     except Exception:
         return 0
 
-    message = payload.get("message", "")
+    # Loop guard (narrowed 2026-08-13, T-090 / D-065). The old form was
+    # `if payload.get("stop_hook_active"): return 0`, which disabled this hook
+    # after *any other* Stop hook blocked (e.g. the session-save gate). The
+    # owner hit exactly that: the session-save gate blocked first, and the
+    # rewritten message then sailed past the id check unexamined — the third
+    # repeat of the same rule-075 violation. The anti-loop guard must only
+    # cover THIS hook re-blocking the SAME text, so it is now keyed on a
+    # fingerprint of the message this hook itself last blocked.
+
+    message = payload.get("message") or ""
+    if not message:
+        message = last_assistant_text(payload.get("transcript_path") or "")
     if not message:
         return 0
+
+    # Fingerprint of the exact text under review, scoped to this session.
+    # Deliberately import-free and process-stable: Python's built-in hash() is
+    # randomised per process (PYTHONHASHSEED) and cannot be used here, since
+    # each hook invocation is a fresh process and this key must survive that.
+    fingerprint = repr([
+        str(payload.get("session_id") or ""),
+        len(message),
+        message[:200],
+        message[-200:],
+    ])
+    marker = "/tmp/enforce-identifiers-last-block.txt"
+    try:
+        with open(marker, encoding="utf-8") as fh:
+            if fh.read().strip() == fingerprint:
+                # We already blocked this exact text once; blocking again would
+                # be the infinite loop the old guard was protecting against.
+                return 0
+    except OSError:
+        pass
 
     # Look for numbered lists that are likely action/decision lists for the owner.
     # Matches "1. ", "1)", "- 1. " etc.
@@ -76,6 +144,11 @@ def main():
             "in a different shape.\n"
             "Please rewrite your message to assign or reuse IDs from _memory/REGISTRY-IDS.md."
         )
+        try:
+            with open(marker, "w", encoding="utf-8") as fh:
+                fh.write(fingerprint)
+        except OSError:
+            pass
         print(json.dumps({"decision": "block", "reason": reason}))
         return 0
 
