@@ -101,25 +101,65 @@ services, scripts, the entire application "glue". No project starts in Rust or
 Go on the strength of a general performance belief; Python is the baseline
 until a specific module is measured and found wanting.
 
-## Mandatory Gate: Profile First, Rewrite Second
+## Mandatory Gate: Justify First, Rewrite Second
 
-**No module moves to Rust or Go without a profiling number that justifies it.**
+**No module moves to Rust or Go without a concrete, written justification —
+either a profiling number (performance), or a named distribution/
+reliability/install benefit specific to that module (§Broader Adoption
+Criteria below). "Rust/Go is generally better" is never sufficient on either
+axis.**
 
 1. Ship the module in Python first.
-2. Profile it under a realistic load (`cProfile`/`py-spy` for CPU,
-   `memory_profiler` for RAM, wall-clock for latency-sensitive paths).
-3. Only if the profile shows the module is the actual bottleneck — not a
-   guess, not "Rust is faster in general" — does a rewrite proposal go in a WO.
-4. The WO that proposes the rewrite **must carry the profiling numbers** (rule
-   070 §Mandatory Body — a WO without evidence is incomplete) and must justify
-   the ongoing cost of maintaining two languages in one codebase (build
-   tooling, CI matrix, the pool of people who can review both, FFI surface
-   area). No profiling number, no rewrite — this is non-negotiable, not a
-   style preference.
+2. If the candidate reason is performance: profile it under a realistic load
+   (`cProfile`/`py-spy` for CPU, `memory_profiler` for RAM, wall-clock for
+   latency-sensitive paths). If the candidate reason is distribution,
+   reliability, or install friction: name the specific benefit and state why
+   Python's normal packaging (`uv`, a venv, PyInstaller) does not already
+   cover it for this module's actual deployment target.
+3. Only if the profile shows the module is the actual bottleneck, or the
+   named non-performance benefit is real and specific to this module — not a
+   guess, not "Rust is faster/smaller/more reliable in general" — does a
+   rewrite proposal go in a WO.
+4. The WO that proposes the rewrite **must carry the evidence** — the
+   profiling numbers, or the specific distribution/reliability/install
+   argument (rule 070 §Mandatory Body — a WO without evidence is incomplete)
+   — and must justify the ongoing cost of maintaining two languages in one
+   codebase (build tooling, CI matrix, the pool of people who can review
+   both, FFI surface area). No evidence, no rewrite — this is
+   non-negotiable, not a style preference.
 
-Guessing which module is "obviously" slow and rewriting it anyway violates
-`rules/025-research-first.md` in the same way as guessing an API flag: find
-the number before writing the fix.
+Guessing which module is "obviously" slow, or "obviously" worth shipping as a
+binary, and rewriting it anyway violates `rules/025-research-first.md` in the
+same way as guessing an API flag: find the number, or name the specific
+benefit, before writing the fix.
+
+## Broader Adoption Criteria (Owner Ruling 2026-08-10)
+
+D-028 gated Rust/Go adoption on one dimension: a profiled CPU-bound hot path.
+This widens the criteria to the dimensions the owner named — a module can
+justify Rust/Go through **any** of these, argued in the WO, not assumed:
+
+- **Distribution:** a single static binary vs. shipping a Python interpreter
+  plus a venv plus a dependency tree onto the target machine.
+- **Reliability:** a compiled, statically-typed core that cannot fail at
+  runtime on a missing or mismatched dependency the way an interpreted script
+  can.
+- **Cross-platform packaging:** one cross-compiled binary per OS/arch,
+  instead of packaging a Python environment separately for each.
+- **Install friction:** a single executable (or `curl | tar`) vs. a
+  `uv`/venv setup step on the user's own machine.
+
+**The bulk of the code still stays Python.** Most glue, orchestration, and
+ML/inference code has no distribution story that Python doesn't already
+serve fine — nobody ships a dependency-free binary of a one-off internal
+script, and the readability trade from D-028 still holds. What changed is
+the *set of arguments* that can justify a rewrite, not a default preference
+for Rust/Go; a module still needs its own case, written into the WO, before
+the gate above lets it move. The FFI boundary below is unchanged regardless
+of which argument justified the rewrite — a module adopted for distribution
+reasons still gets wrapped by Python the same way one adopted for CPU reasons
+does (§FFI Boundary: **PyO3 + `maturin`** for Rust, `cgo`/separate-binary for
+Go).
 
 ## Which Language for Which Job
 
@@ -129,9 +169,10 @@ the number before writing the fix.
 | **Rust** | Low-latency / real-time paths where the profiled bottleneck is CPU-bound Python and the workload tolerates a compiled, memory-safe core. | Cueprompt's live-latency path, real-time audio processing |
 | **Go** | Network-facing services or concurrent CLIs where the bottleneck is concurrency/throughput, not raw numerical CPU work. | DevOps tooling, concurrent network utilities |
 
-This table is a starting classification, not a substitute for the profiling
-gate above — a candidate module still needs its own number before a rewrite
-is approved, even when it matches a row here by description.
+This table is a starting classification, not a substitute for the gate
+above — a candidate module still needs its own evidence (a profiling number,
+or a specific distribution/reliability/install argument) before a rewrite is
+approved, even when it matches a row here by description.
 
 ## FFI Boundary (Mandatory When a Rewrite Is Approved)
 
@@ -611,7 +652,16 @@ Once assigned, an ID is never freed, reassigned, or reused — even after the it
 3. **Overflow Rule:** When a prefix reaches `900`, that prefix transitions to 4-digit formatting for subsequent allocations (e.g., `T-0900`, `T-0901`).
 4. **No Historical Rewriting:** Existing 3-digit IDs (e.g., `T-007`) are never retroactively rewritten when overflow occurs; they remain permanently valid.
 
-1. **Communication Requirement:** Any response or report to the owner that references numbered items must draw its numbers directly from `_memory/REGISTRY-IDS.md`. Local in-message numbering is prohibited.
+1. **Communication Requirement (tightened 2026-08-10):** Any response or
+   report to the owner that references numbered items must draw its numbers
+   directly from `_memory/REGISTRY-IDS.md`. Local in-message numbering is
+   prohibited. **Every reply that leaves anything pending on the owner's
+   side must end with a numbered decision/action list, and every line of
+   that list carries the item's stable id** (`B-`/`T-`/`D-`/`N-`). The owner
+   has flagged the gap twice — "چرا بازم منتظر تصمیم/اقدام مالک رو با
+   registry-ids ندادی؟" — a closing list without ids is not a lesser
+   violation than bare `1/2/3` numbering, it is the *same* violation moved to
+   the end of the message, and a reply missing it is incomplete.
 2. **Session End Registration:** Every architect is obligated to register any newly generated items in `_memory/REGISTRY-IDS.md` before session end (enforced mechanically via the `SessionEnd` hook backstop).
 
 ## From 076-independent-review.md
@@ -683,6 +733,27 @@ of the architect who delegated**, not of the reviewer and not of the worker:
    a defect that recurs with one executor is evidence about the routing table
    (rule 070 §Executor Routing, which changes only on reproducible evidence or
    an owner ruling).
+5. **Re-prompt the same warm session first (owner ruling 2026-08-10).** When
+   a worker's report is incomplete or shallow, the architect's first move is
+   to re-prompt the *same* warm worker session with the specific defect — not
+   to silently redo the work itself in premium context. This is the same
+   discipline rule 085 §Three-Layer Delegation's "the worker stays warm"
+   clause already requires for a failed verify; it applies just as much to a
+   report that is merely thin as to one that fails a gate outright. For a
+   browsing/verification task specifically: demand the worker produce
+   **evidence it cannot fabricate** — e.g. a screenshot — as proof before
+   trusting the claim. Only if a second attempt with the defect named still
+   fails does the architect open a real browser (or otherwise do the check)
+   itself.
+6. **The corollary (owner ruling 2026-08-10): if the worker failed, suspect
+   your own prompt first.** Owner's stated reason is cost: "اگه بخوای همیشه
+   به جای بالابردن کیفیت پرومپت‌هات ... بخوای خودت انجام بدی، هزینه‌مون زیاد
+   میشه." A better prompt plus a recorded lesson — item 3 above (WO
+   template/brief/routing table) and, for a defect class rather than a
+   one-off, an appended entry in `WORKER-RULES.md` §Recorded defect patterns
+   (`_memory/WORKER-RULES.md`, in the same Symptom/Root cause/Rule shape) —
+   is the durable fix. Architect labour spent quietly redoing the task is not
+   a rescue; it is the expensive failure mode this loop exists to close off.
 
 Tone, explicitly (owner ruling 2026-07-23): this is **better management, not
 catching the agent out**. The runlog exists to improve dispatch, and a defect
@@ -874,7 +945,11 @@ Binding clauses:
 2. **The worker stays warm.** The first verify failure goes back to the *same*
    worker session, which still holds the context. The reviewer layer enters
    from the second failure onward — a cold reviewer re-deriving what the worker
-   already knows is the expensive path.
+   already knows is the expensive path. See rule 076 §The defect→prompt loop
+   items 5–6 (owner ruling 2026-08-10) for the same discipline applied to a
+   report that is merely thin rather than gate-failing, the screenshot-evidence
+   extension for browsing/verification tasks, and the "suspect your prompt
+   first" corollary.
 3. **The architect's final check is not removable.** Layer 2 can overclaim as
    easily as layer 1; the check is a few commands, not a re-read of the diff.
 4. **Usage per run goes to the manager** (which layer, how long, what it cost)
@@ -897,46 +972,33 @@ Evidence base: `_memory`-side note `NOTE-2026-07-21-three-layer-delegation-propo
 worker cost `$0`, real blocking defects caught in layer 2, premium involvement
 compressed to "write the WO, dispatch, final check".
 
-## Boundaries (blast radius)
+## Maximum Low-Risk Parallelization (Owner Mandate 2026-08-10)
 
-- **A repo agent stays in its own repo.** It must NOT read, diagnose, or fix
-  problems in another repo — even *noticing* another repo's bug burns tokens,
-  pollutes its context, and it cannot fix it anyway (the fix re-delegates to
-  that repo's agent, who re-derives everything). If it spots a cross-repo
-  issue, it writes ONE pointer for the manager and stops.
-- **Only the manager crosses repos**, and only by writing notes/pointers —
-  never by implementing. But its hand is free: it may write in any repo.
-- Enforced by `~/.claude/hooks/workdir-guard.sh` (PreToolUse Write|Edit):
-  a write into a *different* `@-github/<repo>` is denied unless
-  `CLAUDE_AGENT_ROLE=manager` (or cwd is the `@-github` root). Writes outside
-  `@-github` (vault/SESSION.md, scratchpad, `~/.claude`) are always allowed.
-  Kill-switch: `WORKDIR_GUARD=off`.
+Owner ruling 2026-08-10 — a **mandate, not permission**:
 
-## The Manager (keep its context clean)
+> برای موازی‌سازی همیشه حداکثر موازی‌سازی کم‌ریسک رو انجام بده بدون پرسش
 
-- **Metadata only.** The manager holds *which repo, which WO, what status* —
-  never code, never transcripts. Content never enters its context.
-- **State lives in files, not context.** Queue/status live in
-  `~/.local/share/agent-projects/_memory/`; the manager re-reads them each
-  turn. Architects report back ONE status line, not their work.
-- **Lightweight / on-demand.** All premium sessions share one quota and run
-  serially — the manager is not a heavy always-on session. Resting footprint is zero tokens.
-- **Not a hard bottleneck**: For deep single-repo work, the owner may talk to that repo's architect directly. If the work has cross-repo impact, the architect drops a one-line note in the manager's inbox.
+If a hundred tasks could run in parallel with low risk and zero interference,
+the agent is **authorized to run all hundred without asking** — this
+explicitly covers dispatching WOs across different repos, and several WOs
+within the same repo when they do not touch the same files. Asking "should I
+parallelize these?" when the test below already answers yes is itself the
+failure mode this rule forbids.
 
-## No Submodules & Knowledge Service
+**The operative test:** parallelize whenever the tasks touch disjoint
+files/branches/repos AND none of them is a gate/blocker for another.
+Serialize only on a genuine conflict — the same file, the same branch, or a
+real dependency edge where one task's output is another's input.
 
-- **No submodules**: The ONLY way a repo consumes the constitution is a symlink: `.agent/constitution -> /Users/su6i/@-github/agent-constitution`. No git submodule (no `.gitmodules`, no gitlink). Repo-local skills/rules are forbidden unless extracted upstream first.
-- **RAG Knowledge Service**: Rules, skills, and sessions are served via the knowledge service once live. Agents query rather than fork.
-
-## No Unauthorized Folder Creation
-
-Agents may NOT create a new directory — in a repo OR the vault — without manager permission. Standard folders (`workspace/`, `workspace/inbox/`, `workspace/wo/`) are pre-authorized.
-
-## Session accounting
-
-Every session that commits must leave a SESSION.md summary before the owner
-is told "safe to /clear" — enforced fail-closed by
-`~/.claude/hooks/check-session-saved.sh` (PostToolUse commit + SessionEnd).
+**Reconciling with context hygiene** (rule 050 §Session Lifecycle: "premium
+sessions run serially... all Claude sessions share one quota"): the two rules
+are not in tension once the layer is named. **Parallelism belongs to the
+workers** — agy/Gemini/DeepSeek run outside the shared premium quota, so
+fanning out a hundred worker dispatches costs nothing to run side by side.
+Premium architect/manager sessions still queue serially, one task each,
+because they share one metered quota. So: fan out worker dispatches
+aggressively and by default (this section); keep premium sessions to one
+active task at a time (§The Manager below).
 
 ## From 090-written-requests.md
 
@@ -990,4 +1052,4 @@ Ownership, so that none of the three is nobody's job:
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
 
-<!-- digest-hash: a57a2847ec7da370a65f57436820483a429d20e9b17990bf03a7c776f6d27557 -->
+<!-- digest-hash: 295aa269f1fb09375c1c20de365ff408e50767cc07d97d96a4cddb3018f2d566 -->
