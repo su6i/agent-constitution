@@ -99,7 +99,7 @@ else
     cat >> "$GLOBAL_CLAUDE" << 'CLAUDEBLOCK'
 
 # BEGIN agent-constitution
-## Skill Catalog (367 skills)
+## Skill Catalog (368 skills)
 Skills live in ~/.claude/skills/. Before implementing anything domain-specific,
 check the skill catalog first:
   - List all: ls ~/.claude/skills/
@@ -107,7 +107,7 @@ check the skill catalog first:
   - If not found locally, check: https://github.com/affaan-m/ECC (upstream, 271 skills)
 
 ## Skill Discovery Order
-1. ~/.claude/skills/ (this repo — 367 skills)
+1. ~/.claude/skills/ (this repo — 368 skills)
 2. github.com/affaan-m/ECC (upstream open-source harness)
 3. Write from scratch only if neither has it
 # END agent-constitution

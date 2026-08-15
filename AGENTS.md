@@ -71,7 +71,7 @@ any WO. Non-negotiable minimum:
 ## Structure
 
 - `rules/` — the constitution (numbered, non-negotiable)
-- `skills/` — reusable domain knowledge modules (367 skills)
+- `skills/` — reusable domain knowledge modules (368 skills)
 - `workflows/` — repeatable operating procedures
 - `.agent/` — agents, commands, prompts, hooks
 - `memory-bank/` — session-to-session context
