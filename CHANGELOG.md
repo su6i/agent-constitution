@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-15 — CI green again: markdownlint + one dead upstream link
+
+### Fixed
+
+- **`skills/rtl-persian-app-patching.md`** (v1.0.1 → v1.0.2) — an unindented
+  fenced block inside an ordered list reset markdownlint's numbering
+  (`MD029/ol-prefix`, item 4 read as a new list). The block is now indented
+  into its list item. Caught by *Lint Markdown Files* on `b5be410`.
+- **`skills/codehealth-mcp.md`** (now versioned, v1.0.1) — the upstream
+  CodeScene doc `docs/getting-a-personal-access-token.md` was renamed to
+  `docs/authentication.md`; the old URL 404s and had been failing the
+  *Check Internal Links* job on every push since 2026-08-13. Link updated
+  (verified 200) and the file gained the `version:`/`updated:` fields rule 036
+  requires.
+
+---
+
 ## 2026-08-15 — new skill: forcing Persian/RTL into apps you don't own
 
 ### Added
