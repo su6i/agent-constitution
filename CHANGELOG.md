@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-15 — new skill: forcing Persian/RTL into apps you don't own
+
+### Added
+
+- **`skills/rtl-persian-app-patching.md`** (v1.0.0) — how to make a
+  third-party app render Persian/Arabic correctly when you cannot touch its
+  source. Two routes, plus the classification step that decides between them
+  (native Swift/AppKit apps have no injection surface at all — as of 2026 that
+  includes ChatGPT and Gemini for Mac, so an RTL patch must never be promised
+  for them).
+  - **Electron (`app.asar`):** the five steps that are individually
+    sufficient to brick the bundle if skipped — deriving the repack `unpack`
+    glob from the existing `app.asar.unpacked/` tree (a hardcoded extension
+    list packs extensionless native helpers *into* the archive and they die
+    with `Malformed Mach-O file`), writing `ElectronAsarIntegrity` as the
+    SHA-256 of the ASAR **header** rather than of the whole file (the
+    whole-file hash is why patchers end up disabling the integrity fuse and
+    permanently stripping tamper protection), ad-hoc re-signing after the
+    `Info.plist` write (an unsigned bundle on Apple Silicon fails with
+    `Launchd job spawn failed`), and verifying by running the executable
+    directly so the fatal log is visible.
+  - **Web apps:** an MV3 content-script skeleton with a debounced
+    `MutationObserver`, since streamed LLM responses defeat a one-shot pass.
+  - **BiDi guidance:** why `unicode-bidi: plaintext` mis-directs the most
+    common Persian sentence shape (one opening with a Latin technical term —
+    first-strong reads the `G` in "Gemini web app رو …" and lays the whole
+    line out LTR), with the script-ratio alternative and the rule that line
+    direction follows the *language*, not the first character.
+  - Font caveat: never `* { font-family: … !important }` — it eats icon fonts.
+
+### Changed
+
+- Skill count 367 → 368 in `README.md`, `docs/fa/README.fa.md`, `CLAUDE.md`,
+  `AGENTS.md`, and `install.sh`.
+
+---
+
 ## 2026-08-13 — rule 075 enforcement: the hook was disabling itself
 
 ### Fixed

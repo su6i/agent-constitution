@@ -14,7 +14,7 @@ last_updated: 2026-06-23
 <p align="center">
   <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a>
   <a href="#"><img alt="Status: Active" src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a>
-  <img alt="Skills: 367" src="https://img.shields.io/badge/Skills-367-blueviolet.svg" height="20" style="vertical-align: middle;">
+  <img alt="Skills: 368" src="https://img.shields.io/badge/Skills-368-blueviolet.svg" height="20" style="vertical-align: middle;">
   <img alt="Agents: 63" src="https://img.shields.io/badge/Agents-63-orange.svg" height="20" style="vertical-align: middle;">
   <img alt="Commands: 79" src="https://img.shields.io/badge/Commands-79-teal.svg" height="20" style="vertical-align: middle;">
   <a href="workflows/documentation.md"><img alt="Docs: Technical" src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20" style="vertical-align: middle;"></a>
@@ -22,7 +22,7 @@ last_updated: 2026-06-23
 </p>
 
 <strong>The Validated Context Architecture for AI Agents.</strong><br>
-<sub>367 skills · 63 agents · 79 commands · Works with Claude Code, Cursor, Codex, Gemini CLI</sub>
+<sub>368 skills · 63 agents · 79 commands · Works with Claude Code, Cursor, Codex, Gemini CLI</sub>
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/su6i/agent-constitution/main/install.sh)
@@ -227,7 +227,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 - **[LinkedIn Launch](.agent/prompts/template_linkedin_launch.md):** Viral marketing hooks.
 - **[Logo Specs](.agent/prompts/template_project_logo.md):** DALL-E/Midjourney prompts for tech branding.
 
-### 🧠 Skills (367 total)
+### 🧠 Skills (368 total)
 
 > Search this page (`Ctrl+F`) by keyword — every skill name, tool, and technology is listed below.
 
@@ -663,11 +663,12 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 </details>
 
 <details>
-<summary><strong>Scripting & Automation</strong> (9 skills)</summary>
+<summary><strong>Scripting & Automation</strong> (10 skills)</summary>
 
 | Skill | Description |
 | --- | --- |
 | [automation-audit-ops](skills/automation-audit-ops.md) | Audit & optimize automation pipelines |
+| [rtl-persian-app-patching](skills/rtl-persian-app-patching.md) | Force Persian/RTL into Electron & web apps you don't own |
 | [cli-table-alignment](skills/cli-table-alignment.md) | Pixel-perfect ASCII tables with emoji support |
 | [dmux-workflows](skills/dmux-workflows.md) | tmux/dmux session & pane automation |
 | [hookify-rules](skills/hookify-rules.md) | Claude Code hooks authoring & lifecycle |
