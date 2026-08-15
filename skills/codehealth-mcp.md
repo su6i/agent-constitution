@@ -1,6 +1,8 @@
 ---
 name: codehealth-mcp
 description: Real-time structural Code Health via CodeScene MCP — review before edits, verify score deltas after changes, gate commits and PRs. Use when reviewing code quality, refactoring, checking if AI changes degraded a file, or before commit/PR.
+version: 1.0.1
+updated: 2026-08-15
 metadata:
   origin: community
 ---
@@ -16,7 +18,7 @@ Structural maintainability feedback for AI-assisted coding. Complements style/li
 
 **Opt-in (ECC):** The `codescene` block in `mcp-configs/mcp-servers.json` is a template only. ECC plugin installs do not auto-enable bundled MCP servers. Copy the entry into your config only if you want it. You can exclude it during ECC install/sync with `ECC_DISABLED_MCPS=codescene,...`.
 
-**Credentials:** No bundled token. Set `CS_ACCESS_TOKEN` yourself (see [getting-a-personal-access-token.md](https://github.com/codescene-oss/codescene-mcp-server/blob/main/docs/getting-a-personal-access-token.md) in the upstream repo). Never commit tokens to the repo.
+**Credentials:** No bundled token. Set `CS_ACCESS_TOKEN` yourself (see [authentication.md](https://github.com/codescene-oss/codescene-mcp-server/blob/main/docs/authentication.md) in the upstream repo). Never commit tokens to the repo.
 
 **What the tools read:** When invoked, tools analyze files and git state **in the local repository** you point them at (paths you pass, plus branch context for `analyze_change_set`). They do not run by themselves. For standalone mode, follow upstream privacy docs: [codescene-mcp-server README](https://github.com/codescene-oss/codescene-mcp-server#frequently-asked-questions) and [CodeScene policies](https://codescene.com/policies). Do not use this skill for secrets, credentials, or paths you do not want analyzed.
 

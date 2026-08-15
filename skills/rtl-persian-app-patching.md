@@ -1,7 +1,7 @@
 ---
 name: rtl-persian-app-patching
 description: Force correct Persian/Arabic RTL rendering and fonts into third-party apps you don't own — Electron desktop apps (app.asar patch, ASAR header integrity hash, ad-hoc re-sign) and web apps (Chrome MV3 content script). Includes the BiDi direction rules that first-strong heuristics get wrong.
-version: 1.0.1
+version: 1.0.2
 updated: 2026-08-15
 origin: internal
 ---
@@ -184,11 +184,11 @@ first character.** Rules of thumb:
    you have no better signal.
 3. If you need a per-line decision, decide by **script ratio**, not first char:
 
-```js
-const fa = (s.match(/[؀-ۿ]/g) || []).length;
-const en = (s.match(/[A-Za-z]/g) || []).length;
-el.dir = fa >= en * 0.35 ? 'rtl' : 'ltr';   // Persian wins unless clearly Latin
-```
+   ```js
+   const fa = (s.match(/[؀-ۿ]/g) || []).length;
+   const en = (s.match(/[A-Za-z]/g) || []).length;
+   el.dir = fa >= en * 0.35 ? 'rtl' : 'ltr';   // Persian wins unless clearly Latin
+   ```
 
 4. Set `dir` on the element (`el.dir = 'rtl'`) rather than only CSS: `dir`
    also fixes caret behaviour, selection, and punctuation mirroring in inputs.
