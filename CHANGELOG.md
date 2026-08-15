@@ -41,6 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Skill count 367 → 368 in `README.md`, `docs/fa/README.fa.md`, `CLAUDE.md`,
   `AGENTS.md`, and `install.sh`.
+- **`skills/rtl-persian-app-patching.md`** v1.0.0 → v1.0.1 — Telegram Desktop
+  was listed as an Electron target; it is Qt/C++ and has no `app.asar`. The
+  scope line now separates Electron targets from Qt/native ones.
 
 ---
 
