@@ -14,14 +14,14 @@ last_updated: 2026-06-23
 <p align="center" dir="ltr">
   <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a>
   <a href="#"><img alt="Status: Active" src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a>
-  <img alt="Skills: 367" src="https://img.shields.io/badge/Skills-367-blueviolet.svg" height="20" style="vertical-align: middle;">
+  <img alt="Skills: 368" src="https://img.shields.io/badge/Skills-368-blueviolet.svg" height="20" style="vertical-align: middle;">
   <img alt="Agents: 63" src="https://img.shields.io/badge/Agents-63-orange.svg" height="20" style="vertical-align: middle;">
   <img alt="Commands: 79" src="https://img.shields.io/badge/Commands-79-teal.svg" height="20" style="vertical-align: middle;">
   <a href="https://linkedin.com/in/su6i"><img alt="LinkedIn" src="../../assets/linkedin_su6i.svg" height="20" style="vertical-align: middle; margin-bottom: -1px; margin-left: 3px;"></a>
 </p>
 
 <strong>معماری زمینه‌ای اعتبارسنجی‌شده برای ایجنت‌های هوش مصنوعی</strong><br>
-<sub dir="ltr">367 skill · 63 agent · 79 command · سازگار با Claude Code، Cursor، Codex، Gemini CLI</sub>
+<sub dir="ltr">368 skill · 63 agent · 79 command · سازگار با Claude Code، Cursor، Codex، Gemini CLI</sub>
 
 <div dir="ltr">
 
