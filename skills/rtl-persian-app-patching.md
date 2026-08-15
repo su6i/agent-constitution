@@ -1,7 +1,7 @@
 ---
 name: rtl-persian-app-patching
 description: Force correct Persian/Arabic RTL rendering and fonts into third-party apps you don't own — Electron desktop apps (app.asar patch, ASAR header integrity hash, ad-hoc re-sign) and web apps (Chrome MV3 content script). Includes the BiDi direction rules that first-strong heuristics get wrong.
-version: 1.0.0
+version: 1.0.1
 updated: 2026-08-15
 origin: internal
 ---
@@ -10,8 +10,10 @@ origin: internal
 
 **When to use:** an app renders Persian/Arabic text with the wrong font, wrong
 line direction, or broken punctuation placement, and you cannot change its
-source. Covers Claude Desktop, VS Code, Obsidian, Slack, Telegram Desktop, Jan,
-LM Studio (Electron) and any web AI chat (Gemini, ChatGPT, Claude.ai, Grok).
+source. Covers Electron apps (Claude Desktop, VS Code, Obsidian, Slack,
+Discord, Notion, Jan, LM Studio) and any web AI chat (Gemini, ChatGPT,
+Claude.ai, Grok). Qt/native apps — Telegram Desktop (Qt), ChatGPT and Gemini
+for Mac (Swift/AppKit) — are **not** in scope; see the table below.
 
 ## Step 0 — classify the target, or you will waste hours
 
