@@ -1,7 +1,10 @@
 ---
 name: data-throughput-accelerator
 description: Use when large data ingestion, backfill, export, ETL, warehouse loading, manifest catch-up, or table synchronization needs to become much faster while preserving data correctness.
-origin: ECC
+version: 1.1.0
+updated: 2026-08-18
+metadata:
+  origin: ECC
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
@@ -10,6 +13,10 @@ tools: Read, Write, Edit, Bash, Grep, Glob
 Use this skill when the bottleneck is moving, transforming, or saving lots of
 data. The goal is not just speed. The goal is faster correct data landing in the
 right place with proof.
+
+For the specific case of moving hundreds of GB onto an external drive with
+`rclone` — flag values, SMR write behaviour, and how to read the real rate —
+read `smr-rclone-throughput` instead; it carries measured numbers.
 
 ## First Distinction
 

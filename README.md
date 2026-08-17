@@ -22,7 +22,7 @@ last_updated: 2026-06-23
 </p>
 
 <strong>The Validated Context Architecture for AI Agents.</strong><br>
-<sub>368 skills · 63 agents · 79 commands · Works with Claude Code, Cursor, Codex, Gemini CLI</sub>
+<sub>372 skills · 63 agents · 79 commands · Works with Claude Code, Cursor, Codex, Gemini CLI</sub>
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/su6i/agent-constitution/main/install.sh)
@@ -564,6 +564,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 | [python-containerization](skills/python-containerization.md) | Python Docker: Slim vs Alpine, multi-stage |
 | [uncloud](skills/uncloud.md) | Cloud cost reduction & simplification patterns |
 | [data-throughput-accelerator](skills/data-throughput-accelerator.md) | High-throughput data pipeline optimization |
+| [smr-rclone-throughput](skills/smr-rclone-throughput.md) | rclone tuning for SMR/external drives, measured |
 
 </details>
 

@@ -42,13 +42,13 @@ Slash commands in `.agent/commands/`. Key commands:
 - `/pr` — PR creation workflow
 - Full list: `.agent/commands/`
 
-## Skills (368 available)
+## Skills (372 available)
 
 Before implementing anything domain-specific, check `skills/` for an existing knowledge module. Read the relevant skill file first.
 
 **Skill Discovery Protocol — follow this order every time:**
 
-1. Check `skills/` in this repo first (368 skills)
+1. Check `skills/` in this repo first (372 skills)
 2. If not found, check `.claude/skill-sources.md` for upstream catalogs to consult
 3. Only write a new skill from scratch if no existing source covers it
 
