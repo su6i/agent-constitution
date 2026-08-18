@@ -1,10 +1,12 @@
 ---
 name: smr-rclone-throughput
 description: Use when moving hundreds of GB with rclone to or from an external drive (SMR/shingled HDD, USB SSD) and throughput is disappointing — picking transfers/streams/buffer, reading the real rate, and finding the actual bottleneck layer.
-version: 1.0.0
+version: 1.1.0
 updated: 2026-08-18
 metadata:
   origin: measured on the sandisk project, 2026-08-11..18
+  supersedes: rclone-smr-optimization (Gemini/AGY draft, 2026-08-17, never committed)
+  credits: hardware-link finding and the SLC-cache benchmarking trap were Gemini's (AGY); the streams=0 large-file breakthrough was Gemini's + owner's
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
@@ -14,6 +16,13 @@ Measured on a 4 TB WD My Passport (SMR) and a 1 TB SanDisk Extreme (SSD) over
 USB3, restoring ~1.4 TB from Google Drive on macOS. Every number below came from
 a real run, not from documentation. Companion to `data-throughput-accelerator`
 (that one is about pipelines; this one is about bytes onto a spinning disk).
+
+**Lineage.** This supersedes an earlier draft, `rclone-smr-optimization`, written
+by the Gemini/AGY agent on 2026-08-17 (kept outside the repo, so it never reached
+anyone). Two of its four sections survive intact and are the most valuable parts
+of this file: **verify the physical link first**, and **short benchmarks measure
+the SLC cache, not the disk**. Its concurrency rule did not survive — see the
+correction below, which matters more than the rule itself.
 
 ## The configuration (start here)
 
@@ -39,6 +48,38 @@ rclone copy "remote:path" "/Volumes/Archive/path" \
 With `streams=0` the flags `--multi-thread-cutoff` and
 `--multi-thread-chunk-size` do nothing — **delete them** so the next person is
 not misled into thinking multi-thread is active.
+
+### What this replaced, and why it was wrong
+
+The draft — and the architect's written reply endorsing it — both carried this
+rule, derived from one lock-up:
+
+> **the ≲ 8 envelope:** keep `transfers × max(1, streams) ≲ 8`
+> · small files `T=4..6 streams=0` · large files `T=2 streams=4`
+
+Both numbers in the bottom row are wrong, and the envelope itself is wrong:
+
+| config | predicted by the envelope | measured |
+|---|---|---|
+| `T=32 streams=0` (32 streams) | should collapse | **30.7 MiB/s**, zero stalls |
+| `T=2 streams=4` (8 streams, "optimal") | best for large files | **16.8 MB/s** |
+| `T=8 streams=0` (8 streams) | same as above | **40.9 MiB/s** |
+
+The envelope counted the wrong variable. One failed run at
+`T=12 streams=4` was read as "48 streams is too many", so *stream count* was
+named the cause. The actual cause was the **write pattern**: chunked writing
+inside a single file. `T=2 streams=4` was not the safe configuration — it was
+the harmful one, at low enough volume to look survivable.
+
+The reasoning that produced it sounded rigorous: rclone preallocates, so four
+chunks land in one extent, so locality is good. It was mechanism-shaped and
+still false, because it was never tested against the alternative.
+
+**The transferable lesson is not about rclone.** A constraint extracted from a
+single failure will usually indict whichever variable was largest in that
+failure. Before writing one down as a rule, change one variable at a time and
+find the run that *should* fail but doesn't — here, `T=32 streams=0` was the
+run that falsified the envelope in one shot, and nobody tried it for a week.
 
 ## The one rule that matters: `--multi-thread-streams` is poison on SMR
 
