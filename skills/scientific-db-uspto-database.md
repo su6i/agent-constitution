@@ -1,6 +1,8 @@
 ---
 name: uspto-database
 description: USPTO patent and trademark data workflow for official record lookup, PatentSearch queries, TSDR checks, assignment data, and reproducible IP research logs.
+version: 1.0.1
+updated: 2026-08-18
 origin: community
 ---
 
@@ -170,8 +172,16 @@ For final writeups, separate:
 
 ## References
 
-- [USPTO APIs catalog](https://developer.uspto.gov/api-catalog)
-- [USPTO Open Data Portal](https://data.uspto.gov/)
+- [USPTO Open Data Portal — APIs, datasets, and bulk data](https://data.uspto.gov/)
 - [PatentSearch API reference](https://search.patentsview.org/docs/docs/Search%20API/SearchAPIReference/)
 - [PatentSearch API updates](https://search.patentsview.org/docs/)
-- [TSDR API bulk download FAQ](https://developer.uspto.gov/faq/tsdr-api-bulk-download)
+
+The legacy Developer Hub `developer.uspto.gov` was retired on 2026-06-05 and the
+whole host now refuses connections, taking the separate API catalog and the TSDR
+bulk-download FAQ with it. Both moved into the Open Data Portal above, which also
+absorbed the Bulk Data Storage System.
+
+Do not deep-link into `data.uspto.gov`: it is a single-page app that answers HTTP
+200 for any path, including nonsense ones, so a working-looking deep link cannot
+be told apart from a dead one by a link checker or by `curl`. Link the root and
+navigate from there.

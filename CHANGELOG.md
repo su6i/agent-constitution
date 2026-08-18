@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-18 — CI green again: the retired USPTO Developer Hub
+
+### Fixed
+
+- **`skills/scientific-db-uspto-database.md`** (now versioned, v1.0.1) — two references pointed at
+  `developer.uspto.gov`, a host that was retired on 2026-06-05 and now refuses
+  connections outright. *Check Internal Links* had been failing on `c26f9b6`
+  with `2 dead links found`. The link checker was right: `curl` from a normal
+  machine gets the same `ECONNREFUSED`, so this was a genuinely dead upstream,
+  not a runner being blocked. Both references now point at the Open Data Portal
+  (`data.uspto.gov`), which absorbed the API catalog, the TSDR documentation and
+  the Bulk Data Storage System.
+- The same section now records **why deep links into `data.uspto.gov` are
+  forbidden**: it is a single-page app that answers HTTP 200 for any path,
+  including nonsense ones, so a dead deep link is indistinguishable from a live
+  one to a link checker. Link the root, navigate from there.
+
 ## 2026-08-15 — CI green again: markdownlint + one dead upstream link
 
 ### Fixed
