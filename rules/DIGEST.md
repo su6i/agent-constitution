@@ -664,6 +664,10 @@ Once assigned, an ID is never freed, reassigned, or reused — even after the it
    the end of the message, and a reply missing it is incomplete.
 2. **Session End Registration:** Every architect is obligated to register any newly generated items in `_memory/REGISTRY-IDS.md` before session end (enforced mechanically via the `SessionEnd` hook backstop).
 
+1. **Dated Failure Record:** The Communication Requirement clause above (tightened 2026-08-10) was active when, on 2026-08-19, the `@-github` manager agent violated it TWICE in the same session — ending closing lists with bare local numbering (e.g. "1. WO ِ رفعِ eviction بنویسم؟" and "1. dispatch ِ WO-0033") instead of registry ids, in a session where that same agent was actively registering T-149, T-150 and D-142 in REGISTRY-IDS.md at the time.
+2. **Methodological Ruling:** A behavioral rule that has been violated twice despite explicit owner reminders must, from that point on, be backed by a MECHANICAL guard — tightening the wording of the rule further is not an acceptable response. This follows the same pattern already accepted twice elsewhere in this repo: (1) rule 085's `layer_guard.py` enforcement, and (2) the T-131 ingest hook.
+3. **Guard's Contract (implementation tracked separately as T-153):** A `Stop` hook that inspects the outgoing message; if the message contains a closing "awaiting owner decision/action" list, and ANY line of that list lacks one of the four official id prefixes (`B-`, `T-`, `D-`, `N-`), the hook BLOCKS the message and reports which line is missing an id.
+
 ## From 076-independent-review.md
 
 **Whoever writes or modifies code never approves it.** This applies
@@ -1052,4 +1056,4 @@ Ownership, so that none of the three is nobody's job:
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
 
-<!-- digest-hash: 295aa269f1fb09375c1c20de365ff408e50767cc07d97d96a4cddb3018f2d566 -->
+<!-- digest-hash: a5648d2cc407d9b54bfb3d855c0e1a6e643295c1d30c930103c0923886fb6921 -->

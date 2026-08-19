@@ -3,7 +3,7 @@ title: "075Identifiers: Stable Identifiers Registry (REGISTRY-IDS)"
 description: Canonical rule for stable, persistent IDs across branches, tasks, owner decisions, and inbox notes. Every reply with pending owner items must close with an id-keyed decision list.
 location: rules/075-identifiers.md
 agent_priority: High
-last_updated: 2026-08-10
+last_updated: 2026-08-20
 ---
 
 # Stable Identifiers Registry (REGISTRY-IDS)
@@ -82,3 +82,11 @@ an unrelated hook's block no longer grants a free pass. A hook that suppresses
 itself as a side effect of another hook's success is indistinguishable from a
 hook that was never installed — when a rule is violated repeatedly despite
 being enforced, suspect the enforcement path before rewriting the rule.
+
+## Mechanical Enforcement
+
+<!-- digest:start -->
+1. **Dated Failure Record:** The Communication Requirement clause above (tightened 2026-08-10) was active when, on 2026-08-19, the `@-github` manager agent violated it TWICE in the same session — ending closing lists with bare local numbering (e.g. "1. WO ِ رفعِ eviction بنویسم؟" and "1. dispatch ِ WO-0033") instead of registry ids, in a session where that same agent was actively registering T-149, T-150 and D-142 in REGISTRY-IDS.md at the time.
+2. **Methodological Ruling:** A behavioral rule that has been violated twice despite explicit owner reminders must, from that point on, be backed by a MECHANICAL guard — tightening the wording of the rule further is not an acceptable response. This follows the same pattern already accepted twice elsewhere in this repo: (1) rule 085's `layer_guard.py` enforcement, and (2) the T-131 ingest hook.
+3. **Guard's Contract (implementation tracked separately as T-153):** A `Stop` hook that inspects the outgoing message; if the message contains a closing "awaiting owner decision/action" list, and ANY line of that list lacks one of the four official id prefixes (`B-`, `T-`, `D-`, `N-`), the hook BLOCKS the message and reports which line is missing an id.
+<!-- digest:end -->
