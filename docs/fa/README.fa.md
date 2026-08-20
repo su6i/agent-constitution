@@ -167,11 +167,13 @@ curl http://localhost:8765/health  # → {"status":"ok","skills":367}
 <details>
 <summary><strong>هوش مصنوعی و یادگیری ماشین</strong> (۲۶ skill)</summary>
 
+*(توجه: کدِ ai-router یک مرجعِ منجمد است و اجرا نمی‌شود.)*
+
 | Skill | توضیح |
 | --- | --- |
 | [ai-logic-patterns](../../skills/ai-logic-patterns.md) | قوانین master prompting و orchestration ایجنت |
 | [ai-regression-testing](../../skills/ai-regression-testing.md) | تست regression خودکار برای خروجی LLM |
-| [ai-router](../../skills/ai-router/README.md) | مسیریابی مدل با آگاهی از هزینه |
+| [ai-router](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/README.md) | مسیریابی مدل با آگاهی از هزینه |
 | [ai-video-generation](../../skills/ai-video-generation.md) | تولید ویدیو با Runway، Kling، Luma، Veo |
 | [agentic-engineering](../../skills/agentic-engineering.md) | ساخت سیستم‌های agentic از ابتدا تا انتها |
 | [autonomous-loops](../../skills/autonomous-loops.md) | حلقه‌های خودکار با quality gate |

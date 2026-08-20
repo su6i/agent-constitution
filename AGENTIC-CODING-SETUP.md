@@ -639,12 +639,14 @@ cp config_example.py config.py
 
 **Source files (full production implementation):**
 
+*(Note: The ai-router code linked below is a frozen reference and is not executed.)*
+
 | File | Description |
 | --- | --- |
-| [`ai_router.py`](skills/ai-router/ai_router.py) | Core engine: `AIRouter`, `ComplexityAnalyzer`, `CacheManager`, `CostTracker`, `CircuitBreaker`, `ClaudeClient`, `DeepSeekClient` |
-| [`config_example.py`](skills/ai-router/config_example.py) | All four routing strategies with complete `ModelConfig` pricing tables |
-| [`router_cli.py`](skills/ai-router/router_cli.py) | Full CLI with interactive, single-prompt, batch, stats, and cost-estimation modes |
-| [`requirements.txt`](skills/ai-router/requirements.txt) | Python dependency list |
+| [`ai_router.py`](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/ai_router.py) | Core engine: `AIRouter`, `ComplexityAnalyzer`, `CacheManager`, `CostTracker`, `CircuitBreaker`, `ClaudeClient`, `DeepSeekClient` |
+| [`config_example.py`](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/config_example.py) | All four routing strategies with complete `ModelConfig` pricing tables |
+| [`router_cli.py`](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/router_cli.py) | Full CLI with interactive, single-prompt, batch, stats, and cost-estimation modes |
+| [`requirements.txt`](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/requirements.txt) | Python dependency list |
 
 **Architecture overview:**
 
@@ -2020,7 +2022,7 @@ class APIRouter:
 router = APIRouter()
 ```
 
-The `AIRouter` in Section 6 (`skills/ai-router/ai_router.py`) adds SHA-256 response caching on top of this pattern for further cost reduction.
+The `AIRouter` in Section 6 (`https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/ai_router.py`) adds SHA-256 response caching on top of this pattern for further cost reduction.
 
 ---
 

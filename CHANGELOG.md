@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-20 — remove legacy ai-router skill
+
+### Removed
+
+- **`skills/ai-router/`** — directory deleted and archived. The repo is PUBLIC, so the code is preserved as a frozen reference at `https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/`.
+
 ## 2026-08-18 — CI green again: the retired USPTO Developer Hub
 
 ### Fixed

@@ -234,11 +234,13 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 <details>
 <summary><strong>AI & Machine Learning</strong> (26 skills)</summary>
 
+*(Note: The ai-router skill linked below is a frozen reference and is not executed.)*
+
 | Skill | Description |
 | --- | --- |
 | [ai-logic-patterns](skills/ai-logic-patterns.md) | Master prompting & agent orchestration rules |
 | [ai-regression-testing](skills/ai-regression-testing.md) | Automated regression suites for LLM outputs |
-| [ai-router](skills/ai-router/README.md) | Cost-aware model routing and fallback chains |
+| [ai-router](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/README.md) | Cost-aware model routing and fallback chains |
 | [ai-video-generation](skills/ai-video-generation.md) | Gen-video with Runway, Kling, Luma, Veo |
 | [agentic-engineering](skills/agentic-engineering.md) | Building robust agentic systems end-to-end |
 | [autonomous-loops](skills/autonomous-loops.md) | Self-driving agent loops with quality gates |

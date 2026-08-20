@@ -666,12 +666,14 @@ cp config_example.py config.py
 
 **فایل های منبع (اجرای تولید کامل):**
 
+*(توجه: کدِ ai-router یک مرجعِ منجمد است و اجرا نمی‌شود.)*
+
 | فایل | توضیحات |
 | --- | --- |
-| [**CODE_0**](../../skills/ai-router/ai_router.py) | موتور اصلی: `AIRouter`، `ComplexityAnalyzer`، `CacheManager`، `CostTracker`، `CircuitBreaker`، `ClaudeClient`، `DeepSeekClient` |
-| [**CODE_0**](../../skills/ai-router/config_example.py) | هر چهار استراتژی مسیریابی با جداول قیمت گذاری کامل `ModelConfig` |
-| [**CODE_0**](../../skills/ai-router/router_cli.py) | CLI کامل با حالت های تعاملی، تک اعلان، دسته ای، آمار و برآورد هزینه |
-| [**CODE_0**](../../skills/ai-router/requirements.txt) | لیست وابستگی پایتون |
+| [**CODE_0**](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/ai_router.py) | موتور اصلی: `AIRouter`، `ComplexityAnalyzer`، `CacheManager`، `CostTracker`، `CircuitBreaker`، `ClaudeClient`، `DeepSeekClient` |
+| [**CODE_0**](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/config_example.py) | هر چهار استراتژی مسیریابی با جداول قیمت گذاری کامل `ModelConfig` |
+| [**CODE_0**](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/router_cli.py) | CLI کامل با حالت های تعاملی، تک اعلان، دسته ای، آمار و برآورد هزینه |
+| [**CODE_0**](https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/requirements.txt) | لیست وابستگی پایتون |
 
 **مروری بر معماری:**
 
@@ -2060,7 +2062,7 @@ class APIRouter:
 router = APIRouter()
 ```
 
-`AIRouter` در بخش 6 (`skills/ai-router/ai_router.py`) ذخیره پاسخ SHA-256 را در بالای این الگو برای کاهش بیشتر هزینه اضافه می کند.
+`AIRouter` در بخش 6 (`https://github.com/su6i/ai-router/blob/main/docs/legacy/ai-router-skill-v0/ai_router.py`) ذخیره پاسخ SHA-256 را در بالای این الگو برای کاهش بیشتر هزینه اضافه می کند.
 
 ---
 
