@@ -831,10 +831,17 @@ items 1, 3 and 6), WO-0013.
 
 ### Added
 
+- `bin/run-capped` — universal launcher that runs ANY command under a hard memory
+  ceiling and kills the process tree before the machine swaps to death. Two
+  triggers: process-tree RSS over `--limit-gb`, or system free memory under
+  `--floor-gb` (catches Metal/MPS allocations that RSS under-reports). Symlinked
+  into `~/.local/bin`. Exit 137 = the guard killed the run.
 - `skills/opensource-tts`: mandatory memory-cap section for every audio-generation
-  script (8–10 GB budget, engine knob + in-process guard). macOS does not enforce
-  `RLIMIT_AS`, so `ulimit -v` is not a cap; MLX/PyTorch-MPS knobs plus a stdlib
-  watchdog are.
+  script (8–12 GB budget, `run-capped` outside + engine knob and watchdog inside).
+  macOS does not enforce `RLIMIT_AS`, so `ulimit -v` is not a cap. Documents the
+  dtype trap: a checkpoint stored in 16-bit loaded as `torch.float32` doubles to
+  15.1 GB for a 3.8B model and freezes a 16 GB Mac — upstream example scripts still
+  ship `float32 if device != "cuda"` on the stale assumption that MPS lacks bf16.
 - `skills/opensource-tts`: measured RTF matrix (Mac M-series vs Colab T4), license
   matrix, queue of commercially-usable engines to benchmark next (Zonos,
   CosyVoice 2, OpenVoice v2) and the numbers-reading test dimension.

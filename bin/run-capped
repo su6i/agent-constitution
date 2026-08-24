@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+"""run-capped — run any command under a hard memory ceiling (macOS-safe).
+
+macOS does not enforce RLIMIT_AS, so `ulimit -v` is not a cap. This wrapper
+supervises the child process tree from the outside and kills it *before* the
+machine starts swapping itself to death.
+
+Two independent triggers, whichever fires first:
+  1. the child tree's RSS exceeds --limit-gb
+  2. system free memory drops below --floor-gb (catches memory the child
+     allocates through Metal/MPS, which RSS accounting can under-report)
+
+Usage:
+    run-capped -- python infer.py --text "..."
+    run-capped --limit-gb 8 --floor-gb 2 -- uv run script.py
+
+Exit code 137 means the wrapper killed the run.
+"""
+
+from __future__ import annotations
+
+import argparse
+import os
+import signal
+import subprocess
+import sys
+import time
+
+GB = 1024 ** 3
+POLL_S = 0.25
+
+
+def tree_rss_bytes(root_pid: int) -> int:
+    """Sum RSS over the child process tree (macOS `ps` reports RSS in KB)."""
+    try:
+        out = subprocess.run(
+            ["ps", "-eo", "pid=,ppid=,rss="], capture_output=True, text=True, check=True
+        ).stdout
+    except subprocess.CalledProcessError:
+        return 0
+    kids: dict[int, list[int]] = {}
+    rss: dict[int, int] = {}
+    for line in out.splitlines():
+        parts = line.split()
+        if len(parts) != 3:
+            continue
+        pid, ppid, kb = (int(p) for p in parts)
+        kids.setdefault(ppid, []).append(pid)
+        rss[pid] = kb * 1024
+    total, stack = 0, [root_pid]
+    while stack:
+        pid = stack.pop()
+        total += rss.get(pid, 0)
+        stack.extend(kids.get(pid, []))
+    return total
+
+
+def free_bytes() -> int:
+    """Free + inactive + purgeable memory, from vm_stat."""
+    try:
+        out = subprocess.run(["vm_stat"], capture_output=True, text=True, check=True).stdout
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return sys.maxsize
+    page = 4096
+    first = out.splitlines()[0]
+    if "page size of" in first:
+        page = int(first.split("page size of")[1].split("bytes")[0].strip())
+    vals = {}
+    for line in out.splitlines()[1:]:
+        if ":" not in line:
+            continue
+        k, v = line.split(":", 1)
+        vals[k.strip()] = int(v.strip().rstrip("."))
+    free = vals.get("Pages free", 0) + vals.get("Pages inactive", 0) + vals.get("Pages purgeable", 0)
+    return free * page
+
+
+def log(msg: str) -> None:
+    print(f"[run-capped] {msg}", file=sys.stderr, flush=True)
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(add_help=True)
+    ap.add_argument("--limit-gb", type=float, default=float(os.environ.get("RUN_CAPPED_LIMIT_GB", 10)))
+    ap.add_argument("--floor-gb", type=float, default=2.0, help="kill if system free memory drops below this")
+    ap.add_argument("--warn-at", type=float, default=0.8, help="fraction of the limit that triggers a warning")
+    ap.add_argument("command", nargs=argparse.REMAINDER)
+    args = ap.parse_args()
+
+    cmd = args.command[1:] if args.command and args.command[0] == "--" else args.command
+    if not cmd:
+        ap.error("no command given — use: run-capped [options] -- <command>")
+
+    limit = int(args.limit_gb * GB)
+    floor = int(args.floor_gb * GB)
+    env = dict(os.environ, RUN_CAPPED_LIMIT_GB=str(args.limit_gb))
+    # torch/MPS honours this only when set before torch is imported:
+    env.setdefault("PYTORCH_MPS_HIGH_WATERMARK_RATIO", "0.7")
+
+    log(f"cap {args.limit_gb:g}GB · free-floor {args.floor_gb:g}GB · {' '.join(cmd)}")
+    proc = subprocess.Popen(cmd, env=env, start_new_session=True)
+    peak, warned = 0, False
+
+    try:
+        while proc.poll() is None:
+            time.sleep(POLL_S)
+            rss, free = tree_rss_bytes(proc.pid), free_bytes()
+            peak = max(peak, rss)
+            if rss > args.warn_at * limit and not warned:
+                warned = True
+                log(f"warning: {rss / GB:.1f}GB of {args.limit_gb:g}GB")
+            if rss > limit or free < floor:
+                why = f"RSS {rss / GB:.1f}GB > {args.limit_gb:g}GB" if rss > limit \
+                    else f"system free {free / GB:.1f}GB < {args.floor_gb:g}GB"
+                log(f"KILLING — {why}")
+                os.killpg(proc.pid, signal.SIGTERM)
+                for _ in range(12):
+                    if proc.poll() is not None:
+                        break
+                    time.sleep(0.25)
+                if proc.poll() is None:
+                    os.killpg(proc.pid, signal.SIGKILL)
+                proc.wait()
+                log(f"peak {peak / GB:.1f}GB — run aborted before the machine hung")
+                return 137
+    except KeyboardInterrupt:
+        os.killpg(proc.pid, signal.SIGTERM)
+        proc.wait()
+        return 130
+
+    log(f"done · peak {peak / GB:.1f}GB of {args.limit_gb:g}GB")
+    return proc.returncode
+
+
+if __name__ == "__main__":
+    sys.exit(main())
