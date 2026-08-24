@@ -848,6 +848,17 @@ items 1, 3 and 6), WO-0013.
 
 ### Fixed
 
+- `bin/run-capped`: measure the **physical footprint** of the child tree, not RSS.
+  RSS misses mmap'd weight files and Metal/MPS buffers — a run really holding 8 GB
+  reported 0.6 GB of RSS and sailed past the cap. Also replaced the free-memory floor
+  (now opt-in, default off — free pages on macOS are mostly evictable file cache, so
+  it false-triggered while merely reading a model off disk) with the kernel's own
+  verdict, `kern.memorystatus_vm_pressure_level`, requiring ~2 s of sustained critical
+  pressure before killing.
+- `bin/run-capped`: no longer sets `PYTORCH_MPS_HIGH_WATERMARK_RATIO` behind the
+  caller's back. torch rejects a low watermark above the high one, so setting only the
+  high ratio made every torch-MPS run die with `invalid low watermark ratio 1.4`. The
+  ratio is now opt-in via `--mps-ratio`, which sets both watermarks consistently.
 - `skills/opensource-tts`: Piper row no longer claims "no Persian" (community
   Mana-Persian-Piper voice exists), and the file now states up front that
   `edge-tts` must not be recommended.

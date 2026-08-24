@@ -6,9 +6,12 @@ supervises the child process tree from the outside and kills it *before* the
 machine starts swapping itself to death.
 
 Two independent triggers, whichever fires first:
-  1. the child tree's RSS exceeds --limit-gb
-  2. system free memory drops below --floor-gb (catches memory the child
-     allocates through Metal/MPS, which RSS accounting can under-report)
+  1. the child tree's *physical footprint* exceeds --limit-gb. Footprint, not RSS:
+     RSS misses mmap'd weight files and Metal/MPS buffers, so a run that really
+     holds 8 GB can report 0.6 GB of RSS.
+  2. the kernel reports critical memory pressure (kern.memorystatus_vm_pressure_level),
+     i.e. the machine itself is about to suffer — not merely "free pages are low",
+     which on macOS is normal because free pages are used as file cache.
 
 Usage:
     run-capped -- python infer.py --text "..."
@@ -22,37 +25,83 @@ from __future__ import annotations
 import argparse
 import os
 import signal
+import re
 import subprocess
 import sys
 import time
 
 GB = 1024 ** 3
 POLL_S = 0.25
+CRIT_POLLS = 8  # sustained critical pressure (~2s) before we kill
+
+
+def _footprint_bytes(pid: int) -> int | None:
+    """Physical footprint of one process — the number Activity Monitor shows."""
+    try:
+        out = subprocess.run(
+            ["footprint", "-p", str(pid)], capture_output=True, text=True, timeout=5
+        ).stdout
+    except (OSError, subprocess.SubprocessError):
+        return None
+    m = re.search(r"Footprint:\s+([\d.]+)\s*(KB|MB|GB)", out)
+    if not m:
+        return None
+    unit = {"KB": 1024, "MB": 1024 ** 2, "GB": 1024 ** 3}[m.group(2)]
+    return int(float(m.group(1)) * unit)
+
+
+def tree_pids(root_pid: int) -> list[int]:
+    try:
+        out = subprocess.run(
+            ["ps", "-eo", "pid=,ppid="], capture_output=True, text=True, check=True
+        ).stdout
+    except subprocess.CalledProcessError:
+        return [root_pid]
+    kids: dict[int, list[int]] = {}
+    for line in out.splitlines():
+        parts = line.split()
+        if len(parts) != 2:
+            continue
+        pid, ppid = int(parts[0]), int(parts[1])
+        kids.setdefault(ppid, []).append(pid)
+    pids, stack = [], [root_pid]
+    while stack:
+        pid = stack.pop()
+        pids.append(pid)
+        stack.extend(kids.get(pid, []))
+    return pids
 
 
 def tree_rss_bytes(root_pid: int) -> int:
-    """Sum RSS over the child process tree (macOS `ps` reports RSS in KB)."""
+    """Footprint of the whole child tree, falling back to RSS where unavailable."""
     try:
         out = subprocess.run(
-            ["ps", "-eo", "pid=,ppid=,rss="], capture_output=True, text=True, check=True
+            ["ps", "-eo", "pid=,rss="], capture_output=True, text=True, check=True
         ).stdout
     except subprocess.CalledProcessError:
         return 0
-    kids: dict[int, list[int]] = {}
-    rss: dict[int, int] = {}
+    rss = {}
     for line in out.splitlines():
         parts = line.split()
-        if len(parts) != 3:
-            continue
-        pid, ppid, kb = (int(p) for p in parts)
-        kids.setdefault(ppid, []).append(pid)
-        rss[pid] = kb * 1024
-    total, stack = 0, [root_pid]
-    while stack:
-        pid = stack.pop()
-        total += rss.get(pid, 0)
-        stack.extend(kids.get(pid, []))
+        if len(parts) == 2:
+            rss[int(parts[0])] = int(parts[1]) * 1024
+    total = 0
+    for pid in tree_pids(root_pid):
+        fp = _footprint_bytes(pid)
+        total += fp if fp is not None else rss.get(pid, 0)
     return total
+
+
+def pressure_level() -> int:
+    """1 = normal, 2 = warn, 4 = critical (kernel's own verdict)."""
+    try:
+        out = subprocess.run(
+            ["sysctl", "-n", "kern.memorystatus_vm_pressure_level"],
+            capture_output=True, text=True, check=True,
+        ).stdout.strip()
+        return int(out)
+    except (subprocess.CalledProcessError, ValueError, OSError):
+        return 1
 
 
 def free_bytes() -> int:
@@ -82,8 +131,19 @@ def log(msg: str) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(add_help=True)
     ap.add_argument("--limit-gb", type=float, default=float(os.environ.get("RUN_CAPPED_LIMIT_GB", 10)))
-    ap.add_argument("--floor-gb", type=float, default=2.0, help="kill if system free memory drops below this")
+    ap.add_argument(
+        "--floor-gb", type=float, default=0.0,
+        help="optional: also kill if free system memory drops below this. Off by "
+             "default — on macOS free pages are mostly evictable file cache, so a "
+             "floor false-triggers while merely reading a big model off disk.")
     ap.add_argument("--warn-at", type=float, default=0.8, help="fraction of the limit that triggers a warning")
+    ap.add_argument(
+        "--mps-ratio", type=float, default=None,
+        help="optional torch-MPS allocator ceiling, as a fraction of "
+             "recommendedMaxWorkingSetSize (NOT of total RAM). Sets both the high and "
+             "the low watermark, because torch rejects low > high. Off by default: the "
+             "process guard below is the real cap, and a too-tight ratio makes torch "
+             "fail to allocate rather than making the run safer.")
     ap.add_argument("command", nargs=argparse.REMAINDER)
     args = ap.parse_args()
 
@@ -94,24 +154,39 @@ def main() -> int:
     limit = int(args.limit_gb * GB)
     floor = int(args.floor_gb * GB)
     env = dict(os.environ, RUN_CAPPED_LIMIT_GB=str(args.limit_gb))
-    # torch/MPS honours this only when set before torch is imported:
-    env.setdefault("PYTORCH_MPS_HIGH_WATERMARK_RATIO", "0.7")
+    if args.mps_ratio is not None:
+        # torch reads these only before `import torch`, and rejects low > high
+        # (default low is 1.4 — setting high alone raises "invalid low watermark ratio").
+        env["PYTORCH_MPS_HIGH_WATERMARK_RATIO"] = str(args.mps_ratio)
+        env["PYTORCH_MPS_LOW_WATERMARK_RATIO"] = str(round(args.mps_ratio * 0.7, 3))
 
-    log(f"cap {args.limit_gb:g}GB · free-floor {args.floor_gb:g}GB · {' '.join(cmd)}")
+    floor_txt = f"{args.floor_gb:g}GB" if args.floor_gb else "off"
+    log(f"cap {args.limit_gb:g}GB · free-floor {floor_txt} · pressure-kill on · {' '.join(cmd)}")
     proc = subprocess.Popen(cmd, env=env, start_new_session=True)
-    peak, warned = 0, False
+    peak, warned, crit_streak = 0, False, 0
 
     try:
         while proc.poll() is None:
             time.sleep(POLL_S)
-            rss, free = tree_rss_bytes(proc.pid), free_bytes()
+            rss = tree_rss_bytes(proc.pid)
+            free = free_bytes() if floor else sys.maxsize
+            # kernel pressure can spike for a moment while a big file is paged in;
+            # only a sustained critical level means the machine is really in trouble
+            crit_streak = crit_streak + 1 if pressure_level() >= 4 else 0
+            if crit_streak == 1:
+                log("kernel memory pressure is CRITICAL — watching")
+            crit = crit_streak >= CRIT_POLLS
             peak = max(peak, rss)
             if rss > args.warn_at * limit and not warned:
                 warned = True
                 log(f"warning: {rss / GB:.1f}GB of {args.limit_gb:g}GB")
-            if rss > limit or free < floor:
-                why = f"RSS {rss / GB:.1f}GB > {args.limit_gb:g}GB" if rss > limit \
-                    else f"system free {free / GB:.1f}GB < {args.floor_gb:g}GB"
+            if rss > limit or free < floor or crit:
+                if rss > limit:
+                    why = f"footprint {rss / GB:.1f}GB > {args.limit_gb:g}GB"
+                elif crit:
+                    why = f"kernel reports CRITICAL memory pressure for {CRIT_POLLS * POLL_S:.0f}s"
+                else:
+                    why = f"system free {free / GB:.1f}GB < {args.floor_gb:g}GB"
                 log(f"KILLING — {why}")
                 os.killpg(proc.pid, signal.SIGTERM)
                 for _ in range(12):
