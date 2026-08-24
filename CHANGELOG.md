@@ -859,6 +859,10 @@ items 1, 3 and 6), WO-0013.
   caller's back. torch rejects a low watermark above the high one, so setting only the
   high ratio made every torch-MPS run die with `invalid low watermark ratio 1.4`. The
   ratio is now opt-in via `--mps-ratio`, which sets both watermarks consistently.
+- CI (`Lint Markdown`): the constraints banner in `skills/opensource-tts` used
+  indented continuation lines inside a blockquote, which trips MD027
+  (no-multiple-space-blockquote) and turned `main` red on push. Rewritten as flat
+  blockquote lines. Verified with the exact CI command locally before commit.
 - `skills/opensource-tts`: Piper row no longer claims "no Persian" (community
   Mana-Persian-Piper voice exists), and the file now states up front that
   `edge-tts` must not be recommended.
