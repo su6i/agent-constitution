@@ -827,6 +827,26 @@ items 1, 3 and 6), WO-0013.
   (the marker was being consumed as the email local-part). Real emails in
   added code are still caught.
 
+## [Unreleased] - 2026-08-24
+
+### Added
+
+- `skills/opensource-tts`: mandatory memory-cap section for every audio-generation
+  script (8–10 GB budget, engine knob + in-process guard). macOS does not enforce
+  `RLIMIT_AS`, so `ulimit -v` is not a cap; MLX/PyTorch-MPS knobs plus a stdlib
+  watchdog are.
+- `skills/opensource-tts`: measured RTF matrix (Mac M-series vs Colab T4), license
+  matrix, queue of commercially-usable engines to benchmark next (Zonos,
+  CosyVoice 2, OpenVoice v2) and the numbers-reading test dimension.
+
+### Fixed
+
+- `skills/opensource-tts`: Piper row no longer claims "no Persian" (community
+  Mana-Persian-Piper voice exists), and the file now states up front that
+  `edge-tts` must not be recommended.
+
+---
+
 ## [Unreleased] - 2026-06-30
 
 ### Added

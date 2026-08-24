@@ -3,10 +3,19 @@ title: "Open-Source TTS — Multilingual Voice Synthesis"
 description: Free alternatives to ElevenLabs — edge-tts, F5-TTS, GPT-SoVITS, OpenVoice, Piper for Persian, English, French
 location: skills/opensource-tts.md
 agent_priority: Standard
-last_updated: 2026-05-30
+last_updated: 2026-08-24
+version: 1.1.0
+updated: 2026-08-24
 ---
 
 # Open-Source TTS — Multilingual Voice Synthesis
+
+> **دو قیدِ الزامی پیش از هر اجرا (حکمِ مالک):**
+> ۱. هر اسکریپتِ تولیدِ صدا باید **سقفِ حافظه** داشته باشد (۸–۱۰GB) — بخشِ
+>    «سقفِ حافظه» در انتهای همین فایل. اجرای بی‌سقف مک را هنگ می‌کند.
+> ۲. **`edge-tts` را هرگز پیشنهاد نده** — مالک آن را ردّ کرده است. جدول و مثال‌های
+>    زیر فقط مرجعِ فنی‌اند، نه توصیه. کندیِ موتورِ باکیفیت را با سخت‌افزار حل کن،
+>    نه با افتِ کیفیت.
 
 ## Quick Decision Table
 
@@ -16,7 +25,7 @@ last_updated: 2026-05-30
 | **F5-TTS** | Via cloning | Via cloning | Native | Excellent | Fast (GPU) | Moderate | Zero-shot voice cloning |
 | **GPT-SoVITS** | Via training | Via training | Native | Best | Medium | Complex | Fine-tuned voice, 1 min sample |
 | **OpenVoice V2** | Cross-lingual | Native | Native | Very good | Fast | Moderate | Multi-lingual from one reference |
-| **Piper** | No | Yes (fr_FR) | Yes | Good | Very fast | Easy | Offline, embedded systems |
+| **Piper** | fa (صدای اجتماعیِ Mana-Persian-Piper) | Yes (fr_FR) | Yes | Good | Very fast | Easy | Offline, embedded systems |
 
 **Decision guide:**
 
@@ -434,3 +443,133 @@ for i, text in enumerate(texts):
         file_wave=f"output_{i:03d}.wav",
     )
 ```
+
+## سرعتِ اندازه‌گیری‌شده روی مکِ M-series و Colab T4 (۲۰۲۶-۰۸-۲۴)
+
+اعدادِ واقعی از یک bake-off ِ فارسی، نه تخمین. متنِ یکسان، همان هارنِس، RTF از `wall/audio`:
+
+| engine | device | RTF | x_realtime |
+|---|---|---|---|
+| piper (VITS, NAR) | Mac M-series **CPU** | 0.029 | **35x** |
+| edge-tts | شبکه (Azure) | 0.133 | 7.5x |
+| piper | Colab **T4 GPU** | 0.341 | 2.9x |
+| omnivoice (~600M, AR) | Colab T4 GPU | 1.165 | 0.86x |
+| omnivoice | Mac CPU | 2.711 | 0.37x |
+| dots.tts-mlx (2B, AR) | Mac MLX GPU | ~41 (با لودِ مدل) | 0.024x |
+
+**دو قاعده‌ی عملی که از این اعداد درآمد:**
+
+1. **Colab ِ رایگان برای TTS ِ کوچک ضدِ بهره‌وری است.** Piper روی T4 دوازده برابر کندتر از
+   مکِ محلی شد، چون ONNX ِ Piper اصلاً GPU نمی‌خواهد و CPU ِ دوهسته‌ایِ کولب از M-series
+   ضعیف‌تر است. قبل از فرستادنِ کار به کولب، RTF را روی **هر دو** محیط probe کن.
+2. **تعدادِ پارامتر پیش‌بینی‌کننده‌ی سرعت نیست.** مدلِ اتورگرسیوِ کدک به ازای هر ثانیه صدا
+   `نرخ فریم × تعداد codebook` گامِ متوالی می‌زند (مثلاً ۵۰×۸ = ۴۰۰ گام). گلوگاه پهنای‌باندِ
+   حافظه است؛ مدلِ کوچک‌تر گامِ کمتری ندارد. NAR (VITS/flow-matching) این جریمه را ندارد.
+
+**سخت‌افزار برای RTF<0.3:** OmniVoice ~۱٫۳GB VRAM (fp16)، dots ~۳–۷٫۵GB. RTX 3090/4090 کافی است؛
+ارزان‌ترین اجاره‌ی ابری ≈ $۰٫۲–۰٫۴ بر ساعت (vast.ai / runpod). batching اثرِ زیاد دارد.
+
+**کیفیت در برابر سرعت — تله‌ی Piper:** VITS حافظه‌ی بلندمدتِ نوایی ندارد، پس تن و لحن در طولِ
+چند دقیقه **دریفت می‌کند**؛ برای دوبله‌ی طولانی ردّ می‌شود مگر با سنتزِ جمله‌به‌جمله و
+`--length_scale 1.1 --noise_scale 0.333 --noise_w 0.6 --sentence_silence 0.25`. کلونِ صدا هم ندارد.
+
+**مجوز — بررسی‌شده ۲۰۲۶-۰۸-۲۴:** تجاری‌مجاز = dots.tts، Kokoro، Matcha، MeloTTS، OpenVoice v2،
+Chatterbox، Zonos، CosyVoice 2، Piper (همه Apache/MIT).
+غیرتجاری ⇒ ردّ = F5-TTS، E2-TTS (CC-BY-NC)، XTTS-v2 (CPML)، Fish-Speech، Spark-TTS، StyleTTS2،
+VibeVoice. مشروط = IndexTTS2، Higgs v2، Orpheus.
+
+جزئیات و فایل‌های صوتی: `polycast/docs/benchmark/2026-08-24-fa-dub-bakeoff/`
+
+## سقفِ حافظه — الزامی در هر اسکریپتِ تولیدِ صدا (حکمِ مالک ۲۰۲۶-۰۸-۲۴)
+
+یک اجرای بی‌سقف روی مکِ M-series **بالای ۱۱ گیگابایت** حافظه‌ی یکپارچه گرفت و سیستم را به
+هنگ برد. از این پس هر اسکریپتِ TTS/تبدیلِ صدا **باید** یک سقفِ صریح داشته باشد؛ بودجه‌ی
+پیش‌فرض **۸ تا ۱۰ گیگابایت** (روی مکِ ۱۶ گیگ: ۸؛ روی ۳۲ گیگ به بالا: ۱۰).
+
+**نکته‌ی کلیدی:** روی macOS هسته `RLIMIT_AS` را **اعمال نمی‌کند** — نه `ulimit -v` و نه
+`resource.setrlimit(RLIMIT_AS)` جلوی چیزی را نمی‌گیرد (بی‌خطا اجرا می‌شود و نادیده گرفته
+می‌شود). پس سقف باید در دو لایه ساخته شود: **knob ِ خودِ موتور** + **نگهبانِ فرایند**.
+
+### لایه ۱ — knob ِ موتور (قبل از لودِ مدل)
+
+```python
+# MLX (dots.tts-mlx و هر مدلِ MLX) — نامِ تابع بینِ نسخه‌ها جابه‌جا شده،
+# پس version-safe صدا بزن (mx.set_memory_limit جدید، mx.metal.set_memory_limit قدیمی):
+import mlx.core as mx
+GB = 1024 ** 3
+(getattr(mx, "set_memory_limit", None) or mx.metal.set_memory_limit)(10 * GB)
+(getattr(mx, "set_cache_limit",  None) or mx.metal.set_cache_limit)(2 * GB)
+# بعد از هر chunk: (getattr(mx, "clear_cache", None) or mx.metal.clear_cache)()
+
+# PyTorch MPS — این env باید *قبل از* import torch ست شود:
+import os
+os.environ.setdefault("PYTORCH_MPS_HIGH_WATERMARK_RATIO", "0.6")
+import torch
+torch.mps.set_per_process_memory_fraction(0.6)   # نسبت به recommendedMaxWorkingSetSize
+torch.mps.empty_cache()                          # بعد از هر chunk
+```
+
+⚠️ هر دو نسبت (`HIGH_WATERMARK_RATIO` و `set_per_process_memory_fraction`) نسبت به
+**recommendedMaxWorkingSetSize** ِ سیستم‌عامل‌اند، نه کلِ RAM — عدد را از روی همان حساب کن.
+
+### لایه ۲ — نگهبانِ فرایند (stdlib، بدون وابستگی)
+
+```python
+import os, signal, threading, time, resource
+
+def ram_guard(limit_gb: float = 10.0, poll_s: float = 2.0) -> None:
+    """اگر peak RSS از سقف رد شد، فرایند را با SIGTERM می‌کشد (macOS: ru_maxrss بر حسب بایت)."""
+    limit = int(limit_gb * 1024 ** 3)
+    def loop():
+        while True:
+            rss = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            if os.uname().sysname != "Darwin":
+                rss *= 1024                      # لینوکس: کیلوبایت
+            if rss > limit:
+                print(f"[ram-guard] {rss / 1024**3:.1f}GB > {limit_gb}GB — abort", flush=True)
+                os.kill(os.getpid(), signal.SIGTERM)
+            time.sleep(poll_s)
+    threading.Thread(target=loop, daemon=True).start()
+
+ram_guard(10)   # اولین خطِ main()
+```
+
+### قواعدِ همراه (بدونِ اینها سقف می‌شکند)
+
+1. **صدا را در RAM انباشته نکن.** هر chunk را همان‌جا روی دیسک بنویس و آرایه را `del` کن؛
+   الحاق را آخرِ کار با `ffmpeg concat` انجام بده، نه با یک لیستِ numpy در حافظه.
+2. **هر لحظه یک مدل.** بینِ موتورها فرایندِ جدا بالا بیاور (`subprocess`) — آزادسازیِ
+   حافظه‌ی Metal داخلِ یک پروسه قطعی نیست.
+3. **دسته‌ای نه سراسری.** متنِ بلند را جمله‌به‌جمله بده؛ batch ِ بزرگ سقف را می‌شکند و
+   روی AR سرعت هم نمی‌آورد.
+4. **سقف را ثبت کن.** در sidecar ِ خروجی `environment.memory_limit` را بنویس (مثلاً
+   `"mlx 10GB via set_memory_limit"`) و peak را در `notes` — قرارداد:
+   `polycast/docs/NAMING_CONVENTION.md`.
+5. **قبل از اجرای طولانی probe بزن:** ۱۰ ثانیه صدا بساز، peak را ببین، بعد کلِ کار را راه
+   بینداز. dots int4 روی مک ۹٫۱GB peak داد — یعنی با سقفِ ۸GB اصلاً بالا نمی‌آید.
+
+## صفِ تستِ بعدی — موتورهای تجاری‌مجاز (۲۰۲۶-۰۸-۲۴)
+
+سه موتور برای بنچمارکِ سه‌زبانه (fa/en/fr) در نوبت‌اند؛ **هیچ‌کدام فارسی را رسماً پشتیبانی
+نمی‌کنند** — این نکته طراحیِ تست را عوض می‌کند:
+
+| موتور | مجوز | زبان‌های رسمی | معماری | حافظه |
+|---|---|---|---|---|
+| Zonos | Apache-2.0 | en, ja, zh, fr, de | AR (Transformer یا هیبریدِ Mamba2) | ≥۶GB، ۱۰GB توصیه |
+| CosyVoice 2 | Apache-2.0 | zh, en, ja, ko, de, es, fr, it, ru | LLM + flow-matching ِ chunk-aware | ۶–۸GB (۰٫۵B) |
+| OpenVoice v2 | MIT | پایه = MeloTTS: en, es, fr, zh, ja, ko | مبدلِ رنگِ صدا روی TTS ِ پایه | سبک |
+
+**نتیجه‌ی معماری:** OpenVoice v2 مبدلِ **زبان‌مستقل** است — روی موجِ صدا کار می‌کند، پس
+می‌تواند خروجیِ یک TTS ِ فارسیِ ثالث (Piper fa یا edge-tts fa-IR) را به صدای کلون‌شده تبدیل
+کند. یعنی مسیرِ «Piper fa ِ سریع + OpenVoice v2» تنها زنجیره‌ی **کاملاً تجاری‌مجاز** برای
+کلونِ صدای فارسی است. دو قید: مبدل فقط **تیمبر** را می‌آورد، لحن و prosody از موتورِ پایه
+می‌آید (یعنی دریفتِ لحنِ Piper پابرجاست)، و هر نویز/آرتیفکتِ موتورِ پایه را تشدید می‌کند.
+Zonos و CosyVoice 2 برای فارسی فقط به‌صورتِ cross-lingual (کیفیتِ نامعلوم) قابلِ آزمایش‌اند.
+
+## تستِ اعداد — بُعدِ اجباریِ هر بنچمارک
+
+خواندنِ عدد شایع‌ترین شکستِ TTS در دوبله است و در تستِ متنِ روایی دیده نمی‌شود. کنارِ
+سناریوی روایی، همیشه بلوکِ اعداد را هم بگیر: اعدادِ اصلی/ترتیبی، هزارگان و میلیون، اعشار،
+کسر، درصد، پول، تاریخ، ساعت، شماره‌ی تلفن (رقم‌به‌رقم نه عددی)، بازه، واحد، سال، منفی، و
+برای فارسی **تله‌ی رقمِ لاتین در برابر رقمِ فارسی**. مجموعه‌ی فریزشده‌ی سه‌زبانه:
+`polycast/docs/benchmark/numbers_v1.{fa,en,fr}.txt`.
