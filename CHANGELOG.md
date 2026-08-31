@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-01 — pre-commit: Telegram leak-guard patterns (T-912)
+
+### Added
+
+- **`templates/hooks/pre-commit`** (Rule 4) — flags a Telegram channel/chat ID literal (`-100…`), a working `t.me/+…` invite link, or a project's scrape-target domain (read from the local `.env`'s `TARGET_SITE_BASE_URL`, never duplicated into this repo) in newly added lines. Closes the second half of the B-034 remediation: `su6i/telegram-video-automation` leaked a live invite link and channel ID through this exact gap.
+
 ## 2026-08-20 — remove legacy ai-router skill
 
 ### Removed
