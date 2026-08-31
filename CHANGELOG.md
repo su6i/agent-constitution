@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-08-31 — new skill: Telegram Course Channel
+
+### Added
+
+- **`skills/telegram-course-channel.md`** — how to publish a course library (video, resources, subtitles, index) to a Telegram channel. Written from a 283-lesson channel that was built in three separate passes and cannot be repaired, only linked. Covers the one invariant a chronological, append-only medium imposes (one lesson = one contiguous message group), the index slots that must be reserved before the first video, the platform limits and what each one silently breaks, the ffmpeg traps hit on the way (`-q:v` ignored by libx265, forced fps destroying A/V sync, Rosetta costing 2.9×), the idempotence rules, and the leak gate for distilling someone else's transcripts into a public skill.
+
 ## 2026-08-20 — remove legacy ai-router skill
 
 ### Removed

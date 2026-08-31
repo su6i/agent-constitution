@@ -361,7 +361,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 </details>
 
 <details>
-<summary><strong>Content, YouTube & Marketing</strong> (21 skills)</summary>
+<summary><strong>Content, YouTube & Marketing</strong> (24 skills)</summary>
 
 | Skill | Description |
 | --- | --- |
@@ -382,6 +382,7 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 | [social-publisher](skills/social-publisher.md) | Scheduled multi-platform social publishing |
 | [storytelling-clil-education](skills/storytelling-clil-education.md) | Educational storytelling & Leitner SRS |
 | [storytelling-narrative-frameworks](skills/storytelling-narrative-frameworks.md) | Save the Cat, Story Circle & advanced structures |
+| [telegram-course-channel](skills/telegram-course-channel.md) | Publishing a course library to a Telegram channel: index reservation, per-lesson groups |
 | [x-api](skills/x-api.md) | X/Twitter API v2 patterns & automation |
 | [youtube-analytics](skills/youtube-analytics.md) | YouTube Data API analytics & reporting |
 | [youtube-automation-pipeline](skills/youtube-automation-pipeline.md) | End-to-end YouTube publishing automation |
