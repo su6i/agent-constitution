@@ -200,6 +200,25 @@ if [ -n "$scan_files" ]; then
         | grep -ivE 'example\.(com|org|net)|@example|noreply|no-reply|your-?(email|name)|user@host|@test')"
     [ -n "$emails" ] && flag "email address"
 
+    # Telegram channel/invite literals (rule-035 remediation for B-034: a live
+    # channel ID or working invite link committed to a public repo). Format-based,
+    # so safe to ship in this shared template — no project's actual ID/link is
+    # ever stored here.
+    printf '%s\n' "$added" | grep -qE -- '-100[0-9]{6,}' && flag "Telegram channel/chat ID"
+    printf '%s\n' "$added" | grep -qE 't\.me/\+[A-Za-z0-9_-]{10,}' && flag "Telegram invite link"
+
+    # Project scrape-target domain, read from the gitignored .env at commit time
+    # (never duplicated into this repo). Covers TARGET_SITE_BASE_URL-style leaks
+    # of a project's private site identity into tracked files.
+    if [ -f .env ] && [ -n "$added" ]; then
+        site_host="$(grep -E '^TARGET_SITE_BASE_URL=' .env 2>/dev/null \
+            | head -1 | sed -E 's/^[A-Z_]+=//; s#^https?://##; s#/.*##')"
+        if [ -n "$site_host" ] && [ "${#site_host}" -ge 4 ] \
+            && printf '%s\n' "$added" | grep -Fq "$site_host"; then
+            flag "project scrape-target domain"
+        fi
+    fi
+
     # Personal denylist from the gitignored personal_data file (identity fields only).
     pd=""
     for c in templates/shared/personal_data.tex templates/shared/personal_data.json; do
