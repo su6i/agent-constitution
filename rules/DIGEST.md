@@ -635,14 +635,25 @@ test commands with expected results, never just merge/push commands.
 
 Identifiers must live outside session context so they remain valid across `/clear` resets and cross-session handoffs.
 
-Only the following official prefixes are permitted:
+Only the following official prefixes are permitted. Hand-editing inside these markers is a violation; the table is rendered from `_memory/PREFIXES.tsv`.
 
-- **`B-`**: Branch (`B-001`)
-- **`T-`**: Task (`T-001`)
-- **`D-`**: Owner Decision (`D-001`)
-- **`N-`**: Inbox Note (`N-001`)
+<!-- PREFIXES:BEGIN generated from _memory/PREFIXES.tsv -->
+| Prefix | Name | Scope |
+|--------|------|-------|
+| D | Owner Decision | Awaiting owner decision |
+| T | Task | Open tasks (tracked in QUEUE.md) |
+| N | Inbox Note | Manager inbox notes |
+| B | Branch | Open branches |
+| R | Research Finding | Deep-search deliverables; data under _memory/research/<id>/ |
+<!-- PREFIXES:END -->
 
 A new prefix may be introduced **only** by an explicit owner decision. Ad-hoc or per-message local numbering (e.g. referencing items as "1", "2", "3" in chat) is strictly forbidden.
+
+**What counts as an item:** anything that needs a stable id is not limited to owner-facing artefacts — an architect's own action or decision counts too. The test: if tomorrow the owner wants to point at this in one word, what is that word? If there is a real answer, it needs an id.
+
+**Allocate first, write second:** writing an identifier into any document, message, or commit before `id_alloc next` has issued it is a violation (cite N-035 b-7-a). This prevents a concrete failure: two sessions inventing the same number for different content.
+
+**One decision = one id:** options of a single question are indexed under that one id (e.g. `D-231-a`, `-b`, `-c`); they never get their own top-level ids in the registry (registry entry stays `D-231`).
 
 **Permanent Lock:** Every assigned ID is permanently bound to its single topic.
 Once assigned, an ID is never freed, reassigned, or reused — even after the item is completed, closed, or cancelled. Closed items must be moved to the "Closed" section of `_memory/REGISTRY-IDS.md`.
@@ -1056,4 +1067,4 @@ Ownership, so that none of the three is nobody's job:
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
 
-<!-- digest-hash: a5648d2cc407d9b54bfb3d855c0e1a6e643295c1d30c930103c0923886fb6921 -->
+<!-- digest-hash: 27caa40e9557ad0a07801ad99ec2effa284fefddaf43108c0e1ffc723b34d288 -->
