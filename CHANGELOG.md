@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-03 — centralize identifier prefixes and strict ID rules (T-917)
+
+### Added
+
+- **`_memory/PREFIXES.tsv`**: established as the single source of truth for allowed identifier prefixes.
+- **`bin/validate-prefixes.sh`**: new script to mechanically validate the prefixes table in `rules/075-identifiers.md` against `_memory/PREFIXES.tsv`. CI wiring skips execution if no vault is present.
+
+### Changed
+
+- **`rules/075-identifiers.md`**: rendered the identifier prefixes table directly from `_memory/PREFIXES.tsv` to prevent drift. Added four explicit clauses: 
+  (a) explicitly defining what counts as an item needing an ID (if the owner wants to point at it in one word, it needs an ID).
+  (b) allocate first, write second rule preventing multiple sessions from inventing the same number (N-035 b-7-a).
+  (c) one decision = one ID rule (e.g. `D-231-a`, `-b` rather than new top-level IDs).
+  (d) the prefix table itself is now generated between `<!-- PREFIXES:BEGIN -->` /
+      `<!-- PREFIXES:END -->` markers; hand-editing inside them is a violation,
+      caught mechanically by `bin/validate-prefixes.sh`.
+- **`.github/workflows/validate.yml`**: wired `bin/validate-prefixes.sh` in as a new
+  `validate-prefixes` job alongside the existing validators.
+
 ## 2026-09-01 — pre-commit: Telegram leak-guard patterns (T-912)
 
 ### Added

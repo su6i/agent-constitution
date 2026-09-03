@@ -16,6 +16,15 @@ jobs:
       - name: Run bin/generate-digest.sh --check
         run: bash bin/generate-digest.sh --check
 
+  validate-prefixes:
+    name: Check Identifier Prefixes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Run bin/validate-prefixes.sh
+        run: bash bin/validate-prefixes.sh
+
   validate-links:
     name: Check Internal Links
     runs-on: ubuntu-latest

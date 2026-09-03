@@ -3,7 +3,7 @@ title: "075Identifiers: Stable Identifiers Registry (REGISTRY-IDS)"
 description: Canonical rule for stable, persistent IDs across branches, tasks, owner decisions, and inbox notes. Every reply with pending owner items must close with an id-keyed decision list.
 location: rules/075-identifiers.md
 agent_priority: High
-last_updated: 2026-08-20
+last_updated: 2026-09-03
 ---
 
 # Stable Identifiers Registry (REGISTRY-IDS)
@@ -21,14 +21,37 @@ Identifiers must live outside session context so they remain valid across `/clea
 ## Identifier Prefixes
 
 <!-- digest:start -->
-Only the following official prefixes are permitted:
+Only the following official prefixes are permitted. Hand-editing inside these markers is a violation; the table is rendered from `_memory/PREFIXES.tsv`.
 
-- **`B-`**: Branch (`B-001`)
-- **`T-`**: Task (`T-001`)
-- **`D-`**: Owner Decision (`D-001`)
-- **`N-`**: Inbox Note (`N-001`)
+<!-- PREFIXES:BEGIN generated from _memory/PREFIXES.tsv -->
+| Prefix | Name | Scope |
+|--------|------|-------|
+| D | Owner Decision | Awaiting owner decision |
+| T | Task | Open tasks (tracked in QUEUE.md) |
+| N | Inbox Note | Manager inbox notes |
+| B | Branch | Open branches |
+| R | Research Finding | Deep-search deliverables; data under _memory/research/<id>/ |
+<!-- PREFIXES:END -->
 
 A new prefix may be introduced **only** by an explicit owner decision. Ad-hoc or per-message local numbering (e.g. referencing items as "1", "2", "3" in chat) is strictly forbidden.
+<!-- digest:end -->
+
+## What Counts as an Item
+
+<!-- digest:start -->
+**What counts as an item:** anything that needs a stable id is not limited to owner-facing artefacts — an architect's own action or decision counts too. The test: if tomorrow the owner wants to point at this in one word, what is that word? If there is a real answer, it needs an id.
+<!-- digest:end -->
+
+## Allocate First, Write Second
+
+<!-- digest:start -->
+**Allocate first, write second:** writing an identifier into any document, message, or commit before `id_alloc next` has issued it is a violation (cite N-035 b-7-a). This prevents a concrete failure: two sessions inventing the same number for different content.
+<!-- digest:end -->
+
+## One Decision = One ID
+
+<!-- digest:start -->
+**One decision = one id:** options of a single question are indexed under that one id (e.g. `D-231-a`, `-b`, `-c`); they never get their own top-level ids in the registry (registry entry stays `D-231`).
 <!-- digest:end -->
 
 ## Permanent Locking

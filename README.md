@@ -103,6 +103,10 @@ contains a non-ASCII byte ([`rules/000 §Language Policy`](rules/000-core.md)).
 Only new paths are checked, so it never fires on files that predate the rule,
 and the file's content language is a separate question.
 
+### Stable Identifiers
+
+System identifiers (`T-` Task, `D-` Decision, `B-` Branch, `N-` Note) are permanently registered in `_memory/REGISTRY-IDS.md`. The definitive list of allowed prefixes is maintained in `_memory/PREFIXES.tsv`, which mechanically updates the rules via `bin/validate-prefixes.sh`.
+
 ### Core Features
 
 - **⚖️ The Neural Gavel:** A strict `.cursorrules` router that prevents the Agent from guessing.
