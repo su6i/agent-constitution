@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-04 — restore green CI (T-917 follow-up)
+
+### Fixed
+
+- **`rules/DIGEST.md`**: regenerated with `bin/generate-digest.sh` so it matches
+  the current `rules/*.md`; the digest-freshness job was failing on stale content.
+- **`CHANGELOG.md`**: removed a trailing space that failed `markdownlint` MD009.
+
+---
+
 ## 2026-09-03 — centralize identifier prefixes and strict ID rules (T-917)
 
 ### Added
@@ -16,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **`rules/075-identifiers.md`**: rendered the identifier prefixes table directly from `_memory/PREFIXES.tsv` to prevent drift. Added four explicit clauses: 
+- **`rules/075-identifiers.md`**: rendered the identifier prefixes table directly from `_memory/PREFIXES.tsv` to prevent drift. Added four explicit clauses:
   (a) explicitly defining what counts as an item needing an ID (if the owner wants to point at it in one word, it needs an ID).
   (b) allocate first, write second rule preventing multiple sessions from inventing the same number (N-035 b-7-a).
   (c) one decision = one ID rule (e.g. `D-231-a`, `-b` rather than new top-level IDs).
