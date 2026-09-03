@@ -4,9 +4,9 @@ title: "Telegram Course Channel"
 description: Publish a course library (video + resources + subtitles + index) to a Telegram channel, in the one order that a chronological, append-only medium allows. Use when setting up a new channel for educational video, or repairing one that was uploaded in separate passes.
 location: skills/telegram-course-channel.md
 agent_priority: Standard
-version: 1.0.0
-updated: 2026-08-31
-last_updated: 2026-08-31
+version: 1.1.0
+updated: 2026-09-04
+last_updated: 2026-09-04
 ---
 
 **🔗 Related Skills:**
@@ -147,21 +147,49 @@ inserted later; it can only occupy messages that already exist above the
 videos. So the very first thing the channel receives is a run of placeholder
 messages, which are later *edited* into the index.
 
-**How many.** Measure, do not guess: one index line is a lesson number plus a
-title, ~45 characters, and a section header ~30. A text message holds 4096
-characters; budget 3800 for safe chunking.
+**How many. Two budgets, not one — and the second one is the one that bites.**
+A post closes when *either* would be exceeded:
+
+- **Characters**, capped at 4096 — counted in **UTF-16 code units**, which is
+  what Telegram counts, not Python `len()`. Emoji and non-Latin titles make
+  these diverge; `len(s.encode("utf-16-le")) // 2` is the number that matters.
+  One index line is a lesson number plus a title, ~45 units; a section header
+  ~30. Budget 3700 for safe chunking.
+- **Entities**, capped at **100 per message**. Every `<a>`, `<b>`, `<i>` is one
+  entity. Past the 100th, Telegram **silently drops the rest** — no error, no
+  exception, no truncation marker; the text renders and the links past #100 are
+  dead plain text. Nothing in your code will notice. Only a human scrolling the
+  live channel will, months later.
 
 ```
-chars  = lessons × 45 + sections × 30
-posts  = ceil(chars / 3800)
-reserve = posts × 2 + 4          # room to double the course, plus slack
+chars    = lessons × 45 + sections × 30
+entities = lessons × links_per_lesson + headers × (1 if bold else 0)
+posts    = max(ceil(chars / 3700), ceil(entities / 100))
+reserve  = posts × 2 + 4          # room to double the course, plus slack
 ```
 
-For 283 lessons in 34 sections that is ~13.7k characters → 4 posts → **reserve
-12 at the head**. Reserve the same number again **at the tail**, after the last
-lesson, so an index that outgrows the head has somewhere to continue and a
-"recently added" section has a home. Tail slots are cheap; head slots are
-irreplaceable.
+**Decide `links_per_lesson` before you reserve, not after.** This is the trap.
+A first pass ships one link per lesson (the lesson number, or the title, deep-
+linked to its video) and the char budget dominates: 283 lessons in 34 sections
+is ~13.7k units → 4 posts. Then someone enriches the line — a 📎 to the lesson's
+resource archive, a `CC` to its subtitle file — and *the entity count triples
+while the character count barely moves*. The same index now needs 8 posts, and
+the four extra have to come from somewhere that may no longer exist. Enrich the
+line on paper first, count entities for the **final** shape, and reserve for
+that.
+
+**Decoration competes with links for the same budget.** A bold course or section
+header is an entity. On a 283-lesson index, bolding every header costs ~59 of
+your 700 (7 × 100) — enough to be the difference between fitting and not. When
+a budget is tight the cheapest thing to give up is emphasis, because a glyph
+(`📁`) and a blank line separate a header just as well for free.
+
+For the worked example above with three links per lesson: 283 video + 97
+resource + 283 subtitle = 663 link entities + ~44 headers = ~707 → **8 posts**,
+not 4. Reserve accordingly: **reserve 20 at the head**, not 12. Reserve the same
+number again **at the tail**, after the last lesson, so an index that outgrows
+the head has somewhere to continue and a "recently added" section has a home.
+Tail slots are cheap; head slots are irreplaceable.
 
 Give each placeholder a body that says what it is, so nobody deletes it:
 
@@ -206,6 +234,8 @@ overwrites the same slots, it never sends new messages.
 |---|---|---|
 | Media caption | 1024 chars | `MEDIA_CAPTION_TOO_LONG`, or a silently truncated lesson description |
 | Text message | 4096 chars | `MESSAGE_TOO_LONG` mid-run, leaving a half-written index |
+| Message entities | 100 per message | **the excess is dropped in silence** — links past #100 render as dead plain text, no error at send time and none at edit time |
+| Deletion | irreversible | a deleted message can never be edited, so it is not a slot any more — deleting *permanently shrinks* the pool of future index slots |
 | Bot upload | 50 MB | 220 of 256 files simply cannot be sent |
 | User upload | ~2 GB | fine for lessons, not for raw 4K masters |
 | Rate limit | `FloodWait` | **sends are dropped without an error** unless you catch it and sleep |
@@ -215,6 +245,19 @@ overwrites the same slots, it never sends new messages.
 **Caption overflow.** Chunk at a paragraph boundary, fall back to a sentence
 boundary, never mid-word. Send the remainder as a reply to the anchor so it
 stays visually attached, and prefix it (`📄 Continued:`) so a reader knows.
+
+Record the overflow id in the map alongside the video id, because **the
+overflow message outlives its parent**. A continuation carries no media, so
+every "delete the old uploads" pass that filters on *has a video* — the correct
+filter, it must never touch a live lesson — leaves the continuation behind as an
+orphan reading `📄 Continued: …` with nothing above it. Those orphans are not
+junk to be swept: they are ordinary editable text messages sitting above the
+library, which makes them the only thing that can still become an index slot
+after the fact. Census the id range before assuming any of it is reusable, and
+distinguish the three states — *live text* (a slot), *live media* (not a slot,
+and never overwrite it), *deleted* (gone forever). Never plan growth into a
+range you have not read; a range of ids that no state file mentions is far more
+likely to be deleted than to be free.
 
 **FloodWait.** Catch `pyrogram.errors.FloodWait`, sleep `e.value + 2`, retry the
 same send. Without this a bulk run reports success and quietly loses messages.
@@ -303,10 +346,23 @@ Before the first message is sent to a new channel:
 - [ ] every lesson has a complete bundle on disk (video, subtitles, caption,
       resources)
 - [ ] the encode is verified by full decode, duration and audio stream
+- [ ] the **final** index line is decided on paper — how many links per lesson,
+      which glyphs, which headers bold — before a single slot is reserved
 - [ ] index slots reserved at the head **and** the tail, sized by the formula
+      against **both** budgets, entities included
+- [ ] every index generator enforces the entity cap itself and hard-fails when
+      it runs out of slots — a generator that only counts characters will
+      silently ship dead links
+- [ ] if there is more than one index (a head table of contents and a tail
+      listing, say), **both are produced by the same builder**. Two generators
+      drift, and the drift is invisible until a reader notices one has links the
+      other does not
 - [ ] the uploader handles `FloodWait`, caption overflow and resume
 - [ ] the message map is written after every lesson
 
-And one question to answer out loud before starting: **if a lesson is inserted
+And two questions to answer out loud before starting. **If a lesson is inserted
 in the middle six months from now, what does it cost?** If the answer is more
 than "renumber the manifest and send one group", the design is not finished.
+**And if every index line grows a second and third link, does the reserve still
+hold?** If that answer is a guess, go back and count — it is the cheapest hour
+of the project, and the only one that cannot be bought back later.

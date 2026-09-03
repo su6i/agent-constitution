@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-04 — Telegram course channel skill: the entity budget
+
+### Changed
+
+- **`skills/telegram-course-channel.md`** — the index-sizing formula in Step 4 counted characters only, which is exactly the blind spot that later cost the source channel 307 dead links. Telegram caps a message at **100 entities** and drops the excess *in silence* — no error at send or edit time, the text renders, and every link past the 100th becomes dead plain text. Step 4 now sizes against both budgets (`posts = max(ceil(chars/3700), ceil(entities/100))`), counts characters in UTF-16 code units as Telegram does rather than Python `len()`, and states the trap that made this expensive: enriching an index line from one link to three (video + resource archive + subtitle) triples the entity count while barely moving the character count, so the reserve must be sized for the *final* line shape, decided on paper before any slot is reserved. Also records that decoration competes with links for the same budget (bolding every header on a 283-lesson index costs ~59 entities), that a deleted message can never be edited and so permanently shrinks the slot pool, and that a caption-overflow continuation outlives its parent video — a purge that correctly filters on *has a video* leaves those behind as orphans, which are the only messages that can still become index slots after the fact. New limits-table rows for entities and for deletion; the pre-flight checklist now requires the final line shape up front, an entity-aware generator that hard-fails instead of silently truncating, and a single shared builder whenever a channel carries more than one index.
+
 ## 2026-08-31 — new skill: Telegram Course Channel
 
 ### Added
