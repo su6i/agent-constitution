@@ -4,7 +4,7 @@ title: "Telegram Course Channel"
 description: Publish a course library (video + resources + subtitles + index) to a Telegram channel, in the one order that a chronological, append-only medium allows. Use when setting up a new channel for educational video, or repairing one that was uploaded in separate passes.
 location: skills/telegram-course-channel.md
 agent_priority: Standard
-version: 1.1.0
+version: 1.2.0
 updated: 2026-09-04
 last_updated: 2026-09-04
 ---
@@ -225,6 +225,35 @@ https://t.me/c/<internal_id>/<message_id>     internal_id = abs(chat_id) - 10000
 
 Then pin the first index post. Re-running this step must be idempotent: it
 overwrites the same slots, it never sends new messages.
+
+**A second index, at the tail, is republished — not reserved.** A head index has
+to live in reserved slots, because nothing can ever be inserted above the
+videos. A *tail* index has the opposite nature: the end of the channel is the
+one place you can always add to. So do not give it fixed slots. After every
+upload batch, post a fresh copy at the end and retire the previous one. Three
+things follow, and they are the whole reason to prefer this over reserving:
+
+- It can never be buried. A member opening the channel lands on the newest
+  message; an index that is always last is always the first thing they see,
+  where a reserved one sinks by roughly one message per upload forever.
+- It has no slot ceiling, so its line can carry every link the head index
+  carries. A tail index squeezed into a fixed number of posts is the one that
+  has to drop links, and dropping links is how the two indexes drift apart.
+- Nothing needs sizing for the future. The reserve calculation above exists
+  only because head slots are finite.
+
+**The ordering is the safety property, and the obvious order is the wrong one.**
+Delete-then-repost leaves the channel with no index at all if the run dies in
+between. Post the new copy first, delete the old one only once every new post
+has landed, and move the pin last. A failure then leaves two indexes — visibly
+redundant, but never absent. Choose the failure mode that degrades over the one
+that breaks.
+
+Two details that are easy to miss: send the republished posts **silently**
+(`disable_notification`), or every batch fires one notification per index post
+at every member; and accept that each cycle burns the previous message ids, so
+any link that must survive a republish has to be the **pin**, never a `t.me`
+deep link into the index itself.
 
 ---
 

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-04 — Telegram course channel skill: republish the tail index
+
+### Changed
+
+- **`skills/telegram-course-channel.md`** (v1.1.0 → v1.2.0) — Step 6 treated every index as reserved real estate. That is only true of a *head* index, which must sit above the videos and therefore in slots created before the first upload. A **tail** index has the opposite nature: the end of an append-only channel is the one place you can always add to, so it should be republished after each upload batch rather than pinned to fixed ids. Three consequences, and they are why this is the better shape: it can never be buried (a member opening the channel lands on the newest message, while a reserved tail index sinks by about one message per upload forever), it has no slot ceiling so its line can carry every link the head index carries instead of dropping some to fit, and nothing needs sizing for the future. Records the ordering as the safety property — post the new copy first, delete the old only once every new post has landed, move the pin last, so a mid-run failure leaves two indexes rather than none — plus the two details that are easy to miss: republished posts must be sent silently or every batch notifies every member once per index post, and each cycle burns the previous ids, so the pin is the only address that survives a republish.
+
 ## 2026-09-04 — Telegram course channel skill: the entity budget
 
 ### Changed
