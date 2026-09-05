@@ -18,6 +18,7 @@ is lost across `/compact`, `/clear`, and exit.
 | `context-warn.py` | `PostToolUse` (*) | Emits context warning at 100k and 150k token thresholds | Optional (اختیاری) |
 | `herdr-agent-state.sh` | `SessionStart` | Reports Claude session state to Herdr pane manager (if active) | Optional (اختیاری) |
 | `context-checkpoint.py` | `PreToolUse` (*) | Forced live checkpoint every 50k context tokens & before `git commit` → `_memory/handoffs/checkpoints/` | Mandatory (اجباری) |
+| `session-transcript-pointer.py` | `SessionStart` | Injects the current session's raw `.jsonl` transcript path (and the most recent previous one) into context, so an agent after `/clear` can grep the exact failed command instead of saying it doesn't know | Optional (اختیاری) |
 
 The vault write is gated on `_memory/REGISTRY.md` or a repo under `$HOME/@-github/`, so benchmark and throwaway directories never create a vault.
 

@@ -151,6 +151,8 @@ asked to reconstruct a past session must know which one to open.
 | Owner | the tool — subject to its own retention (`cleanupPeriodDays`) | us | us |
 | Retention | tool-controlled; assume it can be pruned | **last 60 files only**, oldest deleted on every checkpoint | **last 40 files only**, oldest deleted on every save |
 
+The mechanical counterpart to this table is the `session-transcript-pointer.py` SessionStart hook (`templates/claude-code-hooks/session-transcript-pointer.py`), which puts the current session's transcript path (and the most recent previous one) directly into context automatically.
+
 `<cwd-slug>` is the working directory with `/` and non-alphanumerics replaced by `-`
 — e.g. `/Users/su6i/@-github` becomes `-Users-su6i---github`. There is one such
 directory per working directory, so a repo you have not opened in months still has

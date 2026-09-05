@@ -33,6 +33,12 @@
             "command": "bash ~/.claude/hooks/session-resume.sh",
             "timeout": 10,
             "statusMessage": "▶️ session continuity"
+          },
+          {
+            "type": "command",
+            "command": "python3 ~/.claude/hooks/session-transcript-pointer.py",
+            "timeout": 10,
+            "statusMessage": "🧵 transcript pointer"
           }
         ]
       }

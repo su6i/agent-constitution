@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-06 — session transcript pointer hook (T-957)
+
+### Added
+
+- **`templates/claude-code-hooks/session-transcript-pointer.py`**: new optional
+  SessionStart hook extracted from ai-router's T-951 `_transcript_block()`.
+  Injects the current session's raw `.jsonl` transcript path and the most
+  recent previous transcript into context so an agent after `/clear` can grep
+  past logs directly.
+- **`templates/claude-code-hooks/README.md`**: registered
+  `session-transcript-pointer.py` in the session-protection hooks table.
+- **`templates/claude-code-hooks/settings.snippet.json`**: registered
+  `session-transcript-pointer.py` under SessionStart hooks.
+- **`rules/050-session-start.md`**: cross-referenced
+  `session-transcript-pointer.py` in §Where Transcripts Live as the mechanical
+  counterpart to the transcript stores table.
+
+---
+
 ## 2026-09-04 — restore green CI (T-917 follow-up)
 
 ### Fixed
