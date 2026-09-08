@@ -487,6 +487,8 @@ asked to reconstruct a past session must know which one to open.
 | Owner | the tool — subject to its own retention (`cleanupPeriodDays`) | us | us |
 | Retention | tool-controlled; assume it can be pruned | **last 60 files only**, oldest deleted on every checkpoint | **last 40 files only**, oldest deleted on every save |
 
+The mechanical counterpart to this table is the `session-transcript-pointer.py` SessionStart hook (`templates/claude-code-hooks/session-transcript-pointer.py`), which puts the current session's transcript path (and the most recent previous one) directly into context automatically.
+
 `<cwd-slug>` is the working directory with `/` and non-alphanumerics replaced by `-`
 — e.g. `/Users/su6i/@-github` becomes `-Users-su6i---github`. There is one such
 directory per working directory, so a repo you have not opened in months still has
@@ -1067,4 +1069,4 @@ Ownership, so that none of the three is nobody's job:
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
 
-<!-- digest-hash: 27caa40e9557ad0a07801ad99ec2effa284fefddaf43108c0e1ffc723b34d288 -->
+<!-- digest-hash: 14be564bbf9ee3c1917a1389d146a9b54502759ad5c0d8b05caf3b975575f186 -->

@@ -208,6 +208,44 @@ intact, and a later `amir update-projects` reinstalls them unless you pass `--no
 
 ---
 
+## 🌐 Machine-Global Git Hooks (`core.hooksPath`)
+
+The three hooks above are **per-repo** — installed once into a single clone's
+`.git/hooks/`. A second, complementary layer is **machine-global**: it runs in
+*every* repo on the machine (yours, a clone, a scratch repo) regardless of
+whether that repo ever ran the `cp` above, because `git config --global
+core.hooksPath` redirects git to a shared hooks directory instead of each
+repo's own `.git/hooks/`.
+
+Their canonical sources also live in `templates/hooks/`:
+
+| Hook | Layer | What it blocks |
+|------|-------|-----------------|
+| `_dispatch` | — | The entry point every git hook name resolves to; runs the layers below in order, then falls through to an owned repo's per-repo hooks (the ones in the table above) and finally to whatever `.git/hooks/<name>` the repo itself installed. |
+| `guard-data-leak` | 1, unconditional | A customer/corpus document or oversized blob committed straight into git history; secrets and credential patterns (keys, tokens, phone numbers, real email addresses — SSH remote URLs like `git@github.com:owner/repo.git` are recognized and exempted) in newly added lines; `.env` and other files that must never live in a repo at all. Runs in **every** repo, not just owned ones — see `rules/035-data-vault.md`. |
+| `guard-language-policy` | 2b, owned repos only | Arabic-script (Persian/Arabic) characters added to `CHANGELOG.md`, `README.md`, `docs/en/**`, direct children of `docs/*.md`, or `.github/**` — rule `000-core.md` §Language Policy. |
+
+Install them with `bash install.sh` — it copies the three files into
+`~/.config/git/hooks/`, generates the thin per-hook-name wrapper scripts
+(`pre-commit`, `pre-merge-commit`, `pre-push`, `commit-msg` — each just
+`exec .../_dispatch <hook-name> "$@"`) and points `git config --global
+core.hooksPath` at that directory. It is idempotent and never overwrites a
+locally-modified copy without showing the diff and asking first; `--dry-run`
+previews every change without touching disk.
+
+The per-repo copies drift from `templates/hooks/` over time — a fix landed
+here does not reach them on its own. `bin/sync-repo-hooks.sh` reports that
+drift and, with `--apply`, brings them back in line:
+
+```bash
+bash bin/sync-repo-hooks.sh              # report only — the default
+bash bin/sync-repo-hooks.sh --apply      # actually copy
+```
+
+Bypass, same as any hook: `git commit --no-verify` / `git push --no-verify`.
+
+---
+
 ## 📚 Documentation
 
 ### ⭐ Flagship Guide

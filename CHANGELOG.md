@@ -7,6 +7,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-08 — track the machine-global git hooks; fix guard-data-leak SSH-URL false positive (WO-constitution-0016)
+
+### Fixed
+
+- **`templates/hooks/guard-data-leak`**: the email-address scan in section 4
+  matched `git@github.com`-shaped SSH remote URLs (`user@host.tld`) as a real
+  email address, blocking any commit or push whose diff mentioned a plain
+  `git clone git@github.com:owner/repo.git` remote — including this
+  project's own error messages. The allowlist now exempts
+  `(git|hg|svn)@(github|gitlab|bitbucket|codeberg|sr.ht|git.sr.ht).` while
+  still catching a real address at any other host (`git@company-mail[.]com`
+  is still blocked).
+- **`templates/hooks/guard-data-leak`**: section 4's credential and email
+  checks now run per changed file instead of over one combined diff blob, so
+  a block reports the actual file name — and, in `range` mode (pre-push),
+  `<file> (in <base>..<head>)` instead of the untraceable "staged additions".
+- **`bin/test-guard-data-leak.sh`**: new regression test covering the SSH-URL
+  allowlist, a real email at a non-forge host, per-file/range attribution
+  across a two-file range with only one polluted file, and the pre-existing
+  `.env`-blocking behavior. Wired into `.github/workflows/validate.yml`.
+
+### Added
+
+- **`templates/hooks/_dispatch`** and **`templates/hooks/guard-language-policy`**:
+  tracked into the repo alongside `guard-data-leak` — until now these three
+  hooks existed only as untracked files at `~/.config/git/hooks/` on one
+  machine (reached from every repo through `git config --global
+  core.hooksPath`), so a fresh machine or an accidental `rm` had no data-leak
+  gate at all, and no path existed to ship a fix to it. `templates/hooks/`
+  now holds both hook installation models: the per-repo hooks
+  (`pre-commit`/`pre-merge-commit`/`commit-msg`, copied into a single repo's
+  `.git/hooks/`) and these three machine-global hooks (installed once into
+  `~/.config/git/hooks/` and reached from *every* repo on the machine via
+  `core.hooksPath`).
+- **`install.sh`**: new `install_global_git_hooks()` step installs
+  `_dispatch`, `guard-data-leak` and `guard-language-policy` into
+  `~/.config/git/hooks/`, generates the four thin per-hook-name dispatch
+  wrappers (`pre-commit`, `pre-merge-commit`, `pre-push`, `commit-msg` — each
+  just `exec .../_dispatch <hook-name> "$@"`) and sets `git config --global
+  core.hooksPath` to that directory. Idempotent: an unchanged file is a
+  no-op, a missing file is installed, and a file that already differs from
+  the repo's copy is never overwritten silently — its diff is shown and the
+  installer asks before replacing it (skips with a warning in `--dry-run` or
+  non-interactive use). An existing `core.hooksPath` pointed elsewhere is
+  left untouched with a warning rather than clobbered.
+- **`bin/sync-repo-hooks.sh`**: reports, and with `--apply` repairs, drift
+  between `templates/hooks/` and the per-repo copies that repos vendor into
+  their own `.git/hooks/`. `bin/sync-projects.sh` never touched hooks, so
+  those copies only ever updated by hand: at the time of this fix all 20
+  repos on the owner's machine carried a `pre-commit` older than the
+  template, every one still blocking commits on the false positive above.
+  Dry run is the default; `--apply` is required to write.
+- **`README.md`** / **`docs/fa/README.fa.md`**: documented the
+  machine-global hook layer next to the existing per-repo hooks section.
+- **`rules/040-git.md`**: cross-referenced the global, unconditional
+  `guard-data-leak` / `guard-language-policy` hooks as the machine-wide
+  backstop that runs even in repos that never installed the per-repo hooks.
+
+---
+
 ## 2026-09-06 — session transcript pointer hook (T-957)
 
 ### Added

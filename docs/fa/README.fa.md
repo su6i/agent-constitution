@@ -467,6 +467,29 @@ chmod +x /path/to/your-repo/.git/hooks/pre-commit /path/to/your-repo/.git/hooks/
 | `pre-merge-commit` | همان دروازه‌های حریم‌خصوصی و نسخهٔ skill را روی **merge commit** اعمال می‌کند (گیت روی mergeهای خودکار هرگز pre-commit را اجرا نمی‌کند). چکِ برنچ و مستندات روی merge اجرا نمی‌شوند — mergeِ برنچِ تأییدشده به main همان قدمِ مجازِ پروتکل است. |
 | `commit-msg` | **هم‌نویسندگیِ هوش مصنوعی — هرگز.** هر تریلرِ `Co-Authored-By: <AI>`، خطِ «Generated with `<AI>`»، یا نشانهٔ 🤖. |
 
+### 🌐 هوک‌های machine-global (‏`core.hooksPath`)
+
+سه هوکِ بالا **per-repo** اند — یک‌بار در `.git/hooks/` یک کلونِ مشخص نصب می‌شوند. یک لایهٔ مکمل هم هست که **machine-global** است: در **هر** مخزنِ روی این ماشین اجرا می‌شود (مالِ خودت، کلونِ دیگران، مخزنِ موقت)، فارغ از اینکه آن مخزن هرگز `cp` بالا را اجرا کرده باشد یا نه — چون `git config --global core.hooksPath` گیت را به‌جای `.git/hooks/` هر مخزن، به یک دایرکتوریِ مشترک می‌فرستد.
+
+منبعِ canonical اینها هم در `templates/hooks/` است:
+
+| هوک | لایه | چه چیزی را بلاک می‌کند |
+| ------ | ---- | ------------------------ |
+| `_dispatch` | — | نقطهٔ ورودی‌ای که هر نامِ هوک به آن resolve می‌شود؛ لایه‌های زیر را به‌ترتیب اجرا می‌کند، بعد به هوک‌های per-repoی یک مخزنِ owned (جدولِ بالا) و در آخر به هر `.git/hooks/<name>`ی که خودِ مخزن نصب کرده می‌رسد. |
+| `guard-data-leak` | ۱، بی‌قیدوشرط | سند مشتری/پیکره یا blob بزرگ که مستقیم وارد تاریخچهٔ گیت شود؛ secret و الگوهای credential (کلید، توکن، شمارهٔ تلفن، ایمیلِ واقعی — آدرس‌های SSH مثل `git@github.com:owner/repo.git` شناخته و مستثنا می‌شوند) در خطوطِ اضافه‌شده؛ و `.env` و فایل‌هایی که اصلاً نباید داخل مخزن زندگی کنند. در **همهٔ** مخزن‌ها اجرا می‌شود، نه فقط ownedها — `rules/035-data-vault.md`. |
+| `guard-language-policy` | ۲ب، فقط مخزن‌های owned | افزودنِ حروفِ فارسی/عربی به `CHANGELOG.md`، `README.md`، `docs/en/**`، فرزندانِ مستقیمِ `docs/*.md` یا `.github/**` — قانونِ `000-core.md` §Language Policy. |
+
+نصب با `bash install.sh`: سه فایل را در `~/.config/git/hooks/` کپی می‌کند، wrapperهای نازکِ هر نامِ هوک را می‌سازد (`pre-commit`، `pre-merge-commit`، `pre-push`، `commit-msg` — هرکدام فقط `exec .../_dispatch <hook-name> "$@"`) و `core.hooksPath` را به همان دایرکتوری می‌بندد. idempotent است و هرگز یک کپیِ دست‌کاری‌شده را بی‌صدا overwrite نمی‌کند — اول diff را نشان می‌دهد و می‌پرسد؛ با `--dry-run` هیچ چیزی روی دیسک تغییر نمی‌کند.
+
+کپی‌های per-repo با گذشت زمان از `templates/hooks/` عقب می‌افتند (یک فیکس در این مخزن خودبه‌خود به آنها نمی‌رسد). `bin/sync-repo-hooks.sh` این drift را گزارش می‌دهد و با `--apply` هم‌ترازشان می‌کند:
+
+```bash
+bash bin/sync-repo-hooks.sh              # فقط گزارش — پیش‌فرض
+bash bin/sync-repo-hooks.sh --apply      # واقعاً کپی کن
+```
+
+دور زدن، مثل هر هوکِ دیگر: `git commit --no-verify` / `git push --no-verify`.
+
 ### دوستشان نداری؟ نحوهٔ غیرفعال‌سازی
 
 ```bash

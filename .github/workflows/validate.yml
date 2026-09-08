@@ -25,6 +25,15 @@ jobs:
       - name: Run bin/validate-prefixes.sh
         run: bash bin/validate-prefixes.sh
 
+  test-guard-data-leak:
+    name: Test guard-data-leak Hook
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Run bin/test-guard-data-leak.sh
+        run: bash bin/test-guard-data-leak.sh
+
   validate-links:
     name: Check Internal Links
     runs-on: ubuntu-latest

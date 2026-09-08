@@ -1,0 +1,147 @@
+#!/bin/bash
+# ─── Language Policy gate ───────────────────────────────────────────────────
+# Installed at ~/.config/git/hooks/guard-language-policy, reached from every
+# owned repo through core.hooksPath -> _dispatch (owned repos only, layer 2 —
+# see _dispatch's comment block). WO-ARX-0112: agent-constitution rule
+# 000-core.md's Language Policy says the pre-commit hook and CI scan staged
+# added lines for Arabic-script characters (U+0600-U+06FF) outside the
+# allowed paths and block the commit -- until this file, that enforcer did
+# not exist and CHANGELOG.md alone had accumulated 50 Persian lines.
+#
+# Scope (WO-ARX-0112's own table -- do NOT widen this without re-reading it):
+#   FORBIDDEN (English-only): CHANGELOG.md, README.md, docs/en/**,
+#                             docs/*.md (direct children of docs/ only),
+#                             .github/**
+#   ALLOWED   (never scanned): everything else, explicitly including
+#                             docs/fa/**, sense/docs/fa/**,
+#                             src/**.py, tests/**.py, src/arix/prompts/**.fa.md
+# A repo-wide scan would break the product: src/ carries Persian in 36 files
+# and tests/ in 50, and src/arix/prompts/*.fa.md is Persian PRODUCT DATA, not
+# documentation. This hook only ever looks at the five forbidden path shapes
+# above; everything else is skipped without inspection.
+#
+# Written for bash 3.2 (macOS default): no mapfile, no associative arrays.
+#
+# Usage:  guard-language-policy staged      # pre-commit
+
+set -u
+mode="${1:-staged}"
+fail=0
+
+say() { printf '%s\n' "$*" >&2; }
+
+# ── which files to consider ────────────────────────────────────────────────
+files="$(git diff --cached --name-only --diff-filter=ACMR 2>/dev/null)"
+[ -z "${files}" ] && exit 0
+
+# is_forbidden PATH -- 0 (true) if PATH is in-scope for this gate.
+is_forbidden() {
+    f="$1"
+
+    # Allow-list first: these must never be scanned, no matter what else
+    # matches below (docs/*.md's case pattern would otherwise also catch
+    # docs/fa/X.md, since a bash case '*' matches '/').
+    case "${f}" in
+        docs/fa/*|sense/docs/fa/*) return 1 ;;
+    esac
+
+    case "${f}" in
+        CHANGELOG.md|README.md) return 0 ;;
+        docs/en/*) return 0 ;;
+        .github/*) return 0 ;;
+    esac
+
+    # docs/*.md -- direct children of docs/ only (not docs/en/, not docs/fa/,
+    # not any other subdirectory), so strip the docs/ prefix and reject any
+    # remaining '/'.
+    case "${f}" in
+        docs/*.md)
+            rest="${f#docs/}"
+            case "${rest}" in
+                */*) return 1 ;;   # a deeper path -- not a direct child
+                *) return 0 ;;
+            esac
+            ;;
+    esac
+
+    return 1
+}
+
+scanlist=""
+while IFS= read -r f; do
+    [ -z "${f}" ] && continue
+    if is_forbidden "${f}"; then
+        scanlist="${scanlist}${f}
+"
+    fi
+done <<EOF
+${files}
+EOF
+
+[ -z "${scanlist}" ] && exit 0
+
+# ── scan each forbidden file's ADDED lines only ─────────────────────────────
+while IFS= read -r f; do
+    [ -z "${f}" ] && continue
+
+    # -U0: zero context lines, so every '+' line in the hunk body is a real
+    # addition and its position is derivable from the preceding @@ header.
+    diff_out="$(git diff --cached -U0 --diff-filter=ACMR -- "${f}" 2>/dev/null)"
+    [ -z "${diff_out}" ] && continue
+
+    new_line=0
+    while IFS= read -r dline; do
+        case "${dline}" in
+            "@@ "*)
+                # "@@ -a,b +c,d @@..." -- c is the first new-file line number
+                # of this hunk; track it and increment per '+' line seen.
+                hdr="${dline#@@ -}"
+                plus="${hdr#*+}"
+                plus="${plus%% *}"
+                new_line="${plus%%,*}"
+                new_line=$((new_line - 1))
+                ;;
+            "+++ "*) : ;;
+            "+"*)
+                new_line=$((new_line + 1))
+                content="${dline#+}"
+                [ -z "${content}" ] && continue
+                # perl -CASD: decode @ARGV (A), STDIN/STDOUT/STDERR (S) and
+                # the default open layer (D) as UTF-8 -- match any Arabic-
+                # script codepoint (U+0600-U+06FF), which covers both Arabic
+                # and Persian letters, digits and punctuation in that block.
+                # Passed as an argv, not piped, so an empty/no-match line
+                # cannot be misread as perl's "no input read" success exit.
+                # (-CSD alone leaves @ARGV as raw bytes -- a multi-byte UTF-8
+                # Persian character never matches a \x{...} codepoint class
+                # without -CA; verified this silently false-negatived here.)
+                if perl -CASD -e 'exit(($ARGV[0] =~ /[\x{0600}-\x{06FF}]/) ? 0 : 1)' "${content}" 2>/dev/null; then
+                    say "BLOCKED  ${f}:${new_line}"
+                    say "         ${content}"
+                    fail=1
+                fi
+                ;;
+        esac
+    done <<DIFFEOF
+${diff_out}
+DIFFEOF
+done <<EOF
+${scanlist}
+EOF
+
+if [ "${fail}" = "1" ]; then
+    say ""
+    say "Language Policy (agent-constitution 000-core.md): CHANGELOG.md, README.md,"
+    say "docs/en/**, docs/*.md and .github/** must stay English-only -- no"
+    say "Arabic-script characters (U+0600-U+06FF), not even quoted."
+    say ""
+    say "Move the Persian content to docs/fa/ (or sense/docs/fa/) and reference it"
+    say "by path, or replace it with a meaningful English rendering plus a"
+    say "structural reference (a WO id, probe id, or docs/fa/ line)."
+    say ""
+    say "Deliberate override (leaves a trace in your shell history):"
+    say "    git commit --no-verify"
+    say ""
+    exit 1
+fi
+exit 0

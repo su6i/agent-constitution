@@ -1,0 +1,208 @@
+#!/bin/bash
+# ─── Global data-leak gate ──────────────────────────────────────────────────
+# Installed at ~/.config/git/hooks/guard-data-leak, reached from every repo on
+# this machine through core.hooksPath. Unlike the agent-constitution workflow
+# gates (branch policy, docs checklist, rules attestation) this one is
+# UNCONDITIONAL: it runs in owned repos, cloned repos and scratch repos alike,
+# because the thing it blocks — a customer document or a live credential
+# entering git history — is not repo-specific.
+#
+# Reports FILE + TYPE only, never the matched value: printing the value would
+# re-leak it into the terminal scrollback and the shell history.
+#
+# Written for bash 3.2 (macOS default): no mapfile, no associative arrays.
+#
+# Usage:  guard-data-leak staged          # pre-commit / pre-merge-commit
+#         guard-data-leak range A B       # pre-push (commit range A..B)
+
+set -u
+mode="${1:-staged}"
+fail=0
+MAX_BLOB_BYTES=2097152        # 2 MiB — nothing larger belongs in a git object
+MAX_DOC_BYTES=262144          # 256 KiB — cap for documents/media anywhere
+
+say() { printf '%s\n' "$*" >&2; }
+flag() { say "BLOCKED  ${1}"; say "         ${2}"; fail=1; }
+
+# ── which files to consider ────────────────────────────────────────────────
+if [ "$mode" = "range" ]; then
+    files="$(git diff --name-only --diff-filter=ACMR "${2}" "${3}" 2>/dev/null)"
+    blobrange="${2}..${3}"
+else
+    files="$(git diff --cached --name-only --diff-filter=ACMR 2>/dev/null)"
+    blobrange=""
+fi
+[ -z "${files}" ] && exit 0
+
+# ── 1. document / media files: they belong in the vault, never in git ──────
+# This is the check that the constitution pre-commit does not make: its Rule 4
+# skips binary extensions outright, so a manual, a schematic or a site video
+# passes the secret scan untouched and lands in history forever.
+while IFS= read -r f; do
+    [ -z "${f}" ] && continue
+    lower="$(printf '%s' "${f}" | tr '[:upper:]' '[:lower:]')"
+    isdoc=0
+    case "${lower}" in
+        *.pdf|*.doc|*.docx|*.rtf|*.odt|*.ppt|*.pptx|*.xls|*.xlsx|*.csv\
+        |*.mp4|*.mov|*.avi|*.mkv|*.mp3|*.wav|*.m4a\
+        |*.jpg|*.jpeg|*.png|*.gif|*.bmp|*.tif|*.tiff|*.webp|*.heic) isdoc=1 ;;
+    esac
+    [ "${isdoc}" = "0" ] && continue
+
+    # CSV is a legitimate small in-repo format (fixtures, lookup tables), so it
+    # is size-capped like any other asset rather than banned from data/ paths.
+    case "${lower}" in *.csv) isdoc=2 ;; esac
+
+    # Corpus-shaped locations: no size grace at all.
+    [ "${isdoc}" = "2" ] || case "${lower}" in
+        data/*|*/data/*|corpus/*|*/corpus/*|documents/*|*/documents/*\
+        |raw_pdf/*|*/raw_pdf/*|duplicates/*|*/duplicates/*|test_ingest/*|*/test_ingest/*\
+        |uploads/*|*/uploads/*|attachments/*|*/attachments/*)
+            flag "${f}" "customer/corpus document inside a versioned data path — move it to the project vault and reference it by path"
+            continue ;;
+    esac
+
+    # Everywhere else: small assets (icons, logos, doc screenshots) are fine.
+    if [ "${mode}" = "staged" ]; then
+        sz="$(git cat-file -s "$(git rev-parse ":${f}" 2>/dev/null)" 2>/dev/null || echo 0)"
+    else
+        sz="$(git cat-file -s "$(git rev-parse "${3}:${f}" 2>/dev/null)" 2>/dev/null || echo 0)"
+    fi
+    if [ "${sz}" -gt "${MAX_DOC_BYTES}" ] 2>/dev/null; then
+        flag "${f}" "document/media blob of ${sz} bytes (cap ${MAX_DOC_BYTES}) — store it in the vault, not in git"
+    fi
+done <<EOF
+${files}
+EOF
+
+# ── 1b. vendor data files by path shape, not extension (WO-ARX-0054) ───────
+# A transcribed vendor manual restructured as YAML is the same class of leak
+# as a PDF or a CSV, just an extension the check above does not watch.
+# sense/profiles/example/ stays exempt: it is a synthetic, brand-neutral
+# fixture that ships with the repo on purpose.
+while IFS= read -r f; do
+    [ -z "${f}" ] && continue
+    case "${f}" in
+        sense/profiles/example/*) continue ;;
+        sense/profiles/*/*.yaml|sense/profiles/*/*.yml)
+            flag "${f}" "vendor register profile inside sense/profiles/ — real vendor data belongs in the project vault (rule 035 / WO-ARX-0054), not the repo" ;;
+    esac
+done <<EOF
+${files}
+EOF
+
+# ── 2. hard size gate on every blob (the 33 MB class of accident) ──────────
+while IFS= read -r f; do
+    [ -z "${f}" ] && continue
+    if [ "${mode}" = "staged" ]; then
+        sz="$(git cat-file -s "$(git rev-parse ":${f}" 2>/dev/null)" 2>/dev/null || echo 0)"
+    else
+        sz="$(git cat-file -s "$(git rev-parse "${3}:${f}" 2>/dev/null)" 2>/dev/null || echo 0)"
+    fi
+    if [ "${sz}" -gt "${MAX_BLOB_BYTES}" ] 2>/dev/null; then
+        flag "${f}" "blob of ${sz} bytes exceeds the ${MAX_BLOB_BYTES}-byte ceiling"
+    fi
+done <<EOF
+${files}
+EOF
+
+# ── 3. files that must never live inside a repo at all ─────────────────────
+while IFS= read -r f; do
+    [ -z "${f}" ] && continue
+    base="$(basename "${f}")"
+    case "${base}" in
+        .env|.env.*) case "${base}" in .env.example|.env.sample|.env.template) ;; *)
+            flag "${f}" "secrets file — belongs in <vault>/secrets/.env (rule 035)" ;; esac ;;
+        *.local.md|SESSION.md|TODO.md|TASKS.md|architect-memory.md)
+            flag "${f}" "personal workspace file — belongs in the vault (rule 035)" ;;
+        id_rsa|id_ed25519|*.pem|*.p12|*.pfx|*.keystore)
+            flag "${f}" "private key material" ;;
+    esac
+done <<EOF
+${files}
+EOF
+
+# ── 4. credential patterns in newly added TEXT lines ───────────────────────
+# Per-file, not one combined diff: WO-constitution-0016 found that a single
+# blob scan across all changed files can only ever say "staged additions" when
+# something matches, giving the owner no way to know which file to look at
+# (worse still in `range` mode, where nothing is staged at all). Looping
+# per-file mirrors the sibling guard-language-policy hook and costs nothing
+# noticeable at pre-push scale (seconds, not minutes, per rule 020's own
+# performance note on this WO).
+scanlist=""
+while IFS= read -r f; do
+    [ -z "${f}" ] && continue
+    lower="$(printf '%s' "${f}" | tr '[:upper:]' '[:lower:]')"
+    case "${lower}" in
+        *.example|*.example.*|.env.example|*.lock|*lock.json|*.sum) continue ;;
+        *.pdf|*.docx|*.pptx|*.xlsx|*.zip|*.gz|*.png|*.jpg|*.jpeg|*.gif|*.mp4|*.mov) continue ;;
+    esac
+    scanlist="${scanlist}${f}
+"
+done <<EOF
+${files}
+EOF
+
+if [ -n "${scanlist}" ]; then
+    while IFS= read -r f; do
+        [ -z "${f}" ] && continue
+        if [ "${mode}" = "range" ]; then
+            added="$(git diff -U0 "${2}" "${3}" -- "${f}" 2>/dev/null | grep '^+' | grep -v '^+++' | sed 's/^+//')"
+            where="${f} (in ${2}..${3})"
+        else
+            added="$(git diff --cached -U0 --diff-filter=ACMR -- "${f}" 2>/dev/null | grep '^+' | grep -v '^+++' | sed 's/^+//')"
+            where="${f}"
+        fi
+        [ -z "${added}" ] && continue
+
+        cred() { printf '%s\n' "${added}" | grep -qE "$1" && flag "${where}" "possible $2 (value hidden)"; }
+
+        cred 'BEGIN [A-Z ]*PRIVATE KEY'                         'private key'
+        cred 'AKIA[0-9A-Z]{16}'                                 'AWS access key'
+        cred '(gh[posru]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,})' 'GitHub token'
+        cred 'xox[baprs]-[A-Za-z0-9-]{10,}'                     'Slack token'
+        cred 'sk-(ant-)?[A-Za-z0-9_-]{20,}'                     'Anthropic/OpenAI-style API key'
+        cred 'AIza[0-9A-Za-z_-]{30,}'                           'Google API key'
+        cred 'hf_[A-Za-z0-9]{30,}'                              'HuggingFace token'
+        cred 'gsk_[A-Za-z0-9]{40,}'                             'Groq key'
+        cred 'xai-[A-Za-z0-9]{40,}'                             'xAI key'
+        # The exact shape that is sitting in this machine's history today.
+        cred '[0-9]{8,11}:AA[A-Za-z0-9_-]{33}'                  'Telegram bot token'
+        cred '(secret|token|passwd|password|api[_-]?key)[\"'"'"' ]*[:=][\"'"'"' ]*[A-Za-z0-9_/+-]{24,}' 'hardcoded credential'
+
+        # Iranian phone numbers and national ID (this machine's actual locale).
+        cred '(^|[^0-9])(\+98|0098|0)9[0-9]{9}([^0-9]|$)'       'Iranian mobile number'
+        cred '(^|[^0-9])0[1-8][0-9][ -]?[0-9]{8}([^0-9]|$)'     'Iranian landline number'
+        # French numbers stay covered for the applications track.
+        cred '(^|[^0-9+])(\+33[ .]?|0033[ .]?|0)[1-9]([ .]?[0-9]{2}){4}([^0-9]|$)' 'French phone number'
+
+        # WO-constitution-0016: `git@github.com`-shaped SSH remote URLs (the
+        # form `<vcs-user>@<forge-host>`) are NOT email addresses -- they are
+        # how every scp-style git/hg/svn clone URL is written, and they show
+        # up verbatim in READMEs, CONTRIBUTING docs and this project's own
+        # error messages (WO-amir-cli-0011). Only the known VCS user names on
+        # known forge hosts are exempt; a real address at a personal or
+        # company mail host (git@company-mail[.]com) is still caught because
+        # its host never matches the forge alternation below.
+        emails="$(printf '%s\n' "${added}" \
+            | grep -oiE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' \
+            | grep -ivE 'example\.(com|org|net)|@example|noreply|no-reply|your-?(email|name)|user@host|@test|@localhost' \
+            | grep -ivE '^(git|hg|svn)@(github|gitlab|bitbucket|codeberg|sr\.ht|git\.sr\.ht)\.')"
+        [ -n "${emails}" ] && flag "${where}" "possible real email address (value hidden)"
+    done <<FILELOOP
+${scanlist}
+FILELOOP
+fi
+
+if [ "${fail}" = "1" ]; then
+    say ""
+    say "  Rule 035: if a file must never be committed, it must not live inside the repo."
+    say "  Move it to  ~/.local/share/agent-projects/<project>/  and reference it by path."
+    say ""
+    say "  Deliberate override (leaves a trace in your shell history):"
+    if [ "${mode}" = "range" ]; then say "      git push --no-verify"; else say "      git commit --no-verify"; fi
+    say ""
+    exit 1
+fi
+exit 0

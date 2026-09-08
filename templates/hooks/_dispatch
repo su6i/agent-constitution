@@ -1,0 +1,91 @@
+#!/bin/bash
+# ─── Global hook dispatcher ─────────────────────────────────────────────────
+# core.hooksPath makes git ignore every repo's own .git/hooks, so this
+# dispatcher is responsible for four layers, in order:
+#
+#   1. guard-data-leak      — UNCONDITIONAL, every repo on this machine.
+#   2. agent-constitution   — workflow gates (branch, docs, ASCII names, skill
+#                             versions). Only in the owner's own repos: running
+#                             "no commit to main" inside a cloned upstream repo
+#                             would block ordinary work for no benefit.
+#   2b. guard-language-policy — Language Policy (agent-constitution
+#                             000-core.md, WO-ARX-0112): CHANGELOG.md,
+#                             README.md, docs/en/**, docs/*.md and .github/**
+#                             must stay English-only. Owned repos and
+#                             pre-commit only — its path table is this
+#                             machine's own convention, not something to
+#                             impose on a cloned upstream repo.
+#   3. .git/hooks/<name>    — whatever the repo installed for itself, which
+#                             core.hooksPath would otherwise silently disable.
+#
+# Called as: _dispatch <hook-name> [git's own hook args...]
+set -u
+hook="${1}"; shift
+
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+root="$(git rev-parse --show-toplevel 2>/dev/null)"
+
+# ── layer 1 ────────────────────────────────────────────────────────────────
+case "${hook}" in
+    pre-commit|pre-merge-commit)
+        "${here}/guard-data-leak" staged || exit 1 ;;
+    pre-push)
+        # git feeds pre-push "<local ref> <local sha> <remote ref> <remote sha>"
+        # on stdin, one line per ref being pushed.
+        while read -r _lref lsha _rref rsha; do
+            [ -z "${lsha:-}" ] && continue
+            case "${lsha}" in 0000000*) continue ;; esac          # deletion
+            case "${rsha:-}" in
+                ""|0000000*)
+                    # Branch the remote does not have yet. Its published history
+                    # is whatever the OTHER remote-tracking refs already reach,
+                    # so the commits actually being pushed are
+                    #   lsha --not --remotes
+                    # and the base is the oldest boundary of that set.
+                    #
+                    # This used to be the repository's ROOT commit, which made
+                    # the first push of ANY branch re-scan the entire history and
+                    # fail on findings published long ago. Arix, 2026-09-01:
+                    # pushing a two-file CI change scanned 310 files and blocked
+                    # on five pre-existing false positives (placeholder keys in
+                    # docs/, a PII-redaction test fixture, a wheel URL in
+                    # uv.lock) that had been on main for weeks.
+                    if [ -z "$(git rev-list "${lsha}" --not --remotes 2>/dev/null)" ]; then
+                        continue                                  # nothing unpublished
+                    fi
+                    base="$(git rev-list --boundary "${lsha}" --not --remotes 2>/dev/null \
+                            | sed -n 's/^-//p' | tail -1)"
+                    # No remote refs at all — the very first push of a repository,
+                    # where the root commit genuinely is the base.
+                    [ -z "${base}" ] && base="$(git rev-list --max-parents=0 "${lsha}" 2>/dev/null | tail -1)"
+                    ;;
+                *)  base="${rsha}" ;;
+            esac
+            [ -z "${base}" ] && continue
+            "${here}/guard-data-leak" range "${base}" "${lsha}" || exit 1
+        done ;;
+esac
+
+# ── layer 2 ────────────────────────────────────────────────────────────────
+constitution="${AGENT_CONSTITUTION_DIR:-${HOME}/@-github/agent-constitution}"
+owned=0
+case "${root}" in "${HOME}/@-github/"*) owned=1 ;; esac
+[ "$(git config --get constitution.hooks 2>/dev/null)" = "off" ] && owned=0
+
+if [ "${owned}" = "1" ] && [ -r "${constitution}/templates/hooks/${hook}" ]; then
+    bash "${constitution}/templates/hooks/${hook}" "$@" || exit 1
+fi
+
+# ── layer 2b ───────────────────────────────────────────────────────────────
+if [ "${owned}" = "1" ] && [ "${hook}" = "pre-commit" ]; then
+    "${here}/guard-language-policy" staged || exit 1
+fi
+
+# ── layer 3 ────────────────────────────────────────────────────────────────
+if [ -n "${root}" ]; then
+    local_hook="$(git rev-parse --git-common-dir 2>/dev/null)/hooks/${hook}"
+    if [ -x "${local_hook}" ]; then
+        "${local_hook}" "$@" || exit 1
+    fi
+fi
+exit 0

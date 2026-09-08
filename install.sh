@@ -262,6 +262,117 @@ PYEOF
 
 install_claude_hooks
 
+# 5b. Install the three machine-global git hooks (core.hooksPath)
+#
+# Distinct from install_claude_hooks() above (Claude Code's own settings.json
+# hooks) and from the per-repo hooks documented in README's "Git Hooks"
+# section (a plain `cp` into one repo's own .git/hooks/). This layer installs
+# into a SHARED directory reached from every repo on the machine via
+# `git config --global core.hooksPath`, per WO-constitution-0016.
+#
+# Never silently overwrites a locally-modified copy: a file that already
+# exists and differs from the repo's version gets its diff shown and a
+# yes/no prompt, skipped by default in --dry-run or non-interactive use.
+install_global_git_hooks() {
+  local templates_dir="$SOURCE_DIR/templates/hooks"
+  local hooks_dir="${HOME}/.config/git/hooks"
+  local hook
+
+  if [ ! -d "$templates_dir" ]; then
+    warn "No templates/hooks directory found at $templates_dir — skipping global git hooks"
+    return 0
+  fi
+
+  # install_one_file SRC DST LABEL — shared idempotent copy-with-diff-prompt
+  # logic used for both the three canonical hook files and the four
+  # generated wrapper scripts below.
+  install_one_file() {
+    local src="$1"
+    local dst="$2"
+    local label="$3"
+
+    if [ ! -f "$dst" ]; then
+      if [ "$DRY_RUN" -eq 1 ]; then
+        ok "[dry-run] Would install global hook $label"
+      else
+        mkdir -p "$hooks_dir"
+        cp "$src" "$dst"
+        chmod 755 "$dst"
+        ok "Installed global hook $label"
+      fi
+      return 0
+    fi
+
+    if cmp -s "$src" "$dst"; then
+      ok "Global hook $label (unchanged)"
+      return 0
+    fi
+
+    # Existing file differs from the repo's version — never overwrite
+    # silently. Show the diff, then ask on a real TTY only.
+    warn "Global hook $label differs from the repo's version:"
+    diff -u "$dst" "$src" || true
+
+    if [ "$DRY_RUN" -eq 1 ]; then
+      warn "[dry-run] Would prompt to overwrite $dst"
+      return 0
+    fi
+
+    if [ ! -t 0 ]; then
+      warn "Non-interactive shell — leaving $dst untouched. Re-run interactively to update it."
+      return 0
+    fi
+
+    local ans=""
+    read -r -p "Overwrite $dst with the repo's version? [y/N] " ans
+    case "$ans" in
+      y|Y)
+        cp "$src" "$dst"
+        chmod 755 "$dst"
+        ok "Updated global hook $label"
+        ;;
+      *)
+        warn "Left $dst untouched"
+        ;;
+    esac
+  }
+
+  # The three canonical hook files.
+  for hook in _dispatch guard-data-leak guard-language-policy; do
+    install_one_file "$templates_dir/$hook" "$hooks_dir/$hook" "$hook"
+  done
+
+  # The four thin per-hook-name dispatch wrappers. Generated, not copied —
+  # templates/hooks/pre-commit et al. are a DIFFERENT hook-installation model
+  # (full per-repo content, see README's existing "Git Hooks" section) and
+  # must never be confused with these two-line wrappers.
+  local tmp_wrapper
+  tmp_wrapper="$(mktemp)"
+  for hook in pre-commit pre-merge-commit pre-push commit-msg; do
+    printf '#!/bin/bash\nexec "$(dirname "$0")/_dispatch" %s "$@"\n' "$hook" > "$tmp_wrapper"
+    install_one_file "$tmp_wrapper" "$hooks_dir/$hook" "$hook (wrapper)"
+  done
+  rm -f "$tmp_wrapper"
+
+  # core.hooksPath — never clobber a value already pointed somewhere else.
+  local current
+  current="$(git config --global --get core.hooksPath 2>/dev/null || true)"
+  if [ -z "$current" ]; then
+    if [ "$DRY_RUN" -eq 1 ]; then
+      ok "[dry-run] Would set git config --global core.hooksPath -> $hooks_dir"
+    else
+      git config --global core.hooksPath "$hooks_dir"
+      ok "Set git config --global core.hooksPath -> $hooks_dir"
+    fi
+  elif [ "$current" = "$hooks_dir" ]; then
+    ok "core.hooksPath already set to $hooks_dir"
+  else
+    warn "core.hooksPath is already set to '$current' (not $hooks_dir) — leaving it alone; set it manually if you want the global hooks active."
+  fi
+}
+
+install_global_git_hooks
+
 # 6. Summary
 SKILL_COUNT=0
 if [ -d "$SOURCE_DIR/skills/" ]; then
@@ -279,4 +390,5 @@ echo "     Skills available: ${SKILL_COUNT}"
 echo "     Location:         ${SOURCE_DIR}"
 echo "     Skills symlink:   ~/.claude/skills/"
 echo "     Hooks installed:  ~/.claude/hooks/"
+echo "     Global git hooks: ~/.config/git/hooks/ (core.hooksPath)"
 echo ""
