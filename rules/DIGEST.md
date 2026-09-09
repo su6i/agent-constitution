@@ -898,7 +898,7 @@ Failure to include this field, or an incomplete report for MODERATE/CRITICAL ses
 
 - **Location:** `_memory/lessons/<YYYY-MM-DD>-<slug>.md`, copied from `templates/lesson.md` (cross-repo, manager-owned — see §6c "Home").
 - **Trigger:** written as part of closing the WO, not optionally and not deferred — the same "before `SessionEnd`" gate as §1.
-- **Schema:** a machine-parseable header (`lesson_id`, `date`, `repo`, `wo`, `pattern_id`, `mechanical`, `guard_check`) terminated by a bare `---` line, followed by nine fixed body sections: Problem, Investigation, Solution, Why This Works, Common Mistakes, Alternative Solutions, Before vs After, Commands Used, Files Modified.
+- **Schema:** a machine-parseable header (`lesson_id`, `date`, `repo`, `wo`, `pattern_id`, `mechanical`, `guard_check`, `rule`) terminated by a bare `---` line, followed by nine fixed body sections: Problem, Investigation, Solution, Why This Works, Common Mistakes, Alternative Solutions, Before vs After, Commands Used, Files Modified.
 - **Provenance:** adapted from hermes-academy's `Lesson` format (MIT; `_memory/REFERENCE-REPOS.md` files it HARVEST-IDEAS, not adopt — we take the shape of the file, not the Rust binary that generates it). Every field that exists only for a human learner — XP, streak, quiz, progress tracking — is dropped. The reader of a lesson file is the next agent, never a person leveling up.
 - **Retrieval:** lesson files are ingested by the existing RAG `sessions` collection (`_memory/rag/`) like every other session artifact. Do not build a second index over `_memory/lessons/` — one retrieval layer per corpus is the point of `045-single-source-docs.md`.
 
@@ -908,6 +908,7 @@ Failure to include this field, or an incomplete report for MODERATE/CRITICAL ses
   - N = 2 still fits coincidence: two lessons can share a `pattern_id` because the same task was retried, not because the defect is a genuine recurring class.
   - N = 3 is the smallest count where three lessons from **independent** completed WOs reporting the identical `pattern_id` stops being explainable as coincidence. This mirrors the threshold already used elsewhere in this constitution for "stop repeating the same fix, do something structural instead" — `085-orchestration-topology.md` caps review rounds at 2 before escalating, i.e. a third occurrence of the same kind of failure is where a standing rule becomes cheaper than living with the failure a fourth time.
   - The default lives in `bin/distill-lessons.sh` as a named, commented constant (`DEFAULT_N=3`), so the script and this rule text can never silently disagree.
+- **The promoted entry states the rule, never a pointer to it.** `WORKER-RULES.md` is the only artifact a delegation prompt receives; the lesson files are not injected. An entry that refers the reader back to the lesson store delivers nothing, so the distiller takes the lesson's `rule:` line verbatim and refuses to promote a pattern that has neither a `rule:` field nor a Solution section.
 - **Idempotent:** a pattern already promoted (marked by an HTML comment carrying its `pattern_id`, `N`, and the contributing lesson ids) is never promoted twice, even as the lesson store keeps growing.
 
 - **`[MECHANICAL]`** — the contributing lessons' `mechanical: true` field and their `guard_check` spec let the pattern be checked by a script, not a judgment call. The promoted entry carries the literal `scripts/wo_guard.sh --once <file>:<regex>:<n>` line the layer-2 reviewer's `--verify` chain must run. A rule that can fail a build and is left as prose instead is precisely the failure mode this section exists to close.
@@ -1121,4 +1122,4 @@ Ownership, so that none of the three is nobody's job:
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
 
-<!-- digest-hash: a4fc06680a2afcca6af91f87117e285a711b2647f9fe03282e0b6eff88695ccf -->
+<!-- digest-hash: cf935e65ef355a4376cffce1e7d1efda4875d325159ff7fdfb594fab9682ac25 -->

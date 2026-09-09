@@ -19,9 +19,15 @@ wo: <wo-id>
 pattern_id: <short-machine-tag, e.g. commit-ai-attribution-trailer>
 mechanical: <true|false>
 guard_check: <file:regex:n, or "n/a" when mechanical is false>
+rule: <one imperative line the next worker must follow — self-contained>
 ---
 ```
 
+- `rule` is the single line that gets injected verbatim into
+  `_memory/WORKER-RULES.md` when this pattern promotes. Write it as a standing
+  order to the next worker, complete on its own: that file is the only thing a
+  delegation prompt receives — the lesson itself is never injected, so a rule
+  that says "see the lesson" delivers nothing.
 - `pattern_id` is the grouping key the distiller counts occurrences on. Two
   lessons describing the same recurring defect must use the *same*
   `pattern_id`, verbatim — a new tag per lesson makes every pattern look

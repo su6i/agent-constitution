@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-09 — self-learning loop review: the distiller must state the rule, not point at it
+
+### Fixed
+
+- **`bin/distill-lessons.sh` / `templates/lesson.md` / `rules/080-knowledge-capture.md`**:
+  the distiller emitted `Rule: see the contributing lesson files for the fix`,
+  which defeats the entire mechanism — `_memory/WORKER-RULES.md` is the only
+  artifact injected into a delegation prompt, and the lesson files are not, so
+  the promoted entry pointed the reader at something it can never see. The
+  lesson schema gains a `rule:` header field (one self-contained imperative),
+  the distiller emits it verbatim, falls back to the Solution section, and
+  refuses to promote a pattern that has neither. The entry temp file also moved
+  out of the repo working tree into `mktemp`, so a distiller run can no longer
+  leave a stray `.distill-entry.tmp` next to the source.
+
+---
+
 ## 2026-09-09 — self-learning loop: forced injection of earned lessons (wo-manager-0024)
 
 ### Added

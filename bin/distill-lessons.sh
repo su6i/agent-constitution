@@ -47,6 +47,8 @@ LESSONS_DIR="$VAULT_DIR/lessons"
 WORKER_RULES="$VAULT_DIR/WORKER-RULES.md"
 
 DEFAULT_N=3
+ENTRY_TMP="$(mktemp)"
+trap 'rm -f "$ENTRY_TMP"' EXIT
 N="$DEFAULT_N"
 DRY_RUN=0
 
@@ -152,6 +154,20 @@ while IFS= read -r pid; do
   PROBLEM="$(awk '/^## Problem/{f=1;next}/^## /{f=0}f' "$FIRST_LESSON" | sed '/^$/d' | head -n 5)"
   SOLUTION="$(awk '/^## Solution/{f=1;next}/^## /{f=0}f' "$FIRST_LESSON" | sed '/^$/d' | head -n 5)"
 
+  # The rule the worker must actually follow. WORKER-RULES.md is the ONLY file
+  # injected into a delegation prompt — the lesson files are not — so an entry
+  # that says "see the lesson" injects nothing. Prefer the lesson's explicit
+  # `rule:` header field; fall back to its Solution section; never point the
+  # reader at a file it cannot see.
+  RULE_LINE="$(lesson_field "$FIRST_LESSON" "rule")"
+  if [ -z "$RULE_LINE" ]; then
+    RULE_LINE="$SOLUTION"
+  fi
+  if [ -z "$RULE_LINE" ]; then
+    echo "  ⚠️  pattern '$pid': no 'rule:' field and no Solution section — refusing to promote an empty rule." >&2
+    continue
+  fi
+
   # Next number in "## Recorded defect patterns" — highest existing "N. " + 1.
   NEXT_NUM="$(grep -oE '^[0-9]+\.' "$WORKER_RULES" | tr -d '.' | sort -n | tail -n 1)"
   NEXT_NUM="${NEXT_NUM:-0}"
@@ -169,19 +185,19 @@ while IFS= read -r pid; do
     echo ""
     echo "$NEXT_NUM. $TAG Symptom: $PROBLEM"
     echo "   Root cause: distilled from $COUNT lessons (pattern_id=$pid): $SOLUTION"
-    echo "   Rule: see the contributing lesson files for the fix that closes this pattern."
+    echo "   Rule: $RULE_LINE"
     echo "$GUARD_LINE"
     echo "   <!-- distilled-pattern: $pid n=$COUNT lessons=$LESSON_IDS date=$(date +%Y-%m-%d) -->"
-  } > "$SCRIPT_DIR/../.distill-entry.tmp"
+  } > "$ENTRY_TMP"
 
   if [ "$DRY_RUN" -eq 1 ]; then
     echo "  pattern '$pid': $COUNT/$N lessons — WOULD promote as entry $NEXT_NUM $TAG (dry-run, nothing written)"
-    rm -f "$SCRIPT_DIR/../.distill-entry.tmp"
+    rm -f "$ENTRY_TMP"
   else
     # Insert right before the "## How this file improves" section so the
     # entry lands inside "## Recorded defect patterns", matching that
     # section's own append convention.
-    awk -v entryfile="$SCRIPT_DIR/../.distill-entry.tmp" '
+    awk -v entryfile="$ENTRY_TMP" '
       /^## How this file improves/ && !done {
         while ((getline line < entryfile) > 0) print line
         print ""
@@ -190,7 +206,7 @@ while IFS= read -r pid; do
       { print }
     ' "$WORKER_RULES" > "$WORKER_RULES.distill-tmp"
     mv "$WORKER_RULES.distill-tmp" "$WORKER_RULES"
-    rm -f "$SCRIPT_DIR/../.distill-entry.tmp"
+    rm -f "$ENTRY_TMP"
     echo "  pattern '$pid': $COUNT/$N lessons — PROMOTED as entry $NEXT_NUM $TAG"
     PROMOTED=$((PROMOTED + 1))
   fi
