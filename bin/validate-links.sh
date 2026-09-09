@@ -21,6 +21,33 @@ echo "🔍 Validating internal links in: $REPO_ROOT"
 ERRORS=0
 CHECKED=0
 
+# ── strip_code ────────────────────────────────────────────────────────────
+# Emit a file with every fenced code block dropped and every inline code span
+# blanked, so link extraction never sees markdown that is being *shown* rather
+# than *used*.
+#
+# Why this exists: without it the extractor reported 16 "broken links" on a
+# clean main, every one of them a false positive from inside code — Go generic
+# syntax `assertEqual[T comparable](t *testing.T, ...)`, Solidity
+# `new uint32[](2)`, an example ADR index table, a generated README's
+# `See [CONTRIBUTING.md](CONTRIBUTING.md)`, and prose quoting `[url](url)` to
+# describe markdown syntax itself. Those are correct documentation; the
+# extractor was wrong. Mangling the docs to satisfy a broken check would have
+# been the wrong fix.
+strip_code() {
+    awk '
+        # Fence toggles on ``` or ~~~ at the start of a (possibly indented) line.
+        /^[[:space:]]*(```|~~~)/ { in_fence = !in_fence; next }
+        in_fence { next }
+        {
+            # Blank out inline code spans: `...` becomes ``.
+            gsub(/`[^`]*`/, "``")
+            print
+        }
+    ' "$1"
+}
+
+
 # Find all markdown files
 while IFS= read -r -d '' file; do
     # Extract all markdown links [text](path)
@@ -54,7 +81,7 @@ while IFS= read -r -d '' file; do
             ((ERRORS++))
         fi
         
-    done < <(grep -oE '\]\([^)]+\)' "$file" 2>/dev/null | sed 's/\](//' | sed 's/)$//' || true)
+    done < <(strip_code "$file" | grep -oE '\]\([^)]+\)' 2>/dev/null | sed 's/\](//' | sed 's/)$//' || true)
     
 done < <(find "$REPO_ROOT" -name "*.md" -not -path "*/.storage/*" -not -path "*/node_modules/*" -print0)
 

@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-09 — validate-links: stop reporting code samples as broken links
+
+### Fixed
+
+- **`bin/validate-links.sh`**: the link extractor grepped the whole file with no
+  awareness of fenced code blocks or inline code spans, so it reported 16
+  broken links on a clean `main` — every one a false positive from markdown
+  that was being *shown*, not *used*: Go generic syntax
+  `assertEqual[T comparable](t *testing.T, got, want T)`, Solidity
+  `new uint32[](2)`, an example ADR index table, a generated README's
+  `See [CONTRIBUTING.md](CONTRIBUTING.md)`, example `assets/demo.gif`
+  references, and prose quoting `[url](url)` to describe markdown syntax
+  itself. A new `strip_code` helper drops fenced blocks and blanks inline
+  spans before extraction. The repo now reports 1279 links checked, 0 broken.
+  Verified not to mask real breakage: a probe file containing one broken prose
+  link, one broken link inside inline code and one inside a fence reports
+  exactly the prose one.
+
+---
+
 ## 2026-09-09 — video-triage 1.0.1: four defects found in the first live trial
 
 ### Fixed
