@@ -110,6 +110,16 @@ Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
   "None".
 - **Definition of Done** with copy-pasteable absolute-path commands, one per
   line, each with its expected result (rule 000 §Commands).
+- **Hooks must prove they fire.** A WO that writes or edits any hook (Claude
+  Code hook, git hook, or otherwise) is not done when the file exists —
+  "a hook was written" is not "a hook is enabled" (owner lesson, T-072: a
+  written-but-unregistered hook, and separately a registered hook reading a
+  payload field that event never actually sends, both shipped as silent
+  no-ops that never once fired). Definition of Done must include: (a)
+  confirmation the hook is registered in the relevant `settings.json` /
+  `.git/hooks` / install path, and (b) a live trigger of BOTH the deny path
+  and the allow path, with the actual observed output — not the executor's
+  claim.
 - Never an instruction to merge or push without explicit owner approval.
 <!-- digest:end -->
 

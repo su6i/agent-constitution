@@ -131,7 +131,8 @@
           {
             "type": "command",
             "command": "python3 ~/.claude/hooks/enforce-identifiers.py",
-            "statusMessage": "⛔ checking for ad-hoc numbering"
+            "timeout": 10,
+            "statusMessage": "🛑 rule-075 identifier gate"
           },
           {
             "type": "command",

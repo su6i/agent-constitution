@@ -371,6 +371,31 @@ committed or pushed to GitHub, in this repo or any project repo.
 - If one of these files is already tracked in a repo, remove it with
   `git rm --cached <file>` and add it to `.gitignore` — do not just edit it.
 
+Two commands are forbidden outright because both discard uncommitted work
+without any recovery path (owner ruling 2026-08-10):
+
+- **`git checkout -- <file>`** — reverts the working-tree copy of `<file>` to
+  the last commit and **saves nothing anywhere**. The discarded edits are
+  gone; there is no ref, no reflog entry, no way back.
+- **`git stash`** — looks like it saves the work, but in practice it hides
+  it: a stash is not tied to the branch it was made on in any way git
+  enforces, so once that branch is deleted the stash becomes an orphaned
+  reference nobody thinks to look for. Live incident, same session as this
+  ruling: two stashes (`multi-agent_financial_markets_analyser`,
+  `youtube_toolkit`) were created on `feature/session-start-rule`; the branch
+  was deleted, the owner's work was effectively lost until the owner
+  personally ordered a `stash pop` — which then hit a merge conflict.
+
+**Allowed alternative:** the only safe way to preserve uncommitted work is a
+**commit** on its own branch. If the change is not the agent's own and its
+disposition is unclear, **stop and ask the owner** — never discard it, never
+stash it (consistent with "ask, don't dodge, protected files").
+
+**Explicitly NOT covered by this ban:** `git restore --staged <file>` only
+unstages a file — it does not touch the working tree, so nothing is
+discarded. Conflating the two makes agents afraid to use either; they are not
+the same operation.
+
 ## From 045-single-source-docs.md
 
 Every piece of project knowledge has exactly one home:
@@ -603,6 +628,16 @@ Gemini API through `delegate_worker`. DeepSeek (flash/pro) and MiniMax are
   "None".
 - **Definition of Done** with copy-pasteable absolute-path commands, one per
   line, each with its expected result (rule 000 §Commands).
+- **Hooks must prove they fire.** A WO that writes or edits any hook (Claude
+  Code hook, git hook, or otherwise) is not done when the file exists —
+  "a hook was written" is not "a hook is enabled" (owner lesson, T-072: a
+  written-but-unregistered hook, and separately a registered hook reading a
+  payload field that event never actually sends, both shipped as silent
+  no-ops that never once fired). Definition of Done must include: (a)
+  confirmation the hook is registered in the relevant `settings.json` /
+  `.git/hooks` / install path, and (b) a live trigger of BOTH the deny path
+  and the allow path, with the actual observed output — not the executor's
+  claim.
 - Never an instruction to merge or push without explicit owner approval.
 
 Every round-trip to the architect re-sends the full premium context — so the
@@ -1069,4 +1104,4 @@ Ownership, so that none of the three is nobody's job:
 the repo, rule 085): consuming repos need no pull, which is exactly why the
 change is silent and needs announcing.
 
-<!-- digest-hash: 14be564bbf9ee3c1917a1389d146a9b54502759ad5c0d8b05caf3b975575f186 -->
+<!-- digest-hash: c42c45419406b64307f61b98386cce7cdb85fb582a210574d29e124c747796c7 -->
