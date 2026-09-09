@@ -22,7 +22,7 @@ last_updated: 2026-06-23
 </p>
 
 <strong>The Validated Context Architecture for AI Agents.</strong><br>
-<sub>373 skills · 63 agents · 79 commands · Works with Claude Code, Cursor, Codex, Gemini CLI</sub>
+<sub>374 skills · 63 agents · 79 commands · Works with Claude Code, Cursor, Codex, Gemini CLI</sub>
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/su6i/agent-constitution/main/install.sh)
@@ -403,7 +403,7 @@ Bypass, same as any hook: `git commit --no-verify` / `git push --no-verify`.
 </details>
 
 <details>
-<summary><strong>Content, YouTube & Marketing</strong> (22 skills)</summary>
+<summary><strong>Content, YouTube & Marketing</strong> (25 skills)</summary>
 
 | Skill | Description |
 | --- | --- |
@@ -424,6 +424,7 @@ Bypass, same as any hook: `git commit --no-verify` / `git push --no-verify`.
 | [social-publisher](skills/social-publisher.md) | Scheduled multi-platform social publishing |
 | [storytelling-clil-education](skills/storytelling-clil-education.md) | Educational storytelling & Leitner SRS |
 | [storytelling-narrative-frameworks](skills/storytelling-narrative-frameworks.md) | Save the Cat, Story Circle & advanced structures |
+| [telegram-course-channel](skills/telegram-course-channel.md) | Publishing a course library to a Telegram channel: index reservation, per-lesson groups |
 | [video-triage](skills/video-triage.md) | 90-second, no-download video worth-watching triage |
 | [x-api](skills/x-api.md) | X/Twitter API v2 patterns & automation |
 | [youtube-analytics](skills/youtube-analytics.md) | YouTube Data API analytics & reporting |

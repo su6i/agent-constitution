@@ -164,6 +164,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **`templates/hooks/pre-commit`** (Rule 4) — flags a Telegram channel/chat ID literal (`-100…`), a working `t.me/+…` invite link, or a project's scrape-target domain (read from the local `.env`'s `TARGET_SITE_BASE_URL`, never duplicated into this repo) in newly added lines. Closes the second half of the B-034 remediation: `su6i/telegram-video-automation` leaked a live invite link and channel ID through this exact gap.
 
+---
+
+## 2026-09-04 — Telegram course channel skill: republish the tail index
+
+### Changed
+
+- **`skills/telegram-course-channel.md`** (v1.1.0 → v1.2.0) — Step 6 treated every index as reserved real estate. That is only true of a *head* index, which must sit above the videos and therefore in slots created before the first upload. A **tail** index has the opposite nature: the end of an append-only channel is the one place you can always add to, so it should be republished after each upload batch rather than pinned to fixed ids. Three consequences, and they are why this is the better shape: it can never be buried (a member opening the channel lands on the newest message, while a reserved tail index sinks by about one message per upload forever), it has no slot ceiling so its line can carry every link the head index carries instead of dropping some to fit, and nothing needs sizing for the future. Records the ordering as the safety property — post the new copy first, delete the old only once every new post has landed, move the pin last, so a mid-run failure leaves two indexes rather than none — plus the two details that are easy to miss: republished posts must be sent silently or every batch notifies every member once per index post, and each cycle burns the previous ids, so the pin is the only address that survives a republish.
+
+## 2026-09-04 — Telegram course channel skill: the entity budget
+
+### Changed
+
+- **`skills/telegram-course-channel.md`** — the index-sizing formula in Step 4 counted characters only, which is exactly the blind spot that later cost the source channel 307 dead links. Telegram caps a message at **100 entities** and drops the excess *in silence* — no error at send or edit time, the text renders, and every link past the 100th becomes dead plain text. Step 4 now sizes against both budgets (`posts = max(ceil(chars/3700), ceil(entities/100))`), counts characters in UTF-16 code units as Telegram does rather than Python `len()`, and states the trap that made this expensive: enriching an index line from one link to three (video + resource archive + subtitle) triples the entity count while barely moving the character count, so the reserve must be sized for the *final* line shape, decided on paper before any slot is reserved. Also records that decoration competes with links for the same budget (bolding every header on a 283-lesson index costs ~59 entities), that a deleted message can never be edited and so permanently shrinks the slot pool, and that a caption-overflow continuation outlives its parent video — a purge that correctly filters on *has a video* leaves those behind as orphans, which are the only messages that can still become index slots after the fact. New limits-table rows for entities and for deletion; the pre-flight checklist now requires the final line shape up front, an entity-aware generator that hard-fails instead of silently truncating, and a single shared builder whenever a channel carries more than one index.
+
+## 2026-08-31 — new skill: Telegram Course Channel
+
+### Added
+
+- **`skills/telegram-course-channel.md`** — how to publish a course library (video, resources, subtitles, index) to a Telegram channel. Written from a 283-lesson channel that was built in three separate passes and cannot be repaired, only linked. Covers the one invariant a chronological, append-only medium imposes (one lesson = one contiguous message group), the index slots that must be reserved before the first video, the platform limits and what each one silently breaks, the ffmpeg traps hit on the way (`-q:v` ignored by libx265, forced fps destroying A/V sync, Rosetta costing 2.9×), the idempotence rules, and the leak gate for distilling someone else's transcripts into a public skill.
+
 ## 2026-08-20 — remove legacy ai-router skill
 
 ### Removed
