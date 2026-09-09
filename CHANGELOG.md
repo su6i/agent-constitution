@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-09 — video-triage skill: 90-second, no-download video worth-watching triage (WO-constitution-0017)
+
+### Added
+
+- **`skills/video-triage.md`**: new skill that decides whether a (mostly
+  YouTube) video is worth watching, under a hard ≤90-second / ≤2-model-call /
+  zero-download budget — no `yt-dlp` media download, no `ffmpeg`, no Whisper
+  transcription, ever. Transcript comes from YouTube's own captions, via a
+  three-rung extraction ladder (Gemini ingesting the URL directly, a plain
+  HTTP fetch of the caption track, then the `youtube-data-api` skill for
+  exact counts only). Scores every video on five weighted sub-scores (signal
+  density, novelty, evidence, actionability, noise penalty) into a four-tier
+  verdict, and renders a ten-section Persian report (video card, verdict and
+  score table, important headings, full summary, chapter map with worth
+  flags and `t=` deep links, timestamped golden points, claims to verify,
+  named resources, top-comment signal, ledger note). Adds a JSONL ledger at
+  `~/.local/share/agent-projects/_memory/video-triage/triaged.jsonl` so a
+  previously triaged URL never spends a second call, a per-channel running
+  average that flags an `auto-skip candidate` below score 35 (reported only,
+  never acted on automatically), and a batch mode that ranks a list or
+  playlist in one table and reserves full reports for videos scoring 55+.
+- **`README.md`**: registered `video-triage` in the Content, YouTube &
+  Marketing skill index; updated the section and repo-wide skill counts.
+
+---
+
 ## 2026-09-06 — session transcript pointer hook (T-957)
 
 ### Added
