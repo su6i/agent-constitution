@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-09 — video-triage 1.0.1: four defects found in the first live trial
+
+### Fixed
+
+- **`skills/video-triage.md` (1.0.0 → 1.0.1)**: the first live run of the skill
+  (a 38:49 video, run by an external Gemini client) produced a correctly shaped
+  report but exposed four real defects, each now closed by an explicit rule:
+  minutes-saved was guessed rather than summed from the ✅ chapter rows (498s
+  of marked ranges reported as 26:49 saved instead of 30:31); 75% of the video
+  collapsed into a single 29-minute chapter row, which is the chapter map
+  giving up — rows are now capped at 10 minutes or 25% of duration, whichever
+  is smaller; deep links were emitted as `[url](url)` instead of bare URLs in
+  backticks; and the golden-points section restated the ✅ chapter titles,
+  becoming a second chapter map instead of carrying substance.
+
+---
+
+## 2026-09-09 — video-triage skill: 90-second, no-download video worth-watching triage (WO-constitution-0017)
+
+### Added
+
+- **`skills/video-triage.md`**: new skill that decides whether a (mostly
+  YouTube) video is worth watching, under a hard ≤90-second / ≤2-model-call /
+  zero-download budget — no `yt-dlp` media download, no `ffmpeg`, no Whisper
+  transcription, ever. Transcript comes from YouTube's own captions, via a
+  three-rung extraction ladder (Gemini ingesting the URL directly, a plain
+  HTTP fetch of the caption track, then the `youtube-data-api` skill for
+  exact counts only). Scores every video on five weighted sub-scores (signal
+  density, novelty, evidence, actionability, noise penalty) into a four-tier
+  verdict, and renders a ten-section Persian report (video card, verdict and
+  score table, important headings, full summary, chapter map with worth
+  flags and `t=` deep links, timestamped golden points, claims to verify,
+  named resources, top-comment signal, ledger note). Adds a JSONL ledger at
+  `~/.local/share/agent-projects/_memory/video-triage/triaged.jsonl` so a
+  previously triaged URL never spends a second call, a per-channel running
+  average that flags an `auto-skip candidate` below score 35 (reported only,
+  never acted on automatically), and a batch mode that ranks a list or
+  playlist in one table and reserves full reports for videos scoring 55+.
+- **`README.md`**: registered `video-triage` in the Content, YouTube &
+  Marketing skill index; updated the section and repo-wide skill counts.
+
+---
+
 ## 2026-09-08 — track the machine-global git hooks; fix guard-data-leak SSH-URL false positive (WO-constitution-0016)
 
 ### Fixed
