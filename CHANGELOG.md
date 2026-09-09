@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-09 — video-triage 1.0.1: four defects found in the first live trial
+
+### Fixed
+
+- **`skills/video-triage.md` (1.0.0 → 1.0.1)**: the first live run of the skill
+  (a 38:49 video, run by an external Gemini client) produced a correctly shaped
+  report but exposed four real defects, each now closed by an explicit rule:
+  minutes-saved was guessed rather than summed from the ✅ chapter rows (498s
+  of marked ranges reported as 26:49 saved instead of 30:31); 75% of the video
+  collapsed into a single 29-minute chapter row, which is the chapter map
+  giving up — rows are now capped at 10 minutes or 25% of duration, whichever
+  is smaller; deep links were emitted as `[url](url)` instead of bare URLs in
+  backticks; and the golden-points section restated the ✅ chapter titles,
+  becoming a second chapter map instead of carrying substance.
+
+---
+
 ## 2026-09-09 — video-triage skill: 90-second, no-download video worth-watching triage (WO-constitution-0017)
 
 ### Added

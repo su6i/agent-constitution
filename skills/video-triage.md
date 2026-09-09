@@ -4,7 +4,7 @@ description: Decide whether a (mostly YouTube) video is worth watching in under 
 location: skills/video-triage.md
 agent_priority: Standard
 last_updated: 2026-09-09
-version: 1.0.0
+version: 1.0.1
 updated: 2026-09-09
 ---
 
@@ -127,6 +127,13 @@ watch time is 0 for the bottom two tiers, the sum of the marked-range
 durations for the "watch only the marked ranges" tier, and the full duration
 for "watch in full". Every report states this number.
 
+**Compute it arithmetically from the chapter map you just built — never
+estimate it.** Sum the ✅ rows in seconds, subtract from the duration, then
+verify the result against the table before rendering. A minutes-saved figure
+that contradicts the ✅ rows is a defect, not a rounding difference: a real
+run marked 498s of ✅ chapters in a 2329s video and reported 26:49 saved
+instead of 30:31, because the number was guessed rather than summed.
+
 ## 4. Procedure — Single-Video Triage
 
 1. **Parse the URL** and extract the video ID.
@@ -184,10 +191,23 @@ for "watch in full". Every report states this number.
    model's `chapters` list, each with a worth flag (✅ / ❌) derived from
    whether that chapter's content contributes real signal per §3, and its
    `t=` deep link.
+
+   **No single row may exceed 10 minutes or 25% of the video, whichever is
+   smaller.** A row that big is not a chapter, it is the map giving up — and
+   it hands the owner back the exact problem this skill exists to solve. Split
+   it by topic shift into rows under the cap and flag each one separately. A
+   real run collapsed 06:06–35:27 of a 38:49 video into one ❌ row; that is
+   the failure this cap prevents.
 8. **Build the golden-points list** (output §6) from `golden_points`,
    `from–to` seconds each. If a point is scattered across an otherwise weak
    video, state the point once and say plainly that the rest of the video is
-   not worth watching — do not pad this section into a second chapter map.
+   not worth watching.
+
+   **A golden point must carry something the chapter row does not.** If the
+   entry is just the ✅ chapter's title restated, drop it — §6 is for the
+   substance ("the claim is X, the number is Y"), §5 is for navigation. When
+   every ✅ chapter reappears here, the section has become a second chapter
+   map and is worthless.
 9. **Write the ledger row** (§5) after scoring, before rendering the report.
 10. **Render** the Persian output template (§6) with everything above.
 
@@ -228,6 +248,11 @@ report shape:
 
 Markdown, in Persian, in this exact order — section 3 comes before section 4
 by explicit instruction. Fill every placeholder; do not add sections.
+
+Deep links are written as **bare URLs inside backticks** — never as
+`[text](url)` markdown links, and never as a URL wrapped in both. A real run
+emitted `[https://...](https://...)` inside the backticks, which renders as
+unreadable noise in a terminal.
 
 ```markdown
 ## ۱. کارت ویدیو
