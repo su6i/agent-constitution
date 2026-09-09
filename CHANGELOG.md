@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-09 — self-learning loop: forced injection of earned lessons (wo-manager-0024)
+
+### Added
+
+- **`rules/080-knowledge-capture.md`**: extended with §5 (Lesson Format —
+  machine-parseable header terminated by `---`, nine fixed body sections,
+  adapted from hermes-academy's `Lesson` schema with every gamification
+  field dropped), §6 (Back-End Injection — a distiller promotes a pattern
+  seen in `N = 3` lessons into `_memory/WORKER-RULES.md`, the channel
+  already injected by path into every delegation prompt; N = 3 and the
+  reasoning for it are documented in the rule text and the script), §6b
+  (Mechanical `[MECHANICAL]` rules become a `wo_guard.sh --once` assertion;
+  unenforceable patterns stay `[ADVISORY]` prose), and §6c (Home). Closes
+  the back half of the loop the rule previously covered only capture for.
+- **`templates/lesson.md`**: the reduced lesson schema (Problem,
+  Investigation, Solution, Why This Works, Common Mistakes, Alternative
+  Solutions, Before vs After, Commands Used, Files Modified) with no XP,
+  streaks, quizzes, or progress files.
+- **`bin/distill-lessons.sh`**: scans `_memory/lessons/*.md`, groups by
+  `pattern_id`, and promotes any pattern seen `N = 3` times into a new
+  numbered, idempotent entry in `_memory/WORKER-RULES.md` §"Recorded defect
+  patterns", tagged `[MECHANICAL]` (with the literal `wo_guard.sh --once`
+  line) or `[ADVISORY]`.
+
 ## 2026-09-09 — video-triage 1.0.1: four defects found in the first live trial
 
 ### Fixed

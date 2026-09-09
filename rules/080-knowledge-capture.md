@@ -3,7 +3,7 @@ title: Rule 080: Knowledge Capture & Transfer
 description: Mandates the capture and structured transfer of agent judgment, strategies, and solutions into reusable skills or knowledge artifacts.
 location: rules/080-knowledge-capture.md
 agent_priority: CRITICAL
-last_updated: 2026-08-09
+last_updated: 2026-09-09
 ---
 
 Every session (especially MODERATE and CRITICAL complexity tasks) generates valuable judgment, problem-solving approaches, and strategic choices. This ephemeral knowledge must be captured and structured for reusability and transfer to other agents or future tasks. This rule complements `rules/000-core.md` §"No Knowledge Lost", defining the *how* and *when* of knowledge extraction.
@@ -90,3 +90,44 @@ TRIVIAL sessions are exempt from this field. For MODERATE and CRITICAL sessions,
 
 Failure to include this field, or an incomplete report for MODERATE/CRITICAL sessions, will trigger a review gate failure and require remediation.
 <!-- digest:end -->
+
+## 5. Lesson Format (Machine-Parseable Capture)
+
+Every completed WO of MODERATE or CRITICAL complexity produces exactly one lesson file, in addition to — not instead of — the artifacts required by §§1–4. This is the concrete schema §2 gestures at when it says "capture transferable judgment": without a fixed schema, capture stays free text and nothing downstream can parse it.
+
+<!-- digest:start -->
+- **Location:** `_memory/lessons/<YYYY-MM-DD>-<slug>.md`, copied from `templates/lesson.md` (cross-repo, manager-owned — see §6c "Home").
+- **Trigger:** written as part of closing the WO, not optionally and not deferred — the same "before `SessionEnd`" gate as §1.
+- **Schema:** a machine-parseable header (`lesson_id`, `date`, `repo`, `wo`, `pattern_id`, `mechanical`, `guard_check`) terminated by a bare `---` line, followed by nine fixed body sections: Problem, Investigation, Solution, Why This Works, Common Mistakes, Alternative Solutions, Before vs After, Commands Used, Files Modified.
+- **Provenance:** adapted from hermes-academy's `Lesson` format (MIT; `_memory/REFERENCE-REPOS.md` files it HARVEST-IDEAS, not adopt — we take the shape of the file, not the Rust binary that generates it). Every field that exists only for a human learner — XP, streak, quiz, progress tracking — is dropped. The reader of a lesson file is the next agent, never a person leveling up.
+- **Retrieval:** lesson files are ingested by the existing RAG `sessions` collection (`_memory/rag/`) like every other session artifact. Do not build a second index over `_memory/lessons/` — one retrieval layer per corpus is the point of `045-single-source-docs.md`.
+<!-- digest:end -->
+
+## 6. Back-End Injection: Distillation into WORKER-RULES.md
+
+Hermes-academy's loop closes only at the front — a skill forces a lesson after every completed action, and its consumer is a human who reads lessons at their own pace. Ours must close at the **back** too: nothing is captured knowledge until it changes what the next dispatch receives. `_memory/WORKER-RULES.md` is already the channel — it is injected **by path** into every `delegate_worker`/`delegate_agent` prompt (`000-core.md` §Worker Delegation) — so promoting a lesson into that file is the injection mechanism; no new channel is needed.
+
+<!-- digest:start -->
+- **The distiller** (`bin/distill-lessons.sh`) scans `_memory/lessons/*.md`, groups lesson files by `pattern_id`, and promotes any pattern seen in **N = 3** distinct lessons into a new numbered entry in `WORKER-RULES.md` §"Recorded defect patterns", in the same Symptom / Root cause / Rule shape that file already uses.
+- **Why N = 3, fixed, and documented — not a silent tunable:**
+  - N = 1 is an anecdote: one lesson can be a one-off model quirk, a bad prompt, or an unrelated environment glitch. Promoting on a single sighting makes every future worker prompt longer for a pattern that may never recur.
+  - N = 2 still fits coincidence: two lessons can share a `pattern_id` because the same task was retried, not because the defect is a genuine recurring class.
+  - N = 3 is the smallest count where three lessons from **independent** completed WOs reporting the identical `pattern_id` stops being explainable as coincidence. This mirrors the threshold already used elsewhere in this constitution for "stop repeating the same fix, do something structural instead" — `085-orchestration-topology.md` caps review rounds at 2 before escalating, i.e. a third occurrence of the same kind of failure is where a standing rule becomes cheaper than living with the failure a fourth time.
+  - The default lives in `bin/distill-lessons.sh` as a named, commented constant (`DEFAULT_N=3`), so the script and this rule text can never silently disagree.
+- **Idempotent:** a pattern already promoted (marked by an HTML comment carrying its `pattern_id`, `N`, and the contributing lesson ids) is never promoted twice, even as the lesson store keeps growing.
+<!-- digest:end -->
+
+## 6b. Mechanical Rules vs Advisory Rules (Law vs Advice)
+
+Every promoted entry is labelled, so a worker can tell which is which at a glance:
+
+<!-- digest:start -->
+- **`[MECHANICAL]`** — the contributing lessons' `mechanical: true` field and their `guard_check` spec let the pattern be checked by a script, not a judgment call. The promoted entry carries the literal `scripts/wo_guard.sh --once <file>:<regex>:<n>` line the layer-2 reviewer's `--verify` chain must run. A rule that can fail a build and is left as prose instead is precisely the failure mode this section exists to close.
+- **`[ADVISORY]`** — the pattern has no `guard_check` (the contributing lessons recorded `mechanical: false`) because deciding whether it recurred requires reading the work, not grepping a file. These stay as prose, explicitly labelled, so nobody mistakes "nobody wrote the check yet" for "this cannot be checked."
+<!-- digest:end -->
+
+## 6c. Home
+
+- **Mandate:** this rule (`rules/080-knowledge-capture.md`) — front-end capture in §§1–5, back-end injection in §6–6b.
+- **Lesson store:** `_memory/lessons/` — cross-repo, manager-owned, alongside `_memory/WORKER-RULES.md` and the per-repo `agent-projects/<repo>/workspace/EXECUTOR-RUNLOG.md` evidence log (`WORKER-RULES.md`'s own "How this file improves" note: the runlog holds the evidence, `WORKER-RULES.md` holds only the distilled rule).
+- **Distiller:** `bin/distill-lessons.sh` in this repo — versioned and reviewable like every other guard script, even though it reads and writes vault paths at run time (the same pattern `bin/validate-prefixes.sh` already uses for `_memory/PREFIXES.tsv`).
