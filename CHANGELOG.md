@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-10 — new skill: francophone PhD search sources
+
+### Added
+
+- **`skills/phd-search-francophone.md`**: the catalogue of PhD/post-doc sources for
+  French-speaking Europe and North America (France, Wallonie-Bruxelles, Suisse romande,
+  Luxembourg, Québec), the mailing lists that carry francophone offers before they reach
+  any website, and the hard exclusions that run *before* FIT scoring — défense/nucléaire,
+  **ZRR/PPST** (ministerial clearance, unavailable to a non-EU national), clearance or
+  nationality wording, and the driving-licence requirement. Also records the Academic
+  Positions trap: the site offers no AI/ML field, so an alert built on `computer-science`
+  alone returns Nordic noise.
+  The content previously lived in a private, non-versioned directory
+  (`@-Amir/Apply/2026-2027/context/`), where it was reachable from exactly one project.
+
+### Changed
+
+- **`README.md`**: skill count 374 → 375, and the stale badge (368) realigned with it.
+
+---
+
 ## 2026-09-09 — self-learning loop review: the distiller must state the rule, not point at it
 
 ### Fixed

@@ -14,7 +14,7 @@ last_updated: 2026-06-23
 <p align="center">
   <a href="https://github.com/su6i/agent-constitution/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green3.svg" height="20" style="vertical-align: middle;"></a>
   <a href="#"><img alt="Status: Active" src="https://img.shields.io/badge/Status-Active-blue.svg" height="20" style="vertical-align: middle;"></a>
-  <img alt="Skills: 368" src="https://img.shields.io/badge/Skills-368-blueviolet.svg" height="20" style="vertical-align: middle;">
+  <img alt="Skills: 375" src="https://img.shields.io/badge/Skills-375-blueviolet.svg" height="20" style="vertical-align: middle;">
   <img alt="Agents: 63" src="https://img.shields.io/badge/Agents-63-orange.svg" height="20" style="vertical-align: middle;">
   <img alt="Commands: 79" src="https://img.shields.io/badge/Commands-79-teal.svg" height="20" style="vertical-align: middle;">
   <a href="workflows/documentation.md"><img alt="Docs: Technical" src="https://img.shields.io/badge/Docs-Technical-orange.svg" height="20" style="vertical-align: middle;"></a>
@@ -22,7 +22,7 @@ last_updated: 2026-06-23
 </p>
 
 <strong>The Validated Context Architecture for AI Agents.</strong><br>
-<sub>374 skills · 63 agents · 79 commands · Works with Claude Code, Cursor, Codex, Gemini CLI</sub>
+<sub>375 skills · 63 agents · 79 commands · Works with Claude Code, Cursor, Codex, Gemini CLI</sub>
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/su6i/agent-constitution/main/install.sh)
