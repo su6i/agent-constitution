@@ -2,8 +2,8 @@
 name: phd-search-francophone
 description: Use this skill when searching for PhD / doctoral / post-doc positions in French-speaking Europe and North America (France, Wallonia-Brussels, Suisse romande, Luxembourg, Québec) — where to look, which mailing lists carry offers before they are published, and the hard filters that disqualify an offer before it is ever scored.
 origin: su6i
-version: 1.1.0
-updated: 2026-09-10
+version: 1.2.0
+updated: 2026-09-11
 ---
 
 # PhD Search — Francophone Sources & Hard Filters
@@ -41,8 +41,9 @@ Non-EU nationals (RECE / student / talent permits) are structurally blocked from
 - **Any wording requiring clearance or nationality:** `habilitation`, `habilitable`,
   `secret défense`, `défense nationale`, `nationalité française`, `citoyenneté française`,
   `clearance`, `guerre électronique`, `secteur de la défense`.
-- **Driving licence required:** `permis b`, `permis de conduire`, `titulaire du permis`,
-  `véhicule (personnel|exigé|indispensable)`. "Permis souhaité/apprécié" → keep, de-prioritise.
+
+Not a PhD filter: the driving-licence exclusion. CS/AI doctoral contracts do not require one;
+it belongs to the job search only (`search_filters.md` §1b) — do not re-add it here.
 
 **Read the body, never only the employer field.** Case: an Atos "Administrateur réseaux"
 posting (Aix-en-Provence, 2026-07-25) — employer "Atos", not on the list, but the text said
@@ -174,7 +175,7 @@ Nordic and off-topic. Restricting it to the 4 francophone European countries (do
 | **IVADO** `ivado.ca/en/subscribe-to-our-newsletter/` | yes, plain form | **subscribed** — monthly general + events newsletter |
 | **myScience CH** `myscience.ch/account/my_alerts` | yes, but **account required** | not done — owner must register |
 | **EURAXESS** `euraxess.ec.europa.eu/jobs/search` | yes, but **EU Login account required** | not done — owner must register. `euraxess.be` is an information portal only: it carries no job alert of its own |
-| **Mila** | **no alert exists** | not an alert channel. PhD entry is the *supervision request* cycle (`/en/prospective-students-and-postdocs/research-programs/request-supervisor`), and staff jobs sit on a Workable board (`apply.workable.com/mila-2/`). Virtual information sessions are announced on `/en/prospective-students/virtual-information-sessions` |
+| **Mila** | **no alert exists** | not an alert channel — see §F. Staff jobs sit on a Workable board (`apply.workable.com/mila-2/`); virtual information sessions on `/en/prospective-students/virtual-information-sessions` |
 | **Idiap** | none | careers page has no alert, no feed — poll it |
 | **FNRS** | none public | `FNRS.express` page publishes archives only, no subscription form |
 
@@ -183,3 +184,28 @@ entirely account-gated, while Québec's is a plain newsletter form. Anything acc
 has to be created by the owner personally — an agent must not create accounts or enter
 passwords. When a source turns out to be account-gated, record it here rather than
 re-discovering it next sweep.
+
+---
+
+## F. Mila (Montréal) — the supervision request, step by step
+
+Verified on mila.quebec (request page + FAQ) on 2026-09-11. A Mila PhD is **two parallel
+applications**; winning one without the other admits nobody.
+
+1. **Supervision request** — `portal.mila.quebec`. Window: **15 October → 1 December, every
+   year**. Pick **up to 3** professors (core or associate members, any home university).
+   Answers arrive **February–March, sometimes April**. Professors absent from the form do not
+   take part in the matching: email them directly instead.
+2. **University admission** — at the university of the professor you target: UdeM (DIRO,
+   PhD informatique), McGill (PhD Computer Science), Polytechnique (PhD génie informatique),
+   HEC Montréal (Doctorate in Administration — Management Science, the AI-and-finance route).
+   Mandatory, separate, with its own deadline. UdeM's general graduate deadline for a Fall
+   intake is **1 February**, but a program page overrides it — read the DIRO page itself.
+   Immigration for international students takes **3–6 months** on top.
+- A master's is the normal entry (direct entry from a bachelor's is exceptional).
+- French is not required. International applicants are explicitly welcome.
+- Typical PhD stipend: **CAD 25–31 k / year** (FAQ figure; "many students receive more").
+
+**Work order before 15 October:** shortlist 3 professors whose recent papers match the
+profile (LLM/agents, NLP/RAG, time-series deep learning, AI & finance) → research statement
+naming them → CV + transcripts ready → identify each target's university and its deadline.
