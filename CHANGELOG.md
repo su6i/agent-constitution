@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 2026-09-11 — phd-search-francophone 1.2.0: drop the licence filter, add the Mila procedure
+
+### Fixed
+
+- **`skills/phd-search-francophone.md` §A**: removed the driving-licence exclusion. It was
+  copied from the job-search filters, but CS/AI doctoral contracts do not require a licence,
+  so in a PhD sweep it could only reject offers for nothing. A one-line note now keeps it
+  from being re-added.
+
+### Added
+
+- **§F — Mila supervision request**: the two parallel applications (Mila portal, 15 Oct →
+  1 Dec, up to 3 professors, answers Feb–Apr; plus the university admission with its own
+  deadline), eligibility, language, stipend range, and the work order to finish before
+  15 October. Verified on mila.quebec on 2026-09-11.
+
+---
+
 ## 2026-09-10 — new skill: francophone PhD search sources
 
 ### Added
